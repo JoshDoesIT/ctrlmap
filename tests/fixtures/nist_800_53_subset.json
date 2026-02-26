@@ -1,0 +1,97 @@
+{
+    "catalog": {
+        "uuid": "a]a9b2ad-0c77-4c20-a021-1234567890ab",
+        "metadata": {
+            "title": "NIST SP 800-53 Test Subset",
+            "last-modified": "2024-01-01T00:00:00Z",
+            "version": "5.0",
+            "oscal-version": "1.0.0"
+        },
+        "groups": [
+            {
+                "id": "ac",
+                "title": "Access Control",
+                "controls": [
+                    {
+                        "id": "ac-1",
+                        "title": "Policy and Procedures",
+                        "params": [],
+                        "props": [
+                            {
+                                "name": "label",
+                                "value": "AC-1"
+                            }
+                        ],
+                        "parts": [
+                            {
+                                "id": "ac-1_smt",
+                                "name": "statement",
+                                "prose": "Develop, document, and disseminate access control policies and procedures."
+                            }
+                        ]
+                    },
+                    {
+                        "id": "ac-2",
+                        "title": "Account Management",
+                        "params": [],
+                        "props": [
+                            {
+                                "name": "label",
+                                "value": "AC-2"
+                            }
+                        ],
+                        "parts": [
+                            {
+                                "id": "ac-2_smt",
+                                "name": "statement",
+                                "prose": "Define and document the types of accounts allowed and specifically prohibited for use within the system."
+                            }
+                        ],
+                        "controls": [
+                            {
+                                "id": "ac-2.1",
+                                "title": "Automated System Account Management",
+                                "props": [
+                                    {
+                                        "name": "label",
+                                        "value": "AC-2(1)"
+                                    }
+                                ],
+                                "parts": [
+                                    {
+                                        "id": "ac-2.1_smt",
+                                        "name": "statement",
+                                        "prose": "Support the management of system accounts using automated mechanisms."
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "sc",
+                "title": "System and Communications Protection",
+                "controls": [
+                    {
+                        "id": "sc-28",
+                        "title": "Protection of Information at Rest",
+                        "props": [
+                            {
+                                "name": "label",
+                                "value": "SC-28"
+                            }
+                        ],
+                        "parts": [
+                            {
+                                "id": "sc-28_smt",
+                                "name": "statement",
+                                "prose": "Protect the confidentiality and integrity of information at rest."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}
