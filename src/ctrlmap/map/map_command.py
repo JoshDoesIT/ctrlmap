@@ -5,9 +5,9 @@ chunks in the vector database, optionally generating LLM rationales.
 
 Usage::
 
-    ctrlmap map --db-path <path> --framework <path> \
-        [--output-format json|csv] [--llm-model <string>] \
-        [--rationale] [--top-k <int>]
+    ctrlmap map --db-path <path> --framework <path> \\
+        [--output-format json|csv|markdown|oscal] [--output <path>] \\
+        [--llm-model <string>] [--rationale] [--top-k <int>]
 
 Ref: GitHub Issue #20.
 """
@@ -20,6 +20,9 @@ from pathlib import Path
 import typer
 from rich.console import Console
 
+from ctrlmap.export.csv_formatter import export_csv, format_csv
+from ctrlmap.export.markdown_formatter import export_markdown, format_markdown
+from ctrlmap.export.oscal_formatter import export_oscal, format_oscal
 from ctrlmap.index.vector_store import VectorStore
 from ctrlmap.llm.structured_output import generate_rationale
 from ctrlmap.map.mapper import map_controls
@@ -46,7 +49,12 @@ def map_controls_cmd(
     output_format: str = typer.Option(
         "json",
         "--output-format",
-        help="Output format: json, csv, or oscal.",
+        help="Output format: json, csv, markdown, or oscal.",
+    ),
+    output_path: Path | None = typer.Option(  # noqa: B008
+        None,
+        "--output",
+        help="Output file path. Prints to stdout if not specified.",
     ),
     llm_model: str = typer.Option(
         "llama3",
@@ -93,37 +101,52 @@ def map_controls_cmd(
                 )
 
     # Output results
-    if output_format == "json":
-        output = [r.model_dump() for r in results]
-        typer.echo(json.dumps(output, indent=2))
-    elif output_format == "csv":
-        _output_csv(results)
-    else:
-        typer.echo(json.dumps([r.model_dump() for r in results], indent=2))
-
+    _emit_results(results, output_format, output_path)
     console.print(f"[bold green]Done:[/] Mapped {len(results)} controls.")
 
 
-def _output_csv(results: list) -> None:  # type: ignore[type-arg]
-    """Output mapping results as CSV to stdout."""
-    import csv
-    import sys
+def _emit_results(
+    results: list,  # type: ignore[type-arg]
+    output_format: str,
+    output_path: Path | None,
+) -> None:
+    """Route results to the appropriate formatter and output destination."""
+    if output_path:
+        _write_to_file(results, output_format, output_path)
+    else:
+        _write_to_stdout(results, output_format)
 
-    writer = csv.writer(sys.stdout)
-    writer.writerow(["control_id", "framework", "title", "chunk_id", "raw_text", "rationale"])
 
-    for result in results:
-        for chunk in result.supporting_chunks:
-            rationale_text = ""
-            if result.rationale:
-                rationale_text = str(result.rationale.model_dump())
-            writer.writerow(
-                [
-                    result.control.control_id,
-                    result.control.framework,
-                    result.control.title,
-                    chunk.chunk_id,
-                    chunk.raw_text,
-                    rationale_text,
-                ]
-            )
+def _write_to_file(
+    results: list,  # type: ignore[type-arg]
+    output_format: str,
+    path: Path,
+) -> None:
+    """Write results to a file using the appropriate formatter."""
+    if output_format == "csv":
+        export_csv(results, path)
+    elif output_format == "markdown":
+        export_markdown(results, path)
+    elif output_format == "oscal":
+        export_oscal(results, path)
+    else:
+        path.write_text(
+            json.dumps([r.model_dump() for r in results], indent=2),
+            encoding="utf-8",
+        )
+
+
+def _write_to_stdout(
+    results: list,  # type: ignore[type-arg]
+    output_format: str,
+) -> None:
+    """Write results to stdout using the appropriate formatter."""
+    if output_format == "csv":
+        typer.echo(format_csv(results))
+    elif output_format == "markdown":
+        typer.echo(format_markdown(results))
+    elif output_format == "oscal":
+        oscal_dict = format_oscal(results)
+        typer.echo(json.dumps(oscal_dict, indent=2))
+    else:
+        typer.echo(json.dumps([r.model_dump() for r in results], indent=2))

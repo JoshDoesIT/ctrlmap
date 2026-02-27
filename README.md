@@ -11,16 +11,16 @@
 </p>
 
 <p align="center">
-  Privacy-preserving GRC automation CLI. Map internal policies to security frameworks (NIST 800-53, SOC 2, ISO 27001) using local LLMs — <strong>zero data leaves your machine</strong>.
+  Privacy-preserving GRC automation CLI. Map internal policies to security frameworks (NIST 800-53, SOC 2, ISO 27001) using local LLMs. <strong>Zero data leaves your machine</strong>.
 </p>
 
 ## Overview
 
 `ctrlmap` is an open-source, fully local CLI tool designed for automated GRC (Governance, Risk, and Compliance) mapping. It leverages:
 
-- **Local document parsing** — layout-aware PDF extraction via PyMuPDF
-- **Embedded vector databases** — ChromaDB for semantic similarity search
-- **Local LLM execution** — Ollama integration for rationale generation
+- **Local document parsing:** layout-aware PDF extraction via PyMuPDF
+- **Embedded vector databases:** ChromaDB for semantic similarity search
+- **Local LLM execution:** Ollama integration for rationale generation
 
 ### Core Capability: Control Harmonization
 
@@ -31,11 +31,24 @@ Ingest multiple overlapping policy and standard documents, deduplicate their req
 ```bash
 # Recommended: install in an isolated environment
 pipx install ctrlmap
-
-# Development
-uv sync
-uv run ctrlmap --help
+# or
+uv tool install ctrlmap
 ```
+
+## Quick Start (Development)
+
+```bash
+# One-command setup: installs Python deps, Ollama, and llama3 model
+make setup
+
+# Run all tests
+make test
+
+# Run evaluation tests (requires Ollama)
+make test-eval
+```
+
+See `make help` for all available targets.
 
 ## CLI Commands
 
@@ -45,44 +58,49 @@ uv run ctrlmap --help
 | `ctrlmap index` | Embed chunks into the local vector database |
 | `ctrlmap map` | Map policies to security control frameworks |
 | `ctrlmap harmonize` | Deduplicate controls across multiple frameworks |
-| `ctrlmap eval` | Evaluate RAG pipeline retrieval precision |
+| `ctrlmap eval` | Evaluate RAG pipeline retrieval quality |
+
+The `map` command supports multiple output formats via `--output-format` (json, csv, markdown, oscal) and an `--output` flag for writing directly to a file.
 
 ## Architecture
 
 ```
 ctrlmap/
 ├── pyproject.toml
+├── Makefile              # Developer workflow targets
+├── scripts/setup.sh      # One-command environment setup
 ├── src/
 │   └── ctrlmap/
-│       ├── cli.py       # Typer command routing
-│       ├── parse/       # PyMuPDF ingestion & semantic chunking
-│       ├── index/       # Sentence-transformers & ChromaDB
-│       ├── map/         # RAG retrieval, similarity scoring, harmonization
-│       ├── llm/         # Ollama tool-calling & structured outputs
-│       └── models/      # Pydantic schemas & OSCAL serialization
+│       ├── cli.py           # Typer command routing
+│       ├── eval_command.py  # RAG evaluation harness
+│       ├── parse/           # PyMuPDF ingestion & semantic chunking
+│       ├── index/           # Sentence-transformers & ChromaDB
+│       ├── map/             # RAG retrieval, similarity scoring, harmonization
+│       ├── llm/             # Ollama tool-calling & structured outputs
+│       ├── export/          # CSV, Markdown, OSCAL JSON formatters
+│       └── models/          # Pydantic schemas & OSCAL serialization
 └── tests/
     ├── unit/
-    └── integration/
+    ├── integration/
+    └── evaluation/          # Non-deterministic RAG quality tests
 ```
 
 ## Privacy Mandate
 
-Zero bytes of sensitive telemetry or policy data ever leave the host machine. All processing — document parsing, embedding, vector search, and LLM inference — runs entirely locally.
+Zero bytes of sensitive telemetry or policy data ever leave the host machine. All processing (document parsing, embedding, vector search, and LLM inference) runs entirely locally.
 
 ## Development
 
 This project follows **Spec-Driven Development (SDD)** and **Test-Driven Development (TDD)**. Every feature is implemented using the Red-Green-Refactor cycle.
 
 ```bash
-# Run tests
-uv run pytest
-
-# Lint and format
-uv run ruff check .
-uv run ruff format .
-
-# Type check
-uv run mypy src/
+make setup          # Install everything (deps, Ollama, llama3)
+make test           # Unit + integration tests
+make test-eval      # Evaluation tests (requires Ollama)
+make lint           # Ruff linter
+make format         # Ruff formatter
+make build          # Build wheel and sdist
+make install        # Install via uv tool (isolated env)
 ```
 
 ## License

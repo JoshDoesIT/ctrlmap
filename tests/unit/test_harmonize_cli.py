@@ -1,6 +1,6 @@
 """Tests for the `ctrlmap harmonize` CLI subcommand.
 
-TDD RED phase: Story #20 — harmonize subcommand.
+TDD RED phase: Story #20, harmonize subcommand.
 Ref: GitHub Issue #20.
 """
 

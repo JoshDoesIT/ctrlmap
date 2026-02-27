@@ -1,7 +1,7 @@
 [project]
 name = "ctrlmap"
 version = "0.1.0"
-description = "Privacy-preserving GRC automation CLI. Map internal policies to security frameworks using local LLMs — zero data leaves your machine."
+description = "Privacy-preserving GRC automation CLI. Map internal policies to security frameworks using local LLMs. Zero data leaves your machine."
 readme = "README.md"
 license = { text = "MIT" }
 requires-python = ">=3.11"
@@ -31,6 +31,9 @@ dependencies = [
     "ollama>=0.6.1",
 ]
 
+[project.optional-dependencies]
+eval = ["ragas>=0.2.0"]
+
 [project.scripts]
 ctrlmap = "ctrlmap.cli:app"
 
@@ -48,6 +51,9 @@ packages = ["src/ctrlmap"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["src"]
+markers = [
+    "eval: non-deterministic evaluation tests requiring Ollama (deselect with '-m \"not eval\"')",
+]
 
 [tool.ruff]
 target-version = "py311"
@@ -72,6 +78,11 @@ strict = true
 warn_return_any = true
 warn_unused_configs = true
 mypy_path = "src"
+
+[[tool.mypy.overrides]]
+module = "ctrlmap.eval_ragas"
+ignore_missing_imports = true
+follow_imports = "skip"
 
 [dependency-groups]
 dev = [

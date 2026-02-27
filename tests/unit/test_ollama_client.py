@@ -1,6 +1,6 @@
 """Tests for the Ollama LLM client.
 
-TDD RED phase: Story #18 — ollama-python SDK integration.
+TDD RED phase: Story #18, ollama-python SDK integration.
 Ref: GitHub Issue #18.
 
 All tests mock the Ollama server to avoid requiring a running instance.

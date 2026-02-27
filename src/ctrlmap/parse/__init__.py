@@ -1,11 +1,11 @@
-"""ctrlmap — PyMuPDF ingestion and semantic chunking modules.
+"""ctrlmap: PyMuPDF ingestion and semantic chunking modules.
 
 Public API:
-    extract_text_blocks — Extract layout-aware text blocks from PDFs.
-    detect_layout — Detect single-column, dual-column, or table layouts.
-    classify_block — Classify blocks as header, footer, or body.
-    order_blocks_by_columns — Reorder blocks for column-aware reading.
-    chunk_document — Full extraction → chunking pipeline.
+    extract_text_blocks: Extract layout-aware text blocks from PDFs.
+    detect_layout: Detect single-column, dual-column, or table layouts.
+    classify_block: Classify blocks as header, footer, or body.
+    order_blocks_by_columns: Reorder blocks for column-aware reading.
+    chunk_document: Full extraction to chunking pipeline.
 """
 
 from ctrlmap.parse.chunker import chunk_document

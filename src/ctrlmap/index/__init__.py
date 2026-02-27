@@ -1,4 +1,4 @@
-"""ctrlmap.index — Embedding, vector storage, and ANN query pipeline.
+"""ctrlmap.index: Embedding, vector storage, and ANN query pipeline.
 
 Modules
 -------

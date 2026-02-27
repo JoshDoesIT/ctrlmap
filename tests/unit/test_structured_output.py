@@ -1,6 +1,6 @@
 """Tests for union-type structured LLM outputs.
 
-TDD RED phase: Story #19 — MappingRationale | InsufficientEvidence.
+TDD RED phase: Story #19, MappingRationale | InsufficientEvidence.
 Ref: GitHub Issue #19.
 
 All tests mock the Ollama client to avoid requiring a running instance.
@@ -69,7 +69,7 @@ class TestStructuredOutput:
         """Invalid LLM output triggers fallback to InsufficientEvidence."""
         from ctrlmap.llm.structured_output import generate_rationale
 
-        # Invalid JSON — missing required fields
+        # Invalid JSON, missing required fields
         llm_response = json.dumps({"type": "MappingRationale", "garbage": True})
 
         with patch("ctrlmap.llm.structured_output.OllamaClient") as MockClient:

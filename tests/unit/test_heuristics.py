@@ -48,7 +48,7 @@ class TestLayoutDetection:
 
     def test_distinguish_table_from_dual_column(self) -> None:
         """Blocks with aligned x-positions but narrow widths (table cells)
-        should NOT be dual-column — they should be detected as a table."""
+        should NOT be dual-column. They should be detected as a table."""
         from ctrlmap.parse.heuristics import LayoutType, detect_layout
 
         # Table-like: blocks on same row with different x-starts but narrow widths
@@ -83,7 +83,7 @@ class TestSpannedElementDetection:
         from ctrlmap.parse.heuristics import ElementRole, classify_block
 
         page_width = 612.0
-        footer_block = _make_block(72, 750, 540, 765, "Page 1 of 1 — Confidential")
+        footer_block = _make_block(72, 750, 540, 765, "Page 1 of 1 - Confidential")
 
         role = classify_block(footer_block, page_width=page_width, page_height=792.0)
         assert role == ElementRole.FOOTER

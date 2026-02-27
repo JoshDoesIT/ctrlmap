@@ -71,7 +71,7 @@ class TestSemanticChunking:
 
         chunks = semantic_chunk(sentences, similarity_threshold=0.3)
 
-        # All sentences are about account management — should stay together
+        # All sentences are about account management, should stay together
         assert len(chunks) <= 2
         # At minimum, the first two highly related sentences should be together
         assert any("reviewed quarterly" in c and "documented" in c for c in chunks)
@@ -89,7 +89,7 @@ class TestSemanticChunking:
 
         chunks = semantic_chunk(sentences, similarity_threshold=0.3)
 
-        # Topic shifts from access control to physical security —
+        # Topic shifts from access control to physical security,
         # should produce at least 2 chunks
         assert len(chunks) >= 2
 
