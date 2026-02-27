@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  Privacy-preserving GRC automation CLI. Map internal policies to security frameworks (NIST 800-53, SOC 2, ISO 27001) using local LLMs. <strong>Zero data leaves your machine</strong>.
+  GRC automation CLI utility that maps internal policies to security frameworks (e.g., NIST 800-53, PCI DSS, SOC 2, ISO 27001) using local AI. Zero data leaves your machine.
 </p>
 
 ## Overview
