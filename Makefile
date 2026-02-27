@@ -1,7 +1,7 @@
 .PHONY: setup test test-unit test-eval test-integration lint format build clean
 
 ## Setup ──────────────────────────────────────────────────────────────
-setup: ## Install all dependencies including Ollama and llama3
+setup: ## Install all dependencies including Ollama, llama3, and ragas
 	@./scripts/setup.sh
 
 ## Test ───────────────────────────────────────────────────────────────

@@ -185,10 +185,14 @@ class TestEvalCommand:
         """eval help output includes expected flags."""
         result = runner.invoke(app, ["eval", "--help"])
         assert result.exit_code == 0
-        assert "--golden-dataset" in result.output
-        assert "--metric" in result.output
-        assert "--db-path" in result.output
-        assert "ragas" in result.output
+        # Strip ANSI escape codes for reliable string matching
+        import re
+
+        plain = re.sub(r"\x1b\[[0-9;]*m", "", result.output)
+        assert "--golden-dataset" in plain
+        assert "--metric" in plain
+        assert "--db-path" in plain
+        assert "ragas" in plain
 
     def test_eval_ragas_exits_gracefully_without_package(
         self, golden_dataset: Path, tmp_path: Path

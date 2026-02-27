@@ -22,8 +22,8 @@ error() { echo -e "${BOLD}${RED}[x]${NC} $1"; }
 # ── Python dependencies ──────────────────────────────────────────────
 info "Installing Python dependencies..."
 if command -v uv &> /dev/null; then
-    uv sync
-    info "Python dependencies installed."
+    uv sync --extra eval
+    info "Python dependencies installed (including ragas)."
 else
     error "uv is not installed. Install it: https://docs.astral.sh/uv/getting-started/installation/"
     exit 1

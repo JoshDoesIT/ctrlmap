@@ -31,6 +31,9 @@ dependencies = [
     "ollama>=0.6.1",
 ]
 
+[project.optional-dependencies]
+eval = ["ragas>=0.2.0"]
+
 [project.scripts]
 ctrlmap = "ctrlmap.cli:app"
 
@@ -75,6 +78,11 @@ strict = true
 warn_return_any = true
 warn_unused_configs = true
 mypy_path = "src"
+
+[[tool.mypy.overrides]]
+module = "ctrlmap.eval_ragas"
+ignore_missing_imports = true
+follow_imports = "skip"
 
 [dependency-groups]
 dev = [

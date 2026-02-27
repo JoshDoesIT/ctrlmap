@@ -188,7 +188,7 @@ def _run_ragas_eval(
     Delegates to Stories #24 and #25 for the full implementation.
     """
     try:
-        from ctrlmap.eval_ragas import run_ragas_evaluation  # type: ignore[import-not-found]
+        from ctrlmap.eval_ragas import run_ragas_evaluation
 
         run_ragas_evaluation(
             dataset=dataset,
