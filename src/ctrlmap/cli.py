@@ -4,6 +4,8 @@ import typer
 
 from ctrlmap import __version__
 from ctrlmap.index.index_command import index
+from ctrlmap.map.harmonize_command import harmonize
+from ctrlmap.map.map_command import map_controls_cmd
 from ctrlmap.parse.parse_command import parse
 
 app = typer.Typer(
@@ -36,3 +38,5 @@ def main(
 
 app.command(name="parse")(parse)
 app.command(name="index")(index)
+app.command(name="map")(map_controls_cmd)
+app.command(name="harmonize")(harmonize)
