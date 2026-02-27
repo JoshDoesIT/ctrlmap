@@ -3,6 +3,7 @@
 import typer
 
 from ctrlmap import __version__
+from ctrlmap.parse.parse_command import parse
 
 app = typer.Typer(
     name="ctrlmap",
@@ -30,3 +31,6 @@ def main(
     ),
 ) -> None:
     """Privacy-preserving GRC automation CLI."""
+
+
+app.command(name="parse")(parse)

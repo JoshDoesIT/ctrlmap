@@ -25,6 +25,8 @@ dependencies = [
     "typer>=0.15.0",
     "pydantic>=2.10.0",
     "rich>=13.0.0",
+    "PyMuPDF>=1.25.0",
+    "sentence-transformers>=3.0.0",
 ]
 
 [project.scripts]
