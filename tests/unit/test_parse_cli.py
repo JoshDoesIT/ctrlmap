@@ -89,8 +89,12 @@ class TestParseCommand:
 
     def test_parse_help_shows_expected_flags(self) -> None:
         """parse --help should document all expected flags."""
+        import re
+
         result = runner.invoke(app, ["parse", "--help"])
         assert result.exit_code == 0
-        assert "--input" in result.output
-        assert "--output" in result.output
-        assert "--strategy" in result.output
+        # Strip ANSI escape codes (Rich renders colored output on CI)
+        clean = re.sub(r"\x1b\[[0-9;]*m", "", result.output)
+        assert "--input" in clean
+        assert "--output" in clean
+        assert "--strategy" in clean
