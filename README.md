@@ -1,6 +1,20 @@
-# ctrlmap
+<p align="center">
+  <img src="assets/logo.png" alt="ctrlmap logo" width="200" />
+</p>
 
-Privacy-preserving GRC automation CLI. Map internal policies to security frameworks (NIST 800-53, SOC 2, ISO 27001) using local LLMs — **zero data leaves your machine**.
+<h1 align="center">ctrlmap</h1>
+
+<p align="center">
+  <a href="https://github.com/JoshDoesIT/ctrlmap/actions/workflows/ci.yml"><img src="https://github.com/JoshDoesIT/ctrlmap/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
+  <a href="https://www.python.org/"><img src="https://img.shields.io/badge/python-3.11%20%7C%203.12%20%7C%203.13-blue?logo=python&logoColor=white" alt="Python" /></a>
+  <a href="https://github.com/JoshDoesIT/ctrlmap/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green" alt="License: MIT" /></a>
+  <a href="https://github.com/astral-sh/ruff"><img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json" alt="Ruff" /></a>
+  <a href="https://github.com/JoshDoesIT/ctrlmap"><img src="https://img.shields.io/badge/privacy-100%25_local-blueviolet?logo=shield" alt="Privacy: 100% Local" /></a>
+</p>
+
+<p align="center">
+  Privacy-preserving GRC automation CLI. Map internal policies to security frameworks (NIST 800-53, SOC 2, ISO 27001) using local LLMs — <strong>zero data leaves your machine</strong>.
+</p>
 
 ## Overview
 
