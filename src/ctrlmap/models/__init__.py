@@ -1,1 +1,1 @@
-"""ctrlmap — Pydantic schema definitions and OSCAL serialization."""
+"""ctrlmap: Pydantic schema definitions and OSCAL serialization."""

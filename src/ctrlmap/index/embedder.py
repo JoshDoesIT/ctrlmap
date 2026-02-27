@@ -1,7 +1,7 @@
 """Sentence-Transformers embedding pipeline.
 
 Wraps the ``sentence-transformers`` library to convert text payloads into
-high-dimensional vector representations. All computation runs locally —
+high-dimensional vector representations. All computation runs locally,
 no external API calls.
 
 Ref: GitHub Issue #11.

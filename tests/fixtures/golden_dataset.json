@@ -1,0 +1,772 @@
+{
+  "description": "Golden dataset: 50 policy text segments with known NIST SP 800-53 Rev 5 control mappings. Control titles and statements are from the official NIST OSCAL catalog. Query text uses cleaned prose (parameter placeholders removed) for semantic search. Original verbatim statements preserved in nist_statement field.",
+  "source": "https://github.com/usnistgov/oscal-content/blob/main/nist.gov/SP800-53/rev5/json/NIST_SP-800-53_rev5_catalog.json",
+  "queries": [
+    {
+      "query": "AC-01: Policy and Procedures. Develop, document, and disseminate to : Designate an to manage the development, documentation, and dissemination of the access control policy and procedures; and Review and update the current access control:",
+      "expected_chunk_ids": [
+        "golden-ac1-001",
+        "golden-ac1-002"
+      ],
+      "control_id": "AC-01",
+      "control_title": "Policy and Procedures",
+      "nist_statement": "Develop, document, and disseminate to {{ insert: param, ac-1_prm_1 }}: Designate an {{ insert: param, ac-01_odp.04 }} to manage the development, documentation, and dissemination of the access control policy and procedures; and Review and update the current access control:"
+    },
+    {
+      "query": "AC-02: Account Management. Define and document the types of accounts allowed and specifically prohibited for use within the system; Assign account managers; Require for group and role membership; Specify: Require approvals by for requests to create accounts; Create, enable, modify, disable, and remove accounts in accordance with; Monitor the use of accounts; Notify account managers and within: Authorize access to the system based on: Review accounts for compliance with account management requirements; Establish and implement a process for changing shared or group account authenticators (if deployed) when individuals are removed from the group; and Align account management processes with personnel termination and transfer processes.",
+      "expected_chunk_ids": [
+        "golden-ac2-001",
+        "golden-ac2-002"
+      ],
+      "control_id": "AC-02",
+      "control_title": "Account Management",
+      "nist_statement": "Define and document the types of accounts allowed and specifically prohibited for use within the system; Assign account managers; Require {{ insert: param, ac-02_odp.01 }} for group and role membership; Specify: Require approvals by {{ insert: param, ac-02_odp.03 }} for requests to create accounts; Create, enable, modify, disable, and remove accounts in accordance with {{ insert: param, ac-02_odp.04 }}; Monitor the use of accounts; Notify account managers and {{ insert: param, ac-02_odp.05 }} within: Authorize access to the system based on: Review accounts for compliance with account management requirements {{ insert: param, ac-02_odp.10 }}; Establish and implement a process for changing shared or group account authenticators (if deployed) when individuals are removed from the group; and Align account management processes with personnel termination and transfer processes."
+    },
+    {
+      "query": "AC-03: Access Enforcement. Enforce approved authorizations for logical access to information and system resources in accordance with applicable access control policies.",
+      "expected_chunk_ids": [
+        "golden-ac3-001"
+      ],
+      "control_id": "AC-03",
+      "control_title": "Access Enforcement",
+      "nist_statement": "Enforce approved authorizations for logical access to information and system resources in accordance with applicable access control policies."
+    },
+    {
+      "query": "AC-04: Information Flow Enforcement. Enforce approved authorizations for controlling the flow of information within the system and between connected systems based on .",
+      "expected_chunk_ids": [
+        "golden-ac4-001"
+      ],
+      "control_id": "AC-04",
+      "control_title": "Information Flow Enforcement",
+      "nist_statement": "Enforce approved authorizations for controlling the flow of information within the system and between connected systems based on {{ insert: param, ac-04_odp }}."
+    },
+    {
+      "query": "AC-05: Separation of Duties. Identify and document; and Define system access authorizations to support separation of duties.",
+      "expected_chunk_ids": [
+        "golden-ac5-001"
+      ],
+      "control_id": "AC-05",
+      "control_title": "Separation of Duties",
+      "nist_statement": "Identify and document {{ insert: param, ac-05_odp }} ; and Define system access authorizations to support separation of duties."
+    },
+    {
+      "query": "AC-06: Least Privilege. Employ the principle of least privilege, allowing only authorized accesses for users (or processes acting on behalf of users) that are necessary to accomplish assigned organizational tasks.",
+      "expected_chunk_ids": [
+        "golden-ac6-001"
+      ],
+      "control_id": "AC-06",
+      "control_title": "Least Privilege",
+      "nist_statement": "Employ the principle of least privilege, allowing only authorized accesses for users (or processes acting on behalf of users) that are necessary to accomplish assigned organizational tasks."
+    },
+    {
+      "query": "AC-07: Unsuccessful Logon Attempts. Enforce a limit of consecutive invalid logon attempts by a user during a; and Automatically when the maximum number of unsuccessful attempts is exceeded.",
+      "expected_chunk_ids": [
+        "golden-ac7-001"
+      ],
+      "control_id": "AC-07",
+      "control_title": "Unsuccessful Logon Attempts",
+      "nist_statement": "Enforce a limit of {{ insert: param, ac-07_odp.01 }} consecutive invalid logon attempts by a user during a {{ insert: param, ac-07_odp.02 }} ; and Automatically {{ insert: param, ac-07_odp.03 }} when the maximum number of unsuccessful attempts is exceeded."
+    },
+    {
+      "query": "AC-08: System Use Notification. Display to users before granting access to the system that provides privacy and security notices consistent with applicable laws, executive orders, directives, regulations, policies, standards, and guidelines and state that: Retain the notification message or banner on the screen until users acknowledge the usage conditions and take explicit actions to log on to or further access the system; and For publicly accessible systems:",
+      "expected_chunk_ids": [
+        "golden-ac8-001"
+      ],
+      "control_id": "AC-08",
+      "control_title": "System Use Notification",
+      "nist_statement": "Display {{ insert: param, ac-08_odp.01 }} to users before granting access to the system that provides privacy and security notices consistent with applicable laws, executive orders, directives, regulations, policies, standards, and guidelines and state that: Retain the notification message or banner on the screen until users acknowledge the usage conditions and take explicit actions to log on to or further access the system; and For publicly accessible systems:"
+    },
+    {
+      "query": "AC-11: Device Lock. Prevent further access to the system by; and Retain the device lock until the user reestablishes access using established identification and authentication procedures.",
+      "expected_chunk_ids": [
+        "golden-ac11-001"
+      ],
+      "control_id": "AC-11",
+      "control_title": "Device Lock",
+      "nist_statement": "Prevent further access to the system by {{ insert: param, ac-11_odp.01 }} ; and Retain the device lock until the user reestablishes access using established identification and authentication procedures."
+    },
+    {
+      "query": "AC-17: Remote Access. Establish and document usage restrictions, configuration/connection requirements, and implementation guidance for each type of remote access allowed; and Authorize each type of remote access to the system prior to allowing such connections.",
+      "expected_chunk_ids": [
+        "golden-ac17-001"
+      ],
+      "control_id": "AC-17",
+      "control_title": "Remote Access",
+      "nist_statement": "Establish and document usage restrictions, configuration/connection requirements, and implementation guidance for each type of remote access allowed; and Authorize each type of remote access to the system prior to allowing such connections."
+    },
+    {
+      "query": "AT-01: Policy and Procedures. Develop, document, and disseminate to : Designate an to manage the development, documentation, and dissemination of the awareness and training policy and procedures; and Review and update the current awareness and training:",
+      "expected_chunk_ids": [
+        "golden-at1-001"
+      ],
+      "control_id": "AT-01",
+      "control_title": "Policy and Procedures",
+      "nist_statement": "Develop, document, and disseminate to {{ insert: param, at-1_prm_1 }}: Designate an {{ insert: param, at-01_odp.04 }} to manage the development, documentation, and dissemination of the awareness and training policy and procedures; and Review and update the current awareness and training:"
+    },
+    {
+      "query": "AT-02: Literacy Training and Awareness. Provide security and privacy literacy training to system users (including managers, senior executives, and contractors): Employ the following techniques to increase the security and privacy awareness of system users; Update literacy training and awareness content and following; and Incorporate lessons learned from internal or external security incidents or breaches into literacy training and awareness techniques.",
+      "expected_chunk_ids": [
+        "golden-at2-001"
+      ],
+      "control_id": "AT-02",
+      "control_title": "Literacy Training and Awareness",
+      "nist_statement": "Provide security and privacy literacy training to system users (including managers, senior executives, and contractors): Employ the following techniques to increase the security and privacy awareness of system users {{ insert: param, at-02_odp.05 }}; Update literacy training and awareness content {{ insert: param, at-02_odp.06 }} and following {{ insert: param, at-02_odp.07 }} ; and Incorporate lessons learned from internal or external security incidents or breaches into literacy training and awareness techniques."
+    },
+    {
+      "query": "AU-01: Policy and Procedures. Develop, document, and disseminate to : Designate an to manage the development, documentation, and dissemination of the audit and accountability policy and procedures; and Review and update the current audit and accountability:",
+      "expected_chunk_ids": [
+        "golden-au1-001"
+      ],
+      "control_id": "AU-01",
+      "control_title": "Policy and Procedures",
+      "nist_statement": "Develop, document, and disseminate to {{ insert: param, au-1_prm_1 }}: Designate an {{ insert: param, au-01_odp.04 }} to manage the development, documentation, and dissemination of the audit and accountability policy and procedures; and Review and update the current audit and accountability:"
+    },
+    {
+      "query": "AU-02: Event Logging. Identify the types of events that the system is capable of logging in support of the audit function:; Coordinate the event logging function with other organizational entities requiring audit-related information to guide and inform the selection criteria for events to be logged; Specify the following event types for logging within the system:; Provide a rationale for why the event types selected for logging are deemed to be adequate to support after-the-fact investigations of incidents; and Review and update the event types selected for logging .",
+      "expected_chunk_ids": [
+        "golden-au2-001"
+      ],
+      "control_id": "AU-02",
+      "control_title": "Event Logging",
+      "nist_statement": "Identify the types of events that the system is capable of logging in support of the audit function: {{ insert: param, au-02_odp.01 }}; Coordinate the event logging function with other organizational entities requiring audit-related information to guide and inform the selection criteria for events to be logged; Specify the following event types for logging within the system: {{ insert: param, au-2_prm_2 }}; Provide a rationale for why the event types selected for logging are deemed to be adequate to support after-the-fact investigations of incidents; and Review and update the event types selected for logging {{ insert: param, au-02_odp.04 }}."
+    },
+    {
+      "query": "AU-03: Content of Audit Records. Ensure that audit records contain information that establishes the following: What type of event occurred; When the event occurred; Where the event occurred; Source of the event; Outcome of the event; and Identity of any individuals, subjects, or objects/entities associated with the event.",
+      "expected_chunk_ids": [
+        "golden-au3-001"
+      ],
+      "control_id": "AU-03",
+      "control_title": "Content of Audit Records",
+      "nist_statement": "Ensure that audit records contain information that establishes the following: What type of event occurred; When the event occurred; Where the event occurred; Source of the event; Outcome of the event; and Identity of any individuals, subjects, or objects/entities associated with the event."
+    },
+    {
+      "query": "AU-06: Audit Record Review, Analysis, and Reporting. Review and analyze system audit records for indications of and the potential impact of the inappropriate or unusual activity; Report findings to; and Adjust the level of audit record review, analysis, and reporting within the system when there is a change in risk based on law enforcement information, intelligence information, or other credible sources of information.",
+      "expected_chunk_ids": [
+        "golden-au6-001"
+      ],
+      "control_id": "AU-06",
+      "control_title": "Audit Record Review, Analysis, and Reporting",
+      "nist_statement": "Review and analyze system audit records {{ insert: param, au-06_odp.01 }} for indications of {{ insert: param, au-06_odp.02 }} and the potential impact of the inappropriate or unusual activity; Report findings to {{ insert: param, au-06_odp.03 }} ; and Adjust the level of audit record review, analysis, and reporting within the system when there is a change in risk based on law enforcement information, intelligence information, or other credible sources of information."
+    },
+    {
+      "query": "AU-12: Audit Record Generation. Provide audit record generation capability for the event types the system is capable of auditing as defined in AU-2a on; Allow to select the event types that are to be logged by specific components of the system; and Generate audit records for the event types defined in AU-2c that include the audit record content defined in AU-3.",
+      "expected_chunk_ids": [
+        "golden-au12-001"
+      ],
+      "control_id": "AU-12",
+      "control_title": "Audit Record Generation",
+      "nist_statement": "Provide audit record generation capability for the event types the system is capable of auditing as defined in [AU-2a](#au-2_smt.a) on {{ insert: param, au-12_odp.01 }}; Allow {{ insert: param, au-12_odp.02 }} to select the event types that are to be logged by specific components of the system; and Generate audit records for the event types defined in [AU-2c](#au-2_smt.c) that include the audit record content defined in [AU-3](#au-3)."
+    },
+    {
+      "query": "CA-01: Policy and Procedures. Develop, document, and disseminate to : Designate an to manage the development, documentation, and dissemination of the assessment, authorization, and monitoring policy and procedures; and Review and update the current assessment, authorization, and monitoring:",
+      "expected_chunk_ids": [
+        "golden-ca1-001"
+      ],
+      "control_id": "CA-01",
+      "control_title": "Policy and Procedures",
+      "nist_statement": "Develop, document, and disseminate to {{ insert: param, ca-1_prm_1 }}: Designate an {{ insert: param, ca-01_odp.04 }} to manage the development, documentation, and dissemination of the assessment, authorization, and monitoring policy and procedures; and Review and update the current assessment, authorization, and monitoring:"
+    },
+    {
+      "query": "CA-02: Control Assessments. Select the appropriate assessor or assessment team for the type of assessment to be conducted; Develop a control assessment plan that describes the scope of the assessment including: Ensure the control assessment plan is reviewed and approved by the authorizing official or designated representative prior to conducting the assessment; Assess the controls in the system and its environment of operation to determine the extent to which the controls are implemented correctly, operating as intended, and producing the desired outcome with respect to meeting established security and privacy requirements; Produce a control assessment report that document the results of the assessment; and Provide the results of the control assessment to .",
+      "expected_chunk_ids": [
+        "golden-ca2-001"
+      ],
+      "control_id": "CA-02",
+      "control_title": "Control Assessments",
+      "nist_statement": "Select the appropriate assessor or assessment team for the type of assessment to be conducted; Develop a control assessment plan that describes the scope of the assessment including: Ensure the control assessment plan is reviewed and approved by the authorizing official or designated representative prior to conducting the assessment; Assess the controls in the system and its environment of operation {{ insert: param, ca-02_odp.01 }} to determine the extent to which the controls are implemented correctly, operating as intended, and producing the desired outcome with respect to meeting established security and privacy requirements; Produce a control assessment report that document the results of the assessment; and Provide the results of the control assessment to {{ insert: param, ca-02_odp.02 }}."
+    },
+    {
+      "query": "CA-07: Continuous Monitoring. Develop a system-level continuous monitoring strategy and implement continuous monitoring in accordance with the organization-level continuous monitoring strategy that includes: Establishing the following system-level metrics to be monitored:; Establishing for monitoring and for assessment of control effectiveness; Ongoing control assessments in accordance with the continuous monitoring strategy; Ongoing monitoring of system and organization-defined metrics in accordance with the continuous monitoring strategy; Correlation and analysis of information generated by control assessments and monitoring; Response actions to address results of the analysis of control assessment and monitoring information; and Reporting the security and privacy status of the system to .",
+      "expected_chunk_ids": [
+        "golden-ca7-001"
+      ],
+      "control_id": "CA-07",
+      "control_title": "Continuous Monitoring",
+      "nist_statement": "Develop a system-level continuous monitoring strategy and implement continuous monitoring in accordance with the organization-level continuous monitoring strategy that includes: Establishing the following system-level metrics to be monitored: {{ insert: param, ca-07_odp.01 }}; Establishing {{ insert: param, ca-07_odp.02 }} for monitoring and {{ insert: param, ca-07_odp.03 }} for assessment of control effectiveness; Ongoing control assessments in accordance with the continuous monitoring strategy; Ongoing monitoring of system and organization-defined metrics in accordance with the continuous monitoring strategy; Correlation and analysis of information generated by control assessments and monitoring; Response actions to address results of the analysis of control assessment and monitoring information; and Reporting the security and privacy status of the system to {{ insert: param, ca-7_prm_4 }} {{ insert: param, ca-7_prm_5 }}."
+    },
+    {
+      "query": "CM-01: Policy and Procedures. Develop, document, and disseminate to : Designate an to manage the development, documentation, and dissemination of the configuration management policy and procedures; and Review and update the current configuration management:",
+      "expected_chunk_ids": [
+        "golden-cm1-001"
+      ],
+      "control_id": "CM-01",
+      "control_title": "Policy and Procedures",
+      "nist_statement": "Develop, document, and disseminate to {{ insert: param, cm-1_prm_1 }}: Designate an {{ insert: param, cm-01_odp.04 }} to manage the development, documentation, and dissemination of the configuration management policy and procedures; and Review and update the current configuration management:"
+    },
+    {
+      "query": "CM-02: Baseline Configuration. Develop, document, and maintain under configuration control, a current baseline configuration of the system; and Review and update the baseline configuration of the system:",
+      "expected_chunk_ids": [
+        "golden-cm2-001"
+      ],
+      "control_id": "CM-02",
+      "control_title": "Baseline Configuration",
+      "nist_statement": "Develop, document, and maintain under configuration control, a current baseline configuration of the system; and Review and update the baseline configuration of the system:"
+    },
+    {
+      "query": "CM-06: Configuration Settings. Establish and document configuration settings for components employed within the system that reflect the most restrictive mode consistent with operational requirements using; Implement the configuration settings; Identify, document, and approve any deviations from established configuration settings for based on; and Monitor and control changes to the configuration settings in accordance with organizational policies and procedures.",
+      "expected_chunk_ids": [
+        "golden-cm6-001"
+      ],
+      "control_id": "CM-06",
+      "control_title": "Configuration Settings",
+      "nist_statement": "Establish and document configuration settings for components employed within the system that reflect the most restrictive mode consistent with operational requirements using {{ insert: param, cm-06_odp.01 }}; Implement the configuration settings; Identify, document, and approve any deviations from established configuration settings for {{ insert: param, cm-06_odp.02 }} based on {{ insert: param, cm-06_odp.03 }} ; and Monitor and control changes to the configuration settings in accordance with organizational policies and procedures."
+    },
+    {
+      "query": "CM-08: System Component Inventory. Develop and document an inventory of system components that: Review and update the system component inventory .",
+      "expected_chunk_ids": [
+        "golden-cm8-001"
+      ],
+      "control_id": "CM-08",
+      "control_title": "System Component Inventory",
+      "nist_statement": "Develop and document an inventory of system components that: Review and update the system component inventory {{ insert: param, cm-08_odp.02 }}."
+    },
+    {
+      "query": "CP-01: Policy and Procedures. Develop, document, and disseminate to : Designate an to manage the development, documentation, and dissemination of the contingency planning policy and procedures; and Review and update the current contingency planning:",
+      "expected_chunk_ids": [
+        "golden-cp1-001"
+      ],
+      "control_id": "CP-01",
+      "control_title": "Policy and Procedures",
+      "nist_statement": "Develop, document, and disseminate to {{ insert: param, cp-1_prm_1 }}: Designate an {{ insert: param, cp-01_odp.04 }} to manage the development, documentation, and dissemination of the contingency planning policy and procedures; and Review and update the current contingency planning:"
+    },
+    {
+      "query": "CP-02: Contingency Plan. Develop a contingency plan for the system that: Distribute copies of the contingency plan to; Coordinate contingency planning activities with incident handling activities; Review the contingency plan for the system; Update the contingency plan to address changes to the organization, system, or environment of operation and problems encountered during contingency plan implementation, execution, or testing; Communicate contingency plan changes to; Incorporate lessons learned from contingency plan testing, training, or actual contingency activities into contingency testing and training; and Protect the contingency plan from unauthorized disclosure and modification.",
+      "expected_chunk_ids": [
+        "golden-cp2-001"
+      ],
+      "control_id": "CP-02",
+      "control_title": "Contingency Plan",
+      "nist_statement": "Develop a contingency plan for the system that: Distribute copies of the contingency plan to {{ insert: param, cp-2_prm_2 }}; Coordinate contingency planning activities with incident handling activities; Review the contingency plan for the system {{ insert: param, cp-02_odp.05 }}; Update the contingency plan to address changes to the organization, system, or environment of operation and problems encountered during contingency plan implementation, execution, or testing; Communicate contingency plan changes to {{ insert: param, cp-2_prm_4 }}; Incorporate lessons learned from contingency plan testing, training, or actual contingency activities into contingency testing and training; and Protect the contingency plan from unauthorized disclosure and modification."
+    },
+    {
+      "query": "CP-09: System Backup. Conduct backups of user-level information contained in; Conduct backups of system-level information contained in the system; Conduct backups of system documentation, including security- and privacy-related documentation; and Protect the confidentiality, integrity, and availability of backup information.",
+      "expected_chunk_ids": [
+        "golden-cp9-001"
+      ],
+      "control_id": "CP-09",
+      "control_title": "System Backup",
+      "nist_statement": "Conduct backups of user-level information contained in {{ insert: param, cp-09_odp.01 }} {{ insert: param, cp-09_odp.02 }}; Conduct backups of system-level information contained in the system {{ insert: param, cp-09_odp.03 }}; Conduct backups of system documentation, including security- and privacy-related documentation {{ insert: param, cp-09_odp.04 }} ; and Protect the confidentiality, integrity, and availability of backup information."
+    },
+    {
+      "query": "IA-01: Policy and Procedures. Develop, document, and disseminate to : Designate an to manage the development, documentation, and dissemination of the identification and authentication policy and procedures; and Review and update the current identification and authentication:",
+      "expected_chunk_ids": [
+        "golden-ia1-001"
+      ],
+      "control_id": "IA-01",
+      "control_title": "Policy and Procedures",
+      "nist_statement": "Develop, document, and disseminate to {{ insert: param, ia-1_prm_1 }}: Designate an {{ insert: param, ia-01_odp.04 }} to manage the development, documentation, and dissemination of the identification and authentication policy and procedures; and Review and update the current identification and authentication:"
+    },
+    {
+      "query": "IA-02: Identification and Authentication (Organizational Users). Uniquely identify and authenticate organizational users and associate that unique identification with processes acting on behalf of those users.",
+      "expected_chunk_ids": [
+        "golden-ia2-001"
+      ],
+      "control_id": "IA-02",
+      "control_title": "Identification and Authentication (Organizational Users)",
+      "nist_statement": "Uniquely identify and authenticate organizational users and associate that unique identification with processes acting on behalf of those users."
+    },
+    {
+      "query": "IA-05: Authenticator Management. Manage system authenticators by: Verifying, as part of the initial authenticator distribution, the identity of the individual, group, role, service, or device receiving the authenticator; Establishing initial authenticator content for any authenticators issued by the organization; Ensuring that authenticators have sufficient strength of mechanism for their intended use; Establishing and implementing administrative procedures for initial authenticator distribution, for lost or compromised or damaged authenticators, and for revoking authenticators; Changing default authenticators prior to first use; Changing or refreshing authenticators or when occur; Protecting authenticator content from unauthorized disclosure and modification; Requiring individuals to take, and having devices implement, specific controls to protect authenticators; and Changing authenticators for group or role accounts when membership to those accounts changes.",
+      "expected_chunk_ids": [
+        "golden-ia5-001"
+      ],
+      "control_id": "IA-05",
+      "control_title": "Authenticator Management",
+      "nist_statement": "Manage system authenticators by: Verifying, as part of the initial authenticator distribution, the identity of the individual, group, role, service, or device receiving the authenticator; Establishing initial authenticator content for any authenticators issued by the organization; Ensuring that authenticators have sufficient strength of mechanism for their intended use; Establishing and implementing administrative procedures for initial authenticator distribution, for lost or compromised or damaged authenticators, and for revoking authenticators; Changing default authenticators prior to first use; Changing or refreshing authenticators {{ insert: param, ia-05_odp.01 }} or when {{ insert: param, ia-05_odp.02 }} occur; Protecting authenticator content from unauthorized disclosure and modification; Requiring individuals to take, and having devices implement, specific controls to protect authenticators; and Changing authenticators for group or role accounts when membership to those accounts changes."
+    },
+    {
+      "query": "IR-01: Policy and Procedures. Develop, document, and disseminate to : Designate an to manage the development, documentation, and dissemination of the incident response policy and procedures; and Review and update the current incident response:",
+      "expected_chunk_ids": [
+        "golden-ir1-001"
+      ],
+      "control_id": "IR-01",
+      "control_title": "Policy and Procedures",
+      "nist_statement": "Develop, document, and disseminate to {{ insert: param, ir-1_prm_1 }}: Designate an {{ insert: param, ir-01_odp.04 }} to manage the development, documentation, and dissemination of the incident response policy and procedures; and Review and update the current incident response:"
+    },
+    {
+      "query": "IR-04: Incident Handling. Implement an incident handling capability for incidents that is consistent with the incident response plan and includes preparation, detection and analysis, containment, eradication, and recovery; Coordinate incident handling activities with contingency planning activities; Incorporate lessons learned from ongoing incident handling activities into incident response procedures, training, and testing, and implement the resulting changes accordingly; and Ensure the rigor, intensity, scope, and results of incident handling activities are comparable and predictable across the organization.",
+      "expected_chunk_ids": [
+        "golden-ir4-001"
+      ],
+      "control_id": "IR-04",
+      "control_title": "Incident Handling",
+      "nist_statement": "Implement an incident handling capability for incidents that is consistent with the incident response plan and includes preparation, detection and analysis, containment, eradication, and recovery; Coordinate incident handling activities with contingency planning activities; Incorporate lessons learned from ongoing incident handling activities into incident response procedures, training, and testing, and implement the resulting changes accordingly; and Ensure the rigor, intensity, scope, and results of incident handling activities are comparable and predictable across the organization."
+    },
+    {
+      "query": "IR-06: Incident Reporting. Require personnel to report suspected incidents to the organizational incident response capability within; and Report incident information to .",
+      "expected_chunk_ids": [
+        "golden-ir6-001"
+      ],
+      "control_id": "IR-06",
+      "control_title": "Incident Reporting",
+      "nist_statement": "Require personnel to report suspected incidents to the organizational incident response capability within {{ insert: param, ir-06_odp.01 }} ; and Report incident information to {{ insert: param, ir-06_odp.02 }}."
+    },
+    {
+      "query": "MA-01: Policy and Procedures. Develop, document, and disseminate to : Designate an to manage the development, documentation, and dissemination of the maintenance policy and procedures; and Review and update the current maintenance:",
+      "expected_chunk_ids": [
+        "golden-ma1-001"
+      ],
+      "control_id": "MA-01",
+      "control_title": "Policy and Procedures",
+      "nist_statement": "Develop, document, and disseminate to {{ insert: param, ma-1_prm_1 }}: Designate an {{ insert: param, ma-01_odp.04 }} to manage the development, documentation, and dissemination of the maintenance policy and procedures; and Review and update the current maintenance:"
+    },
+    {
+      "query": "MP-01: Policy and Procedures. Develop, document, and disseminate to : Designate an to manage the development, documentation, and dissemination of the media protection policy and procedures; and Review and update the current media protection:",
+      "expected_chunk_ids": [
+        "golden-mp1-001"
+      ],
+      "control_id": "MP-01",
+      "control_title": "Policy and Procedures",
+      "nist_statement": "Develop, document, and disseminate to {{ insert: param, mp-1_prm_1 }}: Designate an {{ insert: param, mp-01_odp.04 }} to manage the development, documentation, and dissemination of the media protection policy and procedures; and Review and update the current media protection:"
+    },
+    {
+      "query": "MP-06: Media Sanitization. Sanitize prior to disposal, release out of organizational control, or release for reuse using; and Employ sanitization mechanisms with the strength and integrity commensurate with the security category or classification of the information.",
+      "expected_chunk_ids": [
+        "golden-mp6-001"
+      ],
+      "control_id": "MP-06",
+      "control_title": "Media Sanitization",
+      "nist_statement": "Sanitize {{ insert: param, mp-6_prm_1 }} prior to disposal, release out of organizational control, or release for reuse using {{ insert: param, mp-6_prm_2 }} ; and Employ sanitization mechanisms with the strength and integrity commensurate with the security category or classification of the information."
+    },
+    {
+      "query": "PE-01: Policy and Procedures. Develop, document, and disseminate to : Designate an to manage the development, documentation, and dissemination of the physical and environmental protection policy and procedures; and Review and update the current physical and environmental protection:",
+      "expected_chunk_ids": [
+        "golden-pe1-001"
+      ],
+      "control_id": "PE-01",
+      "control_title": "Policy and Procedures",
+      "nist_statement": "Develop, document, and disseminate to {{ insert: param, pe-1_prm_1 }}: Designate an {{ insert: param, pe-01_odp.04 }} to manage the development, documentation, and dissemination of the physical and environmental protection policy and procedures; and Review and update the current physical and environmental protection:"
+    },
+    {
+      "query": "PE-02: Physical Access Authorizations. Develop, approve, and maintain a list of individuals with authorized access to the facility where the system resides; Issue authorization credentials for facility access; Review the access list detailing authorized facility access by individuals; and Remove individuals from the facility access list when access is no longer required.",
+      "expected_chunk_ids": [
+        "golden-pe2-001"
+      ],
+      "control_id": "PE-02",
+      "control_title": "Physical Access Authorizations",
+      "nist_statement": "Develop, approve, and maintain a list of individuals with authorized access to the facility where the system resides; Issue authorization credentials for facility access; Review the access list detailing authorized facility access by individuals {{ insert: param, pe-02_odp }} ; and Remove individuals from the facility access list when access is no longer required."
+    },
+    {
+      "query": "PE-03: Physical Access Control. Enforce physical access authorizations at by: Maintain physical access audit logs for; Control access to areas within the facility designated as publicly accessible by implementing the following controls:; Escort visitors and control visitor activity; Secure keys, combinations, and other physical access devices; Inventory every; and Change combinations and keys and/or when keys are lost, combinations are compromised, or when individuals possessing the keys or combinations are transferred or terminated.",
+      "expected_chunk_ids": [
+        "golden-pe3-001"
+      ],
+      "control_id": "PE-03",
+      "control_title": "Physical Access Control",
+      "nist_statement": "Enforce physical access authorizations at {{ insert: param, pe-03_odp.01 }} by: Maintain physical access audit logs for {{ insert: param, pe-03_odp.04 }}; Control access to areas within the facility designated as publicly accessible by implementing the following controls: {{ insert: param, pe-03_odp.05 }}; Escort visitors and control visitor activity {{ insert: param, pe-03_odp.06 }}; Secure keys, combinations, and other physical access devices; Inventory {{ insert: param, pe-03_odp.07 }} every {{ insert: param, pe-03_odp.08 }} ; and Change combinations and keys {{ insert: param, pe-3_prm_9 }} and/or when keys are lost, combinations are compromised, or when individuals possessing the keys or combinations are transferred or terminated."
+    },
+    {
+      "query": "PL-01: Policy and Procedures. Develop, document, and disseminate to : Designate an to manage the development, documentation, and dissemination of the planning policy and procedures; and Review and update the current planning:",
+      "expected_chunk_ids": [
+        "golden-pl1-001"
+      ],
+      "control_id": "PL-01",
+      "control_title": "Policy and Procedures",
+      "nist_statement": "Develop, document, and disseminate to {{ insert: param, pl-1_prm_1 }}: Designate an {{ insert: param, pl-01_odp.04 }} to manage the development, documentation, and dissemination of the planning policy and procedures; and Review and update the current planning:"
+    },
+    {
+      "query": "RA-01: Policy and Procedures. Develop, document, and disseminate to : Designate an to manage the development, documentation, and dissemination of the risk assessment policy and procedures; and Review and update the current risk assessment:",
+      "expected_chunk_ids": [
+        "golden-ra1-001"
+      ],
+      "control_id": "RA-01",
+      "control_title": "Policy and Procedures",
+      "nist_statement": "Develop, document, and disseminate to {{ insert: param, ra-1_prm_1 }}: Designate an {{ insert: param, ra-01_odp.04 }} to manage the development, documentation, and dissemination of the risk assessment policy and procedures; and Review and update the current risk assessment:"
+    },
+    {
+      "query": "RA-05: Vulnerability Monitoring and Scanning. Monitor and scan for vulnerabilities in the system and hosted applications and when new vulnerabilities potentially affecting the system are identified and reported; Employ vulnerability monitoring tools and techniques that facilitate interoperability among tools and automate parts of the vulnerability management process by using standards for: Analyze vulnerability scan reports and results from vulnerability monitoring; Remediate legitimate vulnerabilities in accordance with an organizational assessment of risk; Share information obtained from the vulnerability monitoring process and control assessments with to help eliminate similar vulnerabilities in other systems; and Employ vulnerability monitoring tools that include the capability to readily update the vulnerabilities to be scanned.",
+      "expected_chunk_ids": [
+        "golden-ra5-001"
+      ],
+      "control_id": "RA-05",
+      "control_title": "Vulnerability Monitoring and Scanning",
+      "nist_statement": "Monitor and scan for vulnerabilities in the system and hosted applications {{ insert: param, ra-5_prm_1 }} and when new vulnerabilities potentially affecting the system are identified and reported; Employ vulnerability monitoring tools and techniques that facilitate interoperability among tools and automate parts of the vulnerability management process by using standards for: Analyze vulnerability scan reports and results from vulnerability monitoring; Remediate legitimate vulnerabilities {{ insert: param, ra-05_odp.03 }} in accordance with an organizational assessment of risk; Share information obtained from the vulnerability monitoring process and control assessments with {{ insert: param, ra-05_odp.04 }} to help eliminate similar vulnerabilities in other systems; and Employ vulnerability monitoring tools that include the capability to readily update the vulnerabilities to be scanned."
+    },
+    {
+      "query": "SA-01: Policy and Procedures. Develop, document, and disseminate to : Designate an to manage the development, documentation, and dissemination of the system and services acquisition policy and procedures; and Review and update the current system and services acquisition:",
+      "expected_chunk_ids": [
+        "golden-sa1-001"
+      ],
+      "control_id": "SA-01",
+      "control_title": "Policy and Procedures",
+      "nist_statement": "Develop, document, and disseminate to {{ insert: param, sa-1_prm_1 }}: Designate an {{ insert: param, sa-01_odp.04 }} to manage the development, documentation, and dissemination of the system and services acquisition policy and procedures; and Review and update the current system and services acquisition:"
+    },
+    {
+      "query": "SC-01: Policy and Procedures. Develop, document, and disseminate to : Designate an to manage the development, documentation, and dissemination of the system and communications protection policy and procedures; and Review and update the current system and communications protection:",
+      "expected_chunk_ids": [
+        "golden-sc1-001"
+      ],
+      "control_id": "SC-01",
+      "control_title": "Policy and Procedures",
+      "nist_statement": "Develop, document, and disseminate to {{ insert: param, sc-1_prm_1 }}: Designate an {{ insert: param, sc-01_odp.04 }} to manage the development, documentation, and dissemination of the system and communications protection policy and procedures; and Review and update the current system and communications protection:"
+    },
+    {
+      "query": "SC-07: Boundary Protection. Monitor and control communications at the external managed interfaces to the system and at key internal managed interfaces within the system; Implement subnetworks for publicly accessible system components that are separated from internal organizational networks; and Connect to external networks or systems only through managed interfaces consisting of boundary protection devices arranged in accordance with an organizational security and privacy architecture.",
+      "expected_chunk_ids": [
+        "golden-sc7-001"
+      ],
+      "control_id": "SC-07",
+      "control_title": "Boundary Protection",
+      "nist_statement": "Monitor and control communications at the external managed interfaces to the system and at key internal managed interfaces within the system; Implement subnetworks for publicly accessible system components that are {{ insert: param, sc-07_odp }} separated from internal organizational networks; and Connect to external networks or systems only through managed interfaces consisting of boundary protection devices arranged in accordance with an organizational security and privacy architecture."
+    },
+    {
+      "query": "SC-12: Cryptographic Key Establishment and Management. Establish and manage cryptographic keys when cryptography is employed within the system in accordance with the following key management requirements: .",
+      "expected_chunk_ids": [
+        "golden-sc12-001"
+      ],
+      "control_id": "SC-12",
+      "control_title": "Cryptographic Key Establishment and Management",
+      "nist_statement": "Establish and manage cryptographic keys when cryptography is employed within the system in accordance with the following key management requirements: {{ insert: param, sc-12_odp }}."
+    },
+    {
+      "query": "SC-13: Cryptographic Protection. Determine the; and Implement the following types of cryptography required for each specified cryptographic use: .",
+      "expected_chunk_ids": [
+        "golden-sc13-001"
+      ],
+      "control_id": "SC-13",
+      "control_title": "Cryptographic Protection",
+      "nist_statement": "Determine the {{ insert: param, sc-13_odp.01 }} ; and Implement the following types of cryptography required for each specified cryptographic use: {{ insert: param, sc-13_odp.02 }}."
+    },
+    {
+      "query": "SC-28: Protection of Information at Rest. Protect the of the following information at rest: .",
+      "expected_chunk_ids": [
+        "golden-sc28-001"
+      ],
+      "control_id": "SC-28",
+      "control_title": "Protection of Information at Rest",
+      "nist_statement": "Protect the {{ insert: param, sc-28_odp.01 }} of the following information at rest: {{ insert: param, sc-28_odp.02 }}."
+    },
+    {
+      "query": "SI-01: Policy and Procedures. Develop, document, and disseminate to : Designate an to manage the development, documentation, and dissemination of the system and information integrity policy and procedures; and Review and update the current system and information integrity:",
+      "expected_chunk_ids": [
+        "golden-si1-001"
+      ],
+      "control_id": "SI-01",
+      "control_title": "Policy and Procedures",
+      "nist_statement": "Develop, document, and disseminate to {{ insert: param, si-1_prm_1 }}: Designate an {{ insert: param, si-01_odp.04 }} to manage the development, documentation, and dissemination of the system and information integrity policy and procedures; and Review and update the current system and information integrity:"
+    },
+    {
+      "query": "SI-04: System Monitoring. Monitor the system to detect: Identify unauthorized use of the system through the following techniques and methods:; Invoke internal monitoring capabilities or deploy monitoring devices: Analyze detected events and anomalies; Adjust the level of system monitoring activity when there is a change in risk to organizational operations and assets, individuals, other organizations, or the Nation; Obtain legal opinion regarding system monitoring activities; and Provide to .",
+      "expected_chunk_ids": [
+        "golden-si4-001"
+      ],
+      "control_id": "SI-04",
+      "control_title": "System Monitoring",
+      "nist_statement": "Monitor the system to detect: Identify unauthorized use of the system through the following techniques and methods: {{ insert: param, si-04_odp.02 }}; Invoke internal monitoring capabilities or deploy monitoring devices: Analyze detected events and anomalies; Adjust the level of system monitoring activity when there is a change in risk to organizational operations and assets, individuals, other organizations, or the Nation; Obtain legal opinion regarding system monitoring activities; and Provide {{ insert: param, si-04_odp.03 }} to {{ insert: param, si-04_odp.04 }} {{ insert: param, si-04_odp.05 }}."
+    }
+  ],
+  "segments": [
+    {
+      "chunk_id": "golden-ac1-001",
+      "text": "The organization has established a formal access control policy that defines the purpose, scope, roles, responsibilities, and enforcement mechanisms for controlling access to information systems and assets. This policy is reviewed annually and updated as needed.",
+      "control": "AC-01",
+      "control_title": "Policy and Procedures"
+    },
+    {
+      "chunk_id": "golden-ac1-002",
+      "text": "Access control procedures are documented and distributed to all system administrators. These procedures outline step-by-step instructions for provisioning, modifying, and revoking user access across all organizational systems.",
+      "control": "AC-01",
+      "control_title": "Policy and Procedures"
+    },
+    {
+      "chunk_id": "golden-ac2-001",
+      "text": "The IT department maintains a comprehensive account management process that defines allowed account types including individual, shared, group, and service accounts. Emergency and temporary accounts must be approved by the CISO and expire automatically after 72 hours.",
+      "control": "AC-02",
+      "control_title": "Account Management"
+    },
+    {
+      "chunk_id": "golden-ac2-002",
+      "text": "System accounts are reviewed quarterly by account owners and the security team. Inactive accounts are disabled after 90 days of inactivity and deleted after 180 days. All account actions are logged in the centralized SIEM platform.",
+      "control": "AC-02",
+      "control_title": "Account Management"
+    },
+    {
+      "chunk_id": "golden-ac3-001",
+      "text": "The system enforces role-based access control (RBAC) for all logical access to information resources. Users are granted access based on their assigned roles, and access permissions are validated at each point of entry using centralized authentication services.",
+      "control": "AC-03",
+      "control_title": "Access Enforcement"
+    },
+    {
+      "chunk_id": "golden-ac4-001",
+      "text": "Network segmentation and firewall rules enforce information flow policies between security domains. Data flowing between the production network and development environments must pass through a designated transfer gateway that inspects and logs all traffic.",
+      "control": "AC-04",
+      "control_title": "Information Flow Enforcement"
+    },
+    {
+      "chunk_id": "golden-ac5-001",
+      "text": "Separation of duties is enforced for critical business functions. No single individual can authorize, process, and record a financial transaction. System administration and audit functions are assigned to separate personnel.",
+      "control": "AC-05",
+      "control_title": "Separation of Duties"
+    },
+    {
+      "chunk_id": "golden-ac6-001",
+      "text": "All users are provisioned with the minimum level of access required to perform their job functions. Privileged access (root, admin) is restricted to designated administrators and requires multi-factor authentication. Access requests must include documented justification.",
+      "control": "AC-06",
+      "control_title": "Least Privilege"
+    },
+    {
+      "chunk_id": "golden-ac7-001",
+      "text": "After five consecutive failed login attempts, the user account is automatically locked for 30 minutes. The security team is notified of repeated lockouts, and persistent failed attempts trigger an investigation by the incident response team.",
+      "control": "AC-07",
+      "control_title": "Unsuccessful Logon Attempts"
+    },
+    {
+      "chunk_id": "golden-ac8-001",
+      "text": "All organizational information systems display an approved banner before granting access. The notification warns that the system is for authorized use only, that activity may be monitored and recorded, and that unauthorized use may result in disciplinary action.",
+      "control": "AC-08",
+      "control_title": "System Use Notification"
+    },
+    {
+      "chunk_id": "golden-ac11-001",
+      "text": "Workstations and laptops are configured to automatically lock after 15 minutes of inactivity. Users are required to authenticate with their credentials to regain access. Mobile devices lock after 5 minutes and require biometric or PIN authentication.",
+      "control": "AC-11",
+      "control_title": "Device Lock"
+    },
+    {
+      "chunk_id": "golden-ac17-001",
+      "text": "Remote access to organizational systems is permitted only through the approved VPN solution using multi-factor authentication. Split tunneling is disabled, and all remote sessions are logged. Remote access agreements must be signed by all telecommuting personnel.",
+      "control": "AC-17",
+      "control_title": "Remote Access"
+    },
+    {
+      "chunk_id": "golden-at1-001",
+      "text": "The organization maintains a security awareness and training policy that requires all employees to complete initial security training within 30 days of hire and annual refresher training thereafter. The policy defines training requirements by role.",
+      "control": "AT-01",
+      "control_title": "Policy and Procedures"
+    },
+    {
+      "chunk_id": "golden-at2-001",
+      "text": "All employees complete annual security awareness training covering phishing identification, password hygiene, social engineering tactics, and data handling procedures. Role-based training is provided for IT staff, developers, and managers with additional modules.",
+      "control": "AT-02",
+      "control_title": "Literacy Training and Awareness"
+    },
+    {
+      "chunk_id": "golden-au1-001",
+      "text": "The organization has documented an audit and accountability policy that defines the scope of audit logging, roles responsible for audit management, and requirements for audit log retention and protection.",
+      "control": "AU-01",
+      "control_title": "Policy and Procedures"
+    },
+    {
+      "chunk_id": "golden-au2-001",
+      "text": "The system is configured to log successful and failed authentication attempts, privilege escalation events, file access to sensitive data, configuration changes, and administrative actions. The list of auditable events is reviewed annually.",
+      "control": "AU-02",
+      "control_title": "Event Logging"
+    },
+    {
+      "chunk_id": "golden-au3-001",
+      "text": "Each audit record includes the timestamp, source IP address, user identity, event type, event outcome (success or failure), and the affected resource. Records are stored in a standardized format compatible with the SIEM platform.",
+      "control": "AU-03",
+      "control_title": "Content of Audit Records"
+    },
+    {
+      "chunk_id": "golden-au6-001",
+      "text": "The security operations center reviews audit logs daily for anomalous activity. Automated correlation rules flag potential incidents for analyst review. Monthly summary reports are generated for management showing trends and notable events.",
+      "control": "AU-06",
+      "control_title": "Audit Record Review, Analysis, and Reporting"
+    },
+    {
+      "chunk_id": "golden-au12-001",
+      "text": "All servers and network devices are configured to generate audit records for organization-defined auditable events. Audit generation is enabled at the operating system, application, and database levels with centralized log forwarding to the SIEM.",
+      "control": "AU-12",
+      "control_title": "Audit Record Generation"
+    },
+    {
+      "chunk_id": "golden-ca1-001",
+      "text": "The organization has documented security assessment and authorization policies that define the frequency, scope, and methodology for control assessments. Authorization packages must be reviewed and approved by the authorizing official.",
+      "control": "CA-01",
+      "control_title": "Policy and Procedures"
+    },
+    {
+      "chunk_id": "golden-ca2-001",
+      "text": "Security controls are assessed annually using a combination of automated scanning tools, manual testing, and interviews with system operators. Assessment results are documented in a formal report with findings, risk ratings, and remediation timelines.",
+      "control": "CA-02",
+      "control_title": "Control Assessments"
+    },
+    {
+      "chunk_id": "golden-ca7-001",
+      "text": "The organization employs a continuous monitoring strategy that includes automated vulnerability scanning on a weekly basis, configuration compliance checks daily, and real-time monitoring of security-relevant events through the SIEM platform.",
+      "control": "CA-07",
+      "control_title": "Continuous Monitoring"
+    },
+    {
+      "chunk_id": "golden-cm1-001",
+      "text": "Configuration management policies and procedures are documented and distributed to relevant personnel. The policy requires that all changes to production systems follow the formal change management process including impact assessment and approval.",
+      "control": "CM-01",
+      "control_title": "Policy and Procedures"
+    },
+    {
+      "chunk_id": "golden-cm2-001",
+      "text": "A baseline configuration is documented for each system type including approved operating system versions, installed software packages, and security configuration settings. Baselines are reviewed and updated quarterly or when significant changes occur.",
+      "control": "CM-02",
+      "control_title": "Baseline Configuration"
+    },
+    {
+      "chunk_id": "golden-cm6-001",
+      "text": "Systems are deployed with hardened configurations based on CIS Benchmarks. Configuration settings include disabling unnecessary services, enforcing strong cipher suites, and implementing recommended registry and kernel parameters.",
+      "control": "CM-06",
+      "control_title": "Configuration Settings"
+    },
+    {
+      "chunk_id": "golden-cm8-001",
+      "text": "The organization maintains a comprehensive inventory of all system components including hardware, software, firmware, and network devices. The inventory is updated automatically using discovery tools and reconciled manually on a quarterly basis.",
+      "control": "CM-08",
+      "control_title": "System Component Inventory"
+    },
+    {
+      "chunk_id": "golden-cp1-001",
+      "text": "Contingency planning policies define the scope, roles, and responsibilities for business continuity and disaster recovery planning. The policy requires that contingency plans be tested annually and updated following organizational or system changes.",
+      "control": "CP-01",
+      "control_title": "Policy and Procedures"
+    },
+    {
+      "chunk_id": "golden-cp2-001",
+      "text": "A comprehensive contingency plan identifies essential missions and business functions, recovery objectives, and restoration priorities. The plan includes procedures for activating recovery operations and returning to normal operations.",
+      "control": "CP-02",
+      "control_title": "Contingency Plan"
+    },
+    {
+      "chunk_id": "golden-cp9-001",
+      "text": "Full system backups are performed weekly and incremental backups are performed nightly. Backup media is encrypted using AES-256 and stored at a geographically separate offsite facility. Backup restoration is tested quarterly to verify data integrity.",
+      "control": "CP-09",
+      "control_title": "System Backup"
+    },
+    {
+      "chunk_id": "golden-ia1-001",
+      "text": "The organization documents and distributes identification and authentication policies that define acceptable authenticator types, password complexity requirements, and multi-factor authentication mandates for privileged and remote access.",
+      "control": "IA-01",
+      "control_title": "Policy and Procedures"
+    },
+    {
+      "chunk_id": "golden-ia2-001",
+      "text": "All organizational users are uniquely identified through assigned user IDs that are not shared or reused. Authentication requires a minimum of username and password, with multi-factor authentication required for privileged access and remote sessions.",
+      "control": "IA-02",
+      "control_title": "Identification and Authentication (Organizational Users)"
+    },
+    {
+      "chunk_id": "golden-ia5-001",
+      "text": "Authenticator management procedures require passwords to be at least 14 characters with complexity requirements. Passwords expire every 90 days and the last 24 passwords are remembered. Hardware tokens are inventoried and revoked upon personnel termination.",
+      "control": "IA-05",
+      "control_title": "Authenticator Management"
+    },
+    {
+      "chunk_id": "golden-ir1-001",
+      "text": "The organization maintains an incident response policy that defines reportable incidents, escalation paths, and roles and responsibilities for the incident response team. The policy is reviewed annually and tested through tabletop exercises.",
+      "control": "IR-01",
+      "control_title": "Policy and Procedures"
+    },
+    {
+      "chunk_id": "golden-ir4-001",
+      "text": "The incident response team implements a structured incident handling process that includes preparation, detection and analysis, containment, eradication, recovery, and post-incident activity phases. All incidents are tracked through the ticketing system.",
+      "control": "IR-04",
+      "control_title": "Incident Handling"
+    },
+    {
+      "chunk_id": "golden-ir6-001",
+      "text": "All employees are required to report suspected security incidents to the helpdesk or security team within one hour of discovery. The incident response team reports confirmed incidents to management and external authorities as required by regulation.",
+      "control": "IR-06",
+      "control_title": "Incident Reporting"
+    },
+    {
+      "chunk_id": "golden-ma1-001",
+      "text": "System maintenance policies require that all maintenance activities be scheduled, documented, and performed by authorized personnel. Remote maintenance sessions require multi-factor authentication and are monitored and logged.",
+      "control": "MA-01",
+      "control_title": "Policy and Procedures"
+    },
+    {
+      "chunk_id": "golden-mp1-001",
+      "text": "Media protection policies define handling requirements for digital and non-digital media containing sensitive information. Media is classified according to the data it contains and protected with appropriate physical and logical safeguards.",
+      "control": "MP-01",
+      "control_title": "Policy and Procedures"
+    },
+    {
+      "chunk_id": "golden-mp6-001",
+      "text": "All storage media is sanitized using NIST SP 800-88 approved methods before disposal or reuse. Hard drives are degaussed and physically destroyed. Sanitization activities are documented and certificates of destruction are retained.",
+      "control": "MP-06",
+      "control_title": "Media Sanitization"
+    },
+    {
+      "chunk_id": "golden-pe1-001",
+      "text": "Physical and environmental protection policies define requirements for facility access control, visitor management, environmental safeguards, and asset protection. Physical security measures are inspected annually by the facilities team.",
+      "control": "PE-01",
+      "control_title": "Policy and Procedures"
+    },
+    {
+      "chunk_id": "golden-pe2-001",
+      "text": "Physical access authorization lists are maintained by the facilities security team. Authorized personnel are issued badge credentials. The authorization list is reviewed quarterly and updated within 24 hours of personnel changes.",
+      "control": "PE-02",
+      "control_title": "Physical Access Authorizations"
+    },
+    {
+      "chunk_id": "golden-pe3-001",
+      "text": "Building entry points are controlled by badge readers and monitored by security cameras. Visitors must sign in at reception and be escorted at all times. Server rooms require two-factor authentication (badge plus biometric) for entry.",
+      "control": "PE-03",
+      "control_title": "Physical Access Control"
+    },
+    {
+      "chunk_id": "golden-pl1-001",
+      "text": "Security and privacy planning policies establish the requirements for developing, maintaining, and updating system security plans and privacy impact assessments. Plans are reviewed and approved by the CISO on an annual basis.",
+      "control": "PL-01",
+      "control_title": "Policy and Procedures"
+    },
+    {
+      "chunk_id": "golden-ra1-001",
+      "text": "Risk assessment policies define the methodology, scope, and frequency of organizational risk assessments. Risk assessments are conducted annually or upon significant system changes and follow the NIST Risk Management Framework.",
+      "control": "RA-01",
+      "control_title": "Policy and Procedures"
+    },
+    {
+      "chunk_id": "golden-ra5-001",
+      "text": "Vulnerability scans are conducted weekly on all networked systems using an approved scanning tool. Critical vulnerabilities must be remediated within 15 days, high within 30 days, and medium within 90 days. Scan results are reported to system owners.",
+      "control": "RA-05",
+      "control_title": "Vulnerability Monitoring and Scanning"
+    },
+    {
+      "chunk_id": "golden-sa1-001",
+      "text": "System and services acquisition policies require security requirements to be included in acquisition contracts. Vendors must demonstrate compliance with organizational security standards and are subject to periodic security assessments.",
+      "control": "SA-01",
+      "control_title": "Policy and Procedures"
+    },
+    {
+      "chunk_id": "golden-sc1-001",
+      "text": "System and communications protection policies define requirements for network security architecture, secure communication protocols, and boundary protection mechanisms. TLS 1.2 or higher is mandated for all data in transit.",
+      "control": "SC-01",
+      "control_title": "Policy and Procedures"
+    },
+    {
+      "chunk_id": "golden-sc7-001",
+      "text": "The organization deploys firewalls, intrusion detection systems, and web application firewalls at managed network boundaries. All inbound and outbound traffic is filtered against security policies. External connections are limited to authorized services.",
+      "control": "SC-07",
+      "control_title": "Boundary Protection"
+    },
+    {
+      "chunk_id": "golden-sc12-001",
+      "text": "Cryptographic keys are generated, distributed, stored, and destroyed following documented key management procedures. Keys are stored in FIPS 140-2 validated hardware security modules. Key rotation occurs annually or upon suspected compromise.",
+      "control": "SC-12",
+      "control_title": "Cryptographic Key Establishment and Management"
+    },
+    {
+      "chunk_id": "golden-sc13-001",
+      "text": "The organization implements FIPS-validated cryptographic modules for all encryption operations. AES-256 is used for data at rest, TLS 1.3 for data in transit, and SHA-256 or stronger for hashing. Approved cipher suites are enforced system-wide.",
+      "control": "SC-13",
+      "control_title": "Cryptographic Protection"
+    },
+    {
+      "chunk_id": "golden-sc28-001",
+      "text": "All sensitive data stored on servers, databases, and endpoint devices is encrypted at rest using AES-256 encryption. Full disk encryption is enabled on all laptops and mobile devices. Encryption keys are managed centrally through the key management system.",
+      "control": "SC-28",
+      "control_title": "Protection of Information at Rest"
+    },
+    {
+      "chunk_id": "golden-si1-001",
+      "text": "System and information integrity policies require the implementation of flaw remediation, malicious code protection, and system monitoring capabilities. Integrity verification tools are deployed to detect unauthorized changes to critical files.",
+      "control": "SI-01",
+      "control_title": "Policy and Procedures"
+    },
+    {
+      "chunk_id": "golden-si4-001",
+      "text": "The organization monitors information systems using intrusion detection systems, security information and event management (SIEM) tools, and endpoint detection and response (EDR) agents. Alerts are triaged by the SOC within 15 minutes.",
+      "control": "SI-04",
+      "control_title": "System Monitoring"
+    }
+  ]
+}

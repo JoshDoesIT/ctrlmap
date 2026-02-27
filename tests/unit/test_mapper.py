@@ -1,6 +1,6 @@
 """Tests for the mapping algorithm.
 
-TDD RED phase: Story #16 — control → vector DB → ranked chunks.
+TDD RED phase: Story #16, control to vector DB to ranked chunks.
 Ref: GitHub Issue #16.
 """
 
@@ -144,7 +144,7 @@ class TestMappingAlgorithm:
         from ctrlmap.index.vector_store import VectorStore
         from ctrlmap.map.mapper import map_controls
 
-        # Empty store — no indexed chunks
+        # Empty store, no indexed chunks
         empty_store = VectorStore(db_path=tmp_path / "empty_db")
         empty_store.get_or_create_collection("chunks")
 

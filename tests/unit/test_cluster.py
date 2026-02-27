@@ -1,6 +1,6 @@
 """Tests for vector-based clustering of overlapping controls.
 
-TDD RED phase: Story #17 — group semantically overlapping controls.
+TDD RED phase: Story #17, group semantically overlapping controls.
 Ref: GitHub Issue #17.
 """
 
@@ -12,7 +12,7 @@ from ctrlmap.models.schemas import SecurityControl
 def _make_controls() -> list[SecurityControl]:
     """Create test controls with known semantic relationships."""
     return [
-        # Three controls about encryption at rest — should cluster
+        # Three controls about encryption at rest, should cluster
         SecurityControl(
             control_id="NIST-SC-28",
             framework="NIST-800-53",
@@ -31,7 +31,7 @@ def _make_controls() -> list[SecurityControl]:
             title="Cryptographic Controls for Data at Rest",
             description="Implement cryptographic controls to protect data confidentiality at rest.",
         ),
-        # One unrelated control about physical security — should NOT cluster
+        # One unrelated control about physical security, should NOT cluster
         SecurityControl(
             control_id="NIST-PE-3",
             framework="NIST-800-53",

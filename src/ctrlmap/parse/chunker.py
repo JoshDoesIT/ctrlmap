@@ -1,8 +1,8 @@
 """Hybrid structural + semantic chunking pipeline.
 
 Two-phase chunking:
-1. **Structural** — splits on section headers detected by font-size heuristics.
-2. **Semantic** — computes sentence-level cosine similarity via sentence-transformers
+1. **Structural**: splits on section headers detected by font-size heuristics.
+2. **Semantic**: computes sentence-level cosine similarity via sentence-transformers
    and merges/splits segments based on topic coherence.
 
 Produces ``ParsedChunk`` Pydantic models. Never splits mid-sentence.

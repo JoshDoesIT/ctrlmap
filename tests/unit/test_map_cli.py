@@ -1,6 +1,6 @@
 """Tests for the `ctrlmap map` CLI subcommand.
 
-TDD RED phase: Story #20 — map subcommand.
+TDD RED phase: Story #20, map subcommand.
 Ref: GitHub Issue #20.
 """
 

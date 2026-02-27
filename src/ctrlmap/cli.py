@@ -1,8 +1,9 @@
-"""ctrlmap CLI — Typer command routing and argument parsing."""
+"""ctrlmap CLI: Typer command routing and argument parsing."""
 
 import typer
 
 from ctrlmap import __version__
+from ctrlmap.eval_command import eval_cmd
 from ctrlmap.index.index_command import index
 from ctrlmap.map.harmonize_command import harmonize
 from ctrlmap.map.map_command import map_controls_cmd
@@ -40,3 +41,4 @@ app.command(name="parse")(parse)
 app.command(name="index")(index)
 app.command(name="map")(map_controls_cmd)
 app.command(name="harmonize")(harmonize)
+app.command(name="eval")(eval_cmd)

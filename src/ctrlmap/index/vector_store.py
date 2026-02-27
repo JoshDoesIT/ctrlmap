@@ -68,7 +68,7 @@ class VectorStore:
     ) -> int:
         """Index ParsedChunk objects with their embeddings and metadata.
 
-        Uses upsert semantics — duplicate ``chunk_id`` values are updated
+        Uses upsert semantics. Duplicate ``chunk_id`` values are updated
         rather than rejected.
 
         Args:
