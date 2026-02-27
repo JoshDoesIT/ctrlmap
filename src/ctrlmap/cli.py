@@ -3,6 +3,7 @@
 import typer
 
 from ctrlmap import __version__
+from ctrlmap.index.index_command import index
 from ctrlmap.parse.parse_command import parse
 
 app = typer.Typer(
@@ -34,3 +35,4 @@ def main(
 
 
 app.command(name="parse")(parse)
+app.command(name="index")(index)
