@@ -2,8 +2,6 @@
   <img src="assets/logo.png" alt="ctrlmap logo" width="200" />
 </p>
 
-<h1 align="center">ctrlmap</h1>
-
 <p align="center">
   <a href="https://github.com/JoshDoesIT/ctrlmap/actions/workflows/ci.yml"><img src="https://github.com/JoshDoesIT/ctrlmap/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
   <a href="https://www.python.org/"><img src="https://img.shields.io/badge/python-3.11%20%7C%203.12%20%7C%203.13-blue?logo=python&logoColor=white" alt="Python" /></a>

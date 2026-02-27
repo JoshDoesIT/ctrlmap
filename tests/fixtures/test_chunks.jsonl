@@ -1,0 +1,3 @@
+{"chunk_id": "test-chunk-001", "document_name": "test_policy.pdf", "page_number": 1, "raw_text": "All employees must complete security awareness training annually.", "section_header": "Training", "embedding": null}
+{"chunk_id": "test-chunk-002", "document_name": "test_policy.pdf", "page_number": 2, "raw_text": "Access to sensitive systems requires multi-factor authentication.", "section_header": "Access Control", "embedding": null}
+{"chunk_id": "test-chunk-003", "document_name": "test_policy.pdf", "page_number": 3, "raw_text": "Audit logs must be retained for a minimum of twelve months.", "section_header": "Audit & Accountability", "embedding": null}
