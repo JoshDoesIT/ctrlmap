@@ -15,6 +15,7 @@ from __future__ import annotations
 import re
 import uuid
 from dataclasses import dataclass, field
+from typing import Any
 
 from ctrlmap.models.schemas import ParsedChunk
 from ctrlmap.parse.extractor import TextBlock
@@ -109,7 +110,7 @@ def structural_chunk(blocks: list[TextBlock]) -> list[StructuralSection]:
 # --- Phase 2: Semantic Chunking ---
 
 
-def _get_embedder() -> object:
+def _get_embedder() -> Any:
     """Lazily load the sentence-transformers model.
 
     Returns a SentenceTransformer model instance. Loaded once per process.
@@ -130,7 +131,7 @@ def _cosine_similarity(a: list[float], b: list[float]) -> float:
     norm_b = sum(x**2 for x in b) ** 0.5
     if norm_a == 0 or norm_b == 0:
         return 0.0
-    return dot / (norm_a * norm_b)
+    return float(dot / (norm_a * norm_b))
 
 
 def semantic_chunk(
@@ -155,15 +156,15 @@ def semantic_chunk(
         return [" ".join(sentences)] if sentences else []
 
     model = _get_embedder()
-    embeddings = model.encode(sentences)  # type: ignore[union-attr]
+    embeddings = model.encode(sentences)
 
     chunks: list[str] = []
     current_chunk: list[str] = [sentences[0]]
 
     for i in range(1, len(sentences)):
         sim = _cosine_similarity(
-            embeddings[i - 1].tolist(),  # type: ignore[union-attr]
-            embeddings[i].tolist(),  # type: ignore[union-attr]
+            embeddings[i - 1].tolist(),
+            embeddings[i].tolist(),
         )
 
         if sim >= similarity_threshold:

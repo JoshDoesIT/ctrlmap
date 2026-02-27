@@ -20,7 +20,7 @@ from rich.console import Console
 
 from ctrlmap.models.schemas import ParsedChunk
 from ctrlmap.parse.chunker import chunk_document
-from ctrlmap.parse.extractor import extract_text_blocks
+from ctrlmap.parse.extractor import TextBlock, extract_text_blocks
 from ctrlmap.parse.heuristics import ElementRole, classify_block, order_blocks_by_columns
 
 console = Console()
@@ -100,7 +100,7 @@ def parse(
 
 
 def _fixed_chunk(
-    blocks: list[object],
+    blocks: list[TextBlock],
     document_name: str,
     chunk_size: int,
 ) -> list[ParsedChunk]:
@@ -116,8 +116,8 @@ def _fixed_chunk(
     """
     import uuid
 
-    all_text = " ".join(b.text for b in blocks)  # type: ignore[union-attr]
-    page_number = blocks[0].page_number if blocks else 1  # type: ignore[union-attr]
+    all_text = " ".join(b.text for b in blocks)
+    page_number = blocks[0].page_number if blocks else 1
     chunks: list[ParsedChunk] = []
 
     for i in range(0, len(all_text), chunk_size):
