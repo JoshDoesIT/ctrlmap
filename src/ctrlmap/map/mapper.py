@@ -21,18 +21,22 @@ def map_controls(
     store: VectorStore,
     collection_name: str,
     top_k: int = 5,
+    min_score: float = 0.50,
     embedder: Embedder | None = None,
 ) -> list[MappedResult]:
     """Map security controls to supporting policy chunks via vector similarity.
 
     For each control, queries the vector DB for the top-K most similar
-    policy chunks and returns a ``MappedResult`` with the ranked matches.
+    policy chunks and filters out results below ``min_score`` to prevent
+    weak/irrelevant matches from appearing as false positives.
 
     Args:
         controls: List of SecurityControl objects to map.
         store: The VectorStore instance containing indexed policy chunks.
         collection_name: Name of the ChromaDB collection to search.
         top_k: Maximum number of supporting chunks per control (default: 5).
+        min_score: Minimum similarity score to include a chunk (default: 0.50).
+            Chunks below this threshold are dropped to avoid false matches.
         embedder: Optional Embedder instance. Creates a default one if None.
 
     Returns:
@@ -56,6 +60,8 @@ def map_controls(
 
         supporting_chunks: list[ParsedChunk] = []
         for qr in query_results:
+            if qr.score < min_score:
+                continue
             supporting_chunks.append(
                 ParsedChunk(
                     chunk_id=qr.chunk_id,

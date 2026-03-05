@@ -39,10 +39,10 @@ class TestParsedChunk:
             )
 
     def test_parsed_chunk_rejects_short_raw_text(self) -> None:
-        """raw_text with fewer than 10 characters must be rejected."""
+        """raw_text with fewer than 50 characters must be rejected."""
         from ctrlmap.models.schemas import ParsedChunk
 
-        with pytest.raises(ValidationError, match="String should have at least 10 characters"):
+        with pytest.raises(ValidationError, match="String should have at least 50 characters"):
             ParsedChunk(
                 chunk_id="abc123",
                 document_name="policy.pdf",

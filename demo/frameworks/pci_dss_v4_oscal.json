@@ -1,0 +1,553 @@
+{
+  "catalog": {
+    "uuid": "c4d2e6f8-1a3b-5c7d-9e0f-2b4a6c8d0e1f",
+    "metadata": {
+      "title": "PCI DSS v4.0.1 Prioritized Approach Subset",
+      "last-modified": "2025-01-01T00:00:00Z",
+      "version": "4.0.1",
+      "oscal-version": "1.0.0"
+    },
+    "groups": [
+      {
+        "id": "req-1",
+        "title": "Requirement 1: Install and Maintain Network Security Controls",
+        "controls": [
+          {
+            "id": "pci-1-1-1",
+            "title": "PCI DSS 1.1.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "1.1.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-1-1-1_smt",
+                "name": "statement",
+                "prose": "All security policies and operational procedures that are identified in Requirement 1 are: \n\u2022\t Documented.\n\u2022\t Kept up to date.\n\u2022\t In use.\n\u2022\t Known to all affected parties."
+              }
+            ]
+          },
+          {
+            "id": "pci-1-1-2",
+            "title": "PCI DSS 1.1.2",
+            "props": [
+              {
+                "name": "label",
+                "value": "1.1.2"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-1-1-2_smt",
+                "name": "statement",
+                "prose": "Roles and responsibilities for performing activities in Requirement 1 are documented, assigned, and understood."
+              }
+            ]
+          },
+          {
+            "id": "pci-1-2-1",
+            "title": "PCI DSS 1.2.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "1.2.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-1-2-1_smt",
+                "name": "statement",
+                "prose": "Configuration standards for NSC rulesets are:\n\u2022\t Defined.\n\u2022\t Implemented.\n\u2022\t Maintained."
+              }
+            ]
+          },
+          {
+            "id": "pci-1-2-2",
+            "title": "PCI DSS 1.2.2",
+            "props": [
+              {
+                "name": "label",
+                "value": "1.2.2"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-1-2-2_smt",
+                "name": "statement",
+                "prose": "All changes to network connections and to configurations of NSCs are approved and managed in accordance with the change control process defined at Requirement 6.5.1."
+              }
+            ]
+          },
+          {
+            "id": "pci-1-2-3",
+            "title": "PCI DSS 1.2.3",
+            "props": [
+              {
+                "name": "label",
+                "value": "1.2.3"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-1-2-3_smt",
+                "name": "statement",
+                "prose": "An accurate network diagram(s) is maintained that shows all connections between the CDE and other networks, including any wireless networks."
+              }
+            ]
+          },
+          {
+            "id": "pci-1-2-4",
+            "title": "PCI DSS 1.2.4",
+            "props": [
+              {
+                "name": "label",
+                "value": "1.2.4"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-1-2-4_smt",
+                "name": "statement",
+                "prose": "An accurate data-flow diagram(s) is maintained that meets the following:  \n\u2022\t Shows all account data flows across systems and networks.\n\u2022\t Updated as needed upon changes to the environment."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "req-3",
+        "title": "Requirement 3: Protect Stored Account Data",
+        "controls": [
+          {
+            "id": "pci-3-1-1",
+            "title": "PCI DSS 3.1.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "3.1.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-3-1-1_smt",
+                "name": "statement",
+                "prose": "All security policies and operational procedures that are identified in Requirement 3 are: \n\u2022\tDocumented. \n\u2022\tKept up to date. \n\u2022\tIn use.\n\u2022\tKnown to all affected parties."
+              }
+            ]
+          },
+          {
+            "id": "pci-3-1-2",
+            "title": "PCI DSS 3.1.2",
+            "props": [
+              {
+                "name": "label",
+                "value": "3.1.2"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-3-1-2_smt",
+                "name": "statement",
+                "prose": "Roles and responsibilities for performing activities in Requirement 3 are documented, assigned, and understood."
+              }
+            ]
+          },
+          {
+            "id": "pci-3-2-1",
+            "title": "PCI DSS 3.2.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "3.2.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-3-2-1_smt",
+                "name": "statement",
+                "prose": "Account data storage is kept to a minimum through implementation of data retention and disposal policies, procedures, and processes that include at least the following:\n\u2022\t Coverage for all locations of stored account data.\n\u2022\t Coverage for any sensitive authentication data (SAD) stored prior to completion of authorization. This bullet is a best practice until its effective date; refer to"
+              }
+            ]
+          },
+          {
+            "id": "pci-3-3-1",
+            "title": "PCI DSS 3.3.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "3.3.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-3-3-1_smt",
+                "name": "statement",
+                "prose": "SAD is not stored after authorization, even if encrypted. All sensitive authentication data received is rendered unrecoverable upon completion of the authorization process"
+              }
+            ]
+          },
+          {
+            "id": "pci-3-3-1-1",
+            "title": "PCI DSS 3.3.1.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "3.3.1.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-3-3-1-1_smt",
+                "name": "statement",
+                "prose": "The full contents of any track are not stored upon completion of the authorization process."
+              }
+            ]
+          },
+          {
+            "id": "pci-3-3-1-2",
+            "title": "PCI DSS 3.3.1.2",
+            "props": [
+              {
+                "name": "label",
+                "value": "3.3.1.2"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-3-3-1-2_smt",
+                "name": "statement",
+                "prose": "The card verification code is not stored upon completion of the authorization process."
+              }
+            ]
+          },
+          {
+            "id": "pci-3-3-1-3",
+            "title": "PCI DSS 3.3.1.3",
+            "props": [
+              {
+                "name": "label",
+                "value": "3.3.1.3"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-3-3-1-3_smt",
+                "name": "statement",
+                "prose": "The personal identification number (PIN) and the PIN block are not stored upon completion of the authorization process."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "req-6",
+        "title": "Requirement 6: Develop and Maintain Secure Systems and Software",
+        "controls": [
+          {
+            "id": "pci-6-1-1",
+            "title": "PCI DSS 6.1.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "6.1.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-6-1-1_smt",
+                "name": "statement",
+                "prose": "All security policies and operational procedures that are identified in Requirement 6 are:\n\u2022\t Documented.\n\u2022\t Kept up to date.\n\u2022\t In use.\n\u2022\t Known to all affected parties."
+              }
+            ]
+          },
+          {
+            "id": "pci-6-1-2",
+            "title": "PCI DSS 6.1.2",
+            "props": [
+              {
+                "name": "label",
+                "value": "6.1.2"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-6-1-2_smt",
+                "name": "statement",
+                "prose": "Roles and responsibilities for performing activities in Requirement 6 are documented, assigned, and understood. \nNew requirement - effective immediately"
+              }
+            ]
+          },
+          {
+            "id": "pci-6-2-1",
+            "title": "PCI DSS 6.2.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "6.2.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-6-2-1_smt",
+                "name": "statement",
+                "prose": "Bespoke and custom software are developed securely, as follows:\n\u2022\t Based on industry standards and/or best practices for secure development. \n\u2022\t In accordance with PCI DSS (for example, secure authentication and logging). \n\u2022\t Incorporating consideration of information security issues during each stage of the software development lifecycle."
+              }
+            ]
+          },
+          {
+            "id": "pci-6-2-2",
+            "title": "PCI DSS 6.2.2",
+            "props": [
+              {
+                "name": "label",
+                "value": "6.2.2"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-6-2-2_smt",
+                "name": "statement",
+                "prose": "Software development personnel working on bespoke and custom software are trained at least once every 12 months as follows: \n\u2022\t On software security relevant to their job function and development languages.\n\u2022\t Including secure software design and secure coding techniques.\n\u2022\t Including, if security testing tools are used, how to use the tools for detecting vulnerabilities in software."
+              }
+            ]
+          },
+          {
+            "id": "pci-6-2-3",
+            "title": "PCI DSS 6.2.3",
+            "props": [
+              {
+                "name": "label",
+                "value": "6.2.3"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-6-2-3_smt",
+                "name": "statement",
+                "prose": "Bespoke and custom software is reviewed prior to being released into production or to customers, to identify and correct potential coding vulnerabilities, as follows:\n\u2022\t Code reviews ensure code is developed according to secure coding guidelines.\n\u2022\t Code reviews look for both existing and emerging software vulnerabilities.\n\u2022\t Appropriate corrections are implemented prior to release."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "req-8",
+        "title": "Requirement 8: Identify Users and Authenticate Access to System Components",
+        "controls": [
+          {
+            "id": "pci-8-1-1",
+            "title": "PCI DSS 8.1.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "8.1.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-8-1-1_smt",
+                "name": "statement",
+                "prose": "All security policies and operational procedures that are identified in Requirement 8 are:\n\u2022\t Documented.\n\u2022\t Kept up to date.\n\u2022\t In use.\n\u2022\t Known to all affected parties."
+              }
+            ]
+          },
+          {
+            "id": "pci-8-1-2",
+            "title": "PCI DSS 8.1.2",
+            "props": [
+              {
+                "name": "label",
+                "value": "8.1.2"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-8-1-2_smt",
+                "name": "statement",
+                "prose": "Roles and responsibilities for performing activities in Requirement 8 are documented, assigned, and understood."
+              }
+            ]
+          },
+          {
+            "id": "pci-8-2-1",
+            "title": "PCI DSS 8.2.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "8.2.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-8-2-1_smt",
+                "name": "statement",
+                "prose": "All users are assigned a unique ID before access to system components or cardholder data is allowed."
+              }
+            ]
+          },
+          {
+            "id": "pci-8-2-2",
+            "title": "PCI DSS 8.2.2",
+            "props": [
+              {
+                "name": "label",
+                "value": "8.2.2"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-8-2-2_smt",
+                "name": "statement",
+                "prose": "Group, shared, or generic IDs, or other shared authentication credentials are only used when necessary on an exception basis, and are managed as follows:\n\u2022\t ID use is prevented unless needed for an exceptional circumstance.\n\u2022\t Use is limited to the time needed for the exceptional circumstance.\n\u2022\t Business justification for use is documented.\n\u2022\t Use is explicitly approved by management. \n\u2022\t Individual user identity is confirmed before access to an account is granted.\n\u2022\t Every action taken is attributable to an individual user."
+              }
+            ]
+          },
+          {
+            "id": "pci-8-2-3",
+            "title": "PCI DSS 8.2.3",
+            "props": [
+              {
+                "name": "label",
+                "value": "8.2.3"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-8-2-3_smt",
+                "name": "statement",
+                "prose": "Additional requirement for service providers only: Service providers with remote access to customer premises use unique authentication factors for each customer premises."
+              }
+            ]
+          },
+          {
+            "id": "pci-8-2-4",
+            "title": "PCI DSS 8.2.4",
+            "props": [
+              {
+                "name": "label",
+                "value": "8.2.4"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-8-2-4_smt",
+                "name": "statement",
+                "prose": "Addition, deletion, and modification of user IDs, authentication factors, and other identifier objects are managed as follows:\n\u2022\t Authorized with the appropriate approval.\n\u2022\t Implemented with only the privileges specified on the documented approval."
+              }
+            ]
+          },
+          {
+            "id": "pci-8-2-5",
+            "title": "PCI DSS 8.2.5",
+            "props": [
+              {
+                "name": "label",
+                "value": "8.2.5"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-8-2-5_smt",
+                "name": "statement",
+                "prose": "Access for terminated users is immediately revoked"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "req-12",
+        "title": "Requirement 12: Support information security with organizational policies and programs",
+        "controls": [
+          {
+            "id": "pci-12-1-1",
+            "title": "PCI DSS 12.1.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "12.1.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-12-1-1_smt",
+                "name": "statement",
+                "prose": "An overall information security policy is: \n\u2022\t Established.\n\u2022\t Published.\n\u2022\t Maintained.\n\u2022\t Disseminated to all relevant personnel, as well as to relevant vendors and business partners."
+              }
+            ]
+          },
+          {
+            "id": "pci-12-1-2",
+            "title": "PCI DSS 12.1.2",
+            "props": [
+              {
+                "name": "label",
+                "value": "12.1.2"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-12-1-2_smt",
+                "name": "statement",
+                "prose": "The information security policy is:\n\u2022\t Reviewed at least once every 12 months.\n\u2022\t Updated as needed to reflect changes to business objectives or risks to the environment."
+              }
+            ]
+          },
+          {
+            "id": "pci-12-1-3",
+            "title": "PCI DSS 12.1.3",
+            "props": [
+              {
+                "name": "label",
+                "value": "12.1.3"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-12-1-3_smt",
+                "name": "statement",
+                "prose": "The security policy clearly defines information security roles and responsibilities for all personnel, and all personnel are aware and acknowledge their information security responsibilities."
+              }
+            ]
+          },
+          {
+            "id": "pci-12-1-4",
+            "title": "PCI DSS 12.1.4",
+            "props": [
+              {
+                "name": "label",
+                "value": "12.1.4"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-12-1-4_smt",
+                "name": "statement",
+                "prose": "Responsibility for information security is formally assigned to a Chief Information Security Officer or other information security knowledgeable member of executive management."
+              }
+            ]
+          },
+          {
+            "id": "pci-12-2-1",
+            "title": "PCI DSS 12.2.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "12.2.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-12-2-1_smt",
+                "name": "statement",
+                "prose": "Acceptable use policies for end-user technologies are documented and implemented, including:\n\u2022\t Explicit approval by authorized parties.\n\u2022\t Acceptable uses of the technology.\n\u2022\t List of products approved by the company for employee use, including hardware and software."
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

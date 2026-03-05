@@ -23,11 +23,53 @@ from ctrlmap.parse.extractor import TextBlock
 # Sentence-splitting pattern: split on ". ", "! ", "? " but not abbreviations
 _SENTENCE_SPLIT = re.compile(r"(?<=[.!?])\s+")
 
-# Header detection: lines matching common section prefixes
+# Header detection: lines matching common section prefixes.
+# Matches formats like:
+#   "Section 1: Access Control"      (keyword + number + separator)
+#   "1  Purpose and Scope"           (number + spaces + title)
+#   "2.1  Unique User Identification" (dotted number + spaces + title)
+#   "APPENDIX A — Glossary"          (keyword + letter + separator)
 _HEADER_PATTERN = re.compile(
-    r"^(Section\s+\d+|Chapter\s+\d+|Part\s+\d+|APPENDIX\s+[A-Z]|\d+\.\d*)\s*[:\-—]\s*",
+    r"^(?:"
+    r"(?:Section|Chapter|Part)\s+\d+"  # "Section 1", "Chapter 2"
+    r"|APPENDIX\s+[A-Z]"  # "APPENDIX A"
+    r"|\d+(?:\.\d+)*"  # "1", "2.1", "3.1.2"
+    r")"
+    r"(?:\s*[:\-—]\s*|\s{2,})"  # separator: colon/dash/emdash OR 2+ spaces
+    r"\S",  # must be followed by at least one non-space char (the title)
     re.IGNORECASE,
 )
+
+# Boilerplate detection: page headers, footers, cover-page text
+_BOILERPLATE_PATTERN = re.compile(
+    r"^(?:"
+    r"Page\s+\d+\s*/\s*\d+"  # "Page 1/3"
+    r"|Page\s+\d+"  # "Page 1"
+    r"|Version\s+[\d.]+"  # "Version 3.1"
+    r"|Classification:\s+"  # "Classification: Internal"
+    r"|CONFIDENTIAL$"  # standalone "CONFIDENTIAL"
+    r"|This document is the property"  # legal disclaimer
+    r"|Unauthorized\s+distribut"  # "Unauthorized distribution..."
+    r"|Effective:\s+"  # "Effective: January 15, 2025"
+    r")",
+    re.IGNORECASE,
+)
+
+
+def _is_boilerplate(text: str, *, all_texts: list[str] | None = None) -> bool:
+    """Detect page headers, footers, and repeated boilerplate text.
+
+    Args:
+        text: Stripped block text.
+        all_texts: Optional list of all block texts for repetition detection.
+
+    Returns:
+        True if the block appears to be boilerplate.
+    """
+    if _BOILERPLATE_PATTERN.match(text):
+        return True
+    # Repeated text appearing on multiple pages (e.g., running headers)
+    return all_texts is not None and all_texts.count(text) >= 2
 
 
 @dataclass
@@ -49,8 +91,83 @@ class StructuralSection:
 # --- Phase 1: Structural Chunking ---
 
 
+def _join_paragraph_blocks(blocks: list[TextBlock]) -> list[TextBlock]:
+    """Join consecutive body-text blocks that belong to the same paragraph.
+
+    PyMuPDF's ``get_text("blocks")`` returns each visual line as a separate
+    block. This function merges vertically adjacent lines on the same page
+    into a single block so that sentence splitting operates on complete
+    paragraphs rather than partial lines.
+
+    Heuristics for same-paragraph:
+      * Same page number
+      * Left edge within 5 pts (same column)
+      * Vertical gap <= 1.5x line height (continuous text flow)
+      * Neither block matches a header pattern
+
+    Args:
+        blocks: Ordered text blocks from the extractor.
+
+    Returns:
+        A new list of TextBlock instances with paragraph-level text.
+    """
+    if not blocks:
+        return []
+
+    # Build text list for repetition detection (page headers repeat)
+    all_texts = [b.text.strip() for b in blocks]
+
+    # Filter out boilerplate blocks before merging
+    filtered: list[TextBlock] = []
+    for block in blocks:
+        text = block.text.strip()
+        if text and not _is_boilerplate(text, all_texts=all_texts):
+            filtered.append(block)
+
+    if not filtered:
+        return []
+
+    merged: list[TextBlock] = []
+    current = filtered[0]
+
+    for next_block in filtered[1:]:
+        cur_text = current.text.strip()
+        nxt_text = next_block.text.strip()
+
+        # Check if these blocks should merge
+        same_page = current.page_number == next_block.page_number
+        same_column = abs(current.x0 - next_block.x0) < 5.0
+        line_height = current.y1 - current.y0
+        gap = next_block.y0 - current.y1
+        adjacent = 0 <= gap <= max(line_height * 1.5, 20.0)
+        cur_is_header = bool(_HEADER_PATTERN.match(cur_text))
+        nxt_is_header = bool(_HEADER_PATTERN.match(nxt_text))
+
+        if same_page and same_column and adjacent and not cur_is_header and not nxt_is_header:
+            # Merge: extend current block's text and bounding box
+            separator = " " if cur_text and not cur_text.endswith(" ") else ""
+            joined_text = cur_text + separator + nxt_text
+            current = TextBlock(
+                x0=min(current.x0, next_block.x0),
+                y0=current.y0,
+                x1=max(current.x1, next_block.x1),
+                y1=next_block.y1,
+                text=joined_text,
+                page_number=current.page_number,
+            )
+        else:
+            merged.append(current)
+            current = next_block
+
+    merged.append(current)
+    return merged
+
+
 def structural_chunk(blocks: list[TextBlock]) -> list[StructuralSection]:
     """Split text blocks into sections based on header detection.
+
+    Before splitting, consecutive body-text blocks are joined into
+    paragraphs to prevent mid-sentence chunking boundaries.
 
     Args:
         blocks: Ordered text blocks from the extractor.
@@ -60,6 +177,9 @@ def structural_chunk(blocks: list[TextBlock]) -> list[StructuralSection]:
     """
     if not blocks:
         return []
+
+    # Join consecutive visual lines into full paragraphs
+    blocks = _join_paragraph_blocks(blocks)
 
     sections: list[StructuralSection] = []
     current_header: str | None = None
@@ -182,6 +302,85 @@ def semantic_chunk(
 # --- Full Pipeline ---
 
 
+def _merge_short_chunks(chunks: list[str], *, min_length: int = 50) -> list[str]:
+    """Merge chunks shorter than *min_length* into their nearest neighbor.
+
+    Walks the list front-to-back.  If a chunk is shorter than the
+    threshold it is appended to the **previous** chunk (or prepended to
+    the **next** one if it is the first item).  This preserves short
+    sentences as context instead of dropping them.
+
+    Args:
+        chunks: Ordered list of text chunks from the semantic chunker.
+        min_length: Minimum acceptable chunk length in characters.
+
+    Returns:
+        A new list with short fragments folded into neighbors.
+    """
+    if not chunks:
+        return []
+
+    merged: list[str] = []
+
+    for chunk in chunks:
+        if merged and len(chunk) < min_length:
+            # Fold into the previous chunk
+            merged[-1] = merged[-1] + " " + chunk
+        else:
+            merged.append(chunk)
+
+    # Edge case: if the *first* entry is still short, fold it forward
+    if len(merged) > 1 and len(merged[0]) < min_length:
+        merged[1] = merged[0] + " " + merged[1]
+        merged.pop(0)
+
+    return merged
+
+
+def _heal_sentence_boundaries(chunks: list[str]) -> list[str]:
+    """Join chunks that end mid-sentence with the following chunk.
+
+    After semantic chunking + short-chunk merging, some chunks may still
+    end mid-sentence because the semantic similarity split happened
+    within a paragraph.  This pass detects chunks whose text does not
+    end with sentence-terminal punctuation (. ! ?) and merges them
+    forward into the next chunk — but **only** when the next chunk
+    starts with a lowercase letter or digit, indicating a true sentence
+    continuation rather than a new control topic.
+
+    Args:
+        chunks: Ordered list of text chunks.
+
+    Returns:
+        A new list with sentence boundaries healed.
+    """
+    if not chunks:
+        return []
+
+    healed: list[str] = []
+
+    for chunk in chunks:
+        text = chunk.strip()
+        if not text:
+            continue
+
+        prev_ends_mid = (
+            healed
+            and healed[-1].strip()
+            and healed[-1].strip()[-1] not in ".!?"
+        )
+        # Only merge if this chunk starts with a lowercase letter or
+        # digit — a strong signal it continues the previous sentence.
+        starts_continuation = text[0].islower() or text[0].isdigit()
+
+        if prev_ends_mid and starts_continuation:
+            healed[-1] = healed[-1].rstrip() + " " + text
+        else:
+            healed.append(text)
+
+    return healed
+
+
 def chunk_document(
     blocks: list[TextBlock],
     *,
@@ -207,7 +406,16 @@ def chunk_document(
             similarity_threshold=similarity_threshold,
         )
 
-        for chunk_text in sem_chunks:
+        # Merge short chunks into neighbors instead of dropping them
+        merged = _merge_short_chunks(sem_chunks, min_length=50)
+
+        # Heal chunks that end mid-sentence by joining with the next chunk
+        healed = _heal_sentence_boundaries(merged)
+
+        for chunk_text in healed:
+            # Final guard — skip anything still too short after merging
+            if len(chunk_text) < 50:
+                continue
             parsed_chunks.append(
                 ParsedChunk(
                     chunk_id=str(uuid.uuid4()),

@@ -68,7 +68,9 @@ class TestEvalCommand:
                 chunk_id="chunk-enc-001",
                 document_name="policy.pdf",
                 page_number=5,
-                raw_text="All data at rest must be encrypted using AES-256.",
+                raw_text=(
+                    "All data at rest must be encrypted using AES-256 or equivalent standards."
+                ),
                 embedding=embedder.embed_text("All data at rest must be encrypted using AES-256."),
             ),
         ]

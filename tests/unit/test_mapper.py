@@ -95,6 +95,7 @@ class TestMappingAlgorithm:
             controls=sample_controls,
             store=populated_store,
             collection_name="chunks",
+            min_score=0.0,
         )
         assert len(results) == len(sample_controls)
         assert all(isinstance(r, MappedResult) for r in results)
@@ -112,6 +113,7 @@ class TestMappingAlgorithm:
             store=populated_store,
             collection_name="chunks",
             top_k=3,
+            min_score=0.0,
         )
         # For the encryption control (SC-28), the encryption chunk should rank highest
         sc28_result = next(r for r in results if r.control.control_id == "SC-28")
@@ -132,6 +134,7 @@ class TestMappingAlgorithm:
             store=populated_store,
             collection_name="chunks",
             top_k=1,
+            min_score=0.0,
         )
         for result in results:
             assert len(result.supporting_chunks) <= 1

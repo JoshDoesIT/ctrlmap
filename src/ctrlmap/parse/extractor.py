@@ -90,3 +90,45 @@ def extract_text_blocks(path: Path) -> list[TextBlock]:
     blocks.sort(key=lambda b: (b.page_number, b.y0))
 
     return blocks
+
+
+def extract_page_texts(path: Path) -> list[dict[str, str | int]]:
+    """Extract raw text per page from a PDF.
+
+    Unlike ``extract_text_blocks`` which returns individual blocks with
+    bounding-box metadata, this function returns the full concatenated
+    text for each page — suitable for LLM-based extraction where spatial
+    layout is not needed.
+
+    Args:
+        path: Path to the PDF file.
+
+    Returns:
+        A list of dicts with ``page_number`` (1-indexed int) and
+        ``text`` (str) keys.
+
+    Raises:
+        FileNotFoundError: If the file does not exist.
+    """
+    if not path.exists():
+        msg = f"PDF file not found: {path}"
+        raise FileNotFoundError(msg)
+
+    doc = fitz.open(str(path))
+    pages: list[dict[str, str | int]] = []
+
+    try:
+        for page_idx in range(len(doc)):
+            page = doc[page_idx]
+            text = page.get_text("text").strip()
+            if text:
+                pages.append(
+                    {
+                        "page_number": page_idx + 1,
+                        "text": text,
+                    }
+                )
+    finally:
+        doc.close()
+
+    return pages

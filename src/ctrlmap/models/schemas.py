@@ -33,7 +33,7 @@ class ParsedChunk(BaseModel):
     chunk_id: str
     document_name: str
     page_number: int = Field(ge=1)
-    raw_text: str = Field(min_length=10)
+    raw_text: str = Field(min_length=50)
     section_header: str | None = None
     embedding: list[float] | None = None
 

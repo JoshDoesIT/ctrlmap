@@ -156,8 +156,13 @@ class TestMapCommand:
             patch("ctrlmap.map.map_command.map_controls", return_value=[mock_result]),
             patch("ctrlmap.map.map_command.VectorStore"),
             patch("ctrlmap.map.map_command.generate_rationale") as mock_gen,
+            patch("ctrlmap.llm.client.OllamaClient") as mock_ollama_cls,
         ):
             from ctrlmap.models.schemas import MappingRationale
+
+            # Mock the relevance checker to approve all chunks
+            mock_client = mock_ollama_cls.return_value
+            mock_client.verify_chunk_relevance.return_value = True
 
             mock_gen.return_value = MappingRationale(
                 is_compliant=True,

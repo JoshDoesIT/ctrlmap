@@ -19,16 +19,17 @@ from ctrlmap.models.schemas import (
 
 
 def format_markdown(results: list[MappedResult]) -> str:
-    """Format mapping results as a Markdown table.
+    """Format mapping results as Markdown with one section per control.
 
-    Produces a structured table with columns for control ID, framework,
-    title, supporting chunks, and rationale.
+    Each control gets its own heading with verdict, rationale, and an
+    evidence table showing source document, page, section, and a text
+    excerpt for each supporting chunk.
 
     Args:
         results: List of MappedResult objects to format.
 
     Returns:
-        A Markdown string containing the formatted table.
+        A Markdown string containing the formatted report.
     """
     lines: list[str] = []
     lines.append("# Compliance Mapping Results")
@@ -38,24 +39,40 @@ def format_markdown(results: list[MappedResult]) -> str:
         lines.append("No mapping results to display.")
         return "\n".join(lines) + "\n"
 
-    # Table header
-    lines.append("| Control ID | Framework | Title | Supporting Chunks | Rationale |")
-    lines.append("|------------|-----------|-------|-------------------|-----------|")
-
     for result in results:
-        control = result.control
-        chunk_ids = ", ".join(c.chunk_id for c in result.supporting_chunks)
-        rationale_text = _format_rationale(result.rationale)
+        ctrl = result.control
+        verdict, rationale_text = _format_rationale(result.rationale)
 
-        lines.append(
-            f"| {control.control_id} "
-            f"| {control.framework} "
-            f"| {control.title} "
-            f"| {chunk_ids} "
-            f"| {rationale_text} |"
-        )
+        # Control heading
+        lines.append(f"## {ctrl.control_id} — {ctrl.title}")
+        lines.append("")
+        lines.append(f"**Framework:** {ctrl.framework} | **Verdict:** {verdict}")
+        lines.append("")
 
-    lines.append("")
+        # Rationale
+        if rationale_text:
+            lines.append(f"**Rationale:** {rationale_text}")
+            lines.append("")
+
+        # Evidence table
+        if result.supporting_chunks:
+            lines.append("**Supporting Evidence:**")
+            lines.append("")
+            lines.append("| # | Source | Page | Section | Excerpt |")
+            lines.append("|---|--------|------|---------|---------|")
+
+            for i, chunk in enumerate(result.supporting_chunks, 1):
+                source = chunk.document_name
+                page = chunk.page_number
+                section = chunk.section_header or "—"
+                excerpt = _truncate(chunk.raw_text, 120)
+                lines.append(f"| {i} | {source} | {page} | {section} | {excerpt} |")
+
+            lines.append("")
+
+        lines.append("---")
+        lines.append("")
+
     return "\n".join(lines) + "\n"
 
 
@@ -72,14 +89,28 @@ def export_markdown(results: list[MappedResult], path: Path) -> None:
 
 def _format_rationale(
     rationale: MappingRationale | InsufficientEvidence | None,
-) -> str:
-    """Format a union-type rationale for display in Markdown."""
+) -> tuple[str, str]:
+    """Format a union-type rationale into a verdict badge and explanation.
+
+    Returns:
+        A tuple of (verdict_string, explanation_string).
+    """
     if rationale is None:
-        return "N/A"
+        return ("N/A", "")
     if isinstance(rationale, MappingRationale):
+        icon = "\u2705" if rationale.is_compliant else "\u26a0\ufe0f"
         status = "Compliant" if rationale.is_compliant else "Non-compliant"
-        return f"{status} ({rationale.confidence_score:.2f}): {rationale.explanation}"
-    return f"Insufficient evidence: {rationale.reason}"
+        verdict = f"{icon} {status} ({rationale.confidence_score:.2f})"
+        return (verdict, rationale.explanation)
+    return ("Insufficient evidence", rationale.reason)
+
+
+def _truncate(text: str, max_len: int = 120) -> str:
+    """Truncate text to max_len characters, adding ellipsis if needed."""
+    text = text.replace("\n", " ").strip()
+    if len(text) <= max_len:
+        return text
+    return text[: max_len - 3] + "..."
 
 
 def _atomic_write(path: Path, content: str) -> None:

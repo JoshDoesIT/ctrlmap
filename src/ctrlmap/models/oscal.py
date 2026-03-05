@@ -17,6 +17,11 @@ from ctrlmap.models.schemas import SecurityControl
 def parse_oscal_catalog(path: Path) -> list[SecurityControl]:
     """Parse an OSCAL JSON catalog file into SecurityControl instances.
 
+    Detects the framework name from the catalog metadata title:
+    - Titles containing '800-53' → ``NIST-800-53``
+    - Titles containing 'PCI' → ``PCI-DSS``
+    - Otherwise → the raw metadata title
+
     Args:
         path: Path to an OSCAL JSON catalog file.
 
@@ -35,17 +40,29 @@ def parse_oscal_catalog(path: Path) -> list[SecurityControl]:
         raise ValueError(msg)
 
     catalog = data["catalog"]
+    framework = _detect_framework(catalog)
     controls: list[SecurityControl] = []
 
     for group in catalog.get("groups", []):
-        _extract_controls(group.get("controls", []), controls)
+        _extract_controls(group.get("controls", []), controls, framework)
 
     return controls
+
+
+def _detect_framework(catalog: dict[str, Any]) -> str:
+    """Detect the framework name from OSCAL catalog metadata title."""
+    title = catalog.get("metadata", {}).get("title", "")
+    if "800-53" in title:
+        return "NIST-800-53"
+    if "PCI" in title.upper():
+        return "PCI-DSS"
+    return title
 
 
 def _extract_controls(
     raw_controls: list[dict[str, Any]],
     output: list[SecurityControl],
+    framework: str,
 ) -> None:
     """Recursively extract controls and their enhancements."""
     for ctrl in raw_controls:
@@ -56,7 +73,7 @@ def _extract_controls(
         output.append(
             SecurityControl(
                 control_id=label,
-                framework="NIST-800-53",
+                framework=framework,
                 title=title,
                 description=description,
             )
@@ -64,7 +81,7 @@ def _extract_controls(
 
         # Recurse into control enhancements (nested controls)
         for enhancement in ctrl.get("controls", []):
-            _extract_controls([enhancement], output)
+            _extract_controls([enhancement], output, framework)
 
 
 def _get_label(ctrl: dict[str, Any]) -> str:
