@@ -48,7 +48,7 @@ def sample_results() -> list[MappedResult]:
         chunk_id="chunk-002",
         document_name="policy.pdf",
         page_number=5,
-        raw_text="All data at rest must be encrypted using AES-256.",
+        raw_text="All data at rest must be encrypted using AES-256 or equivalent standards.",
         section_header="Encryption",
     )
     return [
@@ -141,19 +141,66 @@ class TestCsvExport:
 class TestMarkdownExport:
     """Markdown export formatter tests."""
 
-    def test_markdown_export_produces_valid_table(self, sample_results: list[MappedResult]) -> None:
-        """Markdown output contains a structured table with expected columns."""
+    def test_markdown_export_uses_section_per_control(
+        self, sample_results: list[MappedResult]
+    ) -> None:
+        """Markdown output uses a heading per control instead of one flat table."""
         from ctrlmap.export.markdown_formatter import format_markdown
 
         md_output = format_markdown(sample_results)
 
-        # Should contain table header markers
-        assert "| Control ID" in md_output
-        assert "| Framework" in md_output or "Framework" in md_output
-        assert "| Title" in md_output or "Title" in md_output
-        # Should contain data
-        assert "AC-1" in md_output
-        assert "SC-28" in md_output
+        # Each control gets its own ## heading
+        assert "## AC-1" in md_output
+        assert "## SC-28" in md_output
+
+    def test_markdown_export_shows_verdict_and_rationale(
+        self, sample_results: list[MappedResult]
+    ) -> None:
+        """Markdown output includes the compliance verdict and rationale text."""
+        from ctrlmap.export.markdown_formatter import format_markdown
+
+        md_output = format_markdown(sample_results)
+
+        assert "Compliant" in md_output
+        assert "0.92" in md_output
+        assert "Policy directly addresses" in md_output
+        assert "Insufficient evidence" in md_output.lower() or "Insufficient" in md_output
+
+    def test_markdown_export_shows_document_name_not_uuid(
+        self, sample_results: list[MappedResult]
+    ) -> None:
+        """Evidence table shows document names instead of raw UUIDs."""
+        from ctrlmap.export.markdown_formatter import format_markdown
+
+        md_output = format_markdown(sample_results)
+
+        # Should show the human-readable source document name
+        assert "policy.pdf" in md_output
+        # Should NOT show raw chunk UUIDs
+        assert "chunk-001" not in md_output
+        assert "chunk-002" not in md_output
+
+    def test_markdown_export_shows_page_and_section(
+        self, sample_results: list[MappedResult]
+    ) -> None:
+        """Evidence table includes page numbers and section headers."""
+        from ctrlmap.export.markdown_formatter import format_markdown
+
+        md_output = format_markdown(sample_results)
+
+        assert "Page" in md_output or "page" in md_output
+        assert "Access Control" in md_output
+        assert "Encryption" in md_output
+
+    def test_markdown_export_shows_text_excerpt(self, sample_results: list[MappedResult]) -> None:
+        """Evidence table includes a text excerpt from each chunk."""
+        from ctrlmap.export.markdown_formatter import format_markdown
+
+        md_output = format_markdown(sample_results)
+
+        # Should see part of the raw_text (truncated or full)
+        assert "access control policies" in md_output.lower()
+        assert "encrypted using AES-256" in md_output
 
     def test_markdown_export_handles_empty_results(self, empty_results: list[MappedResult]) -> None:
         """Markdown export with no results produces a header-only table or message."""
@@ -161,7 +208,6 @@ class TestMarkdownExport:
 
         md_output = format_markdown(empty_results)
 
-        # Should still produce valid output (not crash)
         assert isinstance(md_output, str)
         assert len(md_output) > 0
 
@@ -261,7 +307,7 @@ class TestExportEdgeCases:
                         chunk_id="chunk-003",
                         document_name="doc.pdf",
                         page_number=1,
-                        raw_text="Accounts are managed centrally by IT department.",
+                        raw_text="Accounts are managed centrally by the IT department team.",
                     ),
                 ],
                 rationale=None,
@@ -275,3 +321,94 @@ class TestExportEdgeCases:
         assert "AC-2" in csv_output
         assert "AC-2" in md_output
         assert isinstance(oscal_output, dict)
+
+
+class TestHtmlExport:
+    """HTML report formatter tests."""
+
+    def test_html_export_produces_valid_html(self, sample_results: list[MappedResult]) -> None:
+        """HTML output contains a complete HTML document with expected structure."""
+        from ctrlmap.export.html_formatter import format_html
+
+        html_output = format_html(sample_results)
+
+        assert "<!DOCTYPE html>" in html_output
+        assert "</html>" in html_output
+        assert "<style>" in html_output
+
+    def test_html_export_shows_control_ids(self, sample_results: list[MappedResult]) -> None:
+        """HTML output contains the control IDs."""
+        from ctrlmap.export.html_formatter import format_html
+
+        html_output = format_html(sample_results)
+
+        assert "AC-1" in html_output
+        assert "SC-28" in html_output
+
+    def test_html_export_shows_document_name_not_uuid(
+        self, sample_results: list[MappedResult]
+    ) -> None:
+        """HTML evidence shows document names instead of raw UUIDs."""
+        from ctrlmap.export.html_formatter import format_html
+
+        html_output = format_html(sample_results)
+
+        assert "policy.pdf" in html_output
+        assert "chunk-001" not in html_output
+        assert "chunk-002" not in html_output
+
+    def test_html_export_shows_evidence_details(self, sample_results: list[MappedResult]) -> None:
+        """HTML evidence includes page numbers, section headers, and text excerpts."""
+        from ctrlmap.export.html_formatter import format_html
+
+        html_output = format_html(sample_results)
+
+        assert "Access Control" in html_output
+        assert "Encryption" in html_output
+        assert "access control policies" in html_output.lower()
+
+    def test_html_export_handles_empty_results(self, empty_results: list[MappedResult]) -> None:
+        """HTML export with no results produces valid HTML."""
+        from ctrlmap.export.html_formatter import format_html
+
+        html_output = format_html(empty_results)
+
+        assert "<!DOCTYPE html>" in html_output
+        assert "No mapping results" in html_output
+
+    def test_html_export_writes_to_disk(
+        self, sample_results: list[MappedResult], tmp_path: Path
+    ) -> None:
+        """HTML export writes a self-contained file to disk."""
+        from ctrlmap.export.html_formatter import export_html
+
+        output_path = tmp_path / "report.html"
+        export_html(sample_results, output_path)
+
+        assert output_path.exists()
+        content = output_path.read_text(encoding="utf-8")
+        assert "AC-1" in content
+
+    def test_html_export_has_tab_navigation(self, sample_results: list[MappedResult]) -> None:
+        """HTML report has tabs for Framework Gap and Policy Coverage views."""
+        from ctrlmap.export.html_formatter import format_html
+
+        html_output = format_html(sample_results)
+
+        assert "Framework Gap" in html_output or "framework-gap" in html_output
+        assert "Policy Coverage" in html_output or "policy-coverage" in html_output
+
+    def test_html_export_policy_view_groups_by_document(
+        self, sample_results: list[MappedResult]
+    ) -> None:
+        """Policy coverage view groups evidence by source document."""
+        from ctrlmap.export.html_formatter import format_html
+
+        html_output = format_html(sample_results)
+
+        # The policy view should have the document names as section headings
+        # and show which controls each chunk maps to
+        assert "policy.pdf" in html_output
+        # Controls should appear in the policy view context
+        assert "AC-1" in html_output
+        assert "SC-28" in html_output

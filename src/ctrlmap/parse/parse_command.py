@@ -1,11 +1,16 @@
 """Parse subcommand for the ctrlmap CLI.
 
-Wires the extraction → heuristics → chunking pipeline and outputs
+Wires the extraction → chunking pipeline and outputs
 a `.jsonl` file of serialized ``ParsedChunk`` objects.
+
+Supports three strategies:
+  - ``semantic`` (default): Heuristic structural + semantic similarity chunking.
+  - ``fixed``: Simple character-based splitting.
+  - ``llm``: LLM-based control extraction via local Ollama.
 
 Usage::
 
-    ctrlmap parse --input <path> --output <path> [--strategy semantic|fixed] [--chunk-size <int>]
+    ctrlmap parse --input <path> --output <path> [--strategy semantic|fixed|llm]
 
 Ref: GitHub Issue #9.
 """
@@ -20,7 +25,7 @@ from rich.console import Console
 
 from ctrlmap.models.schemas import ParsedChunk
 from ctrlmap.parse.chunker import chunk_document
-from ctrlmap.parse.extractor import TextBlock, extract_text_blocks
+from ctrlmap.parse.extractor import TextBlock, extract_page_texts, extract_text_blocks
 from ctrlmap.parse.heuristics import ElementRole, classify_block, order_blocks_by_columns
 
 console = Console()
@@ -31,6 +36,7 @@ class Strategy(StrEnum):
 
     SEMANTIC = "semantic"
     FIXED = "fixed"
+    LLM = "llm"
 
 
 def parse(
@@ -54,7 +60,7 @@ def parse(
         Strategy.SEMANTIC,
         "--strategy",
         "-s",
-        help="Chunking strategy: 'semantic' (default) or 'fixed'.",
+        help="Chunking strategy: 'semantic' (default), 'fixed', or 'llm'.",
     ),
     chunk_size: int = typer.Option(
         512,
@@ -63,32 +69,39 @@ def parse(
         help="Max chunk size in characters (only used with 'fixed' strategy).",
         min=50,
     ),
+    model: str = typer.Option(
+        "llama3",
+        "--model",
+        "-m",
+        help="Ollama model name (only used with 'llm' strategy).",
+    ),
 ) -> None:
     """Extract and chunk a PDF document into structured ParsedChunk JSONL."""
     console.print(f"[bold blue]Parsing:[/] {input_path.name}")
 
-    # Phase 1: Extract text blocks
-    blocks = extract_text_blocks(input_path)
-
-    if not blocks:
-        console.print("[yellow]No text blocks found in the PDF.[/]")
-        raise typer.Exit(code=0)
-
-    # Filter out headers/footers from the primary text
-    body_blocks = [b for b in blocks if classify_block(b) == ElementRole.BODY]
-
-    # Reorder for column-aware reading
-    ordered_blocks = order_blocks_by_columns(body_blocks)
-
-    # Phase 2: Chunk
-    if strategy == Strategy.SEMANTIC:
-        chunks = chunk_document(
-            ordered_blocks,
-            document_name=input_path.name,
-        )
+    if strategy == Strategy.LLM:
+        chunks = _llm_extract(input_path, model=model)
     else:
-        # Fixed-size chunking: simple character-based splitting
-        chunks = _fixed_chunk(ordered_blocks, input_path.name, chunk_size)
+        # Heuristic path: extract blocks → classify → chunk
+        blocks = extract_text_blocks(input_path)
+
+        if not blocks:
+            console.print("[yellow]No text blocks found in the PDF.[/]")
+            raise typer.Exit(code=0)
+
+        # Filter out headers/footers from the primary text
+        body_blocks = [b for b in blocks if classify_block(b) == ElementRole.BODY]
+
+        # Reorder for column-aware reading
+        ordered_blocks = order_blocks_by_columns(body_blocks)
+
+        if strategy == Strategy.SEMANTIC:
+            chunks = chunk_document(
+                ordered_blocks,
+                document_name=input_path.name,
+            )
+        else:
+            chunks = _fixed_chunk(ordered_blocks, input_path.name, chunk_size)
 
     # Write JSONL output
     output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -133,3 +146,30 @@ def _fixed_chunk(
             )
 
     return chunks
+
+
+def _llm_extract(input_path: Path, *, model: str) -> list[ParsedChunk]:
+    """Extract controls using LLM-based analysis via Ollama.
+
+    Args:
+        input_path: Path to the PDF file.
+        model: Ollama model name.
+
+    Returns:
+        A list of ``ParsedChunk`` instances.
+    """
+    from ctrlmap.parse.llm_chunker import extract_controls_with_llm
+
+    pages = extract_page_texts(input_path)
+    if not pages:
+        console.print("[yellow]No text found in the PDF.[/]")
+        return []
+
+    console.print(
+        f"[dim]LLM: Extracting controls from {len(pages)} pages with model '{model}'...[/]"
+    )
+    return extract_controls_with_llm(
+        pages,
+        document_name=input_path.name,
+        model=model,
+    )

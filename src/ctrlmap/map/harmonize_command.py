@@ -23,7 +23,7 @@ from ctrlmap.map.cluster import cluster_controls
 from ctrlmap.models.oscal import parse_oscal_catalog
 from ctrlmap.models.schemas import SecurityControl
 
-console = Console()
+console = Console(stderr=True)
 
 
 def harmonize(

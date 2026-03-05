@@ -64,3 +64,93 @@ class TestOscalParser:
             f.flush()
             with pytest.raises(ValueError, match="catalog"):
                 parse_oscal_catalog(Path(f.name))
+
+    def test_parse_oscal_detects_pci_dss_framework(self) -> None:
+        """Parser should detect 'PCI-DSS' framework from catalog metadata title."""
+        import json
+        import tempfile
+
+        from ctrlmap.models.oscal import parse_oscal_catalog
+
+        pci_catalog = {
+            "catalog": {
+                "uuid": "test-pci",
+                "metadata": {"title": "PCI DSS v4.0.1 Subset", "version": "4.0.1"},
+                "groups": [
+                    {
+                        "id": "req-1",
+                        "title": "Requirement 1",
+                        "controls": [
+                            {
+                                "id": "pci-1-1-1",
+                                "title": "PCI DSS 1.1.1",
+                                "props": [{"name": "label", "value": "1.1.1"}],
+                                "parts": [
+                                    {
+                                        "id": "pci-1-1-1_smt",
+                                        "name": "statement",
+                                        "prose": "Document security policies.",
+                                    }
+                                ],
+                            }
+                        ],
+                    }
+                ],
+            }
+        }
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as f:
+            json.dump(pci_catalog, f)
+            f.flush()
+            controls = parse_oscal_catalog(Path(f.name))
+
+        assert len(controls) == 1
+        assert controls[0].framework == "PCI-DSS"
+
+    def test_parse_oscal_detects_nist_framework(self) -> None:
+        """Parser should still detect 'NIST-800-53' for backward compatibility."""
+        from ctrlmap.models.oscal import parse_oscal_catalog
+
+        controls = parse_oscal_catalog(FIXTURE_DIR / "nist_800_53_subset.json")
+        for c in controls:
+            assert c.framework == "NIST-800-53"
+
+    def test_parse_oscal_uses_title_for_unknown_framework(self) -> None:
+        """Parser should use the raw title for unrecognized framework names."""
+        import json
+        import tempfile
+
+        from ctrlmap.models.oscal import parse_oscal_catalog
+
+        custom_catalog = {
+            "catalog": {
+                "uuid": "test-custom",
+                "metadata": {"title": "HIPAA Security Rule", "version": "1.0"},
+                "groups": [
+                    {
+                        "id": "hipaa-1",
+                        "title": "Admin Safeguards",
+                        "controls": [
+                            {
+                                "id": "hipaa-164-308",
+                                "title": "Security Management Process",
+                                "props": [{"name": "label", "value": "164.308"}],
+                                "parts": [
+                                    {
+                                        "id": "hipaa-164-308_smt",
+                                        "name": "statement",
+                                        "prose": "Implement security management.",
+                                    }
+                                ],
+                            }
+                        ],
+                    }
+                ],
+            }
+        }
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as f:
+            json.dump(custom_catalog, f)
+            f.flush()
+            controls = parse_oscal_catalog(Path(f.name))
+
+        assert len(controls) == 1
+        assert controls[0].framework == "HIPAA Security Rule"

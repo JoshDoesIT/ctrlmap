@@ -71,7 +71,7 @@ class TestVectorStoreIndexing:
         chunk_id: str = "chunk-001",
         document_name: str = "policy.pdf",
         page_number: int = 1,
-        raw_text: str = "Organizations shall implement access control.",
+        raw_text: str = "Organizations shall implement access control policies and procedures.",
         section_header: str | None = "Access Control",
         embedding: list[float] | None = None,
     ) -> ParsedChunk:
@@ -115,11 +115,11 @@ class TestVectorStoreIndexing:
         """Duplicate chunk_ids are upserted (updated, not duplicated)."""
         chunk_v1 = self._make_chunk(
             chunk_id="dup-001",
-            raw_text="Original access control text content.",
+            raw_text="Original access control text content for compliance testing.",
         )
         chunk_v2 = self._make_chunk(
             chunk_id="dup-001",
-            raw_text="Updated access control text content.",
+            raw_text="Updated access control text content for compliance testing.",
         )
         store.index_chunks("dup_col", [chunk_v1])
         store.index_chunks("dup_col", [chunk_v2])
@@ -128,14 +128,16 @@ class TestVectorStoreIndexing:
         assert collection.count() == 1
 
         result = collection.get(ids=["dup-001"], include=["documents"])
-        assert result["documents"][0] == "Updated access control text content."
+        assert (
+            result["documents"][0] == "Updated access control text content for compliance testing."
+        )
 
     def test_index_large_batch_completes_within_limits(self, store: VectorStore) -> None:
         """Indexing a large batch completes successfully."""
         chunks = [
             self._make_chunk(
                 chunk_id=f"batch-{i:04d}",
-                raw_text=f"Control requirement number {i} for compliance testing.",
+                raw_text=f"Control requirement number {i} for compliance testing verification.",
             )
             for i in range(100)
         ]
@@ -164,38 +166,40 @@ class TestVectorStoreQuery:
                 chunk_id="ac-001",
                 document_name="nist_policy.pdf",
                 page_number=1,
-                raw_text="Multi-factor authentication must be enabled for all users.",
+                raw_text="Multi-factor authentication must be enabled for all system users.",
                 section_header="Access Control",
                 embedding=embedder.embed_text(
-                    "Multi-factor authentication must be enabled for all users."
+                    "Multi-factor authentication must be enabled for all system users."
                 ),
             ),
             ParsedChunk(
                 chunk_id="ac-002",
                 document_name="nist_policy.pdf",
                 page_number=2,
-                raw_text="Role-based access control restricts user permissions.",
+                raw_text="Role-based access control restricts user permissions by function.",
                 section_header="Access Control",
                 embedding=embedder.embed_text(
-                    "Role-based access control restricts user permissions."
+                    "Role-based access control restricts user permissions by function."
                 ),
             ),
             ParsedChunk(
                 chunk_id="au-001",
                 document_name="nist_policy.pdf",
                 page_number=5,
-                raw_text="Audit logs must be retained for at least one year.",
+                raw_text="Audit logs must be retained for at least one full calendar year.",
                 section_header="Audit & Accountability",
-                embedding=embedder.embed_text("Audit logs must be retained for at least one year."),
+                embedding=embedder.embed_text(
+                    "Audit logs must be retained for at least one full calendar year."
+                ),
             ),
             ParsedChunk(
                 chunk_id="soc-001",
                 document_name="soc2_report.pdf",
                 page_number=1,
-                raw_text="Authentication mechanisms include password and biometrics.",
+                raw_text="Authentication mechanisms include password and biometric controls.",
                 section_header="Logical Access",
                 embedding=embedder.embed_text(
-                    "Authentication mechanisms include password and biometrics."
+                    "Authentication mechanisms include password and biometric controls."
                 ),
             ),
         ]

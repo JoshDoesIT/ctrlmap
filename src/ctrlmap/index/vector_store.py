@@ -104,6 +104,7 @@ class VectorStore:
                     "page_number": chunk.page_number,
                     "section_header": chunk.section_header or "",
                     "chunk_id": chunk.chunk_id,
+                    "extraction_order": i,
                 }
             )
 
@@ -119,3 +120,43 @@ class VectorStore:
             )
 
         return total
+
+    def get_all_chunks(self, collection_name: str) -> list[ParsedChunk]:
+        """Retrieve all chunks from a collection.
+
+        Args:
+            collection_name: Name of the collection to query.
+
+        Returns:
+            A list of ``ParsedChunk`` instances (without embeddings).
+        """
+        collection = self.get_or_create_collection(collection_name)
+        result = collection.get(include=["documents", "metadatas"])
+
+        chunks: list[ParsedChunk] = []
+        ids = result.get("ids", [])
+        docs = result.get("documents", []) or []
+        metas = result.get("metadatas", []) or []
+
+        for i, chunk_id in enumerate(ids):
+            doc = docs[i] if i < len(docs) else ""
+            meta = metas[i] if i < len(metas) else {}
+            chunks.append(
+                ParsedChunk(
+                    chunk_id=chunk_id,
+                    document_name=str(meta.get("document_name", "")),
+                    page_number=int(str(meta.get("page_number", 1))),
+                    raw_text=doc or "",
+                    section_header=str(meta.get("section_header", "")) or None,
+                )
+            )
+
+        # Sort by extraction_order to preserve original document order
+        order_map: dict[str, int] = {
+            ids[i]: int(metas[i].get("extraction_order", i))  # type: ignore[arg-type]
+            for i in range(len(ids))
+            if i < len(metas)
+        }
+        chunks.sort(key=lambda c: order_map.get(c.chunk_id, 0))
+
+        return chunks

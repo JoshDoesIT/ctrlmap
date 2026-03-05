@@ -50,6 +50,27 @@ make test-eval
 
 See `make help` for all available targets.
 
+## Demo
+
+Run the full pipeline end-to-end with sample policy documents and two frameworks (NIST 800-53 + PCI DSS v4.0.1):
+
+```bash
+# One command — parses PDFs, indexes, maps with LLM rationale, harmonizes
+make demo
+```
+
+This generates output in `demo/output/`:
+
+| File | Description |
+|------|-------------|
+| `*_chunks.jsonl` | Parsed and chunked policy text |
+| `demo_db/` | ChromaDB vector store |
+| `nist_mapping.md` | NIST 800-53 control mappings with rationale |
+| `pci_mapping.md` | PCI DSS v4.0.1 control mappings with rationale |
+| `harmonized_controls.json` | Deduplicated common controls across both frameworks |
+
+> **Requires:** Ollama with `llama3` model. Run `make setup` first if needed.
+
 ## CLI Commands
 
 | Command | Purpose |

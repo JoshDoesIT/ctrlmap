@@ -9,6 +9,9 @@ Ref: GitHub Issue #18.
 
 from __future__ import annotations
 
+import json
+import re
+
 import ollama
 
 _DEFAULT_MODEL = "llama3"
@@ -34,6 +37,23 @@ If there is sufficient evidence, respond with:
 If there is insufficient evidence, respond with:
 {{"type": "InsufficientEvidence", "reason": "why the evidence is insufficient", \
 "required_context": "what additional context would be needed"}}
+"""
+_RELEVANCE_PROMPT = """\
+You are a strict GRC compliance auditor. Determine whether the \
+POLICY TEXT below provides DIRECT evidence that the CONTROL REQUIREMENT \
+is addressed.
+
+## Control Requirement
+{control_text}
+
+## Policy Text
+{chunk_text}
+
+## Rules
+- The policy text must DIRECTLY address the specific requirement, \
+not merely mention related topics.
+- Sharing a keyword (e.g. "NSC", "access") is NOT enough.
+- Answer ONLY with a JSON object: {{"relevant": true}} or {{"relevant": false}}
 """
 
 
@@ -103,3 +123,51 @@ class OllamaClient:
             messages=[{"role": "user", "content": prompt}],
         )
         return str(response.message.content)
+
+    def verify_chunk_relevance(self, *, control_text: str, chunk_text: str) -> bool:
+        """Ask the LLM whether a chunk directly addresses a control.
+
+        Uses a focused yes/no prompt that is faster than full rationale
+        generation. Returns ``False`` when the policy text only shares
+        keywords with the control but does not provide direct evidence.
+
+        Args:
+            control_text: The security control description.
+            chunk_text: The policy text excerpt.
+
+        Returns:
+            ``True`` if the LLM confirms direct relevance, ``False`` otherwise.
+        """
+        prompt = _RELEVANCE_PROMPT.format(
+            control_text=control_text,
+            chunk_text=chunk_text,
+        )
+        try:
+            response = ollama.chat(
+                model=self._model,
+                messages=[{"role": "user", "content": prompt}],
+            )
+            raw = str(response.message.content).strip()
+            # Extract JSON from potential markdown fences / preamble
+            cleaned = _extract_json(raw)
+            data = json.loads(cleaned)
+            return bool(data.get("relevant", False))
+        except Exception:
+            # On error, keep the chunk to avoid false drops
+            return True
+
+
+def _extract_json(raw: str) -> str:
+    """Extract a JSON object from raw LLM output.
+
+    Handles markdown code fences, preamble text, and trailing
+    explanations surrounding the JSON object.
+    """
+    text = raw.strip()
+    fence_match = re.search(r"```(?:json)?\s*(\{.*?\})\s*```", text, re.DOTALL)
+    if fence_match:
+        return fence_match.group(1)
+    brace_match = re.search(r"\{.*\}", text, re.DOTALL)
+    if brace_match:
+        return brace_match.group(0)
+    return text

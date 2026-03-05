@@ -36,6 +36,45 @@ class TestStructuralChunking:
         assert any("Access Control" in s.header for s in sections if s.header)
         assert any("Encryption" in s.header for s in sections if s.header)
 
+    def test_structural_chunking_detects_numbered_headers(self) -> None:
+        """Numbered headers like '1  Purpose' or '2.1  Authentication' should split sections."""
+        from ctrlmap.parse.chunker import structural_chunk
+
+        blocks = [
+            _make_block(72, 82, 540, 101, "1  Purpose and Scope"),
+            _make_block(
+                72,
+                113,
+                540,
+                127,
+                "This policy establishes the requirements for managing access.",
+            ),
+            _make_block(72, 201, 540, 220, "2  User Identification and Authentication"),
+            _make_block(
+                72,
+                235,
+                540,
+                250,
+                "2.1  Unique User Identification",
+            ),
+            _make_block(
+                72,
+                258,
+                540,
+                272,
+                "All users must be assigned a unique user ID before access.",
+            ),
+        ]
+
+        sections = structural_chunk(blocks)
+
+        assert len(sections) >= 2
+        headers = [s.header for s in sections if s.header]
+        assert any("Purpose" in h for h in headers), f"Expected 'Purpose' header, got: {headers}"
+        assert any("Authentication" in h or "User Identification" in h for h in headers), (
+            f"Expected 'Authentication' header, got: {headers}"
+        )
+
     def test_structural_chunking_no_headers_returns_single_section(self) -> None:
         """When no headers are detected, all blocks should form a single section."""
         from ctrlmap.parse.chunker import structural_chunk
@@ -54,6 +93,57 @@ class TestStructuralChunking:
 
         sections = structural_chunk(blocks)
         assert len(sections) == 1
+
+    def test_page_boundary_splits_section(self) -> None:
+        """A page change should start a new section, even without a new header.
+
+        This prevents text from the end of page N bleeding into sections
+        that begin on page N+1.
+        """
+        from ctrlmap.parse.chunker import structural_chunk
+
+        blocks = [
+            _make_block(72, 82, 540, 101, "1  Access Control"),
+            _make_block(
+                72,
+                113,
+                540,
+                127,
+                "All users must authenticate.",
+                page=1,
+            ),
+            # page 2 — no header, but page changed
+            _make_block(
+                72,
+                113,
+                540,
+                127,
+                "MFA tokens must not be shared between users.",
+                page=2,
+            ),
+            _make_block(72, 200, 540, 219, "2  Audit Logging"),
+            _make_block(
+                72,
+                230,
+                540,
+                244,
+                "Audit logs must capture user identification.",
+                page=2,
+            ),
+        ]
+
+        sections = structural_chunk(blocks)
+
+        # Should produce at least 2 sections — page boundary
+        # prevents page 1 content from merging into page 2 sections
+        assert len(sections) >= 2
+        # Audit Logging section should NOT contain MFA text
+        for s in sections:
+            if s.header and "Audit" in s.header:
+                all_text = " ".join(s.sentences)
+                assert "MFA" not in all_text, (
+                    f"Cross-page contamination: MFA text in Audit section: {all_text}"
+                )
 
 
 class TestSemanticChunking:
@@ -161,4 +251,100 @@ class TestChunkDocument:
             assert isinstance(chunk, ParsedChunk)
             assert chunk.document_name == "policy.pdf"
             assert chunk.page_number >= 1
-            assert len(chunk.raw_text) >= 10
+            assert len(chunk.raw_text) >= 50
+
+    def test_short_fragments_are_filtered(self) -> None:
+        """Fragments under 50 chars should not appear as standalone chunks."""
+        from ctrlmap.parse.chunker import chunk_document
+
+        blocks = [
+            _make_block(72, 100, 540, 118, "Section 1: Security"),
+            _make_block(72, 130, 540, 148, "current role."),  # 13 chars — fragment
+            _make_block(72, 160, 540, 178, "encryption."),  # 11 chars — fragment
+            _make_block(
+                72,
+                190,
+                540,
+                230,
+                "All cardholder data must be encrypted using AES-256 in transit and at rest.",
+            ),
+        ]
+
+        chunks = chunk_document(blocks, document_name="policy.pdf")
+
+        for chunk in chunks:
+            assert len(chunk.raw_text) >= 50, f"Fragment slipped through: '{chunk.raw_text}'"
+
+    def test_short_sentences_merged_with_neighbors(self) -> None:
+        """Short sentences should be merged with adjacent sentences, not dropped."""
+        from ctrlmap.parse.chunker import chunk_document
+
+        blocks = [
+            _make_block(72, 100, 540, 118, "Section 1: Policy"),
+            _make_block(
+                72,
+                130,
+                540,
+                200,
+                "All access to system components and cardholder data must be logged. "
+                "Logs are critical. "
+                "Audit trails must be retained for a minimum of twelve months.",
+            ),
+        ]
+
+        chunks = chunk_document(blocks, document_name="policy.pdf")
+
+        # "Logs are critical." is only 18 chars — too short for a standalone chunk.
+        # It should be merged with a neighbor, not dropped or isolated.
+        all_text = " ".join(c.raw_text for c in chunks)
+        assert "Logs are critical" in all_text, "Short sentence was dropped instead of merged"
+
+    def test_consecutive_line_blocks_joined_into_paragraph(self) -> None:
+        """PDF lines that form a single paragraph should be joined before chunking.
+
+        PyMuPDF returns each visual line as a separate block. Lines that are
+        vertically adjacent on the same page must be joined so chunks never
+        end mid-sentence.
+        """
+        from ctrlmap.parse.chunker import chunk_document
+
+        # Simulates 3 consecutive PDF lines — one paragraph split across lines
+        blocks = [
+            _make_block(72, 82, 540, 101, "1  Network Change Management"),
+            _make_block(
+                72,
+                246,
+                540,
+                260,
+                "All changes to network connections and to"
+                " configurations of NSCs must be approved and managed in acc",
+            ),
+            _make_block(
+                72,
+                262,
+                540,
+                276,
+                "the organizational change control process."
+                " Changes must be reviewed and formally approved within",
+            ),
+            _make_block(
+                72,
+                278,
+                540,
+                292,
+                "72 hours of implementation."
+                " All changes must be tested in a staging environment first.",
+            ),
+        ]
+
+        chunks = chunk_document(blocks, document_name="policy.pdf")
+
+        # No chunk should end with a partial word like "acc" or "in a"
+        for chunk in chunks:
+            text = chunk.raw_text.strip()
+            assert not text.endswith(" acc"), f"Mid-line cut: '{text[-40:]}'"
+            assert not text.endswith(" in a"), f"Mid-line cut: '{text[-40:]}'"
+
+        # The full sentence should be intact
+        all_text = " ".join(c.raw_text for c in chunks)
+        assert "72 hours of implementation" in all_text

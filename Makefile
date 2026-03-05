@@ -1,4 +1,4 @@
-.PHONY: setup test test-unit test-eval test-integration lint format build clean
+.PHONY: setup test test-unit test-eval test-integration lint format build clean demo
 
 ## Setup ──────────────────────────────────────────────────────────────
 setup: ## Install all dependencies including Ollama, llama3, and ragas
@@ -35,9 +35,13 @@ build: ## Build wheel and sdist
 install: ## Install via uv tool (isolated env)
 	uv tool install --force .
 
+## Demo ───────────────────────────────────────────────────────────────
+demo: ## Run the end-to-end demo (requires Ollama + llama3)
+	@./scripts/demo.sh
+
 ## Clean ──────────────────────────────────────────────────────────────
-clean: ## Remove build artifacts
-	rm -rf dist/ build/ *.egg-info .pytest_cache .ruff_cache
+clean: ## Remove build artifacts and demo output
+	rm -rf dist/ build/ *.egg-info .pytest_cache .ruff_cache demo/output/
 	find . -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true
 
 ## Help ───────────────────────────────────────────────────────────────

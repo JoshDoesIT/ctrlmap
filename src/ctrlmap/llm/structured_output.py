@@ -10,6 +10,7 @@ Ref: GitHub Issue #19.
 from __future__ import annotations
 
 import json
+import re
 
 from pydantic import ValidationError
 
@@ -56,6 +57,27 @@ def generate_rationale(
     )
 
 
+def _extract_json(raw: str) -> str:
+    """Extract a JSON object from raw LLM output.
+
+    Handles common quirks: markdown code fences, preamble text,
+    and trailing explanations surrounding the JSON.
+    """
+    text = raw.strip()
+
+    # Strip markdown code fences: ```json ... ``` or ``` ... ```
+    fence_match = re.search(r"```(?:json)?\s*(\{.*?\})\s*```", text, re.DOTALL)
+    if fence_match:
+        return fence_match.group(1)
+
+    # Try to extract the first top-level JSON object { ... }
+    brace_match = re.search(r"\{.*\}", text, re.DOTALL)
+    if brace_match:
+        return brace_match.group(0)
+
+    return text
+
+
 def _parse_response(raw: str) -> MappingRationale | InsufficientEvidence | None:
     """Attempt to parse a raw LLM response into a structured output.
 
@@ -65,13 +87,12 @@ def _parse_response(raw: str) -> MappingRationale | InsufficientEvidence | None:
     Returns:
         A validated Pydantic model instance, or None if parsing fails.
     """
+    cleaned = _extract_json(raw)
     try:
-        data = json.loads(raw)
+        data = json.loads(cleaned)
     except (json.JSONDecodeError, TypeError):
-        return InsufficientEvidence(
-            reason="Invalid LLM output: could not parse JSON response.",
-            required_context="A well-formed JSON response from the LLM.",
-        )
+        # Return None so the retry loop can re-ask the LLM
+        return None
 
     output_type = data.get("type", "")
 
