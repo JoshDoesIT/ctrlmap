@@ -144,16 +144,16 @@ class VectorStore:
             chunks.append(
                 ParsedChunk(
                     chunk_id=chunk_id,
-                    document_name=meta.get("document_name", ""),
-                    page_number=int(meta.get("page_number", 1)),
+                    document_name=str(meta.get("document_name", "")),
+                    page_number=int(str(meta.get("page_number", 1))),
                     raw_text=doc or "",
-                    section_header=meta.get("section_header") or None,
+                    section_header=str(meta.get("section_header", "")) or None,
                 )
             )
 
         # Sort by extraction_order to preserve original document order
-        order_map = {
-            ids[i]: metas[i].get("extraction_order", i)
+        order_map: dict[str, int] = {
+            ids[i]: int(metas[i].get("extraction_order", i))  # type: ignore[arg-type]
             for i in range(len(ids))
             if i < len(metas)
         }

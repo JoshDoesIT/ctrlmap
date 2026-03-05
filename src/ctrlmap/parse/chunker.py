@@ -364,11 +364,7 @@ def _heal_sentence_boundaries(chunks: list[str]) -> list[str]:
         if not text:
             continue
 
-        prev_ends_mid = (
-            healed
-            and healed[-1].strip()
-            and healed[-1].strip()[-1] not in ".!?"
-        )
+        prev_ends_mid = healed and healed[-1].strip() and healed[-1].strip()[-1] not in ".!?"
         # Only merge if this chunk starts with a lowercase letter or
         # digit — a strong signal it continues the previous sentence.
         starts_continuation = text[0].islower() or text[0].isdigit()

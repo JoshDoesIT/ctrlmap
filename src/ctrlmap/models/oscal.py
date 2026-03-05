@@ -56,7 +56,7 @@ def _detect_framework(catalog: dict[str, Any]) -> str:
         return "NIST-800-53"
     if "PCI" in title.upper():
         return "PCI-DSS"
-    return title
+    return str(title)
 
 
 def _extract_controls(

@@ -28,6 +28,7 @@ from ctrlmap.index.vector_store import VectorStore
 from ctrlmap.llm.structured_output import generate_rationale
 from ctrlmap.map.mapper import map_controls
 from ctrlmap.models.oscal import parse_oscal_catalog
+from ctrlmap.models.schemas import ParsedChunk
 
 console = Console()
 
@@ -101,7 +102,7 @@ def map_controls_cmd(
                 continue
             ctrl = result.control
             control_text = f"{ctrl.control_id}: {ctrl.title}. {ctrl.description}"
-            verified: list = []
+            verified: list[ParsedChunk] = []
             for chunk in result.supporting_chunks:
                 is_relevant = llm_client.verify_chunk_relevance(
                     control_text=control_text,

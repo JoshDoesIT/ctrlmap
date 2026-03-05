@@ -717,12 +717,12 @@ def _render_coverage_card(
 
         ctrls = chunk_controls.get(chunk.chunk_id, [])
         if ctrls:
-            tag_parts = []
-            for c in sorted(set(ctrls)):
-                title, desc = ctrl_info.get(c, ("", ""))
+            tag_parts: list[str] = []
+            for ctrl_id in sorted(set(ctrls)):
+                title, desc = ctrl_info.get(ctrl_id, ("", ""))
                 tooltip = html.escape(f"{title}: {desc}" if desc else title)
                 tag_parts.append(
-                    f'<span class="ctrl-tag" title="{tooltip}">{html.escape(c)}</span>'
+                    f'<span class="ctrl-tag" title="{tooltip}">{html.escape(ctrl_id)}</span>'
                 )
             tags = "".join(tag_parts)
         else:

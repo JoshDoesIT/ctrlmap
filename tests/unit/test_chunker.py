@@ -105,19 +105,28 @@ class TestStructuralChunking:
         blocks = [
             _make_block(72, 82, 540, 101, "1  Access Control"),
             _make_block(
-                72, 113, 540, 127,
+                72,
+                113,
+                540,
+                127,
                 "All users must authenticate.",
                 page=1,
             ),
             # page 2 — no header, but page changed
             _make_block(
-                72, 113, 540, 127,
+                72,
+                113,
+                540,
+                127,
                 "MFA tokens must not be shared between users.",
                 page=2,
             ),
             _make_block(72, 200, 540, 219, "2  Audit Logging"),
             _make_block(
-                72, 230, 540, 244,
+                72,
+                230,
+                540,
+                244,
                 "Audit logs must capture user identification.",
                 page=2,
             ),

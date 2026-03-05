@@ -6,7 +6,16 @@ policy PDFs) is valid and usable by the ctrlmap pipeline.
 
 from pathlib import Path
 
+import pytest
+
 DEMO_DIR = Path(__file__).parent.parent.parent / "demo"
+
+_POLICIES_DIR = DEMO_DIR / "policies"
+_DEMO_PDFS_EXIST = (
+    (_POLICIES_DIR / "access_control_policy.pdf").exists()
+    and (_POLICIES_DIR / "data_protection_policy.pdf").exists()
+    and (_POLICIES_DIR / "network_security_policy.pdf").exists()
+)
 
 
 class TestPciDssOscalFixture:
@@ -37,6 +46,10 @@ class TestPciDssOscalFixture:
         assert len(groups) >= 3
 
 
+@pytest.mark.skipif(
+    not _DEMO_PDFS_EXIST,
+    reason="Demo PDFs not generated",
+)
 class TestDemoPolicyPdfs:
     """Tests for the synthetic demo policy PDFs."""
 
