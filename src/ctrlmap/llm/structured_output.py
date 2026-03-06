@@ -18,7 +18,6 @@ from pydantic import ValidationError
 from ctrlmap.llm.client import OllamaClient
 from ctrlmap.models.schemas import ComplianceLevel, InsufficientEvidence, MappingRationale
 
-
 # Compliance level priority for select_best_rationale (higher = better)
 _LEVEL_PRIORITY: dict[ComplianceLevel, int] = {
     ComplianceLevel.FULLY_COMPLIANT: 3,

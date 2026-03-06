@@ -323,6 +323,7 @@ class TestCosineDistanceMetric:
         assert len(results) == 1
         score = results[0].score
         # Cosine similarity: 0 = orthogonal, 1 = identical
-        assert 0.0 <= score <= 1.0, f"Score {score} not in [0, 1]"
+        # Allow small epsilon for floating-point arithmetic in ChromaDB
+        assert -1e-6 <= score <= 1.0 + 1e-6, f"Score {score} not in [0, 1]"
         # Near-identical text should score very high (>0.95)
         assert score > 0.95, f"Near-identical query scored only {score}"

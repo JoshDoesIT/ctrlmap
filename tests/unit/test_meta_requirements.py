@@ -347,9 +347,9 @@ class TestResolveMetaRequirements:
         compliant_sibling_results: list[MappedResult],
     ) -> None:
         """All meta-requirements in the same family should report the same sibling count."""
-        from ctrlmap.map.meta_requirements import resolve_meta_requirements
-
         import re
+
+        from ctrlmap.map.meta_requirements import resolve_meta_requirements
 
         meta_ids = {"1.1.1", "1.1.2"}
         resolved = resolve_meta_requirements(
@@ -469,14 +469,21 @@ class TestGovernanceControlOverride:
                 control_id="12.1.4",
                 framework="PCI-DSS",
                 title="CISO responsibility formally assigned",
-                description="Responsibility for information security is formally assigned to a CISO.",
+                description=(
+                    "Responsibility for information security"
+                    " is formally assigned to a CISO."
+                ),
             ),
             supporting_chunks=[
                 ParsedChunk(
                     chunk_id="c-ciso",
                     document_name="policy.pdf",
                     page_number=1,
-                    raw_text="This policy has been approved by the Chief Information Security Officer Acme Corp Network Security Policy.",
+                    raw_text=(
+                        "This policy has been approved by the"
+                        " Chief Information Security Officer"
+                        " Acme Corp Network Security Policy."
+                    ),
                 ),
             ],
             rationale=MappingRationale(
@@ -559,7 +566,11 @@ class TestGovernanceControlOverride:
                     chunk_id="c-uid",
                     document_name="access.pdf",
                     page_number=2,
-                    raw_text="All users must be assigned a unique user ID before they are allowed access to any system component.",
+                    raw_text=(
+                        "All users must be assigned a unique"
+                        " user ID before they are allowed"
+                        " access to any system component."
+                    ),
                 ),
             ],
             rationale=MappingRationale(

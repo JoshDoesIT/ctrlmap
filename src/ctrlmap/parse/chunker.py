@@ -108,10 +108,7 @@ def _is_chunk_boilerplate(text: str) -> bool:
     lower = text.lower()
     if "prohibited" in lower and ("reproduction" in lower or "disclosure" in lower):
         return True
-    if "effective as of the date" in lower:
-        return True
-
-    return False
+    return "effective as of the date" in lower
 
 
 @dataclass
