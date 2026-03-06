@@ -445,4 +445,3 @@ class TestSemanticChunkOverlap:
         # Check for duplicates
         unique = set(all_sentences_flat)
         assert len(unique) == len(all_sentences_flat), "overlap=0 should produce no duplicates"
-

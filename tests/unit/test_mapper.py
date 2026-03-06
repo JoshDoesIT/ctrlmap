@@ -205,4 +205,3 @@ class TestQueryExpansion:
         expanded = _expand_query(original)
         # Should still contain the original text
         assert "Account Management" in expanded
-

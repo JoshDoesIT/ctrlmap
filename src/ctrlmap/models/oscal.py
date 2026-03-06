@@ -46,7 +46,9 @@ def parse_oscal_catalog(path: Path) -> list[SecurityControl]:
     for group in catalog.get("groups", []):
         family = group.get("title", "")
         _extract_controls(
-            group.get("controls", []), controls, framework,
+            group.get("controls", []),
+            controls,
+            framework,
             requirement_family=family,
         )
 
@@ -89,7 +91,9 @@ def _extract_controls(
         # Recurse into control enhancements (nested controls)
         for enhancement in ctrl.get("controls", []):
             _extract_controls(
-                [enhancement], output, framework,
+                [enhancement],
+                output,
+                framework,
                 requirement_family=requirement_family,
             )
 

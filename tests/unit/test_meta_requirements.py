@@ -470,8 +470,7 @@ class TestGovernanceControlOverride:
                 framework="PCI-DSS",
                 title="CISO responsibility formally assigned",
                 description=(
-                    "Responsibility for information security"
-                    " is formally assigned to a CISO."
+                    "Responsibility for information security is formally assigned to a CISO."
                 ),
             ),
             supporting_chunks=[
@@ -608,8 +607,7 @@ class TestGovernanceControlOverride:
         # Should be non-compliant — sibling 8.2.5 has a gap
         assert isinstance(r824.rationale, MappingRationale)
         assert not r824.rationale.is_compliant, (
-            f"Expected 8.2.4 to be non-compliant (sibling gap), "
-            f"but got {r824.rationale}"
+            f"Expected 8.2.4 to be non-compliant (sibling gap), but got {r824.rationale}"
         )
 
 
@@ -665,5 +663,3 @@ class TestPerChunkSelection:
         from ctrlmap.llm.structured_output import select_best_rationale
 
         assert select_best_rationale([]) is None
-
-

@@ -384,20 +384,62 @@ def _merge_short_chunks(chunks: list[str], *, min_length: int = 50) -> list[str]
 # Trailing words that signal a chunk was cut mid-clause.
 # When a chunk ends with one of these, the next chunk continues the
 # sentence regardless of capitalisation.
-_TRAILING_WORDS = frozenset({
-    # prepositions / particles
-    "of", "for", "in", "to", "with", "from", "by", "at", "on", "into",
-    "about", "between", "through", "within", "without", "including",
-    # articles / determiners
-    "the", "a", "an", "all", "any", "each", "every", "this", "that",
-    # conjunctions
-    "and", "or", "nor", "but",
-    # auxiliary / modal verbs
-    "be", "is", "are", "was", "were", "been", "being",
-    "must", "shall", "should", "will", "would", "can", "could", "may",
-    # common mid-clause endings
-    "not", "also", "than",
-})
+_TRAILING_WORDS = frozenset(
+    {
+        # prepositions / particles
+        "of",
+        "for",
+        "in",
+        "to",
+        "with",
+        "from",
+        "by",
+        "at",
+        "on",
+        "into",
+        "about",
+        "between",
+        "through",
+        "within",
+        "without",
+        "including",
+        # articles / determiners
+        "the",
+        "a",
+        "an",
+        "all",
+        "any",
+        "each",
+        "every",
+        "this",
+        "that",
+        # conjunctions
+        "and",
+        "or",
+        "nor",
+        "but",
+        # auxiliary / modal verbs
+        "be",
+        "is",
+        "are",
+        "was",
+        "were",
+        "been",
+        "being",
+        "must",
+        "shall",
+        "should",
+        "will",
+        "would",
+        "can",
+        "could",
+        "may",
+        # common mid-clause endings
+        "not",
+        "also",
+        "than",
+    }
+)
 
 
 def _ends_mid_clause(text: str) -> bool:
