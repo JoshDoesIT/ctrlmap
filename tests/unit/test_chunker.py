@@ -348,3 +348,101 @@ class TestChunkDocument:
         # The full sentence should be intact
         all_text = " ".join(c.raw_text for c in chunks)
         assert "72 hours of implementation" in all_text
+
+
+class TestSentenceBoundaryHealingMidClause:
+    """Chunks ending mid-clause should be merged even when the next chunk is capitalized."""
+
+    def test_heal_merges_chunks_ending_with_trailing_verb(self) -> None:
+        """A chunk ending with 'must never be' should merge with the next chunk."""
+        from ctrlmap.parse.chunker import _heal_sentence_boundaries
+
+        chunks = [
+            "SAD data including PINs must never be",
+            "stored after authorization, even in encrypted form.",
+        ]
+
+        healed = _heal_sentence_boundaries(chunks)
+
+        # Should be merged into one chunk since "must never be" is mid-clause
+        assert len(healed) == 1
+        assert "PINs must never be" in healed[0]
+        assert "stored after authorization" in healed[0]
+
+    def test_heal_merges_chunks_ending_with_preposition(self) -> None:
+        """A chunk ending with a preposition like 'of' or 'for' should merge forward."""
+        from ctrlmap.parse.chunker import _heal_sentence_boundaries
+
+        chunks = [
+            "Network devices and personnel of",
+            "the organization responsible for operations.",
+        ]
+
+        healed = _heal_sentence_boundaries(chunks)
+
+        assert len(healed) == 1
+        assert "personnel of" in healed[0]
+
+    def test_heal_preserves_proper_sentence_boundaries(self) -> None:
+        """Chunks that end with proper punctuation should NOT be merged."""
+        from ctrlmap.parse.chunker import _heal_sentence_boundaries
+
+        chunks = [
+            "All users must be assigned a unique user ID.",
+            "Access must be revoked immediately upon termination.",
+        ]
+
+        healed = _heal_sentence_boundaries(chunks)
+
+        assert len(healed) == 2
+
+
+class TestSemanticChunkOverlap:
+    """Semantic chunks should carry boundary sentences forward for context."""
+
+    def test_overlap_carries_last_sentence_into_next_chunk(self) -> None:
+        """When overlap=1, the last sentence of chunk N appears at the start of chunk N+1."""
+        from ctrlmap.parse.chunker import semantic_chunk
+
+        sentences = [
+            "All user accounts must be reviewed quarterly by management.",
+            "Account reviews should be documented and retained for audit.",
+            "The fire suppression system must be tested annually.",
+            "Emergency exits should be clearly marked and illuminated.",
+        ]
+
+        # Use a high threshold to force many splits
+        chunks = semantic_chunk(sentences, similarity_threshold=0.8, overlap=1)
+
+        # If there are multiple chunks, verify boundary overlap
+        if len(chunks) > 1:
+            # The last sentence of chunk[0] should also appear at start of chunk[1]
+            chunk0_sentences = chunks[0].split(". ")
+            chunk1_text = chunks[1]
+            last_sentence_of_chunk0 = chunk0_sentences[-1].rstrip(".")
+            assert last_sentence_of_chunk0 in chunk1_text, (
+                f"No overlap: last sentence of chunk 0 '{last_sentence_of_chunk0}' "
+                f"not found in chunk 1 '{chunk1_text[:80]}...'"
+            )
+
+    def test_overlap_zero_produces_no_overlap(self) -> None:
+        """When overlap=0, chunks should have no shared content (default behavior)."""
+        from ctrlmap.parse.chunker import semantic_chunk
+
+        sentences = [
+            "All user accounts must be reviewed quarterly by management.",
+            "Account reviews should be documented and retained for audit.",
+            "The fire suppression system must be tested annually.",
+            "Emergency exits should be clearly marked and illuminated.",
+        ]
+
+        chunks = semantic_chunk(sentences, similarity_threshold=0.8, overlap=0)
+
+        # No sentence should appear in more than one chunk
+        all_sentences_flat: list[str] = []
+        for c in chunks:
+            all_sentences_flat.extend(s.strip() for s in c.split(". ") if s.strip())
+        # Check for duplicates
+        unique = set(all_sentences_flat)
+        assert len(unique) == len(all_sentences_flat), "overlap=0 should produce no duplicates"
+

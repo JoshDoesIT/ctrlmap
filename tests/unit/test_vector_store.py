@@ -272,3 +272,57 @@ class TestVectorStoreQuery:
             filters={"document_name": "nonexistent_doc.pdf"},
         )
         assert results == []
+
+
+class TestCosineDistanceMetric:
+    """Collections should use cosine distance for proper similarity scoring."""
+
+    def test_collection_uses_cosine_space(self, tmp_path: object) -> None:
+        """ChromaDB collection must be configured with cosine distance space."""
+        from pathlib import Path
+
+        store = VectorStore(db_path=Path(str(tmp_path)) / "cosine_db")
+        collection = store.get_or_create_collection("test_cosine")
+        metadata = collection.metadata
+        assert metadata is not None
+        assert metadata.get("hnsw:space") == "cosine"
+
+    def test_query_scores_are_cosine_similarity(self, tmp_path: object) -> None:
+        """Query scores should be proper cosine similarity values in [0, 1]."""
+        from pathlib import Path
+
+        from ctrlmap.index.embedder import Embedder
+        from ctrlmap.index.query import query
+
+        store = VectorStore(db_path=Path(str(tmp_path)) / "cosine_score_db")
+        embedder = Embedder()
+
+        # Index a chunk about access control
+        chunks = [
+            ParsedChunk(
+                chunk_id="cos-001",
+                document_name="policy.pdf",
+                page_number=1,
+                raw_text="All users must be assigned a unique user ID before access is allowed.",
+                section_header="Access Control",
+                embedding=embedder.embed_text(
+                    "All users must be assigned a unique user ID before access is allowed."
+                ),
+            ),
+        ]
+        store.index_chunks("cos_col", chunks)
+
+        # Query with near-identical text — score should be very close to 1.0
+        results = query(
+            store=store,
+            collection_name="cos_col",
+            query_text="All users must be assigned a unique user ID before access is allowed.",
+            top_k=1,
+            embedder=embedder,
+        )
+        assert len(results) == 1
+        score = results[0].score
+        # Cosine similarity: 0 = orthogonal, 1 = identical
+        assert 0.0 <= score <= 1.0, f"Score {score} not in [0, 1]"
+        # Near-identical text should score very high (>0.95)
+        assert score > 0.95, f"Near-identical query scored only {score}"

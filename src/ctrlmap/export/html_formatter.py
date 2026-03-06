@@ -173,8 +173,11 @@ h1 {
 .badge-compliant {
   background: var(--green-bg); color: var(--green);
 }
-.badge-noncompliant, .badge-gap {
+.badge-partial {
   background: var(--yellow-bg); color: var(--yellow);
+}
+.badge-noncompliant, .badge-gap {
+  background: var(--red-bg); color: var(--red);
 }
 .score {
   font-size: 0.8rem; color: var(--text-dim);
@@ -468,10 +471,21 @@ def _render_framework_gap_tab(results: list[MappedResult]) -> str:
     if not results:
         return '<div class="empty-msg">No mapping results to display.</div>'
 
+    from ctrlmap.models.schemas import ComplianceLevel
+
     compliant = sum(
-        1 for r in results if isinstance(r.rationale, MappingRationale) and r.rationale.is_compliant
+        1
+        for r in results
+        if isinstance(r.rationale, MappingRationale)
+        and r.rationale.compliance_level == ComplianceLevel.FULLY_COMPLIANT
     )
-    noncompliant = len(results) - compliant
+    partial = sum(
+        1
+        for r in results
+        if isinstance(r.rationale, MappingRationale)
+        and r.rationale.compliance_level == ComplianceLevel.PARTIALLY_COMPLIANT
+    )
+    noncompliant = len(results) - compliant - partial
 
     stats = f"""
     <div class="stats-bar">
@@ -486,6 +500,11 @@ def _render_framework_gap_tab(results: list[MappedResult]) -> str:
       </div>
       <div class="stat">
         <div class="stat-value" style="color:var(--yellow)">\
+{partial}</div>
+        <div class="stat-label">Partial</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value" style="color:var(--red)">\
 {noncompliant}</div>
         <div class="stat-label">Non-Compliant</div>
       </div>
@@ -498,6 +517,8 @@ def _render_framework_gap_tab(results: list[MappedResult]) -> str:
 All</button>
       <button class="filter-btn" data-filter="compliant">\
 Compliant</button>
+      <button class="filter-btn" data-filter="partial">\
+Partial</button>
       <button class="filter-btn" data-filter="noncompliant">\
 Non-Compliant</button>
     </div>
@@ -769,18 +790,18 @@ def _classify_verdict(
     rationale: MappingRationale | InsufficientEvidence | None,
 ) -> tuple[str, str, str]:
     """Return (css_class, label, score_display) for a verdict."""
-    if isinstance(rationale, MappingRationale) and rationale.is_compliant:
-        return (
-            "compliant",
-            "Compliant",
-            f"{rationale.confidence_score:.2f}",
-        )
-    # Everything else is Non-Compliant: explicit non-compliance,
-    # insufficient evidence, or no evidence at all.
-    score = ""
     if isinstance(rationale, MappingRationale):
+        from ctrlmap.models.schemas import ComplianceLevel
+
+        level = rationale.compliance_level
         score = f"{rationale.confidence_score:.2f}"
-    return ("noncompliant", "Non-Compliant", score)
+        if level == ComplianceLevel.FULLY_COMPLIANT:
+            return ("compliant", "Compliant", score)
+        if level == ComplianceLevel.PARTIALLY_COMPLIANT:
+            return ("partial", "Partial", score)
+        return ("noncompliant", "Non-Compliant", score)
+    # Everything else is Non-Compliant: insufficient evidence or no evidence.
+    return ("noncompliant", "Non-Compliant", "")
 
 
 def _get_rationale_text(

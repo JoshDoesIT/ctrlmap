@@ -43,13 +43,19 @@ class VectorStore:
     def get_or_create_collection(self, name: str) -> Collection:
         """Get an existing collection or create a new one.
 
+        Collections use cosine distance for similarity search, matching
+        the normalized vectors produced by sentence-transformers.
+
         Args:
             name: The collection name.
 
         Returns:
             A ChromaDB Collection instance.
         """
-        return self._client.get_or_create_collection(name=name)
+        return self._client.get_or_create_collection(
+            name=name,
+            metadata={"hnsw:space": "cosine"},
+        )
 
     def list_collections(self) -> list[str]:
         """List all collection names in the database.

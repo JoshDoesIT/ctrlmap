@@ -133,34 +133,49 @@ def order_blocks_by_columns(
     """Reorder blocks so left-column blocks come first, then right-column.
 
     Within each column, blocks are sorted top-to-bottom by y-coordinate.
+    Blocks are processed **per page** to avoid interleaving text from
+    different pages that happen to share similar y-coordinates.
 
     Args:
         blocks: Text blocks to reorder.
         column_gap_threshold: Minimum gap between column x-clusters.
 
     Returns:
-        Reordered list with left-column blocks first.
+        Reordered list with left-column blocks first, per page.
     """
     if not blocks:
         return []
 
-    # Find the split point between columns via x0 clustering
-    x_starts = sorted({round(b.x0) for b in blocks})
+    # Group blocks by page
+    pages: dict[int, list[TextBlock]] = {}
+    for b in blocks:
+        pages.setdefault(b.page_number, []).append(b)
 
-    if len(x_starts) <= 1:
-        return sorted(blocks, key=lambda b: b.y0)
+    result: list[TextBlock] = []
 
-    # Find the first gap that exceeds the threshold
-    split_x: float | None = None
-    for i in range(1, len(x_starts)):
-        if x_starts[i] - x_starts[i - 1] >= column_gap_threshold:
-            split_x = (x_starts[i - 1] + x_starts[i]) / 2
-            break
+    for page_num in sorted(pages):
+        page_blocks = pages[page_num]
 
-    if split_x is None:
-        return sorted(blocks, key=lambda b: b.y0)
+        # Find the split point between columns via x0 clustering
+        x_starts = sorted({round(b.x0) for b in page_blocks})
 
-    left = sorted([b for b in blocks if b.x0 < split_x], key=lambda b: b.y0)
-    right = sorted([b for b in blocks if b.x0 >= split_x], key=lambda b: b.y0)
+        if len(x_starts) <= 1:
+            result.extend(sorted(page_blocks, key=lambda b: b.y0))
+            continue
 
-    return left + right
+        # Find the first gap that exceeds the threshold
+        split_x: float | None = None
+        for i in range(1, len(x_starts)):
+            if x_starts[i] - x_starts[i - 1] >= column_gap_threshold:
+                split_x = (x_starts[i - 1] + x_starts[i]) / 2
+                break
+
+        if split_x is None:
+            result.extend(sorted(page_blocks, key=lambda b: b.y0))
+            continue
+
+        left = sorted([b for b in page_blocks if b.x0 < split_x], key=lambda b: b.y0)
+        right = sorted([b for b in page_blocks if b.x0 >= split_x], key=lambda b: b.y0)
+        result.extend(left + right)
+
+    return result

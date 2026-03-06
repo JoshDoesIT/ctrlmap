@@ -76,8 +76,7 @@ def query(
         include=["documents", "metadatas", "distances"],
     )
 
-    # ChromaDB returns distances (lower = more similar for L2, higher for cosine).
-    # ChromaDB uses squared L2 distance by default; we convert to a similarity score.
+    # ChromaDB returns distances; for cosine space, distance = 1 - cosine_similarity.
     query_results: list[QueryResult] = []
 
     ids = (results.get("ids") or [[]])[0]
@@ -86,9 +85,10 @@ def query(
     distances = (results.get("distances") or [[]])[0]
 
     for i, chunk_id in enumerate(ids):
-        # Convert L2 distance to a pseudo-similarity score (1 / (1 + distance))
+        # ChromaDB cosine distance = 1 - cosine_similarity.
+        # Convert to similarity: score = 1 - distance.
         distance = distances[i] if distances else 0.0
-        score = 1.0 / (1.0 + distance)
+        score = max(0.0, 1.0 - distance)
 
         query_results.append(
             QueryResult(

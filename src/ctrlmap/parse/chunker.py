@@ -55,6 +55,17 @@ _BOILERPLATE_PATTERN = re.compile(
     re.IGNORECASE,
 )
 
+# Patterns that identify cover-page fragments surviving into final chunks.
+# These are either mid-sentence legal boilerplate or metadata notices.
+_COVER_PAGE_FRAGMENT = re.compile(
+    r"(?:"
+    r"reproduction.*(?:prohibited|restricted)"  # legal boilerplate
+    r"|effective\s+as\s+of\s+the\s+date"  # date notice
+    r"|this\s+policy\s+has\s+been\s+approved\s+by"  # approval block
+    r")",
+    re.IGNORECASE,
+)
+
 
 def _is_boilerplate(text: str, *, all_texts: list[str] | None = None) -> bool:
     """Detect page headers, footers, and repeated boilerplate text.
@@ -70,6 +81,37 @@ def _is_boilerplate(text: str, *, all_texts: list[str] | None = None) -> bool:
         return True
     # Repeated text appearing on multiple pages (e.g., running headers)
     return all_texts is not None and all_texts.count(text) >= 2
+
+
+def _is_chunk_boilerplate(text: str) -> bool:
+    """Detect obvious cover-page legal fragments in a final chunk.
+
+    Only drops VERY short fragments that are clearly mid-sentence
+    cover page boilerplate (legal disclaimers, date notices).
+    Longer chunks are never dropped — they may contain valid policy text.
+
+    Args:
+        text: The chunk text.
+
+    Returns:
+        ``True`` if the chunk is an obvious cover-page fragment.
+    """
+    # Only consider short chunks — longer text is never boilerplate
+    if len(text) >= 120:
+        return False
+
+    # Short fragment starting with lowercase or parenthetical = mid-sentence
+    if text[0].islower() or text.startswith("("):
+        return True
+
+    # Short fragment that IS the legal disclaimer tail
+    lower = text.lower()
+    if "prohibited" in lower and ("reproduction" in lower or "disclosure" in lower):
+        return True
+    if "effective as of the date" in lower:
+        return True
+
+    return False
 
 
 @dataclass
@@ -258,6 +300,7 @@ def semantic_chunk(
     sentences: list[str],
     *,
     similarity_threshold: float = 0.5,
+    overlap: int = 0,
 ) -> list[str]:
     """Group sentences into chunks based on semantic similarity.
 
@@ -268,6 +311,8 @@ def semantic_chunk(
     Args:
         sentences: Individual sentences to group.
         similarity_threshold: Cosine similarity threshold for merging.
+        overlap: Number of sentences to carry forward from the end of
+            one chunk to the beginning of the next (default: 1).
 
     Returns:
         A list of chunk strings, each containing one or more sentences.
@@ -291,7 +336,9 @@ def semantic_chunk(
             current_chunk.append(sentences[i])
         else:
             chunks.append(" ".join(current_chunk))
-            current_chunk = [sentences[i]]
+            # Carry forward the last `overlap` sentences into the new chunk
+            carry = current_chunk[-overlap:] if overlap > 0 else []
+            current_chunk = [*carry, sentences[i]]
 
     if current_chunk:
         chunks.append(" ".join(current_chunk))
@@ -337,6 +384,49 @@ def _merge_short_chunks(chunks: list[str], *, min_length: int = 50) -> list[str]
     return merged
 
 
+# Trailing words that signal a chunk was cut mid-clause.
+# When a chunk ends with one of these, the next chunk continues the
+# sentence regardless of capitalisation.
+_TRAILING_WORDS = frozenset({
+    # prepositions / particles
+    "of", "for", "in", "to", "with", "from", "by", "at", "on", "into",
+    "about", "between", "through", "within", "without", "including",
+    # articles / determiners
+    "the", "a", "an", "all", "any", "each", "every", "this", "that",
+    # conjunctions
+    "and", "or", "nor", "but",
+    # auxiliary / modal verbs
+    "be", "is", "are", "was", "were", "been", "being",
+    "must", "shall", "should", "will", "would", "can", "could", "may",
+    # common mid-clause endings
+    "not", "also", "than",
+})
+
+
+def _ends_mid_clause(text: str) -> bool:
+    """Return True if *text* ends in the middle of a clause.
+
+    Checks two signals:
+    1. Missing sentence-terminal punctuation (. ! ?)
+    2. The final word is a common trailing word (preposition, article,
+       conjunction, or auxiliary verb).
+    """
+    stripped = text.strip()
+    if not stripped:
+        return False
+    # Signal 1 — no terminal punctuation
+    return stripped[-1] not in ".!?"
+
+
+def _ends_with_trailing_word(text: str) -> bool:
+    """Return True if the last word of *text* is a mid-clause function word."""
+    stripped = text.strip().rstrip(".!?")
+    if not stripped:
+        return False
+    last_word = stripped.split()[-1].lower()
+    return last_word in _TRAILING_WORDS
+
+
 def _heal_sentence_boundaries(chunks: list[str]) -> list[str]:
     """Join chunks that end mid-sentence with the following chunk.
 
@@ -344,9 +434,13 @@ def _heal_sentence_boundaries(chunks: list[str]) -> list[str]:
     end mid-sentence because the semantic similarity split happened
     within a paragraph.  This pass detects chunks whose text does not
     end with sentence-terminal punctuation (. ! ?) and merges them
-    forward into the next chunk — but **only** when the next chunk
-    starts with a lowercase letter or digit, indicating a true sentence
-    continuation rather than a new control topic.
+    forward.  It also detects chunks ending with trailing function words
+    (prepositions, articles, auxiliary verbs) that indicate a mid-clause
+    cut, merging forward regardless of the next chunk's capitalisation.
+
+    To avoid over-merging full paragraphs that simply lack terminal
+    punctuation (common in PDF extraction), merging only occurs when
+    the trailing fragment is short (< 80 characters).
 
     Args:
         chunks: Ordered list of text chunks.
@@ -364,12 +458,27 @@ def _heal_sentence_boundaries(chunks: list[str]) -> list[str]:
         if not text:
             continue
 
-        prev_ends_mid = healed and healed[-1].strip() and healed[-1].strip()[-1] not in ".!?"
-        # Only merge if this chunk starts with a lowercase letter or
-        # digit — a strong signal it continues the previous sentence.
+        if not healed:
+            healed.append(text)
+            continue
+
+        prev = healed[-1].strip()
+        prev_no_terminal = prev and prev[-1] not in ".!?"
+        prev_trailing_word = _ends_with_trailing_word(prev)
+
+        # Only heal if the trailing fragment (text after last sentence
+        # terminator) is short — this prevents merging full paragraphs
+        # that happen to lack a period at the end.
+        last_terminal = max(prev.rfind(c) for c in ".!?")
+        trailing_fragment = prev[last_terminal + 1 :].strip() if last_terminal >= 0 else prev
+        fragment_is_short = len(trailing_fragment) < 80
+
+        # Merge when previous chunk ends mid-sentence AND:
+        #   a) the current chunk starts lowercase/digit (continuation), OR
+        #   b) the previous chunk ends with a trailing function word
         starts_continuation = text[0].islower() or text[0].isdigit()
 
-        if prev_ends_mid and starts_continuation:
+        if prev_no_terminal and fragment_is_short and (starts_continuation or prev_trailing_word):
             healed[-1] = healed[-1].rstrip() + " " + text
         else:
             healed.append(text)
@@ -410,7 +519,10 @@ def chunk_document(
 
         for chunk_text in healed:
             # Final guard — skip anything still too short after merging
+            # or identified as cover-page boilerplate
             if len(chunk_text) < 50:
+                continue
+            if _is_chunk_boilerplate(chunk_text):
                 continue
             parsed_chunks.append(
                 ParsedChunk(

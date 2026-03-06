@@ -105,7 +105,7 @@ def parse(
 
     # Write JSONL output
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    with output_path.open("w") as f:
+    with output_path.open("a") as f:
         for chunk in chunks:
             f.write(chunk.model_dump_json() + "\n")
 

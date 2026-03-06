@@ -1,9 +1,48 @@
 # Compliance Mapping Results
 
-| Control ID | Framework | Title | Supporting Chunks | Rationale |
-|------------|-----------|-------|-------------------|-----------|
-| AC-1 | NIST-800-53 | Policy and Procedures | 32938335-5838-41ca-ad3b-53f870e77162, 414dab5b-93e8-4d95-8c54-23c3da0aef8d, a46abadc-f6ab-44ee-bac0-fe15d936df5a, 25f13882-9d26-49cc-920b-640c13465be3, a6c14aa9-3387-42fa-8b77-893ea6e53bf0 | Compliant (1.00): The policy text establishes the requirements for managing access to Acme Corp information systems, applications, and data, which aligns with the AC-1 security control requirement of developing, documenting, and disseminating access control policies and procedures. |
-| AC-2 | NIST-800-53 | Account Management | 414dab5b-93e8-4d95-8c54-23c3da0aef8d, ebb5080d-31f5-48f0-9264-3360ac3d410d, 32938335-5838-41ca-ad3b-53f870e77162, 6619dea5-92a2-44db-93f0-70b051cd9196, 8f9ef2d9-ed8d-4fed-8a53-b34f17af6904 | Insufficient evidence: Invalid LLM output: could not parse JSON response. |
-| AC-2(1) | NIST-800-53 | Automated System Account Management | 414dab5b-93e8-4d95-8c54-23c3da0aef8d, 52997569-e0d2-4de6-bbf0-7ebdc31abffb, f831240d-6ba0-4142-9f6c-d6a64812f417, 5afaaeee-8769-4d61-9ed4-a557cb103512, 6619dea5-92a2-44db-93f0-70b051cd9196 | Compliant (0.80): The policy mentions maintaining an accurate data-flow diagram for account data flows, which implies the use of automated mechanisms to support system account management, as required by AC-2(1). While it does not explicitly state 'automated system account management', the requirement for a data-flow diagram suggests a systematic and organized approach to managing system accounts. |
-| SC-28 | NIST-800-53 | Protection of Information at Rest | 38f63f83-bb17-4561-a239-0a6d6f8502cd, b43e33ca-38c0-4631-b17a-d11a91034d44, 494b83d4-ace9-49c9-b2ec-79cd42b16996, f166dd4f-ebda-4c99-af96-878f6f0dd420, b1b9d2e1-3d51-4a18-a1ff-a5ba7a386779 | Compliant (0.80): The policy text mentions 'encryption of data at rest' which aligns with the requirement to protect the confidentiality and integrity of information at rest. Additionally, it references data retention and secure disposal procedures, which suggests a comprehensive approach to securing information at rest. |
+## AC-1 — Policy and Procedures
+
+**Framework:** NIST-800-53 | **Verdict:** ✅ Compliant (0.90)
+
+**Rationale:** The policy text clearly outlines the principles and procedures for developing and disseminating access control policies and procedures, including restricting administrative and privileged access, reviewing user access rights regularly, assigning access based on job classification and function, and documenting all access permissions in an access control matrix.
+
+**Supporting Evidence:**
+
+| # | Source | Page | Section | Excerpt |
+|---|--------|------|---------|---------|
+| 1 | access_control_policy.pdf | 2 | 3.2  Privileged Access Management | Administrative and privileged access must be restricted to personnel whose job duties specifically require such acces... |
+| 2 | access_control_policy.pdf | 3 | 4  Periodic Access Reviews | User access rights must be reviewed at least every six months to verify that access remains appropriate for the user'... |
+| 3 | access_control_policy.pdf | 2 | 3.1  Role-Based Access Control (RBAC) | Access rights must be assigned based on job classification and function, following the principle of least privilege. ... |
+
+---
+
+## AC-2 — Account Management
+
+**Framework:** NIST-800-53 | **Verdict:** ⚠️ Non-compliant (0.50)
+
+**Rationale:** The policy text does not specifically address account management, including defining and documenting types of accounts allowed or prohibited for use within the system.
+
+**Supporting Evidence:**
+
+| # | Source | Page | Section | Excerpt |
+|---|--------|------|---------|---------|
+| 1 | access_control_policy.pdf | 3 | 4  Periodic Access Reviews | This policy establishes the requirements for managing access to Acme Corp information systems, applications, and data... |
+
+---
+
+## AC-2(1) — Automated System Account Management
+
+**Framework:** NIST-800-53 | **Verdict:** ⚠️ Non-compliant (0.90)
+
+**Rationale:** The organization lacks policy documentation outlining its approach to automated system account management, making it difficult to ensure that system accounts are properly managed and secured. Specifically, there is no guidance on the use of automated mechanisms for account creation, modification, or deletion. This gap makes it challenging to maintain accountability, track changes, and detect potential security incidents related to system accounts.
+
+---
+
+## SC-28 — Protection of Information at Rest
+
+**Framework:** NIST-800-53 | **Verdict:** ⚠️ Non-compliant (0.90)
+
+**Rationale:** The organization's lack of policy coverage for protecting information at rest (SC-28) may result in unauthorized access, modification, or theft of sensitive data stored on devices, media, or other storage systems. To address this gap, a new policy should be created outlining the procedures for encrypting and securing sensitive data at rest, including measures such as full-disk encryption, secure deletion practices, and proper disposal of outdated media.
+
+---
 

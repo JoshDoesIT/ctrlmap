@@ -1,35 +1,284 @@
 # Compliance Mapping Results
 
-| Control ID | Framework | Title | Supporting Chunks | Rationale |
-|------------|-----------|-------|-------------------|-----------|
-| 1.1.1 | PCI-DSS | PCI DSS 1.1.1 | c63ee779-3963-476b-a917-48ca9caed6c0, 69a90afb-07f6-4c88-af0b-1b614e64ca68, 9bdda9d1-5290-4de8-bd21-1595de941634, 3b6a02e2-364d-4d9e-85e0-e6824006b1c1, 1d6f2a6d-58e0-46fc-96d3-488066f6d281 | Compliant (0.80): The policy text requires that all security policies and operational procedures be documented, kept up to date, in use, and known to all affected parties. This aligns with the PCI DSS requirement for all security policies and operational procedures to be documented, kept up to date, in use, and known to all affected parties. |
-| 1.1.2 | PCI-DSS | PCI DSS 1.1.2 | 5113413b-5180-4698-bfcd-43705bc38cb3, 8f9ef2d9-ed8d-4fed-8a53-b34f17af6904, f4eed32d-6a43-4b18-aa6b-5d2cae62a214, d2d89e83-e932-4604-83d5-ebf83f9b1c89, 8d1a9c38-f68f-41cd-af48-234a46f33bec | Insufficient evidence: The policy text does not mention roles and responsibilities for performing activities in Requirement 1, which is required by PCI DSS 1.1.2. |
-| 1.2.1 | PCI-DSS | PCI DSS 1.2.1 | 3b6a02e2-364d-4d9e-85e0-e6824006b1c1, ff771d07-8f33-444d-8bdf-f18aa12f7ea7, 69a90afb-07f6-4c88-af0b-1b614e64ca68, d288059b-f59a-4e5c-90c5-cbf6a6ec50e5, 72358886-1e91-48d9-9ec7-98e141edd952 | Compliant (1.00): The policy text explicitly states that configuration standards for all network security control (NSC) rulesets must be defined, documented, and maintained, which matches the exact requirements of PCI DSS 1.2.1. |
-| 1.2.2 | PCI-DSS | PCI DSS 1.2.2 | ff771d07-8f33-444d-8bdf-f18aa12f7ea7, 3b6a02e2-364d-4d9e-85e0-e6824006b1c1, 72358886-1e91-48d9-9ec7-98e141edd952, d59936c2-b19b-496e-84be-daf00a6ac0de, 24fb1507-bb34-4d87-a52c-fec257f41659 | Compliant (0.80): The policy text explicitly states that all changes to network connections and configurations of NSCs must be approved and managed in accordance with configuration standards, which aligns with the requirement. |
-| 1.2.3 | PCI-DSS | PCI DSS 1.2.3 | 47c73730-6144-4c6c-ae3f-64485961c765, d59936c2-b19b-496e-84be-daf00a6ac0de, d9fed0ce-e32b-49c9-a5b2-668b5cc20a18, 94702978-d9da-4394-80e6-13e19c8894b0, d012385b-f205-4d8b-bdaa-ec53cab4c908 | Insufficient evidence: Invalid LLM output: could not parse JSON response. |
-| 1.2.4 | PCI-DSS | PCI DSS 1.2.4 | 52997569-e0d2-4de6-bbf0-7ebdc31abffb, e9600b52-cebb-4b27-9e21-caab150fea8c, 47c73730-6144-4c6c-ae3f-64485961c765, d9fed0ce-e32b-49c9-a5b2-668b5cc20a18, d012385b-f205-4d8b-bdaa-ec53cab4c908 | Compliant (0.80): The policy text explicitly requires maintaining an accurate data-flow diagram that shows all account data flows across systems and networks, which aligns with the security control requirement's criteria. |
-| 3.1.1 | PCI-DSS | PCI DSS 3.1.1 | 62c8fcd4-13aa-43a3-bdbe-049a7d273526, c63ee779-3963-476b-a917-48ca9caed6c0, 1d6f2a6d-58e0-46fc-96d3-488066f6d281, 1495ef00-d1d0-48f0-94a3-c2b72f20b31e, 213cfa23-bf26-4f75-be6a-4d9660c0dbdc | Compliant (1.00): The policy text explicitly states 'This policy has been approved by the Chief Information Security Officer', indicating that all security policies, including this one, are documented and known to all affected parties. |
-| 3.1.2 | PCI-DSS | PCI DSS 3.1.2 | 5113413b-5180-4698-bfcd-43705bc38cb3, 8f9ef2d9-ed8d-4fed-8a53-b34f17af6904, f4eed32d-6a43-4b18-aa6b-5d2cae62a214, d70a89e7-8745-483c-bfe5-368e6edb11f7, 25f13882-9d26-49cc-920b-640c13465be3 | Compliant (0.80): The policy text explicitly mentions roles and responsibilities, which aligns with the requirement of documenting, assigning, and understanding roles and responsibilities. Although it doesn't specifically mention 'activities in Requirement 3', it does touch on role-based access control and permission management, indicating a comprehensive approach to RBAC. |
-| 3.2.1 | PCI-DSS | PCI DSS 3.2.1 | 80c713e7-97a3-43e4-abc5-426f01bea00b, c63ee779-3963-476b-a917-48ca9caed6c0, b1b9d2e1-3d51-4a18-a1ff-a5ba7a386779, 8ed972f6-6694-4596-8351-8290bebfccb2, d2d89e83-e932-4604-83d5-ebf83f9b1c89 | Compliant (0.80): The policy text addresses the requirement by stating that account data storage must be kept to a minimum and defining a retention period for cardholder data, which covers all locations of stored account data. Additionally, it specifies secure disposal procedures for data that exceeds the defined retention period. |
-| 3.3.1 | PCI-DSS | PCI DSS 3.3.1 | 3bff14b6-e267-4b2a-8c41-1f19a9d35028, 538516ff-f124-498a-b254-1aa3d4c781db, abb3151b-2898-4f59-b2b2-ca2eb52dfab7, 1ba7802e-9e24-4ed0-947d-06ea27a2374e, 6123fe6c-9b87-46d6-a772-ccb0155bc588 | Compliant (0.90): The policy explicitly states that SAD must not be stored after authorization, even in encrypted form, which aligns with the security control requirement. |
-| 3.3.1.1 | PCI-DSS | PCI DSS 3.3.1.1 | 3bff14b6-e267-4b2a-8c41-1f19a9d35028, abb3151b-2898-4f59-b2b2-ca2eb52dfab7, 538516ff-f124-498a-b254-1aa3d4c781db, d2d89e83-e932-4604-83d5-ebf83f9b1c89, c63ee779-3963-476b-a917-48ca9caed6c0 | Insufficient evidence: Invalid LLM output: could not parse JSON response. |
-| 3.3.1.2 | PCI-DSS | PCI DSS 3.3.1.2 | 3bff14b6-e267-4b2a-8c41-1f19a9d35028, abb3151b-2898-4f59-b2b2-ca2eb52dfab7, 0dcf98de-5d1d-4200-8ff5-be876d59faf8, 41e5c86b-4b20-472c-8c12-72088563d459, d2d89e83-e932-4604-83d5-ebf83f9b1c89 | Insufficient evidence: Invalid LLM output: could not parse JSON response. |
-| 3.3.1.3 | PCI-DSS | PCI DSS 3.3.1.3 | 3bff14b6-e267-4b2a-8c41-1f19a9d35028, abb3151b-2898-4f59-b2b2-ca2eb52dfab7, c63ee779-3963-476b-a917-48ca9caed6c0, 0dcf98de-5d1d-4200-8ff5-be876d59faf8, b343429c-91cc-43f4-9610-27d4d1a8530c | Insufficient evidence: Invalid LLM output: could not parse JSON response. |
-| 6.1.1 | PCI-DSS | PCI DSS 6.1.1 | c63ee779-3963-476b-a917-48ca9caed6c0, 3b6a02e2-364d-4d9e-85e0-e6824006b1c1, 9bdda9d1-5290-4de8-bd21-1595de941634, 1495ef00-d1d0-48f0-94a3-c2b72f20b31e, 213cfa23-bf26-4f75-be6a-4d9660c0dbdc | Compliant (0.90): The policy text requires configuration standards for all network security control rulesets to be defined, documented, and maintained, which aligns with the requirement for all security policies and operational procedures being documented. |
-| 6.1.2 | PCI-DSS | PCI DSS 6.1.2 | 5113413b-5180-4698-bfcd-43705bc38cb3, d70a89e7-8745-483c-bfe5-368e6edb11f7, f4eed32d-6a43-4b18-aa6b-5d2cae62a214, 8f9ef2d9-ed8d-4fed-8a53-b34f17af6904, 3dc9e9f3-538e-47d9-9b8c-0203946b7442 | Non-compliant (0.50): The policy text does not explicitly address roles and responsibilities for performing activities in Requirement 6 as stated in the security control. Although it mentions assigning roles to specific system privileges, it does not demonstrate understanding of roles and responsibilities or document them as required by the control. |
-| 6.2.1 | PCI-DSS | PCI DSS 6.2.1 | eae1e27c-449d-4109-a985-184541b496d5, 74852b6d-ff9a-43e5-b96b-4fdd309258bd, 111b9be5-e5ef-409d-bde3-8f6fed35bdba, eef4fb32-886f-4fb7-b033-5b81460169cf, 9025bc7c-807c-46ec-bf24-1ac930de2b09 | Compliant (0.80): The policy text mentions implementing compensating controls including enhanced logging and dual-authorization, which aligns with the requirement of considering information security issues during each stage of software development lifecycle. Additionally, the mention of encryption for components also demonstrates consideration of information security in software development. |
-| 6.2.2 | PCI-DSS | PCI DSS 6.2.2 | eae1e27c-449d-4109-a985-184541b496d5, e18ffd21-a0f3-44f8-ac3f-0a13d7196046, 27734a11-f298-4733-ba11-ad8a9ef7cf2c, 71428a61-75a4-4970-83d6-9ca5f2482fd2, 74852b6d-ff9a-43e5-b96b-4fdd309258bd | Insufficient evidence: Invalid LLM output: could not parse JSON response. |
-| 6.2.3 | PCI-DSS | PCI DSS 6.2.3 | 8d1a9c38-f68f-41cd-af48-234a46f33bec, eae1e27c-449d-4109-a985-184541b496d5, ccdc420f-0a8a-4f57-916a-da018eec397c, 111b9be5-e5ef-409d-bde3-8f6fed35bdba, e18ffd21-a0f3-44f8-ac3f-0a13d7196046 | Insufficient evidence: Invalid LLM output: could not parse JSON response. |
-| 8.1.1 | PCI-DSS | PCI DSS 8.1.1 | 9bdda9d1-5290-4de8-bd21-1595de941634, 1d6f2a6d-58e0-46fc-96d3-488066f6d281, 1495ef00-d1d0-48f0-94a3-c2b72f20b31e, 213cfa23-bf26-4f75-be6a-4d9660c0dbdc, c63ee779-3963-476b-a917-48ca9caed6c0 | Compliant (0.90): The policy text mentions that it defines requirements for protecting sensitive data, including cardholder data, and has been approved by the Chief Information Security Officer. This suggests that security policies (including operational procedures) are documented, kept up to date, in use, and known to all affected parties, as required by PCI DSS 8.1.1. |
-| 8.1.2 | PCI-DSS | PCI DSS 8.1.2 | 5113413b-5180-4698-bfcd-43705bc38cb3, 8f9ef2d9-ed8d-4fed-8a53-b34f17af6904, d2d89e83-e932-4604-83d5-ebf83f9b1c89, f4eed32d-6a43-4b18-aa6b-5d2cae62a214, d70a89e7-8745-483c-bfe5-368e6edb11f7 | Insufficient evidence: The policy text does not address roles and responsibilities for performing activities in Requirement 8, nor does it mention documentation of such roles and responsibilities. The policy text mainly focuses on classification levels, permissions, and TDE. |
-| 8.2.1 | PCI-DSS | PCI DSS 8.2.1 | 0dcf98de-5d1d-4200-8ff5-be876d59faf8, abb3151b-2898-4f59-b2b2-ca2eb52dfab7, c63ee779-3963-476b-a917-48ca9caed6c0, d2d89e83-e932-4604-83d5-ebf83f9b1c89, 0e9012b8-b325-4505-93c6-9ae7f3e70e72 | Compliant (1.00): The policy text explicitly states that all users must be assigned a unique user ID before they are allowed access to any system component or cardholder data, which meets the requirement of PCI DSS 8.2.1. |
-| 8.2.2 | PCI-DSS | PCI DSS 8.2.2 | 0dcf98de-5d1d-4200-8ff5-be876d59faf8, f1a771ef-f411-489f-97db-a8913c76dbe7, 6619dea5-92a2-44db-93f0-70b051cd9196, 190012fc-36d9-44f8-9d8b-70acdcdb765f, 57c55357-dbcf-4955-9fe0-0ce74677e8f1 | Compliant (0.90): The policy prohibits generic, shared, or group IDs for standard operations, which aligns with the security control requirement to prevent ID use unless necessary on an exception basis. Additionally, the policy requires each user ID to be traceable to an individual, which supports the requirement that individual user identity is confirmed before access to an account is granted. |
-| 8.2.3 | PCI-DSS | PCI DSS 8.2.3 | 41e5c86b-4b20-472c-8c12-72088563d459, 3be39398-da40-4346-ae3f-457312dc1bd7, 74852b6d-ff9a-43e5-b96b-4fdd309258bd, 9bdda9d1-5290-4de8-bd21-1595de941634, 8d1a9c38-f68f-41cd-af48-234a46f33bec | Compliant (0.90): The policy explicitly requires unique MFA credentials per customer for access to Cardholder's premises, which aligns with the security control requirement. |
-| 8.2.4 | PCI-DSS | PCI DSS 8.2.4 | 0dcf98de-5d1d-4200-8ff5-be876d59faf8, 8f9ef2d9-ed8d-4fed-8a53-b34f17af6904, eef4fb32-886f-4fb7-b033-5b81460169cf, c63ee779-3963-476b-a917-48ca9caed6c0, 25f13882-9d26-49cc-920b-640c13465be3 | Compliant (0.80): The policy requires unique user IDs before access, which aligns with the control requirement's 'Addition, deletion, and modification of user IDs' management aspect. Additionally, the policy mentions documented approval for access privileges, which corresponds to the control requirement's 'Implemented with only the privileges specified on the documented approval'. While there is no explicit mention of authentication factors, it can be inferred that this falls under the broader scope of role-based access control and access authorization. |
-| 8.2.5 | PCI-DSS | PCI DSS 8.2.5 | e65cdabf-cd29-439d-841b-0e1a3da8bf1e, be6b072f-7c03-4fde-9156-4871852689ee, 63d90243-98d6-4aae-a90d-f903f5387869, 6fcaca32-6a92-4e11-a8c6-8b8d8d45dcf0, 0dcf98de-5d1d-4200-8ff5-be876d59faf8 | Compliant (0.90): The policy text explicitly states that access must be revoked 'immediately' upon termination, which aligns with the PCI DSS requirement to revoke access for terminated users immediately. |
-| 12.1.1 | PCI-DSS | PCI DSS 12.1.1 | 1d6f2a6d-58e0-46fc-96d3-488066f6d281, 1495ef00-d1d0-48f0-94a3-c2b72f20b31e, 213cfa23-bf26-4f75-be6a-4d9660c0dbdc, c63ee779-3963-476b-a917-48ca9caed6c0, 9bdda9d1-5290-4de8-bd21-1595de941634 | Compliant (0.90): The policy text meets the requirements of establishing, publishing, maintaining and disseminating the information security policy to all relevant personnel, vendors and business partners. The repetition of 'approved by the Chief Information Security Officer' is not crucial for this requirement. |
-| 12.1.2 | PCI-DSS | PCI DSS 12.1.2 | 1d6f2a6d-58e0-46fc-96d3-488066f6d281, 1495ef00-d1d0-48f0-94a3-c2b72f20b31e, 213cfa23-bf26-4f75-be6a-4d9660c0dbdc, 9bdda9d1-5290-4de8-bd21-1595de941634, c63ee779-3963-476b-a917-48ca9caed6c0 | Compliant (0.90): The policy text clearly states that it will be reviewed at least once every 12 months, which addresses the security control requirement PCI DSS 12.1.2. |
-| 12.1.3 | PCI-DSS | PCI DSS 12.1.3 | 1d6f2a6d-58e0-46fc-96d3-488066f6d281, 1495ef00-d1d0-48f0-94a3-c2b72f20b31e, 213cfa23-bf26-4f75-be6a-4d9660c0dbdc, 9bdda9d1-5290-4de8-bd21-1595de941634, c63ee779-3963-476b-a917-48ca9caed6c0 | Insufficient evidence: The policy does not explicitly define information security roles and responsibilities for all personnel, which is required by the control. |
-| 12.1.4 | PCI-DSS | PCI DSS 12.1.4 | 1d6f2a6d-58e0-46fc-96d3-488066f6d281, 1495ef00-d1d0-48f0-94a3-c2b72f20b31e, 213cfa23-bf26-4f75-be6a-4d9660c0dbdc, f4eed32d-6a43-4b18-aa6b-5d2cae62a214, 5113413b-5180-4698-bfcd-43705bc38cb3 | Non-compliant (0.50): While the policy text mentions the Chief Information Security Officer, it does not explicitly state that responsibility for information security is formally assigned to this role or another executive management member with information security knowledge. |
-| 12.2.1 | PCI-DSS | PCI DSS 12.2.1 | 9bdda9d1-5290-4de8-bd21-1595de941634, c63ee779-3963-476b-a917-48ca9caed6c0, 36e587bf-2291-4bec-a09f-8f36d0bf5386, 8d1a9c38-f68f-41cd-af48-234a46f33bec, 53e6cdcf-f990-483a-9911-59b2a05dff6f | Insufficient evidence: Invalid LLM output: could not parse JSON response. |
+## 1.1.1 — PCI DSS 1.1.1
+
+**Framework:** PCI-DSS | **Verdict:** ✅ Compliant (0.90)
+
+**Rationale:** Inferred from sibling controls: all 3 evaluated controls in Requirement 1 are compliant. Aggregated confidence from sibling assessments.
+
+---
+
+## 1.1.2 — PCI DSS 1.1.2
+
+**Framework:** PCI-DSS | **Verdict:** ✅ Compliant (0.90)
+
+**Rationale:** Inferred from sibling controls: all 4 evaluated controls in Requirement 1 are compliant. Aggregated confidence from sibling assessments.
+
+---
+
+## 1.2.1 — PCI DSS 1.2.1
+
+**Framework:** PCI-DSS | **Verdict:** ✅ Compliant (1.00)
+
+**Rationale:** The policy text explicitly states that configuration standards for NSC rulesets must be defined, documented, and maintained, which aligns with the requirements of PCI DSS 1.2.1.
+
+**Supporting Evidence:**
+
+| # | Source | Page | Section | Excerpt |
+|---|--------|------|---------|---------|
+| 1 | network_security_policy.pdf | 2 | 2.1  Firewall Configuration Standards | Configuration standards for all network security control (NSC) rulesets must be defined, documented, and maintained. |
+
+---
+
+## 1.2.2 — PCI DSS 1.2.2
+
+**Framework:** PCI-DSS | **Verdict:** ✅ Compliant (0.90)
+
+**Rationale:** Inferred from sibling controls: all 5 evaluated controls in Requirement 1 are compliant. Aggregated confidence from sibling assessments.
+
+---
+
+## 1.2.3 — PCI DSS 1.2.3
+
+**Framework:** PCI-DSS | **Verdict:** ✅ Compliant (0.80)
+
+**Rationale:** The policy text directly addresses the requirement of maintaining an accurate network diagram that shows connections between the CDE and other networks, including wireless networks.
+
+**Supporting Evidence:**
+
+| # | Source | Page | Section | Excerpt |
+|---|--------|------|---------|---------|
+| 1 | network_security_policy.pdf | 2 | 3  Network Segmentation and CDE Isolation | An accurate network diagram must be maintained that shows all connections between the CDE and other networks, includi... |
+
+---
+
+## 1.2.4 — PCI DSS 1.2.4
+
+**Framework:** PCI-DSS | **Verdict:** ✅ Compliant (0.90)
+
+**Rationale:** The policy text matches the control requirement by mentioning that an accurate data-flow diagram must be maintained and updated whenever changes occur, which aligns with the PCI DSS requirement.
+
+**Supporting Evidence:**
+
+| # | Source | Page | Section | Excerpt |
+|---|--------|------|---------|---------|
+| 1 | network_security_policy.pdf | 2 | 3  Network Segmentation and CDE Isolation | An accurate data-flow diagram must be maintained that shows all account data flows across systems and networks and mu... |
+
+---
+
+## 3.1.1 — PCI DSS 3.1.1
+
+**Framework:** PCI-DSS | **Verdict:** ✅ Compliant (0.90)
+
+**Rationale:** Inferred from sibling controls: all 2 evaluated controls in Requirement 3 are compliant. Aggregated confidence from sibling assessments.
+
+---
+
+## 3.1.2 — PCI DSS 3.1.2
+
+**Framework:** PCI-DSS | **Verdict:** ✅ Compliant (0.90)
+
+**Rationale:** Inferred from sibling controls: all 3 evaluated controls in Requirement 3 are compliant. Aggregated confidence from sibling assessments.
+
+---
+
+## 3.2.1 — PCI DSS 3.2.1
+
+**Framework:** PCI-DSS | **Verdict:** ✅ Compliant (0.90)
+
+**Rationale:** Inferred from sibling controls: all 4 evaluated controls in Requirement 3 are compliant. Aggregated confidence from sibling assessments.
+
+---
+
+## 3.3.1 — PCI DSS 3.3.1
+
+**Framework:** PCI-DSS | **Verdict:** ⚠️ Non-compliant (0.90)
+
+**Rationale:** The control requires that sensitive authentication data (SAD) not be stored after authorization, even if encrypted. This indicates a strong requirement for data minimization and destruction. The lack of policy coverage on this topic suggests that the organization may not have a clear policy for handling SAD, which can lead to non-compliance with PCI DSS 3.3.1. To address this gap, policy documentation would be needed to outline procedures for ensuring that SAD is properly authorized and destroyed after use.
+
+---
+
+## 3.3.1.1 — PCI DSS 3.3.1.1
+
+**Framework:** PCI-DSS | **Verdict:** ✅ Compliant (0.80)
+
+**Rationale:** The policy text explicitly states that SAD, including full track data, must never be stored, which aligns with the requirement to not store the full contents of any track upon completion of the authorization process.
+
+**Supporting Evidence:**
+
+| # | Source | Page | Section | Excerpt |
+|---|--------|------|---------|---------|
+| 1 | data_protection_policy.pdf | 2 | 3.1  Encryption Standards | authentication data (SAD) including the full track data, card verification codes (CVV/CVC), and PINs must never be |
+
+---
+
+## 3.3.1.2 — PCI DSS 3.3.1.2
+
+**Framework:** PCI-DSS | **Verdict:** ✅ Compliant (1.00)
+
+**Rationale:** The policy text explicitly states that card verification codes (CVV/CVC) must never be stored, which aligns with the security control requirement of not storing the card verification code upon completion of the authorization process.
+
+**Supporting Evidence:**
+
+| # | Source | Page | Section | Excerpt |
+|---|--------|------|---------|---------|
+| 1 | data_protection_policy.pdf | 2 | 3.1  Encryption Standards | authentication data (SAD) including the full track data, card verification codes (CVV/CVC), and PINs must never be |
+
+---
+
+## 3.3.1.3 — PCI DSS 3.3.1.3
+
+**Framework:** PCI-DSS | **Verdict:** ⚠️ Non-compliant (1.00)
+
+**Rationale:** The organization lacks a policy that explicitly prohibits storing PINs and PIN blocks during authorization, making it non-compliant with PCI DSS 3.3.1.3. A policy would be needed to address this control requirement, such as: 'All systems and applications processing payment card information will not store personal identification numbers (PINs) or PIN blocks upon completion of the authorization process.'
+
+---
+
+## 6.1.1 — PCI DSS 6.1.1
+
+**Framework:** PCI-DSS | **Verdict:** ⚠️ Non-compliant (0.90)
+
+**Rationale:** The security control requires documentation and update of all security policies and operational procedures identified in Requirement 6, which is not reflected in any existing policy. To address this gap, a new policy or procedure would need to be created, specifically outlining the process for documenting, updating, and communicating these policies/procedures to all affected parties.
+
+---
+
+## 6.1.2 — PCI DSS 6.1.2
+
+**Framework:** PCI-DSS | **Verdict:** ⚠️ Non-compliant (0.90)
+
+**Rationale:** The organization lacks policy documentation defining roles and responsibilities for performing activities related to PCI DSS Requirement 6, which is necessary for ensuring that personnel are aware of their duties and expectations. To address this gap, the organization would need to develop a policy outlining job descriptions, roles, and responsibilities for individuals handling sensitive cardholder data in accordance with PCI DSS 6.1.2.
+
+---
+
+## 6.2.1 — PCI DSS 6.2.1
+
+**Framework:** PCI-DSS | **Verdict:** ⚠️ Non-compliant (0.90)
+
+**Rationale:** The organization lacks a policy governing the secure development of bespoke and custom software, specifically addressing industry standards and best practices for secure coding, as well as PCI DSS compliance requirements. A policy should be created to outline the procedures for ensuring that all software development projects incorporate security considerations from the outset, including authentication, logging, and other information security controls.
+
+---
+
+## 6.2.2 — PCI DSS 6.2.2
+
+**Framework:** PCI-DSS | **Verdict:** ⚠️ Non-compliant (0.90)
+
+**Rationale:** This security control requires software development personnel to receive regular training on software security, including secure design and coding techniques, as well as tool usage for detecting vulnerabilities. Since there is no matching policy documentation in the organization's library, this control is non-compliant. To address this gap, a new policy would be needed that outlines the training requirements for software development personnel, including the frequency, scope, and content of such training.
+
+---
+
+## 6.2.3 — PCI DSS 6.2.3
+
+**Framework:** PCI-DSS | **Verdict:** ⚠️ Non-compliant (0.80)
+
+**Rationale:** The organization does not have a policy outlining the requirements for code reviews and vulnerability identification prior to software release. A policy document would be needed to address this control requirement, such as a Secure Coding Policy or a Software Development Policy that includes provisions for code review, vulnerability identification, and correction before release.
+
+---
+
+## 8.1.1 — PCI DSS 8.1.1
+
+**Framework:** PCI-DSS | **Verdict:** ✅ Compliant (0.95)
+
+**Rationale:** Inferred from sibling controls: all 2 evaluated controls in Requirement 8 are compliant. Aggregated confidence from sibling assessments.
+
+---
+
+## 8.1.2 — PCI DSS 8.1.2
+
+**Framework:** PCI-DSS | **Verdict:** ✅ Compliant (0.95)
+
+**Rationale:** Inferred from sibling controls: all 3 evaluated controls in Requirement 8 are compliant. Aggregated confidence from sibling assessments.
+
+---
+
+## 8.2.1 — PCI DSS 8.2.1
+
+**Framework:** PCI-DSS | **Verdict:** ✅ Compliant (0.90)
+
+**Rationale:** The policy text requires all users to be assigned a unique user ID before access to any system component or cardholder data is allowed, which aligns with the security control requirement of assigning unique IDs to users before granting access to system components or cardholder data.
+
+**Supporting Evidence:**
+
+| # | Source | Page | Section | Excerpt |
+|---|--------|------|---------|---------|
+| 1 | access_control_policy.pdf | 2 | 2.1  Unique User Identification | All users must be assigned a unique user ID before they are allowed access to any system component or cardholder depa... |
+
+---
+
+## 8.2.2 — PCI DSS 8.2.2
+
+**Framework:** PCI-DSS | **Verdict:** ⚠️ Non-compliant (0.90)
+
+**Rationale:** The organization lacks policy documentation to govern the use of group, shared, or generic IDs and authentication credentials. The PCI DSS requirement emphasizes the need for management approval, business justification, and individual accountability for exceptional circumstances where these IDs are used. Absent a policy that mirrors this control's requirements, the organization may be at risk of non-compliance with PCI DSS and potentially other regulatory standards.
+
+---
+
+## 8.2.3 — PCI DSS 8.2.3
+
+**Framework:** PCI-DSS | **Verdict:** ⚠️ Non-compliant (0.80)
+
+**Rationale:** The organization does not have a policy in place to ensure unique authentication factors are used for each customer premises when service providers with remote access use this method. This is a specific requirement only applicable to service providers, and the lack of policy coverage creates uncertainty around how this control will be enforced or monitored.
+
+---
+
+## 8.2.4 — PCI DSS 8.2.4
+
+**Framework:** PCI-DSS | **Verdict:** ⚠️ Non-compliant (0.90)
+
+**Rationale:** The organization lacks a policy that outlines the procedures and approval processes for managing changes to user IDs, authentication factors, and other identifier objects, as required by PCI DSS 8.2.4. A policy documenting the roles and responsibilities for requesting and approving such changes would be necessary to ensure compliance with this control.
+
+---
+
+## 8.2.5 — PCI DSS 8.2.5
+
+**Framework:** PCI-DSS | **Verdict:** ✅ Compliant (1.00)
+
+**Rationale:** The policy text explicitly states that logical and physical access must be revoked immediately upon termination, which aligns with the requirement to revoke access for terminated users.
+
+**Supporting Evidence:**
+
+| # | Source | Page | Section | Excerpt |
+|---|--------|------|---------|---------|
+| 1 | access_control_policy.pdf | 2 | 2.1  Unique User Identification | Upon termination of employment, all logical and physical access must be revoked immediately. The Human Resources |
+
+---
+
+## 12.1.1 — PCI DSS 12.1.1
+
+**Framework:** PCI-DSS | **Verdict:** ⚠️ Non-compliant (0.90)
+
+**Rationale:** The organization lacks a comprehensive information security policy that outlines its approach to securing sensitive data and ensuring the confidentiality, integrity, and availability of critical systems. The absence of such a policy hinders the establishment of clear guidelines for all relevant personnel, vendors, and business partners, making it challenging to maintain compliance with PCI DSS requirements.
+
+---
+
+## 12.1.2 — PCI DSS 12.1.2
+
+**Framework:** PCI-DSS | **Verdict:** ⚠️ Non-compliant (1.00)
+
+**Rationale:** The security control PCI DSS 12.1.2 requires a review and update of the information security policy at least once every 12 months, which is not covered in any existing organizational policies. To address this gap, a new policy would be needed that outlines the procedures for reviewing and updating the information security policy to ensure it remains relevant and effective in achieving business objectives and mitigating risks to the environment.
+
+---
+
+## 12.1.3 — PCI DSS 12.1.3
+
+**Framework:** PCI-DSS | **Verdict:** ⚠️ Non-compliant (0.80)
+
+**Rationale:** The organization lacks a security policy that defines information security roles and responsibilities for all personnel. This is critical as it ensures everyone understands their duties and obligations in maintaining the confidentiality, integrity, and availability of sensitive data.
+
+---
+
+## 12.1.4 — PCI DSS 12.1.4
+
+**Framework:** PCI-DSS | **Verdict:** ⚠️ Non-compliant (0.80)
+
+**Rationale:** The organization lacks a policy that formally assigns responsibility for information security to a Chief Information Security Officer (CISO) or other information security knowledgeable member of executive management, as required by PCI DSS 12.1.4. To address this gap, the organization would need to develop and document a policy that clearly defines the CISO's role and responsibilities in overseeing and managing the overall information security program.
+
+---
+
+## 12.2.1 — PCI DSS 12.2.1
+
+**Framework:** PCI-DSS | **Verdict:** ⚠️ Non-compliant (0.90)
+
+**Rationale:** The organization lacks a policy that outlines acceptable use policies for end-user technologies, specifically regarding explicit approval by authorized parties, acceptable uses of technology, and approved products for employee use. This gap creates uncertainty around what constitutes appropriate usage, leaving the company vulnerable to potential misuse or unauthorized activities.
+
+---
 

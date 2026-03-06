@@ -14,6 +14,45 @@ from ctrlmap.index.query import query
 from ctrlmap.index.vector_store import VectorStore
 from ctrlmap.models.schemas import MappedResult, ParsedChunk, SecurityControl
 
+# Static keyword map for query expansion.
+# Maps abstract GRC concepts to domain-specific terms that improve retrieval.
+_EXPANSION_MAP: dict[str, str] = {
+    "information at rest": "encryption, AES, TDE, full-disk encryption, data-at-rest",
+    "information in transit": "TLS, SSL, HTTPS, transport encryption, VPN, IPsec",
+    "cryptographic protection": "encryption, key management, PKI, certificate, AES",
+    "audit events": "logging, SIEM, log retention, audit trail, event monitoring",
+    "flaw remediation": "patching, vulnerability management, CVE, security update",
+    "access enforcement": "RBAC, ACL, permissions, authorization, least privilege",
+    "incident response": "breach notification, forensics, incident handling, CSIRT",
+    "risk assessment": "risk analysis, threat modeling, vulnerability assessment",
+    "system monitoring": "IDS, IPS, intrusion detection, network monitoring, SIEM",
+    "boundary protection": "firewall, DMZ, network segmentation, NSC, perimeter",
+}
+
+
+def _expand_query(query_text: str) -> str:
+    """Expand abstract control descriptions with domain-specific terms.
+
+    Scans the query text for abstract GRC concepts from ``_EXPANSION_MAP``
+    and appends relevant domain synonyms to improve vector search recall.
+
+    Args:
+        query_text: The original query string.
+
+    Returns:
+        The query string, possibly augmented with expansion terms.
+    """
+    lower = query_text.lower()
+    expansions: list[str] = []
+
+    for concept, terms in _EXPANSION_MAP.items():
+        if concept in lower:
+            expansions.append(terms)
+
+    if expansions:
+        return f"{query_text} [{'; '.join(expansions)}]"
+    return query_text
+
 
 def map_controls(
     *,
@@ -21,7 +60,7 @@ def map_controls(
     store: VectorStore,
     collection_name: str,
     top_k: int = 5,
-    min_score: float = 0.50,
+    min_score: float = 0.35,
     embedder: Embedder | None = None,
 ) -> list[MappedResult]:
     """Map security controls to supporting policy chunks via vector similarity.
@@ -35,7 +74,7 @@ def map_controls(
         store: The VectorStore instance containing indexed policy chunks.
         collection_name: Name of the ChromaDB collection to search.
         top_k: Maximum number of supporting chunks per control (default: 5).
-        min_score: Minimum similarity score to include a chunk (default: 0.50).
+        min_score: Minimum similarity score to include a chunk (default: 0.35).
             Chunks below this threshold are dropped to avoid false matches.
         embedder: Optional Embedder instance. Creates a default one if None.
 
@@ -49,6 +88,12 @@ def map_controls(
 
     for control in controls:
         query_text = f"{control.control_id}: {control.title}. {control.description}"
+        # Include the requirement family context to anchor embeddings
+        # to the correct domain (e.g. "Develop and Maintain Secure
+        # Systems and Software") and reduce cross-family false matches.
+        if control.requirement_family:
+            query_text = f"[{control.requirement_family}] {query_text}"
+        query_text = _expand_query(query_text)
 
         query_results = query(
             store=store,

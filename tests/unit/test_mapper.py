@@ -166,3 +166,43 @@ class TestMappingAlgorithm:
         )
         assert len(results) == 1
         assert results[0].supporting_chunks == []
+
+    def test_default_min_score_is_0_35(self) -> None:
+        """The default min_score should be 0.35 to filter noise without losing relevance."""
+        import inspect
+
+        from ctrlmap.map.mapper import map_controls
+
+        sig = inspect.signature(map_controls)
+        default = sig.parameters["min_score"].default
+        assert default == 0.35, f"Expected min_score default 0.35, got {default}"
+
+
+class TestQueryExpansion:
+    """Query expansion should add domain-specific synonyms to abstract controls."""
+
+    def test_expand_query_adds_domain_terms(self) -> None:
+        """Abstract control descriptions should be augmented with GRC synonyms."""
+        from ctrlmap.map.mapper import _expand_query
+
+        expanded = _expand_query(
+            "SC-28: Protection of Information at Rest. "
+            "Protect the confidentiality and integrity of information at rest."
+        )
+        # Should add encryption-related terms
+        assert "encryption" in expanded.lower() or "aes" in expanded.lower(), (
+            f"Expected encryption terms in: {expanded}"
+        )
+
+    def test_expand_query_noop_for_specific_terms(self) -> None:
+        """Queries that already contain specific terms should pass through unchanged."""
+        from ctrlmap.map.mapper import _expand_query
+
+        original = (
+            "AC-2: Account Management. "
+            "Manage system accounts, group memberships, and authorizations."
+        )
+        expanded = _expand_query(original)
+        # Should still contain the original text
+        assert "Account Management" in expanded
+

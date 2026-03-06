@@ -138,12 +138,14 @@ info "Generating interactive HTML reports..."
 uv run ctrlmap map \
     --framework "$FRAMEWORKS_DIR/nist_800_53_subset.json" \
     --db-path "$OUTPUT_DIR/demo_db" \
+    --rationale \
     --output-format html \
     --output "$OUTPUT_DIR/nist_report.html"
 
 uv run ctrlmap map \
     --framework "$FRAMEWORKS_DIR/pci_dss_v4_oscal.json" \
     --db-path "$OUTPUT_DIR/demo_db" \
+    --rationale \
     --output-format html \
     --output "$OUTPUT_DIR/pci_report.html"
 
