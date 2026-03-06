@@ -26,6 +26,7 @@ _COLUMNS = [
     "chunk_id",
     "raw_text",
     "is_compliant",
+    "compliance_level",
     "confidence_score",
     "rationale",
 ]
@@ -59,6 +60,7 @@ def format_csv(results: list[MappedResult]) -> str:
                     chunk.chunk_id,
                     chunk.raw_text,
                     rationale_fields["is_compliant"],
+                    rationale_fields["compliance_level"],
                     rationale_fields["confidence_score"],
                     rationale_fields["rationale"],
                 ]
@@ -85,15 +87,17 @@ def _extract_rationale_fields(
 ) -> dict[str, str]:
     """Extract display fields from a union-type rationale."""
     if rationale is None:
-        return {"is_compliant": "", "confidence_score": "", "rationale": ""}
+        return {"is_compliant": "", "compliance_level": "", "confidence_score": "", "rationale": ""}
     if isinstance(rationale, MappingRationale):
         return {
             "is_compliant": str(rationale.is_compliant),
+            "compliance_level": rationale.compliance_level.value,
             "confidence_score": str(rationale.confidence_score),
             "rationale": rationale.explanation,
         }
     return {
         "is_compliant": "",
+        "compliance_level": "",
         "confidence_score": "",
         "rationale": f"InsufficientEvidence: {rationale.reason}",
     }

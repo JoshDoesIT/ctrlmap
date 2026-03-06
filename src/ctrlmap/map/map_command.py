@@ -25,10 +25,15 @@ from ctrlmap.export.html_formatter import export_html, format_html
 from ctrlmap.export.markdown_formatter import export_markdown, format_markdown
 from ctrlmap.export.oscal_formatter import export_oscal, format_oscal
 from ctrlmap.index.vector_store import VectorStore
-from ctrlmap.llm.structured_output import generate_rationale
+from ctrlmap.llm.structured_output import (
+    generate_gap_rationale,
+    generate_rationale,
+    select_best_rationale,
+)
 from ctrlmap.map.mapper import map_controls
+from ctrlmap.map.meta_requirements import classify_meta_controls, resolve_meta_requirements
 from ctrlmap.models.oscal import parse_oscal_catalog
-from ctrlmap.models.schemas import ParsedChunk
+from ctrlmap.models.schemas import MappingRationale, ParsedChunk
 
 console = Console()
 
@@ -107,6 +112,7 @@ def map_controls_cmd(
                 is_relevant = llm_client.verify_chunk_relevance(
                     control_text=control_text,
                     chunk_text=chunk.raw_text,
+                    requirement_family=ctrl.requirement_family,
                 )
                 if is_relevant:
                     verified.append(chunk)
@@ -117,18 +123,49 @@ def map_controls_cmd(
                     )
             result.supporting_chunks = verified
 
-        # Step 2: Generate rationales for controls with verified evidence
-        console.print("[bold blue]LLM:[/] Generating rationales...")
+        # Step 2: Score each chunk individually, keep the best rationale
+        console.print("[bold blue]LLM:[/] Generating per-chunk rationales...")
         for result in results:
-            if result.supporting_chunks:
-                chunk_texts = " ".join(c.raw_text for c in result.supporting_chunks)
-                ctrl = result.control
-                control_text = f"{ctrl.control_id}: {ctrl.title}. {ctrl.description}"
-                result.rationale = generate_rationale(
+            if not result.supporting_chunks:
+                continue
+            ctrl = result.control
+            control_text = f"{ctrl.control_id}: {ctrl.title}. {ctrl.description}"
+            chunk_rationales: list[MappingRationale] = []
+            for chunk in result.supporting_chunks:
+                rat = generate_rationale(
                     control_text=control_text,
-                    chunk_text=chunk_texts,
+                    chunk_text=chunk.raw_text,
                     model=llm_model,
                 )
+                if isinstance(rat, MappingRationale):
+                    chunk_rationales.append(rat)
+            best = select_best_rationale(chunk_rationales)
+            if best is not None:
+                result.rationale = best
+
+        # Step 3: Classify which unresolved controls are meta-requirements
+        console.print("[bold blue]LLM:[/] Classifying meta-requirements...")
+        meta_ids = classify_meta_controls(results=results, client=llm_client)
+
+        # Step 4: Generate gap rationale for unmapped controls
+        # (includes meta-controls — conservative override in Step 5
+        # only demotes, so gap rationales for meta-controls with
+        # all-compliant siblings will be preserved)
+        console.print("[bold blue]LLM:[/] Generating gap rationales...")
+        for result in results:
+            if result.rationale is None and not result.supporting_chunks:
+                ctrl = result.control
+                control_text = f"{ctrl.control_id}: {ctrl.title}. {ctrl.description}"
+                result.rationale = generate_gap_rationale(
+                    control_text=control_text,
+                    model=llm_model,
+                    client=llm_client,
+                )
+
+        # Step 5: Resolve meta-requirements via sibling aggregation
+        # (now all siblings have rationales from steps 2 + 4)
+        console.print("[bold blue]LLM:[/] Resolving meta-requirements...")
+        results = resolve_meta_requirements(results=results, meta_control_ids=meta_ids)
 
     # Load ALL chunks for the Policy Coverage tab
     all_chunks = store.get_all_chunks("chunks")

@@ -98,3 +98,43 @@ class TestStructuredOutput:
             )
             assert isinstance(result, InsufficientEvidence)
             assert "parse" in result.reason.lower() or "invalid" in result.reason.lower()
+
+
+class TestGapRationale:
+    """Gap rationale generation for controls with no supporting evidence."""
+
+    def test_generate_gap_rationale_returns_mapping_rationale(self) -> None:
+        """When LLM responds correctly, returns a valid MappingRationale."""
+        from ctrlmap.llm.structured_output import generate_gap_rationale
+
+        llm_response = json.dumps(
+            {
+                "type": "MappingRationale",
+                "is_compliant": False,
+                "confidence_score": 0.10,
+                "explanation": "No policy documentation addresses this control.",
+            }
+        )
+
+        with patch("ctrlmap.llm.structured_output.OllamaClient") as MockClient:
+            mock_instance = MockClient.return_value
+            mock_instance.generate_gap.return_value = llm_response
+
+            result = generate_gap_rationale(
+                control_text="6.2.1: Secure development practices.",
+            )
+            assert isinstance(result, MappingRationale)
+            assert result.is_compliant is False
+
+    def test_generate_gap_rationale_falls_back_on_invalid_output(self) -> None:
+        """Falls back to InsufficientEvidence when LLM output is invalid."""
+        from ctrlmap.llm.structured_output import generate_gap_rationale
+
+        with patch("ctrlmap.llm.structured_output.OllamaClient") as MockClient:
+            mock_instance = MockClient.return_value
+            mock_instance.generate_gap.return_value = "Not valid JSON at all."
+
+            result = generate_gap_rationale(
+                control_text="6.2.1: Secure development.",
+            )
+            assert isinstance(result, InsufficientEvidence)

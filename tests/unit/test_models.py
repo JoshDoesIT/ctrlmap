@@ -181,6 +181,70 @@ class TestMappingRationale:
                 explanation="Some explanation.",
             )
 
+    def test_compliance_level_fully_compliant(self) -> None:
+        """MappingRationale accepts compliance_level='fully_compliant'."""
+        from ctrlmap.models.schemas import ComplianceLevel, MappingRationale
+
+        rationale = MappingRationale(
+            is_compliant=True,
+            compliance_level=ComplianceLevel.FULLY_COMPLIANT,
+            confidence_score=0.95,
+            explanation="All requirements addressed.",
+        )
+        assert rationale.compliance_level == ComplianceLevel.FULLY_COMPLIANT
+
+    def test_compliance_level_partially_compliant(self) -> None:
+        """MappingRationale accepts compliance_level='partially_compliant'."""
+        from ctrlmap.models.schemas import ComplianceLevel, MappingRationale
+
+        rationale = MappingRationale(
+            is_compliant=True,
+            compliance_level=ComplianceLevel.PARTIALLY_COMPLIANT,
+            confidence_score=0.65,
+            explanation="Core requirement addressed but details missing.",
+        )
+        assert rationale.compliance_level == ComplianceLevel.PARTIALLY_COMPLIANT
+
+    def test_compliance_level_non_compliant(self) -> None:
+        """MappingRationale accepts compliance_level='non_compliant'."""
+        from ctrlmap.models.schemas import ComplianceLevel, MappingRationale
+
+        rationale = MappingRationale(
+            is_compliant=False,
+            compliance_level=ComplianceLevel.NON_COMPLIANT,
+            confidence_score=0.90,
+            explanation="No policy coverage.",
+        )
+        assert rationale.compliance_level == ComplianceLevel.NON_COMPLIANT
+
+    def test_compliance_level_defaults_from_is_compliant(self) -> None:
+        """When compliance_level is omitted, it should default based on is_compliant."""
+        from ctrlmap.models.schemas import ComplianceLevel, MappingRationale
+
+        compliant = MappingRationale(
+            is_compliant=True,
+            confidence_score=0.90,
+            explanation="Policy covers the requirement.",
+        )
+        assert compliant.compliance_level == ComplianceLevel.FULLY_COMPLIANT
+
+        non_compliant = MappingRationale(
+            is_compliant=False,
+            confidence_score=0.85,
+            explanation="No coverage found.",
+        )
+        assert non_compliant.compliance_level == ComplianceLevel.NON_COMPLIANT
+
+    def test_compliance_level_enum_has_three_values(self) -> None:
+        """ComplianceLevel enum should have exactly 3 values."""
+        from ctrlmap.models.schemas import ComplianceLevel
+
+        values = list(ComplianceLevel)
+        assert len(values) == 3
+        assert ComplianceLevel.FULLY_COMPLIANT in values
+        assert ComplianceLevel.PARTIALLY_COMPLIANT in values
+        assert ComplianceLevel.NON_COMPLIANT in values
+
 
 class TestInsufficientEvidence:
     """Tests for the InsufficientEvidence model."""

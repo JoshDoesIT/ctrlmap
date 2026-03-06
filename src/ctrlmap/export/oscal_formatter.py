@@ -109,7 +109,14 @@ def _determine_state(
     if rationale is None:
         return "not-satisfied"
     if isinstance(rationale, MappingRationale):
-        return "satisfied" if rationale.is_compliant else "not-satisfied"
+        from ctrlmap.models.schemas import ComplianceLevel
+
+        level = rationale.compliance_level
+        if level == ComplianceLevel.FULLY_COMPLIANT:
+            return "satisfied"
+        if level == ComplianceLevel.PARTIALLY_COMPLIANT:
+            return "alternative"
+        return "not-satisfied"
     return "not-satisfied"
 
 

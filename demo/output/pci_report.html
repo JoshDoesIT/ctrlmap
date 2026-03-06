@@ -152,8 +152,11 @@ h1 {
 .badge-compliant {
   background: var(--green-bg); color: var(--green);
 }
-.badge-noncompliant, .badge-gap {
+.badge-partial {
   background: var(--yellow-bg); color: var(--yellow);
+}
+.badge-noncompliant, .badge-gap {
+  background: var(--red-bg); color: var(--red);
 }
 .score {
   font-size: 0.8rem; color: var(--text-dim);
@@ -313,11 +316,15 @@ tr:hover td { background: var(--surface-hover); }
         <div class="stat-label">Total Controls</div>
       </div>
       <div class="stat">
-        <div class="stat-value" style="color:var(--green)">10</div>
+        <div class="stat-value" style="color:var(--green)">22</div>
         <div class="stat-label">Compliant</div>
       </div>
       <div class="stat">
-        <div class="stat-value" style="color:var(--yellow)">20</div>
+        <div class="stat-value" style="color:var(--yellow)">0</div>
+        <div class="stat-label">Partial</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value" style="color:var(--red)">8</div>
         <div class="stat-label">Non-Compliant</div>
       </div>
     </div>
@@ -326,17 +333,18 @@ tr:hover td { background: var(--surface-hover); }
     <div class="filters">
       <button class="filter-btn active" data-filter="all">All</button>
       <button class="filter-btn" data-filter="compliant">Compliant</button>
+      <button class="filter-btn" data-filter="partial">Partial</button>
       <button class="filter-btn" data-filter="noncompliant">Non-Compliant</button>
     </div>
     
 
-    <div class="card" data-verdict="noncompliant">
+    <div class="card" data-verdict="compliant">
       <div class="card-header">
         <span class="chevron">&#9654;</span>
         <span class="ctrl-id">1.1.1</span>
         <span class="ctrl-title">PCI DSS 1.1.1</span>
-        <span class="badge badge-noncompliant">Non-Compliant</span>
-        <span class="score"></span>
+        <span class="badge badge-compliant">Compliant</span>
+        <span class="score">1.00</span>
       </div>
       <div class="card-body">
         <span class="framework-tag">PCI-DSS</span>
@@ -345,24 +353,24 @@ tr:hover td { background: var(--surface-hover); }
 •	 Kept up to date.
 •	 In use.
 •	 Known to all affected parties.</div>
-        
+        <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275L12 3z"/></svg>AI Analysis</div><div class="rationale">Inferred from sibling controls: all 1 evaluated controls in Requirement 1 are compliant. Aggregated confidence from sibling assessments.</div>
         
       </div>
     </div>
     
 
-    <div class="card" data-verdict="noncompliant">
+    <div class="card" data-verdict="compliant">
       <div class="card-header">
         <span class="chevron">&#9654;</span>
         <span class="ctrl-id">1.1.2</span>
         <span class="ctrl-title">PCI DSS 1.1.2</span>
-        <span class="badge badge-noncompliant">Non-Compliant</span>
-        <span class="score"></span>
+        <span class="badge badge-compliant">Compliant</span>
+        <span class="score">1.00</span>
       </div>
       <div class="card-body">
         <span class="framework-tag">PCI-DSS</span>
         <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><path d="M9 14l2 2 4-4"/></svg>Framework Requirement</div><div class="ctrl-desc">Roles and responsibilities for performing activities in Requirement 1 are documented, assigned, and understood.</div>
-        
+        <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275L12 3z"/></svg>AI Analysis</div><div class="rationale">Inferred from sibling controls: all 1 evaluated controls in Requirement 1 are compliant. Aggregated confidence from sibling assessments.</div>
         
       </div>
     </div>
@@ -374,7 +382,7 @@ tr:hover td { background: var(--surface-hover); }
         <span class="ctrl-id">1.2.1</span>
         <span class="ctrl-title">PCI DSS 1.2.1</span>
         <span class="badge badge-compliant">Compliant</span>
-        <span class="score">0.70</span>
+        <span class="score">1.00</span>
       </div>
       <div class="card-body">
         <span class="framework-tag">PCI-DSS</span>
@@ -382,8 +390,8 @@ tr:hover td { background: var(--surface-hover); }
 •	 Defined.
 •	 Implemented.
 •	 Maintained.</div>
-        <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275L12 3z"/></svg>AI Analysis</div><div class="rationale">The policy text requires configuration files for NSCs to be secured from unauthorized access, which addresses the &#x27;secured&#x27; aspect of the control requirement. Additionally, it mentions keeping configurations consistent with active network configurations, which implies implementation and maintenance of configuration standards. The language is general enough to encompass all three aspects of the control requirement.</div>
-        <div class="evidence-label">Supporting Evidence</div><table><thead><tr><th>#</th><th>Source</th><th>Page</th><th>Section</th><th>Excerpt</th></tr></thead><tbody><tr><td>1</td><td class="source-doc">network_security_policy.pdf</td><td class="page-num">2</td><td class="section-name">2.1 Firewall Configuration Standards</td><td class="excerpt">Configuration files for NSCs must be secured from unauthorized access and kept consistent with active network configurations.</td></tr></tbody></table>
+        <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275L12 3z"/></svg>AI Analysis</div><div class="rationale">The policy text explicitly mentions that configuration standards for NSC rulesets must be defined, documented, and maintained, which fully addresses all three aspects of the security control requirement.</div>
+        <div class="evidence-label">Supporting Evidence</div><table><thead><tr><th>#</th><th>Source</th><th>Page</th><th>Section</th><th>Excerpt</th></tr></thead><tbody><tr><td>1</td><td class="source-doc">network_security_policy.pdf</td><td class="page-num">2</td><td class="section-name">2.1  Firewall Configuration Standards</td><td class="excerpt">Configuration standards for all network security control (NSC) rulesets must be defined, documented, and maintained.</td></tr><tr><td>2</td><td class="source-doc">network_security_policy.pdf</td><td class="page-num">3</td><td class="section-name">6  Network Change Management</td><td class="excerpt">All changes to network connections and to configurations of NSCs must be approved and managed in accordance with the organizational change control process. This includes the addition, removal, or modification of any network connection as well as changes that affect how network security controls perform their security function.</td></tr></tbody></table>
       </div>
     </div>
     
@@ -394,13 +402,13 @@ tr:hover td { background: var(--surface-hover); }
         <span class="ctrl-id">1.2.2</span>
         <span class="ctrl-title">PCI DSS 1.2.2</span>
         <span class="badge badge-compliant">Compliant</span>
-        <span class="score">0.90</span>
+        <span class="score">1.00</span>
       </div>
       <div class="card-body">
         <span class="framework-tag">PCI-DSS</span>
         <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><path d="M9 14l2 2 4-4"/></svg>Framework Requirement</div><div class="ctrl-desc">All changes to network connections and to configurations of NSCs are approved and managed in accordance with the change control process defined at Requirement 6.5.1.</div>
-        <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275L12 3z"/></svg>AI Analysis</div><div class="rationale">The policy text specifies that all changes to network connections and configurations of NSCs must be approved and managed in accordance with the organizational change control process, which aligns with the security control requirement that such changes must be approved and managed according to a defined change control process.</div>
-        <div class="evidence-label">Supporting Evidence</div><table><thead><tr><th>#</th><th>Source</th><th>Page</th><th>Section</th><th>Excerpt</th></tr></thead><tbody><tr><td>1</td><td class="source-doc">network_security_policy.pdf</td><td class="page-num">3</td><td class="section-name">6 Network Change Management</td><td class="excerpt">All changes to network connections and to configurations of NSCs must be approved and managed in accordance with the organizational change control process.</td></tr></tbody></table>
+        <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275L12 3z"/></svg>AI Analysis</div><div class="rationale">The policy text explicitly requires approval and management of changes to network connections and NSC configurations in accordance with the organizational change control process, which aligns with the security control requirement.</div>
+        <div class="evidence-label">Supporting Evidence</div><table><thead><tr><th>#</th><th>Source</th><th>Page</th><th>Section</th><th>Excerpt</th></tr></thead><tbody><tr><td>1</td><td class="source-doc">network_security_policy.pdf</td><td class="page-num">3</td><td class="section-name">6  Network Change Management</td><td class="excerpt">All changes to network connections and to configurations of NSCs must be approved and managed in accordance with the organizational change control process. This includes the addition, removal, or modification of any network connection as well as changes that affect how network security controls perform their security function.</td></tr></tbody></table>
       </div>
     </div>
     
@@ -411,13 +419,13 @@ tr:hover td { background: var(--surface-hover); }
         <span class="ctrl-id">1.2.3</span>
         <span class="ctrl-title">PCI DSS 1.2.3</span>
         <span class="badge badge-compliant">Compliant</span>
-        <span class="score">0.90</span>
+        <span class="score">1.00</span>
       </div>
       <div class="card-body">
         <span class="framework-tag">PCI-DSS</span>
         <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><path d="M9 14l2 2 4-4"/></svg>Framework Requirement</div><div class="ctrl-desc">An accurate network diagram(s) is maintained that shows all connections between the CDE and other networks, including any wireless networks.</div>
-        <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275L12 3z"/></svg>AI Analysis</div><div class="rationale">The policy text mirrors the exact requirement in PCI DSS 1.2.3, ensuring that an accurate network diagram is maintained to show all connections between the CDE and other networks.</div>
-        <div class="evidence-label">Supporting Evidence</div><table><thead><tr><th>#</th><th>Source</th><th>Page</th><th>Section</th><th>Excerpt</th></tr></thead><tbody><tr><td>1</td><td class="source-doc">network_security_policy.pdf</td><td class="page-num">2</td><td class="section-name">3 Network Segmentation and CDE Isolation</td><td class="excerpt">An accurate network diagram must be maintained that shows all connections between the CDE and other networks, including wireless networks.</td></tr></tbody></table>
+        <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275L12 3z"/></svg>AI Analysis</div><div class="rationale">The policy text matches the security control requirement, stating that an accurate network diagram must be maintained to show connections between the CDE and other networks, including wireless networks.</div>
+        <div class="evidence-label">Supporting Evidence</div><table><thead><tr><th>#</th><th>Source</th><th>Page</th><th>Section</th><th>Excerpt</th></tr></thead><tbody><tr><td>1</td><td class="source-doc">network_security_policy.pdf</td><td class="page-num">2</td><td class="section-name">3  Network Segmentation and CDE Isolation</td><td class="excerpt">An accurate network diagram must be maintained that shows all connections between the CDE and other networks, including wireless networks.</td></tr></tbody></table>
       </div>
     </div>
     
@@ -435,19 +443,19 @@ tr:hover td { background: var(--surface-hover); }
         <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><path d="M9 14l2 2 4-4"/></svg>Framework Requirement</div><div class="ctrl-desc">An accurate data-flow diagram(s) is maintained that meets the following:  
 •	 Shows all account data flows across systems and networks.
 •	 Updated as needed upon changes to the environment.</div>
-        <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275L12 3z"/></svg>AI Analysis</div><div class="rationale">The policy text explicitly states that an accurate data-flow diagram must be maintained and updated whenever changes occur, which aligns with the security control requirement to show all account data flows across systems and networks and update it as needed upon changes to the environment.</div>
-        <div class="evidence-label">Supporting Evidence</div><table><thead><tr><th>#</th><th>Source</th><th>Page</th><th>Section</th><th>Excerpt</th></tr></thead><tbody><tr><td>1</td><td class="source-doc">network_security_policy.pdf</td><td class="page-num">2</td><td class="section-name">3 Network Segmentation and CDE Isolation</td><td class="excerpt">An accurate data-flow diagram must be maintained that shows all account data flows across systems and networks and must be updated whenever changes occur.</td></tr></tbody></table>
+        <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275L12 3z"/></svg>AI Analysis</div><div class="rationale">The policy text explicitly requires an accurate data-flow diagram that shows all account data flows across systems and networks, and is updated whenever changes occur, which fully addresses the requirements of PCI DSS 1.2.4.</div>
+        <div class="evidence-label">Supporting Evidence</div><table><thead><tr><th>#</th><th>Source</th><th>Page</th><th>Section</th><th>Excerpt</th></tr></thead><tbody><tr><td>1</td><td class="source-doc">network_security_policy.pdf</td><td class="page-num">2</td><td class="section-name">3  Network Segmentation and CDE Isolation</td><td class="excerpt">An accurate data-flow diagram must be maintained that shows all account data flows across systems and networks and must be updated whenever changes occur.</td></tr></tbody></table>
       </div>
     </div>
     
 
-    <div class="card" data-verdict="noncompliant">
+    <div class="card" data-verdict="compliant">
       <div class="card-header">
         <span class="chevron">&#9654;</span>
         <span class="ctrl-id">3.1.1</span>
         <span class="ctrl-title">PCI DSS 3.1.1</span>
-        <span class="badge badge-noncompliant">Non-Compliant</span>
-        <span class="score"></span>
+        <span class="badge badge-compliant">Compliant</span>
+        <span class="score">1.00</span>
       </div>
       <div class="card-body">
         <span class="framework-tag">PCI-DSS</span>
@@ -456,24 +464,24 @@ tr:hover td { background: var(--surface-hover); }
 •	Kept up to date. 
 •	In use.
 •	Known to all affected parties.</div>
-        
+        <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275L12 3z"/></svg>AI Analysis</div><div class="rationale">Inferred from sibling controls: all 5 evaluated controls in Requirement 3 are compliant. Aggregated confidence from sibling assessments.</div>
         
       </div>
     </div>
     
 
-    <div class="card" data-verdict="noncompliant">
+    <div class="card" data-verdict="compliant">
       <div class="card-header">
         <span class="chevron">&#9654;</span>
         <span class="ctrl-id">3.1.2</span>
         <span class="ctrl-title">PCI DSS 3.1.2</span>
-        <span class="badge badge-noncompliant">Non-Compliant</span>
-        <span class="score"></span>
+        <span class="badge badge-compliant">Compliant</span>
+        <span class="score">1.00</span>
       </div>
       <div class="card-body">
         <span class="framework-tag">PCI-DSS</span>
         <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><path d="M9 14l2 2 4-4"/></svg>Framework Requirement</div><div class="ctrl-desc">Roles and responsibilities for performing activities in Requirement 3 are documented, assigned, and understood.</div>
-        
+        <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275L12 3z"/></svg>AI Analysis</div><div class="rationale">Inferred from sibling controls: all 5 evaluated controls in Requirement 3 are compliant. Aggregated confidence from sibling assessments.</div>
         
       </div>
     </div>
@@ -492,8 +500,8 @@ tr:hover td { background: var(--surface-hover); }
         <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><path d="M9 14l2 2 4-4"/></svg>Framework Requirement</div><div class="ctrl-desc">Account data storage is kept to a minimum through implementation of data retention and disposal policies, procedures, and processes that include at least the following:
 •	 Coverage for all locations of stored account data.
 •	 Coverage for any sensitive authentication data (SAD) stored prior to completion of authorization. This bullet is a best practice until its effective date; refer to</div>
-        <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275L12 3z"/></svg>AI Analysis</div><div class="rationale">The policy explicitly states that SAD, including full track data, card verification codes (CVV/CVC), and PINs must never be stored after authorization, even in encrypted form. This meets the requirement to &#x27;Coverage for any sensitive authentication data (SAD) stored prior to completion of authorization.&#x27;</div>
-        <div class="evidence-label">Supporting Evidence</div><table><thead><tr><th>#</th><th>Source</th><th>Page</th><th>Section</th><th>Excerpt</th></tr></thead><tbody><tr><td>1</td><td class="source-doc">data_protection_policy.pdf</td><td class="page-num">3</td><td class="section-name">Data Retention and Secure Disposal</td><td class="excerpt">Sensitive authentication data (SAD) including the full track data, card verification codes (CVV/CVC), and PINs must never be stored after authorization, even in encrypted form.</td></tr></tbody></table>
+        <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275L12 3z"/></svg>AI Analysis</div><div class="rationale">The policy text explicitly states that sensitive authentication data (SAD) must never be stored after authorization, even in encrypted form, which fully addresses the requirement of storing account data to a minimum by not storing SAD prior to completion of authorization.</div>
+        <div class="evidence-label">Supporting Evidence</div><table><thead><tr><th>#</th><th>Source</th><th>Page</th><th>Section</th><th>Excerpt</th></tr></thead><tbody><tr><td>1</td><td class="source-doc">data_protection_policy.pdf</td><td class="page-num">3</td><td class="section-name">6  Data Retention and Secure Disposal</td><td class="excerpt">Account data storage must be kept to a minimum. Data retention policies must define the specific retention period for each data type and the business justification for retaining it. Cardholder data that exceeds the defined retention period must be securely deleted on a quarterly basis.</td></tr><tr><td>2</td><td class="source-doc">data_protection_policy.pdf</td><td class="page-num">3</td><td class="section-name">6  Data Retention and Secure Disposal</td><td class="excerpt">Sensitive authentication data (SAD) including the full track data, card verification codes (CVV/CVC), and PINs must never be stored after authorization, even in encrypted form.</td></tr></tbody></table>
       </div>
     </div>
     
@@ -504,47 +512,47 @@ tr:hover td { background: var(--surface-hover); }
         <span class="ctrl-id">3.3.1</span>
         <span class="ctrl-title">PCI DSS 3.3.1</span>
         <span class="badge badge-compliant">Compliant</span>
-        <span class="score">0.80</span>
+        <span class="score">1.00</span>
       </div>
       <div class="card-body">
         <span class="framework-tag">PCI-DSS</span>
         <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><path d="M9 14l2 2 4-4"/></svg>Framework Requirement</div><div class="ctrl-desc">SAD is not stored after authorization, even if encrypted. All sensitive authentication data received is rendered unrecoverable upon completion of the authorization process</div>
-        <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275L12 3z"/></svg>AI Analysis</div><div class="rationale">The policy explicitly states that SAD must never be stored after authorization, even in encrypted form, which aligns with the security control requirement.</div>
-        <div class="evidence-label">Supporting Evidence</div><table><thead><tr><th>#</th><th>Source</th><th>Page</th><th>Section</th><th>Excerpt</th></tr></thead><tbody><tr><td>1</td><td class="source-doc">data_protection_policy.pdf</td><td class="page-num">3</td><td class="section-name">Data Retention and Secure Disposal</td><td class="excerpt">Sensitive authentication data (SAD) including the full track data, card verification codes (CVV/CVC), and PINs must never be stored after authorization, even in encrypted form.</td></tr></tbody></table>
+        <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275L12 3z"/></svg>AI Analysis</div><div class="rationale">The policy explicitly states that sensitive authentication data (SAD) must never be stored after authorization, even in encrypted form, which aligns with the requirement of PCI DSS 3.3.1.</div>
+        <div class="evidence-label">Supporting Evidence</div><table><thead><tr><th>#</th><th>Source</th><th>Page</th><th>Section</th><th>Excerpt</th></tr></thead><tbody><tr><td>1</td><td class="source-doc">data_protection_policy.pdf</td><td class="page-num">3</td><td class="section-name">6  Data Retention and Secure Disposal</td><td class="excerpt">Sensitive authentication data (SAD) including the full track data, card verification codes (CVV/CVC), and PINs must never be stored after authorization, even in encrypted form.</td></tr></tbody></table>
       </div>
     </div>
     
 
-    <div class="card" data-verdict="noncompliant">
+    <div class="card" data-verdict="compliant">
       <div class="card-header">
         <span class="chevron">&#9654;</span>
         <span class="ctrl-id">3.3.1.1</span>
         <span class="ctrl-title">PCI DSS 3.3.1.1</span>
-        <span class="badge badge-noncompliant">Non-Compliant</span>
-        <span class="score"></span>
+        <span class="badge badge-compliant">Compliant</span>
+        <span class="score">1.00</span>
       </div>
       <div class="card-body">
         <span class="framework-tag">PCI-DSS</span>
         <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><path d="M9 14l2 2 4-4"/></svg>Framework Requirement</div><div class="ctrl-desc">The full contents of any track are not stored upon completion of the authorization process.</div>
-        
-        
+        <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275L12 3z"/></svg>AI Analysis</div><div class="rationale">The policy explicitly states that sensitive authentication data, including the full track data, must never be stored after authorization, even in encrypted form. This directly addresses the requirement to not store the full contents of any track upon completion of the authorization process.</div>
+        <div class="evidence-label">Supporting Evidence</div><table><thead><tr><th>#</th><th>Source</th><th>Page</th><th>Section</th><th>Excerpt</th></tr></thead><tbody><tr><td>1</td><td class="source-doc">data_protection_policy.pdf</td><td class="page-num">3</td><td class="section-name">6  Data Retention and Secure Disposal</td><td class="excerpt">Sensitive authentication data (SAD) including the full track data, card verification codes (CVV/CVC), and PINs must never be stored after authorization, even in encrypted form.</td></tr></tbody></table>
       </div>
     </div>
     
 
-    <div class="card" data-verdict="noncompliant">
+    <div class="card" data-verdict="compliant">
       <div class="card-header">
         <span class="chevron">&#9654;</span>
         <span class="ctrl-id">3.3.1.2</span>
         <span class="ctrl-title">PCI DSS 3.3.1.2</span>
-        <span class="badge badge-noncompliant">Non-Compliant</span>
-        <span class="score"></span>
+        <span class="badge badge-compliant">Compliant</span>
+        <span class="score">1.00</span>
       </div>
       <div class="card-body">
         <span class="framework-tag">PCI-DSS</span>
         <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><path d="M9 14l2 2 4-4"/></svg>Framework Requirement</div><div class="ctrl-desc">The card verification code is not stored upon completion of the authorization process.</div>
-        
-        
+        <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275L12 3z"/></svg>AI Analysis</div><div class="rationale">The policy text explicitly prohibits the storage of card verification codes (CVV/CVC) after authorization, which aligns with the PCI DSS requirement.</div>
+        <div class="evidence-label">Supporting Evidence</div><table><thead><tr><th>#</th><th>Source</th><th>Page</th><th>Section</th><th>Excerpt</th></tr></thead><tbody><tr><td>1</td><td class="source-doc">data_protection_policy.pdf</td><td class="page-num">3</td><td class="section-name">6  Data Retention and Secure Disposal</td><td class="excerpt">Sensitive authentication data (SAD) including the full track data, card verification codes (CVV/CVC), and PINs must never be stored after authorization, even in encrypted form.</td></tr></tbody></table>
       </div>
     </div>
     
@@ -555,13 +563,13 @@ tr:hover td { background: var(--surface-hover); }
         <span class="ctrl-id">3.3.1.3</span>
         <span class="ctrl-title">PCI DSS 3.3.1.3</span>
         <span class="badge badge-compliant">Compliant</span>
-        <span class="score">0.90</span>
+        <span class="score">1.00</span>
       </div>
       <div class="card-body">
         <span class="framework-tag">PCI-DSS</span>
         <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><path d="M9 14l2 2 4-4"/></svg>Framework Requirement</div><div class="ctrl-desc">The personal identification number (PIN) and the PIN block are not stored upon completion of the authorization process.</div>
-        <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275L12 3z"/></svg>AI Analysis</div><div class="rationale">The policy text explicitly states that SAD, including PINs, must never be stored after authorization, even in encrypted form. This aligns with the security control requirement to not store the PIN and PIN block upon completion of the authorization process.</div>
-        <div class="evidence-label">Supporting Evidence</div><table><thead><tr><th>#</th><th>Source</th><th>Page</th><th>Section</th><th>Excerpt</th></tr></thead><tbody><tr><td>1</td><td class="source-doc">data_protection_policy.pdf</td><td class="page-num">3</td><td class="section-name">Data Retention and Secure Disposal</td><td class="excerpt">Sensitive authentication data (SAD) including the full track data, card verification codes (CVV/CVC), and PINs must never be stored after authorization, even in encrypted form.</td></tr></tbody></table>
+        <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275L12 3z"/></svg>AI Analysis</div><div class="rationale">The policy explicitly states that SAD, including PINs, must never be stored after authorization, even in encrypted form, which fully addresses the requirement to not store the PIN and PIN block upon completion of the authorization process.</div>
+        <div class="evidence-label">Supporting Evidence</div><table><thead><tr><th>#</th><th>Source</th><th>Page</th><th>Section</th><th>Excerpt</th></tr></thead><tbody><tr><td>1</td><td class="source-doc">data_protection_policy.pdf</td><td class="page-num">3</td><td class="section-name">6  Data Retention and Secure Disposal</td><td class="excerpt">Sensitive authentication data (SAD) including the full track data, card verification codes (CVV/CVC), and PINs must never be stored after authorization, even in encrypted form.</td></tr></tbody></table>
       </div>
     </div>
     
@@ -572,7 +580,7 @@ tr:hover td { background: var(--surface-hover); }
         <span class="ctrl-id">6.1.1</span>
         <span class="ctrl-title">PCI DSS 6.1.1</span>
         <span class="badge badge-noncompliant">Non-Compliant</span>
-        <span class="score"></span>
+        <span class="score">0.90</span>
       </div>
       <div class="card-body">
         <span class="framework-tag">PCI-DSS</span>
@@ -581,7 +589,7 @@ tr:hover td { background: var(--surface-hover); }
 •	 Kept up to date.
 •	 In use.
 •	 Known to all affected parties.</div>
-        
+        <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275L12 3z"/></svg>AI Analysis</div><div class="rationale">Inferred from sibling controls: 2 of 2 evaluated controls in Requirement 6 are non-compliant (6.2.2, 6.2.3). This governance requirement cannot be met until all sibling controls are addressed.</div>
         
       </div>
     </div>
@@ -593,13 +601,13 @@ tr:hover td { background: var(--surface-hover); }
         <span class="ctrl-id">6.1.2</span>
         <span class="ctrl-title">PCI DSS 6.1.2</span>
         <span class="badge badge-noncompliant">Non-Compliant</span>
-        <span class="score"></span>
+        <span class="score">0.90</span>
       </div>
       <div class="card-body">
         <span class="framework-tag">PCI-DSS</span>
         <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><path d="M9 14l2 2 4-4"/></svg>Framework Requirement</div><div class="ctrl-desc">Roles and responsibilities for performing activities in Requirement 6 are documented, assigned, and understood. 
 New requirement - effective immediately</div>
-        
+        <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275L12 3z"/></svg>AI Analysis</div><div class="rationale">Inferred from sibling controls: 2 of 2 evaluated controls in Requirement 6 are non-compliant (6.2.2, 6.2.3). This governance requirement cannot be met until all sibling controls are addressed.</div>
         
       </div>
     </div>
@@ -611,7 +619,7 @@ New requirement - effective immediately</div>
         <span class="ctrl-id">6.2.1</span>
         <span class="ctrl-title">PCI DSS 6.2.1</span>
         <span class="badge badge-noncompliant">Non-Compliant</span>
-        <span class="score"></span>
+        <span class="score">0.90</span>
       </div>
       <div class="card-body">
         <span class="framework-tag">PCI-DSS</span>
@@ -619,7 +627,7 @@ New requirement - effective immediately</div>
 •	 Based on industry standards and/or best practices for secure development. 
 •	 In accordance with PCI DSS (for example, secure authentication and logging). 
 •	 Incorporating consideration of information security issues during each stage of the software development lifecycle.</div>
-        
+        <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275L12 3z"/></svg>AI Analysis</div><div class="rationale">Inferred from sibling controls: 2 of 2 evaluated controls in Requirement 6 are non-compliant (6.2.2, 6.2.3). This governance requirement cannot be met until all sibling controls are addressed.</div>
         
       </div>
     </div>
@@ -631,7 +639,7 @@ New requirement - effective immediately</div>
         <span class="ctrl-id">6.2.2</span>
         <span class="ctrl-title">PCI DSS 6.2.2</span>
         <span class="badge badge-noncompliant">Non-Compliant</span>
-        <span class="score"></span>
+        <span class="score">0.90</span>
       </div>
       <div class="card-body">
         <span class="framework-tag">PCI-DSS</span>
@@ -639,7 +647,7 @@ New requirement - effective immediately</div>
 •	 On software security relevant to their job function and development languages.
 •	 Including secure software design and secure coding techniques.
 •	 Including, if security testing tools are used, how to use the tools for detecting vulnerabilities in software.</div>
-        
+        <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275L12 3z"/></svg>AI Analysis</div><div class="rationale">This security control requires training for software development personnel on secure software design and coding techniques, including vulnerability detection using testing tools. However, there is no corresponding policy documentation in the organization&#x27;s library that addresses this requirement. To address this gap, a new policy document would be needed that outlines the training requirements for software developers, including the frequency of training (at least once every 12 months), the specific topics to be covered, and any relevant guidelines or standards for secure software development.</div>
         
       </div>
     </div>
@@ -651,7 +659,7 @@ New requirement - effective immediately</div>
         <span class="ctrl-id">6.2.3</span>
         <span class="ctrl-title">PCI DSS 6.2.3</span>
         <span class="badge badge-noncompliant">Non-Compliant</span>
-        <span class="score"></span>
+        <span class="score">0.90</span>
       </div>
       <div class="card-body">
         <span class="framework-tag">PCI-DSS</span>
@@ -659,19 +667,19 @@ New requirement - effective immediately</div>
 •	 Code reviews ensure code is developed according to secure coding guidelines.
 •	 Code reviews look for both existing and emerging software vulnerabilities.
 •	 Appropriate corrections are implemented prior to release.</div>
-        
+        <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275L12 3z"/></svg>AI Analysis</div><div class="rationale">This security control is non-compliant due to missing policy coverage on secure coding guidelines and software vulnerability reviews. A policy would be needed that outlines the process for reviewing bespoke and custom software, including criteria for identifying and correcting potential coding vulnerabilities. This could include a policy statement such as: &#x27;The organization will review all custom software prior to release to ensure it meets secure coding guidelines and does not contain known or emerging software vulnerabilities.&#x27; Additionally, procedures may be required outlining the steps for conducting code reviews and implementing corrections.</div>
         
       </div>
     </div>
     
 
-    <div class="card" data-verdict="noncompliant">
+    <div class="card" data-verdict="compliant">
       <div class="card-header">
         <span class="chevron">&#9654;</span>
         <span class="ctrl-id">8.1.1</span>
         <span class="ctrl-title">PCI DSS 8.1.1</span>
-        <span class="badge badge-noncompliant">Non-Compliant</span>
-        <span class="score"></span>
+        <span class="badge badge-compliant">Compliant</span>
+        <span class="score">0.98</span>
       </div>
       <div class="card-body">
         <span class="framework-tag">PCI-DSS</span>
@@ -680,24 +688,24 @@ New requirement - effective immediately</div>
 •	 Kept up to date.
 •	 In use.
 •	 Known to all affected parties.</div>
-        
+        <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275L12 3z"/></svg>AI Analysis</div><div class="rationale">Inferred from sibling controls: all 5 evaluated controls in Requirement 8 are compliant. Aggregated confidence from sibling assessments.</div>
         
       </div>
     </div>
     
 
-    <div class="card" data-verdict="noncompliant">
+    <div class="card" data-verdict="compliant">
       <div class="card-header">
         <span class="chevron">&#9654;</span>
         <span class="ctrl-id">8.1.2</span>
         <span class="ctrl-title">PCI DSS 8.1.2</span>
-        <span class="badge badge-noncompliant">Non-Compliant</span>
-        <span class="score"></span>
+        <span class="badge badge-compliant">Compliant</span>
+        <span class="score">0.98</span>
       </div>
       <div class="card-body">
         <span class="framework-tag">PCI-DSS</span>
         <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><path d="M9 14l2 2 4-4"/></svg>Framework Requirement</div><div class="ctrl-desc">Roles and responsibilities for performing activities in Requirement 8 are documented, assigned, and understood.</div>
-        
+        <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275L12 3z"/></svg>AI Analysis</div><div class="rationale">Inferred from sibling controls: all 5 evaluated controls in Requirement 8 are compliant. Aggregated confidence from sibling assessments.</div>
         
       </div>
     </div>
@@ -714,19 +722,19 @@ New requirement - effective immediately</div>
       <div class="card-body">
         <span class="framework-tag">PCI-DSS</span>
         <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><path d="M9 14l2 2 4-4"/></svg>Framework Requirement</div><div class="ctrl-desc">All users are assigned a unique ID before access to system components or cardholder data is allowed.</div>
-        <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275L12 3z"/></svg>AI Analysis</div><div class="rationale">The policy text explicitly states that all users must be assigned a unique user ID before access to any system component or cardholder data is allowed, which aligns with the security control requirement of assigning unique IDs before access to system components or cardholder data.</div>
-        <div class="evidence-label">Supporting Evidence</div><table><thead><tr><th>#</th><th>Source</th><th>Page</th><th>Section</th><th>Excerpt</th></tr></thead><tbody><tr><td>1</td><td class="source-doc">access_control_policy.pdf</td><td class="page-num">2</td><td class="section-name">2.1 Unique User Identification</td><td class="excerpt">All users must be assigned a unique user ID before they are allowed access to any system component or cardholder data.</td></tr></tbody></table>
+        <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275L12 3z"/></svg>AI Analysis</div><div class="rationale">The policy text explicitly states that all users must be assigned a unique user ID before they are allowed access to any system component or cardholder data, which matches the requirement of PCI DSS 8.2.1.</div>
+        <div class="evidence-label">Supporting Evidence</div><table><thead><tr><th>#</th><th>Source</th><th>Page</th><th>Section</th><th>Excerpt</th></tr></thead><tbody><tr><td>1</td><td class="source-doc">access_control_policy.pdf</td><td class="page-num">2</td><td class="section-name">2.1  Unique User Identification</td><td class="excerpt">All users must be assigned a unique user ID before they are allowed access to any system component or cardholder data.</td></tr></tbody></table>
       </div>
     </div>
     
 
-    <div class="card" data-verdict="noncompliant">
+    <div class="card" data-verdict="compliant">
       <div class="card-header">
         <span class="chevron">&#9654;</span>
         <span class="ctrl-id">8.2.2</span>
         <span class="ctrl-title">PCI DSS 8.2.2</span>
-        <span class="badge badge-noncompliant">Non-Compliant</span>
-        <span class="score"></span>
+        <span class="badge badge-compliant">Compliant</span>
+        <span class="score">0.90</span>
       </div>
       <div class="card-body">
         <span class="framework-tag">PCI-DSS</span>
@@ -737,8 +745,8 @@ New requirement - effective immediately</div>
 •	 Use is explicitly approved by management. 
 •	 Individual user identity is confirmed before access to an account is granted.
 •	 Every action taken is attributable to an individual user.</div>
-        
-        
+        <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275L12 3z"/></svg>AI Analysis</div><div class="rationale">The policy text requires each user ID to be traceable to an individual person, which directly addresses the requirement of confirming individual user identity before granting access to an account.</div>
+        <div class="evidence-label">Supporting Evidence</div><table><thead><tr><th>#</th><th>Source</th><th>Page</th><th>Section</th><th>Excerpt</th></tr></thead><tbody><tr><td>1</td><td class="source-doc">access_control_policy.pdf</td><td class="page-num">2</td><td class="section-name">2.1  Unique User Identification</td><td class="excerpt">All users must be assigned a unique user ID before they are allowed access to any system component or cardholder data.</td></tr><tr><td>2</td><td class="source-doc">access_control_policy.pdf</td><td class="page-num">2</td><td class="section-name">2.1  Unique User Identification</td><td class="excerpt">Each user ID must be traceable to an individual person.</td></tr></tbody></table>
       </div>
     </div>
     
@@ -749,32 +757,32 @@ New requirement - effective immediately</div>
         <span class="ctrl-id">8.2.3</span>
         <span class="ctrl-title">PCI DSS 8.2.3</span>
         <span class="badge badge-compliant">Compliant</span>
-        <span class="score">0.90</span>
+        <span class="score">1.00</span>
       </div>
       <div class="card-body">
         <span class="framework-tag">PCI-DSS</span>
         <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><path d="M9 14l2 2 4-4"/></svg>Framework Requirement</div><div class="ctrl-desc">Additional requirement for service providers only: Service providers with remote access to customer premises use unique authentication factors for each customer premises.</div>
-        <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275L12 3z"/></svg>AI Analysis</div><div class="rationale">The policy requires unique MFA credentials for service provider personnel with remote access to customer premises, which aligns with the requirement of using unique authentication factors per customer premises.</div>
-        <div class="evidence-label">Supporting Evidence</div><table><thead><tr><th>#</th><th>Source</th><th>Page</th><th>Section</th><th>Excerpt</th></tr></thead><tbody><tr><td>1</td><td class="source-doc">access_control_policy.pdf</td><td class="page-num">2</td><td class="section-name">2.2 Multi-Factor Authentication</td><td class="excerpt">Multi-factor authentication is required for all remote access to the corporate network and for all access to the Cardholder Data Environment (CDE).</td></tr><tr><td>2</td><td class="source-doc">access_control_policy.pdf</td><td class="page-num">2</td><td class="section-name">2.2 Multi-Factor Authentication</td><td class="excerpt">Service provider personnel with remote access to customer premises must also use unique MFA credentials per customer.</td></tr></tbody></table>
+        <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275L12 3z"/></svg>AI Analysis</div><div class="rationale">The policy requires unique MFA credentials per customer premises, which meets the requirement for service providers with remote access to customer premises.</div>
+        <div class="evidence-label">Supporting Evidence</div><table><thead><tr><th>#</th><th>Source</th><th>Page</th><th>Section</th><th>Excerpt</th></tr></thead><tbody><tr><td>1</td><td class="source-doc">access_control_policy.pdf</td><td class="page-num">2</td><td class="section-name">2.2  Multi-Factor Authentication (MFA)</td><td class="excerpt">Multi-factor authentication is required for all remote access to the corporate network and for all access to the Cardholder Data Environment (CDE). MFA must use at least two of the following factors: something the user knows (password or passphrase), something the user has (smart card, hardware token, or authenticator app), or something the user is (biometric verification). MFA tokens must not be shared between users. Service provider personnel with remote access to customer premises must also use unique MFA credentials per customer.</td></tr></tbody></table>
       </div>
     </div>
     
 
-    <div class="card" data-verdict="noncompliant">
+    <div class="card" data-verdict="compliant">
       <div class="card-header">
         <span class="chevron">&#9654;</span>
         <span class="ctrl-id">8.2.4</span>
         <span class="ctrl-title">PCI DSS 8.2.4</span>
-        <span class="badge badge-noncompliant">Non-Compliant</span>
-        <span class="score"></span>
+        <span class="badge badge-compliant">Compliant</span>
+        <span class="score">1.00</span>
       </div>
       <div class="card-body">
         <span class="framework-tag">PCI-DSS</span>
         <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><path d="M9 14l2 2 4-4"/></svg>Framework Requirement</div><div class="ctrl-desc">Addition, deletion, and modification of user IDs, authentication factors, and other identifier objects are managed as follows:
 •	 Authorized with the appropriate approval.
 •	 Implemented with only the privileges specified on the documented approval.</div>
-        
-        
+        <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275L12 3z"/></svg>AI Analysis</div><div class="rationale">The policy text requires unique user IDs before access to any system component or cardholder data, which aligns with the security control requirement of managing addition, deletion, and modification of user IDs.</div>
+        <div class="evidence-label">Supporting Evidence</div><table><thead><tr><th>#</th><th>Source</th><th>Page</th><th>Section</th><th>Excerpt</th></tr></thead><tbody><tr><td>1</td><td class="source-doc">access_control_policy.pdf</td><td class="page-num">2</td><td class="section-name">2.1  Unique User Identification</td><td class="excerpt">All users must be assigned a unique user ID before they are allowed access to any system component or cardholder data.</td></tr></tbody></table>
       </div>
     </div>
     
@@ -785,13 +793,13 @@ New requirement - effective immediately</div>
         <span class="ctrl-id">8.2.5</span>
         <span class="ctrl-title">PCI DSS 8.2.5</span>
         <span class="badge badge-compliant">Compliant</span>
-        <span class="score">0.90</span>
+        <span class="score">1.00</span>
       </div>
       <div class="card-body">
         <span class="framework-tag">PCI-DSS</span>
         <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><path d="M9 14l2 2 4-4"/></svg>Framework Requirement</div><div class="ctrl-desc">Access for terminated users is immediately revoked</div>
-        <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275L12 3z"/></svg>AI Analysis</div><div class="rationale">The policy text explicitly states that logical and physical access must be revoked immediately upon termination, which aligns with the security control requirement PCI DSS 8.2.5 to revoking access for terminated users immediately.</div>
-        <div class="evidence-label">Supporting Evidence</div><table><thead><tr><th>#</th><th>Source</th><th>Page</th><th>Section</th><th>Excerpt</th></tr></thead><tbody><tr><td>1</td><td class="source-doc">access_control_policy.pdf</td><td class="page-num">3</td><td class="section-name">5 Access Revocation and Termination</td><td class="excerpt">Upon termination of employment, all logical and physical access must be revoked immediately.</td></tr></tbody></table>
+        <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275L12 3z"/></svg>AI Analysis</div><div class="rationale">The policy text explicitly states that access for terminated users must be revoked immediately, which aligns with the requirement in PCI DSS 8.2.5 to revoke access for terminated users.</div>
+        <div class="evidence-label">Supporting Evidence</div><table><thead><tr><th>#</th><th>Source</th><th>Page</th><th>Section</th><th>Excerpt</th></tr></thead><tbody><tr><td>1</td><td class="source-doc">access_control_policy.pdf</td><td class="page-num">3</td><td class="section-name">5  Access Revocation and Termination</td><td class="excerpt">Upon termination of employment, all logical and physical access must be revoked immediately. The Human Resources department must notify IT Security within four hours of any termination.</td></tr></tbody></table>
       </div>
     </div>
     
@@ -802,7 +810,7 @@ New requirement - effective immediately</div>
         <span class="ctrl-id">12.1.1</span>
         <span class="ctrl-title">PCI DSS 12.1.1</span>
         <span class="badge badge-noncompliant">Non-Compliant</span>
-        <span class="score"></span>
+        <span class="score">0.90</span>
       </div>
       <div class="card-body">
         <span class="framework-tag">PCI-DSS</span>
@@ -811,27 +819,27 @@ New requirement - effective immediately</div>
 •	 Published.
 •	 Maintained.
 •	 Disseminated to all relevant personnel, as well as to relevant vendors and business partners.</div>
-        
+        <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275L12 3z"/></svg>AI Analysis</div><div class="rationale">Inferred from sibling controls: 1 of 1 evaluated controls in Requirement 12 are non-compliant (12.2.1). This governance requirement cannot be met until all sibling controls are addressed.</div>
         
       </div>
     </div>
     
 
-    <div class="card" data-verdict="noncompliant">
+    <div class="card" data-verdict="compliant">
       <div class="card-header">
         <span class="chevron">&#9654;</span>
         <span class="ctrl-id">12.1.2</span>
         <span class="ctrl-title">PCI DSS 12.1.2</span>
-        <span class="badge badge-noncompliant">Non-Compliant</span>
-        <span class="score"></span>
+        <span class="badge badge-compliant">Compliant</span>
+        <span class="score">1.00</span>
       </div>
       <div class="card-body">
         <span class="framework-tag">PCI-DSS</span>
         <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><path d="M9 14l2 2 4-4"/></svg>Framework Requirement</div><div class="ctrl-desc">The information security policy is:
 •	 Reviewed at least once every 12 months.
 •	 Updated as needed to reflect changes to business objectives or risks to the environment.</div>
-        
-        
+        <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275L12 3z"/></svg>AI Analysis</div><div class="rationale">The policy text requires user access rights to be reviewed at least every six months, which meets the requirement of PCI DSS 12.1.2.</div>
+        <div class="evidence-label">Supporting Evidence</div><table><thead><tr><th>#</th><th>Source</th><th>Page</th><th>Section</th><th>Excerpt</th></tr></thead><tbody><tr><td>1</td><td class="source-doc">access_control_policy.pdf</td><td class="page-num">3</td><td class="section-name">4  Periodic Access Reviews</td><td class="excerpt">User access rights must be reviewed at least every six months to verify that access remains appropriate for the user&#x27;s current role. Access review must be conducted by system owners in coordination with the Information Security team.</td></tr></tbody></table>
       </div>
     </div>
     
@@ -842,30 +850,30 @@ New requirement - effective immediately</div>
         <span class="ctrl-id">12.1.3</span>
         <span class="ctrl-title">PCI DSS 12.1.3</span>
         <span class="badge badge-noncompliant">Non-Compliant</span>
-        <span class="score"></span>
+        <span class="score">0.90</span>
       </div>
       <div class="card-body">
         <span class="framework-tag">PCI-DSS</span>
         <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><path d="M9 14l2 2 4-4"/></svg>Framework Requirement</div><div class="ctrl-desc">The security policy clearly defines information security roles and responsibilities for all personnel, and all personnel are aware and acknowledge their information security responsibilities.</div>
-        
+        <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275L12 3z"/></svg>AI Analysis</div><div class="rationale">Inferred from sibling controls: 1 of 1 evaluated controls in Requirement 12 are non-compliant (12.2.1). This governance requirement cannot be met until all sibling controls are addressed.</div>
         
       </div>
     </div>
     
 
-    <div class="card" data-verdict="noncompliant">
+    <div class="card" data-verdict="compliant">
       <div class="card-header">
         <span class="chevron">&#9654;</span>
         <span class="ctrl-id">12.1.4</span>
         <span class="ctrl-title">PCI DSS 12.1.4</span>
-        <span class="badge badge-noncompliant">Non-Compliant</span>
-        <span class="score"></span>
+        <span class="badge badge-compliant">Compliant</span>
+        <span class="score">1.00</span>
       </div>
       <div class="card-body">
         <span class="framework-tag">PCI-DSS</span>
         <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><path d="M9 14l2 2 4-4"/></svg>Framework Requirement</div><div class="ctrl-desc">Responsibility for information security is formally assigned to a Chief Information Security Officer or other information security knowledgeable member of executive management.</div>
-        
-        
+        <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275L12 3z"/></svg>AI Analysis</div><div class="rationale">The policy text explicitly assigns responsibility for information security to the Chief Information Security Officer, which fully addresses the requirement.</div>
+        <div class="evidence-label">Supporting Evidence</div><table><thead><tr><th>#</th><th>Source</th><th>Page</th><th>Section</th><th>Excerpt</th></tr></thead><tbody><tr><td>1</td><td class="source-doc">access_control_policy.pdf</td><td class="page-num">1</td><td class="section-name">—</td><td class="excerpt">This policy has been approved by the Chief Information Security Officer Acme Corp Access Control Policy</td></tr></tbody></table>
       </div>
     </div>
     
@@ -876,7 +884,7 @@ New requirement - effective immediately</div>
         <span class="ctrl-id">12.2.1</span>
         <span class="ctrl-title">PCI DSS 12.2.1</span>
         <span class="badge badge-noncompliant">Non-Compliant</span>
-        <span class="score"></span>
+        <span class="score">0.90</span>
       </div>
       <div class="card-body">
         <span class="framework-tag">PCI-DSS</span>
@@ -884,7 +892,7 @@ New requirement - effective immediately</div>
 •	 Explicit approval by authorized parties.
 •	 Acceptable uses of the technology.
 •	 List of products approved by the company for employee use, including hardware and software.</div>
-        
+        <div class="evidence-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275L12 3z"/></svg>AI Analysis</div><div class="rationale">The organization lacks a policy that outlines acceptable use of end-user technologies, including explicit approval by authorized parties and a list of approved products. This policy would provide guidance on the permitted uses of technology and ensure employees understand what is expected of them.</div>
         
       </div>
     </div>
@@ -899,15 +907,15 @@ New requirement - effective immediately</div>
         <div class="stat-label">Source Documents</div>
       </div>
       <div class="stat">
-        <div class="stat-value">105</div>
+        <div class="stat-value">73</div>
         <div class="stat-label">Extracted Controls</div>
       </div>
       <div class="stat">
-        <div class="stat-value" style="color:var(--green)">9</div>
+        <div class="stat-value" style="color:var(--green)">12</div>
         <div class="stat-label">Mapped to Framework</div>
       </div>
       <div class="stat">
-        <div class="stat-value" style="color:var(--yellow)">96</div>
+        <div class="stat-value" style="color:var(--yellow)">61</div>
         <div class="stat-label">Unmapped</div>
       </div>
     </div>
@@ -917,223 +925,149 @@ New requirement - effective immediately</div>
       <div class="card-header">
         <span class="chevron">&#9654;</span>
         <span class="ctrl-id">access_control_policy.pdf</span>
-        <span class="ctrl-title">36 chunks · <span style="color:var(--green)">4 mapped</span> · <span style="color:var(--yellow)">32 unmapped</span></span>
+        <span class="ctrl-title">21 chunks · <span style="color:var(--green)">6 mapped</span> · <span style="color:var(--yellow)">15 unmapped</span></span>
       </div>
       <div class="card-body">
         <div class="page-separator"><span>Page 1</span></div>
         <div class="chunk-section">
           <div class="chunk-meta"><span class="chunk-num">#1</span> <em>—</em></div>
-          <div class="chunk-text">This document is the property of Acme Corp and is intended for internal use only. Unauthorized distribution, reproduction, or disclosure is strictly prohibited.</div>
-          <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
+          <div class="chunk-text">This policy has been approved by the Chief Information Security Officer Acme Corp Access Control Policy</div>
+          <div><span class="ctrl-tag" title="PCI DSS 12.1.4: Responsibility for information security is formally assigned to a Chief Information Security Officer or other information security knowledgeable member of executive management.">PCI-DSS 12.1.4</span></div>
         </div>
         <div class="page-separator"><span>Page 2</span></div>
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#2</span> <em>1</em></div>
-          <div class="chunk-text">This policy establishes the requirements for managing access to Acme Corp information systems, applications, and data assets.</div>
+          <div class="chunk-meta"><span class="chunk-num">#2</span> <em>1  Purpose and Scope</em></div>
+          <div class="chunk-text">This policy establishes the requirements for managing access to Acme Corp information systems, applications, and data assets. It applies to all employees, contractors, temporary workers, and third-party service providers who require access to Acme Corp systems and the Cardholder Data Environment (CDE).</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#3</span> <em>1</em></div>
-          <div class="chunk-text">It applies to all employees, contractors, temporary workers, and third-party service providers who require access to Acme Corp systems and the Cardholder Data Environment (CDE).</div>
-          <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
-        </div>
-        
-        <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#4</span> <em>1</em></div>
+          <div class="chunk-meta"><span class="chunk-num">#3</span> <em>1  Purpose and Scope</em></div>
           <div class="chunk-text">The objective is to ensure that access is granted on a need-to-know and least-privilege basis, and that all access is properly authorized, authenticated, and auditable.</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#5</span> <em>2.1 Unique User Identification</em></div>
+          <div class="chunk-meta"><span class="chunk-num">#4</span> <em>2.1  Unique User Identification</em></div>
           <div class="chunk-text">All users must be assigned a unique user ID before they are allowed access to any system component or cardholder data.</div>
-          <div><span class="ctrl-tag" title="PCI DSS 8.2.1: All users are assigned a unique ID before access to system components or cardholder data is allowed.">PCI-DSS 8.2.1</span></div>
+          <div><span class="ctrl-tag" title="PCI DSS 8.2.1: All users are assigned a unique ID before access to system components or cardholder data is allowed.">PCI-DSS 8.2.1</span><span class="ctrl-tag" title="PCI DSS 8.2.2: Group, shared, or generic IDs, or other shared authentication credentials are only used when necessary on an exception basis, and are managed as follows:
+•	 ID use is prevented unless needed for an exceptional circumstance.
+•	 Use is limited to the time needed for the exceptional circumstance.
+•	 Business justification for use is documented.
+•	 Use is explicitly approved by management. 
+•	 Individual user identity is confirmed before access to an account is granted.
+•	 Every action taken is attributable to an individual user.">PCI-DSS 8.2.2</span><span class="ctrl-tag" title="PCI DSS 8.2.4: Addition, deletion, and modification of user IDs, authentication factors, and other identifier objects are managed as follows:
+•	 Authorized with the appropriate approval.
+•	 Implemented with only the privileges specified on the documented approval.">PCI-DSS 8.2.4</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#6</span> <em>2.1 Unique User Identification</em></div>
+          <div class="chunk-meta"><span class="chunk-num">#5</span> <em>2.1  Unique User Identification</em></div>
           <div class="chunk-text">Generic, shared, or group IDs are strictly prohibited for standard operations.</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#7</span> <em>2.1 Unique User Identification</em></div>
+          <div class="chunk-meta"><span class="chunk-num">#6</span> <em>2.1  Unique User Identification</em></div>
           <div class="chunk-text">Each user ID must be traceable to an individual person.</div>
-          <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
+          <div><span class="ctrl-tag" title="PCI DSS 8.2.2: Group, shared, or generic IDs, or other shared authentication credentials are only used when necessary on an exception basis, and are managed as follows:
+•	 ID use is prevented unless needed for an exceptional circumstance.
+•	 Use is limited to the time needed for the exceptional circumstance.
+•	 Business justification for use is documented.
+•	 Use is explicitly approved by management. 
+•	 Individual user identity is confirmed before access to an account is granted.
+•	 Every action taken is attributable to an individual user.">PCI-DSS 8.2.2</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#8</span> <em>2.1 Unique User Identification</em></div>
+          <div class="chunk-meta"><span class="chunk-num">#7</span> <em>2.1  Unique User Identification</em></div>
           <div class="chunk-text">In cases where shared accounts are technically unavoidable (e.g., certain legacy systems), compensating controls including enhanced logging and dual-authorization must be implemented and documented.</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#9</span> <em>2.2 Multi-Factor Authentication</em></div>
-          <div class="chunk-text">Multi-factor authentication is required for all remote access to the corporate network and for all access to the Cardholder Data Environment (CDE).</div>
+          <div class="chunk-meta"><span class="chunk-num">#8</span> <em>2.2  Multi-Factor Authentication (MFA)</em></div>
+          <div class="chunk-text">Multi-factor authentication is required for all remote access to the corporate network and for all access to the Cardholder Data Environment (CDE). MFA must use at least two of the following factors: something the user knows (password or passphrase), something the user has (smart card, hardware token, or authenticator app), or something the user is (biometric verification). MFA tokens must not be shared between users. Service provider personnel with remote access to customer premises must also use unique MFA credentials per customer.</div>
           <div><span class="ctrl-tag" title="PCI DSS 8.2.3: Additional requirement for service providers only: Service providers with remote access to customer premises use unique authentication factors for each customer premises.">PCI-DSS 8.2.3</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#10</span> <em>2.2 Multi-Factor Authentication</em></div>
-          <div class="chunk-text">MFA must use at least two of the following factors: something the user knows (password or passphrase), something the user has (smart card, hardware token, or authenticator app), or something the user is (biometric verification).</div>
+          <div class="chunk-meta"><span class="chunk-num">#9</span> <em>2.3  Password Requirements</em></div>
+          <div class="chunk-text">All system and application passwords must meet the following minimum requirements: minimum length of 12 characters, inclusion of numeric and alphabetic characters, passwords must be changed at least every 90 days, new passwords must not match any of the last four passwords used, first-time or reset passwords must be unique to each user and changed upon first use. Default vendor-supplied passwords on all system components must be changed before deployment to production.</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#11</span> <em>2.2 Multi-Factor Authentication</em></div>
-          <div class="chunk-text">Service provider personnel with remote access to customer premises must also use unique MFA credentials per customer.</div>
-          <div><span class="ctrl-tag" title="PCI DSS 8.2.3: Additional requirement for service providers only: Service providers with remote access to customer premises use unique authentication factors for each customer premises.">PCI-DSS 8.2.3</span></div>
-        </div>
-        
-        <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#12</span> <em>2.3 Password Requirements</em></div>
-          <div class="chunk-text">All system and application passwords MUST meet the following minimum requirements:</div>
+          <div class="chunk-meta"><span class="chunk-num">#10</span> <em>3.1  Role-Based Access Control (RBAC)</em></div>
+          <div class="chunk-text">Access rights must be assigned based on job classification and function, following the principle of least privilege. Access control systems must default to deny-all and restrict access to the minimum necessary for business functions. All access permissions must be documented in an access control matrix that maps roles to specific system privileges.</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#13</span> <em>2.3 Password Requirements</em></div>
-          <div class="chunk-text">first-time or reset passwords MUST be unique to each user and changed upon first use.</div>
-          <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
-        </div>
-        
-        <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#14</span> <em>2.3 Password Requirements</em></div>
-          <div class="chunk-text">Default vendor-supplied passwords on all system components MUST be changed before deployment to production.</div>
-          <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
-        </div>
-        
-        <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#15</span> <em>3.1 Role-Based Access Control</em></div>
-          <div class="chunk-text">Access rights must be assigned based on job classification and function, following the principle of least privilege.</div>
-          <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
-        </div>
-        
-        <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#16</span> <em>3.1 Role-Based Access Control</em></div>
-          <div class="chunk-text">Access control systems must default to deny-all and restrict access to the minimum necessary for business functions.</div>
-          <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
-        </div>
-        
-        <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#17</span> <em>3.1 Role-Based Access Control</em></div>
-          <div class="chunk-text">All access permissions must be documented in an access control matrix that maps roles to specific system privileges.</div>
-          <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
-        </div>
-        
-        <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#18</span> <em>3.1 Role-Based Access Control</em></div>
+          <div class="chunk-meta"><span class="chunk-num">#11</span> <em>3.1  Role-Based Access Control (RBAC)</em></div>
           <div class="chunk-text">The Human Resources department must notify IT Security of all role changes within 24 hours of the change.</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#19</span> <em>3.2 Privileged Access Management</em></div>
+          <div class="chunk-meta"><span class="chunk-num">#12</span> <em>3.2  Privileged Access Management</em></div>
           <div class="chunk-text">Administrative and privileged access must be restricted to personnel whose job duties specifically require such access.</div>
-          <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
-        </div>
-        
-        <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#20</span> <em>3.2 Privileged Access Management</em></div>
-          <div class="chunk-text">Privileged accounts must use separate credentials from standard user accounts.</div>
-          <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
-        </div>
-        
-        <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#21</span> <em>3.2 Privileged Access Management</em></div>
-          <div class="chunk-text">All privileged access sessions must be logged and monitored.</div>
-          <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
-        </div>
-        
-        <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#22</span> <em>3.2 Privileged Access Management</em></div>
-          <div class="chunk-text">Privileged access must be reviewed quarterly by the Information Security team.</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
         <div class="page-separator"><span>Page 3</span></div>
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#23</span> <em>—</em></div>
-          <div class="chunk-text">accounts must not be used for routine daily activities such as email or web browsing.</div>
+          <div class="chunk-meta"><span class="chunk-num">#13</span> <em>4  Periodic Access Reviews</em></div>
+          <div class="chunk-text">User access rights must be reviewed at least every six months to verify that access remains appropriate for the user&#x27;s current role. Access review must be conducted by system owners in coordination with the Information Security team.</div>
+          <div><span class="ctrl-tag" title="PCI DSS 12.1.2: The information security policy is:
+•	 Reviewed at least once every 12 months.
+•	 Updated as needed to reflect changes to business objectives or risks to the environment.">PCI-DSS 12.1.2</span></div>
+        </div>
+        
+        <div class="chunk-section">
+          <div class="chunk-meta"><span class="chunk-num">#14</span> <em>4  Periodic Access Reviews</em></div>
+          <div class="chunk-text">Results of access reviews must be documented and retained for a minimum of twelve months. Any discrepancies identified during access reviews must be remediated within 30 calendar days.</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#24</span> <em>4 Periodic Access Reviews</em></div>
-          <div class="chunk-text">User access rights must be reviewed at least every six months to verify that access remains appropriate for the user&#x27;s current role.</div>
-          <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
-        </div>
-        
-        <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#25</span> <em>4 Periodic Access Reviews</em></div>
-          <div class="chunk-text">Access review must be conducted by system owners in coordination with the Information Security team.</div>
-          <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
-        </div>
-        
-        <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#26</span> <em>4 Periodic Access Reviews</em></div>
-          <div class="chunk-text">Results of access reviews must be documented and retained for a minimum of twelve months.</div>
-          <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
-        </div>
-        
-        <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#27</span> <em>4 Periodic Access Reviews</em></div>
-          <div class="chunk-text">Any discrepancies identified during access reviews must be remediated within 30 calendar days.</div>
-          <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
-        </div>
-        
-        <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#28</span> <em>5 Access Revocation and Termination</em></div>
-          <div class="chunk-text">Upon termination of employment, all logical and physical access must be revoked immediately.</div>
+          <div class="chunk-meta"><span class="chunk-num">#15</span> <em>5  Access Revocation and Termination</em></div>
+          <div class="chunk-text">Upon termination of employment, all logical and physical access must be revoked immediately. The Human Resources department must notify IT Security within four hours of any termination.</div>
           <div><span class="ctrl-tag" title="PCI DSS 8.2.5: Access for terminated users is immediately revoked">PCI-DSS 8.2.5</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#29</span> <em>5 Access Revocation and Termination</em></div>
-          <div class="chunk-text">The Human Resources department must notify IT Security within four hours of any termination.</div>
-          <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
-        </div>
-        
-        <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#30</span> <em>5 Access Revocation and Termination</em></div>
+          <div class="chunk-meta"><span class="chunk-num">#16</span> <em>5  Access Revocation and Termination</em></div>
           <div class="chunk-text">All authentication tokens, badges, keys, and company equipment must be collected and documented before the employee departs the premises.</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#31</span> <em>5 Access Revocation and Termination</em></div>
-          <div class="chunk-text">For voluntary departures, access must be revoked no later than the last day of employment.</div>
+          <div class="chunk-meta"><span class="chunk-num">#17</span> <em>5  Access Revocation and Termination</em></div>
+          <div class="chunk-text">For voluntary departures, access must be revoked no later than the last day of employment. Accounts belonging to terminated users must be disabled and retained in a dormant state for 90 days for forensic purposes before deletion.</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#32</span> <em>5 Access Revocation and Termination</em></div>
-          <div class="chunk-text">Accounts belonging to terminated users must be disabled and retained in a dormant state for 90 days for forensic purposes before deletion.</div>
-          <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
-        </div>
-        
-        <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#33</span> <em>6 Audit Logging and Monitoring</em></div>
+          <div class="chunk-meta"><span class="chunk-num">#18</span> <em>6  Audit Logging and Monitoring</em></div>
           <div class="chunk-text">All access to system components and cardholder data must be logged.</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#34</span> <em>6 Audit Logging and Monitoring</em></div>
+          <div class="chunk-meta"><span class="chunk-num">#19</span> <em>6  Audit Logging and Monitoring</em></div>
           <div class="chunk-text">Audit logs must capture: user identification, type of event, date and time, success or failure indication, origination of event, and identity or name of affected data, system component, or resource.</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#35</span> <em>6 Audit Logging and Monitoring</em></div>
+          <div class="chunk-meta"><span class="chunk-num">#20</span> <em>6  Audit Logging and Monitoring</em></div>
           <div class="chunk-text">Audit trails must be retained for a minimum of twelve months, with at least three months immediately available for analysis.</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#36</span> <em>6 Audit Logging and Monitoring</em></div>
-          <div class="chunk-text">Automated alerts must be configured for suspicious activity such as repeated failed login attempts, privilege escalation, and access from unusual locations</div>
+          <div class="chunk-meta"><span class="chunk-num">#21</span> <em>6  Audit Logging and Monitoring</em></div>
+          <div class="chunk-text">Automated alerts must be configured for suspicious activity such as repeated failed login attempts, privilege escalation, and access from unusual locations.</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
         
@@ -1145,196 +1079,150 @@ New requirement - effective immediately</div>
       <div class="card-header">
         <span class="chevron">&#9654;</span>
         <span class="ctrl-id">data_protection_policy.pdf</span>
-        <span class="ctrl-title">31 chunks · <span style="color:var(--green)">1 mapped</span> · <span style="color:var(--yellow)">30 unmapped</span></span>
+        <span class="ctrl-title">23 chunks · <span style="color:var(--green)">2 mapped</span> · <span style="color:var(--yellow)">21 unmapped</span></span>
       </div>
       <div class="card-body">
         <div class="page-separator"><span>Page 1</span></div>
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#1</span> <em>Confidentiality Notice</em></div>
-          <div class="chunk-text">This document is the property of Acme Corp and is intended for internal use only. Unauthorized distribution, reproduction, or disclosure is strictly prohibited.</div>
-          <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
-        </div>
-        
-        <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#2</span> <em>Confidentiality Notice</em></div>
-          <div class="chunk-text">This policy has been approved by the Chief Information Security Officer (CISO) and is effective as of the date indicated above.</div>
+          <div class="chunk-meta"><span class="chunk-num">#1</span> <em>—</em></div>
+          <div class="chunk-text">This policy has been approved by the Chief Information Security Officer</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
         <div class="page-separator"><span>Page 2</span></div>
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#3</span> <em>Purpose and Scope</em></div>
+          <div class="chunk-meta"><span class="chunk-num">#2</span> <em>1  Purpose and Scope</em></div>
+          <div class="chunk-text">This policy defines the requirements for protecting sensitive data including cardholder data (CHD), personally identifiable information (PII), and other confidential business information throughout its lifecycle.</div>
+          <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
+        </div>
+        
+        <div class="chunk-section">
+          <div class="chunk-meta"><span class="chunk-num">#3</span> <em>1  Purpose and Scope</em></div>
           <div class="chunk-text">It covers data classification, encryption standards, key management, data retention, and secure disposal procedures.</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#4</span> <em>Purpose and Scope</em></div>
+          <div class="chunk-meta"><span class="chunk-num">#4</span> <em>1  Purpose and Scope</em></div>
           <div class="chunk-text">This policy applies to all systems that store, process, or transmit protected data within Acme Corp environments.</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#5</span> <em>Data Classification</em></div>
-          <div class="chunk-text">All data must be classified according to its sensitivity level.</div>
+          <div class="chunk-meta"><span class="chunk-num">#5</span> <em>2  Data Classification</em></div>
+          <div class="chunk-text">All data must be classified according to its sensitivity level. The classification levels are: Public (information approved for unrestricted distribution), Internal (information for internal use that could cause minor harm if disclosed), Confidential (information whose disclosure could cause significant harm including PII and business-sensitive data), and Restricted (the highest sensitivity level including cardholder data, authentication credentials, and cryptographic keys). Data owners are responsible for assigning the appropriate classification level.</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#6</span> <em>Data Classification</em></div>
-          <div class="chunk-text">The classification levels are: Public (information approved for unrestricted distribution), Internal (information for internal use that could cause minor harm if disclosed), Confidential (information whose disclosure could cause significant harm including PII and business-sensitive data), and Restricted (the highest sensitivity level including cardholder data, authentication credentials, and cryptographic keys).</div>
-          <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
-        </div>
-        
-        <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#7</span> <em>Data Classification</em></div>
-          <div class="chunk-text">Data owners are responsible for assigning the appropriate classification level.</div>
-          <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
-        </div>
-        
-        <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#8</span> <em>3.1 Encryption Standards</em></div>
+          <div class="chunk-meta"><span class="chunk-num">#6</span> <em>3.1  Encryption Standards</em></div>
           <div class="chunk-text">All cardholder data stored in databases, file systems, backup media, and portable storage devices must be encrypted using AES-256 or equivalent cryptographic algorithms approved by NIST.</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#9</span> <em>3.1 Encryption Standards</em></div>
+          <div class="chunk-meta"><span class="chunk-num">#7</span> <em>3.1  Encryption Standards</em></div>
           <div class="chunk-text">Full-disk encryption must be enabled on all laptops and workstations that may contain sensitive data.</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#10</span> <em>3.1 Encryption Standards</em></div>
+          <div class="chunk-meta"><span class="chunk-num">#8</span> <em>3.1  Encryption Standards</em></div>
           <div class="chunk-text">Database-level encryption using Transparent Data Encryption (TDE) is required for all production databases containing cardholder data.</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#11</span> <em>3.2 Primary Account Number (PAN) Protection</em></div>
+          <div class="chunk-meta"><span class="chunk-num">#9</span> <em>3.2  Primary Account Number (PAN) Protection</em></div>
           <div class="chunk-text">The full Primary Account Number must be rendered unreadable anywhere it is stored, whether in databases, log files, backup media, or removable media.</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#12</span> <em>3.2 Primary Account Number (PAN) Protection</em></div>
+          <div class="chunk-meta"><span class="chunk-num">#10</span> <em>3.2  Primary Account Number (PAN) Protection</em></div>
           <div class="chunk-text">Acceptable methods include: one-way cryptographic hashes based on strong cryptography (SHA-256 minimum), truncation (showing no more than the first six and last four digits), index tokens and pads with securely stored pads, or strong cryptography with associated key-management processes.</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#13</span> <em>3.2 Primary Account Number (PAN) Protection</em></div>
+          <div class="chunk-meta"><span class="chunk-num">#11</span> <em>3.2  Primary Account Number (PAN) Protection</em></div>
           <div class="chunk-text">PAN must not appear in plaintext in log files, debugging output, or error messages.</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#14</span> <em>4 Encryption of Data in Transit</em></div>
-          <div class="chunk-text">All sensitive data transmitted over public networks must be encrypted using TLS 1.2 or higher.</div>
+          <div class="chunk-meta"><span class="chunk-num">#12</span> <em>4  Encryption of Data in Transit</em></div>
+          <div class="chunk-text">All sensitive data transmitted over public networks must be encrypted using TLS 1.2 or higher. SSL and early TLS protocols (TLS 1.0, TLS 1.1) are explicitly prohibited.</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#15</span> <em>4 Encryption of Data in Transit</em></div>
-          <div class="chunk-text">SSL and early TLS protocols (TLS 1.0, TLS 1.1) are explicitly prohibited.</div>
+          <div class="chunk-meta"><span class="chunk-num">#13</span> <em>4  Encryption of Data in Transit</em></div>
+          <div class="chunk-text">Wireless networks transmitting cardholder data must use industry best-practice encryption (WPA3 or WPA2 with AES). Internal network transmissions of cardholder data between system components must also be encrypted.</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#16</span> <em>4 Encryption of Data in Transit</em></div>
-          <div class="chunk-text">Wireless networks transmitting cardholder data must use industry best-practice encryption (WPA3 or WPA2 with AES).</div>
-          <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
-        </div>
-        
-        <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#17</span> <em>4 Encryption of Data in Transit</em></div>
-          <div class="chunk-text">Internal network transmissions of cardholder data between system components must also be encrypted.</div>
-          <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
-        </div>
-        
-        <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#18</span> <em>4 Encryption of Data in Transit</em></div>
+          <div class="chunk-meta"><span class="chunk-num">#14</span> <em>4  Encryption of Data in Transit</em></div>
           <div class="chunk-text">Email communications containing sensitive data must use S/MIME or PGP encryption.</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
-        <div class="page-separator"><span>Page 3</span></div>
+        
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#19</span> <em>5.1 Key Generation and Storage</em></div>
+          <div class="chunk-meta"><span class="chunk-num">#15</span> <em>4  Encryption of Data in Transit</em></div>
           <div class="chunk-text">Cryptographic keys must be generated using approved random number generators within FIPS 140-2 validated hardware security modules (HSMs) or equivalent.</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#20</span> <em>5.1 Key Generation and Storage</em></div>
-          <div class="chunk-text">Keys must be stored in a secure key management system separate from the data they protect.</div>
+          <div class="chunk-meta"><span class="chunk-num">#16</span> <em>4  Encryption of Data in Transit</em></div>
+          <div class="chunk-text">Keys must be stored in a secure key management system separate from the data they protect. Key-encrypting keys must be at least as strong as the data-encrypting keys they protect.</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#21</span> <em>5.1 Key Generation and Storage</em></div>
-          <div class="chunk-text">Key-encrypting keys must be at least as strong as the data-encrypting keys they protect.</div>
-          <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
-        </div>
-        
-        <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#22</span> <em>5.1 Key Generation and Storage</em></div>
+          <div class="chunk-meta"><span class="chunk-num">#17</span> <em>4  Encryption of Data in Transit</em></div>
           <div class="chunk-text">Split knowledge and dual control procedures must be used for all manual key-management operations.</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
-        
+        <div class="page-separator"><span>Page 3</span></div>
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#23</span> <em>5.2 Key Rotation and Retirement</em></div>
-          <div class="chunk-text">Data-encrypting keys must be rotated at least annually or whenever there is a suspicion of compromise.</div>
+          <div class="chunk-meta"><span class="chunk-num">#18</span> <em>5.2  Key Rotation and Retirement</em></div>
+          <div class="chunk-text">Data-encrypting keys must be rotated at least annually or whenever there is a suspicion of compromise. Retired keys must not be used for new encryption operations but may be retained in a read-only state for decryption of archived data. Key destruction must use approved methods such as zeroization of HSM key slots or cryptographic erasure.</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#24</span> <em>5.2 Key Rotation and Retirement</em></div>
-          <div class="chunk-text">Retired keys must not be used for new encryption operations but may be retained in a read-only state for decryption of archived data.</div>
-          <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
-        </div>
-        
-        <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#25</span> <em>5.2 Key Rotation and Retirement</em></div>
-          <div class="chunk-text">Key destruction must use approved methods such as zeroization of HSM key slots or cryptographic erasure.</div>
-          <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
-        </div>
-        
-        <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#26</span> <em>5.2 Key Rotation and Retirement</em></div>
+          <div class="chunk-meta"><span class="chunk-num">#19</span> <em>5.2  Key Rotation and Retirement</em></div>
           <div class="chunk-text">All key lifecycle events must be logged and auditable.</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#27</span> <em>5.2 Key Rotation and Retirement</em></div>
+          <div class="chunk-meta"><span class="chunk-num">#20</span> <em>5.2  Key Rotation and Retirement</em></div>
           <div class="chunk-text">A key custodian must be formally designated and must acknowledge their responsibilities in writing.</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#28</span> <em>Data Retention and Secure Disposal</em></div>
-          <div class="chunk-text">Data retention policies must define the specific retention period for each data type and the business justification for retaining it.</div>
-          <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
+          <div class="chunk-meta"><span class="chunk-num">#21</span> <em>6  Data Retention and Secure Disposal</em></div>
+          <div class="chunk-text">Account data storage must be kept to a minimum. Data retention policies must define the specific retention period for each data type and the business justification for retaining it. Cardholder data that exceeds the defined retention period must be securely deleted on a quarterly basis.</div>
+          <div><span class="ctrl-tag" title="PCI DSS 3.2.1: Account data storage is kept to a minimum through implementation of data retention and disposal policies, procedures, and processes that include at least the following:
+•	 Coverage for all locations of stored account data.
+•	 Coverage for any sensitive authentication data (SAD) stored prior to completion of authorization. This bullet is a best practice until its effective date; refer to">PCI-DSS 3.2.1</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#29</span> <em>Data Retention and Secure Disposal</em></div>
-          <div class="chunk-text">Cardholder data that exceeds the defined retention period must be securely deleted on a quarterly basis.</div>
-          <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
-        </div>
-        
-        <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#30</span> <em>Data Retention and Secure Disposal</em></div>
+          <div class="chunk-meta"><span class="chunk-num">#22</span> <em>6  Data Retention and Secure Disposal</em></div>
           <div class="chunk-text">Secure deletion methods include: cryptographic erasure, degaussing of magnetic media, physical destruction (cross-cut shredding for paper, incineration for optical media).</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#31</span> <em>Data Retention and Secure Disposal</em></div>
+          <div class="chunk-meta"><span class="chunk-num">#23</span> <em>6  Data Retention and Secure Disposal</em></div>
           <div class="chunk-text">Sensitive authentication data (SAD) including the full track data, card verification codes (CVV/CVC), and PINs must never be stored after authorization, even in encrypted form.</div>
           <div><span class="ctrl-tag" title="PCI DSS 3.2.1: Account data storage is kept to a minimum through implementation of data retention and disposal policies, procedures, and processes that include at least the following:
 •	 Coverage for all locations of stored account data.
-•	 Coverage for any sensitive authentication data (SAD) stored prior to completion of authorization. This bullet is a best practice until its effective date; refer to">PCI-DSS 3.2.1</span><span class="ctrl-tag" title="PCI DSS 3.3.1: SAD is not stored after authorization, even if encrypted. All sensitive authentication data received is rendered unrecoverable upon completion of the authorization process">PCI-DSS 3.3.1</span><span class="ctrl-tag" title="PCI DSS 3.3.1.3: The personal identification number (PIN) and the PIN block are not stored upon completion of the authorization process.">PCI-DSS 3.3.1.3</span></div>
+•	 Coverage for any sensitive authentication data (SAD) stored prior to completion of authorization. This bullet is a best practice until its effective date; refer to">PCI-DSS 3.2.1</span><span class="ctrl-tag" title="PCI DSS 3.3.1: SAD is not stored after authorization, even if encrypted. All sensitive authentication data received is rendered unrecoverable upon completion of the authorization process">PCI-DSS 3.3.1</span><span class="ctrl-tag" title="PCI DSS 3.3.1.1: The full contents of any track are not stored upon completion of the authorization process.">PCI-DSS 3.3.1.1</span><span class="ctrl-tag" title="PCI DSS 3.3.1.2: The card verification code is not stored upon completion of the authorization process.">PCI-DSS 3.3.1.2</span><span class="ctrl-tag" title="PCI DSS 3.3.1.3: The personal identification number (PIN) and the PIN block are not stored upon completion of the authorization process.">PCI-DSS 3.3.1.3</span></div>
         </div>
         
       </div>
@@ -1345,43 +1233,31 @@ New requirement - effective immediately</div>
       <div class="card-header">
         <span class="chevron">&#9654;</span>
         <span class="ctrl-id">network_security_policy.pdf</span>
-        <span class="ctrl-title">38 chunks · <span style="color:var(--green)">4 mapped</span> · <span style="color:var(--yellow)">34 unmapped</span></span>
+        <span class="ctrl-title">29 chunks · <span style="color:var(--green)">4 mapped</span> · <span style="color:var(--yellow)">25 unmapped</span></span>
       </div>
       <div class="card-body">
         <div class="page-separator"><span>Page 1</span></div>
         <div class="chunk-section">
           <div class="chunk-meta"><span class="chunk-num">#1</span> <em>—</em></div>
-          <div class="chunk-text">This document is the property of Acme Corp and is intended for internal use only. Unauthorized distribution, reproduction, or disclosure is strictly prohibited.</div>
+          <div class="chunk-text">This policy has been approved by the Chief Information Security Officer Acme Corp Network Security Policy</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
         <div class="page-separator"><span>Page 2</span></div>
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#2</span> <em>1 Purpose and Scope</em></div>
-          <div class="chunk-text">It defines the standards for firewall management, network segmentation, intrusion detection, vulnerability management, and change control procedures for all network components.</div>
+          <div class="chunk-meta"><span class="chunk-num">#2</span> <em>1  Purpose and Scope</em></div>
+          <div class="chunk-text">This policy establishes the requirements for securing Acme Corp network infrastructure, including internal networks, the Cardholder Data Environment (CDE), wireless networks, and external-facing connections.</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#3</span> <em>1 Purpose and Scope</em></div>
-          <div class="chunk-text">This policy applies to all network devices, security appliances, and personnel responsible for network operations.</div>
+          <div class="chunk-meta"><span class="chunk-num">#3</span> <em>1  Purpose and Scope</em></div>
+          <div class="chunk-text">It defines the standards for firewall management, network segmentation, intrusion detection, vulnerability management, and change control procedures for all network components. This policy applies to all network devices, security appliances, and personnel responsible for network operations.</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#4</span> <em>2.1 Firewall Configuration Standards</em></div>
-          <div class="chunk-text">All firewall rules must be reviewed at least every six months to confirm they are relevant and effective.</div>
-          <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
-        </div>
-        
-        <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#5</span> <em>2.1 Firewall Configuration Standards</em></div>
-          <div class="chunk-text">Firewall ruleset changes must follow the change management process defined in the organizational change control policy.</div>
-          <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
-        </div>
-        
-        <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#6</span> <em>2.1 Firewall Configuration Standards</em></div>
-          <div class="chunk-text">Configuration files for NSCs must be secured from unauthorized access and kept consistent with active network configurations.</div>
+          <div class="chunk-meta"><span class="chunk-num">#4</span> <em>2.1  Firewall Configuration Standards</em></div>
+          <div class="chunk-text">Configuration standards for all network security control (NSC) rulesets must be defined, documented, and maintained.</div>
           <div><span class="ctrl-tag" title="PCI DSS 1.2.1: Configuration standards for NSC rulesets are:
 •	 Defined.
 •	 Implemented.
@@ -1389,49 +1265,49 @@ New requirement - effective immediately</div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#7</span> <em>2.1 Firewall Configuration Standards</em></div>
+          <div class="chunk-meta"><span class="chunk-num">#5</span> <em>2.1  Firewall Configuration Standards</em></div>
+          <div class="chunk-text">All firewall rules must be reviewed at least every six months to confirm they are relevant and effective. Firewall ruleset changes must follow the change management process defined in the organizational change control policy.</div>
+          <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
+        </div>
+        
+        <div class="chunk-section">
+          <div class="chunk-meta"><span class="chunk-num">#6</span> <em>2.1  Firewall Configuration Standards</em></div>
+          <div class="chunk-text">Configuration files for NSCs must be secured from unauthorized access and kept consistent with active network configurations.</div>
+          <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
+        </div>
+        
+        <div class="chunk-section">
+          <div class="chunk-meta"><span class="chunk-num">#7</span> <em>2.1  Firewall Configuration Standards</em></div>
           <div class="chunk-text">Default vendor-supplied credentials on all network devices must be changed immediately upon deployment.</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#8</span> <em>2.2 Traffic Control Rules</em></div>
-          <div class="chunk-text">Inbound traffic to the CDE must be restricted to only traffic that is necessary.</div>
+          <div class="chunk-meta"><span class="chunk-num">#8</span> <em>2.2  Traffic Control Rules</em></div>
+          <div class="chunk-text">Inbound traffic to the CDE must be restricted to only traffic that is necessary, and all other traffic must be specifically denied. Outbound traffic from the CDE must also be restricted to only traffic that is necessary for business operations.</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#9</span> <em>2.2 Traffic Control Rules</em></div>
-          <div class="chunk-text">Outbound traffic from the CDE must also be restricted to only traffic that is necessary for business operations.</div>
+          <div class="chunk-meta"><span class="chunk-num">#9</span> <em>2.2  Traffic Control Rules</em></div>
+          <div class="chunk-text">All allowed services, protocols, and ports must be identified, approved, and have a defined business justification documented. Security features must be defined and implemented for all services, protocols, and ports that are considered insecure to mitigate associated risks.</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#10</span> <em>2.2 Traffic Control Rules</em></div>
-          <div class="chunk-text">All allowed services, protocols, and ports must be identified, approved, and have a defined business justification documented.</div>
-          <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
-        </div>
-        
-        <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#11</span> <em>2.2 Traffic Control Rules</em></div>
-          <div class="chunk-text">Security features must be defined and implemented for all services, protocols, and ports that are considered insecure to mitigate associated risks.</div>
-          <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
-        </div>
-        
-        <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#12</span> <em>3 Network Segmentation and CDE Isolation</em></div>
+          <div class="chunk-meta"><span class="chunk-num">#10</span> <em>3  Network Segmentation and CDE Isolation</em></div>
           <div class="chunk-text">The Cardholder Data Environment must be isolated from all other networks through proper network segmentation.</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#13</span> <em>3 Network Segmentation and CDE Isolation</em></div>
+          <div class="chunk-meta"><span class="chunk-num">#11</span> <em>3  Network Segmentation and CDE Isolation</em></div>
           <div class="chunk-text">An accurate network diagram must be maintained that shows all connections between the CDE and other networks, including wireless networks.</div>
           <div><span class="ctrl-tag" title="PCI DSS 1.2.3: An accurate network diagram(s) is maintained that shows all connections between the CDE and other networks, including any wireless networks.">PCI-DSS 1.2.3</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#14</span> <em>3 Network Segmentation and CDE Isolation</em></div>
+          <div class="chunk-meta"><span class="chunk-num">#12</span> <em>3  Network Segmentation and CDE Isolation</em></div>
           <div class="chunk-text">An accurate data-flow diagram must be maintained that shows all account data flows across systems and networks and must be updated whenever changes occur.</div>
           <div><span class="ctrl-tag" title="PCI DSS 1.2.4: An accurate data-flow diagram(s) is maintained that meets the following:  
 •	 Shows all account data flows across systems and networks.
@@ -1439,146 +1315,107 @@ New requirement - effective immediately</div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#15</span> <em>3 Network Segmentation and CDE Isolation</em></div>
+          <div class="chunk-meta"><span class="chunk-num">#13</span> <em>3  Network Segmentation and CDE Isolation</em></div>
           <div class="chunk-text">DMZ zones must be implemented to limit inbound traffic to only system components that provide authorized publicly accessible services.</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#16</span> <em>3 Network Segmentation and CDE Isolation</em></div>
+          <div class="chunk-meta"><span class="chunk-num">#14</span> <em>3  Network Segmentation and CDE Isolation</em></div>
           <div class="chunk-text">Private IP addresses must not be disclosed to external entities.</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#17</span> <em>4 Wireless Network Security</em></div>
-          <div class="chunk-text">NSCs must be installed between all wireless networks and the CDE, regardless of whether the wireless network is part of the CDE.</div>
+          <div class="chunk-meta"><span class="chunk-num">#15</span> <em>4  Wireless Network Security</em></div>
+          <div class="chunk-text">NSCs must be installed between all wireless networks and the CDE, regardless of whether the wireless network is part of the CDE. All wireless traffic from wireless networks into the CDE must be denied by default, and only wireless traffic with an authorized business purpose may be allowed. Wireless networks must use WPA3 or WPA2 with AES encryption at minimum. Default wireless encryption keys, passwords, and SNMP community strings must be changed at</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#18</span> <em>4 Wireless Network Security</em></div>
-          <div class="chunk-text">All wireless traffic from wireless networks into the CDE must be denied by default, and only wireless traffic with an authorized business purpose may be allowed.</div>
-          <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
-        </div>
-        
-        <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#19</span> <em>4 Wireless Network Security</em></div>
-          <div class="chunk-text">Wireless networks must use WPA3 or WPA2 with AES encryption at minimum.</div>
-          <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
-        </div>
-        
-        <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#20</span> <em>4 Wireless Network Security</em></div>
-          <div class="chunk-text">Default wireless encryption keys, passwords, and SNMP community strings must be changed at installation.</div>
-          <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
-        </div>
-        
-        <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#21</span> <em>4 Wireless Network Security</em></div>
-          <div class="chunk-text">A wireless intrusion detection system (WIDS) must be deployed to detect and alert on unauthorized wireless access points on a quarterly basis.</div>
-          <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
-        </div>
-        <div class="page-separator"><span>Page 3</span></div>
-        <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#22</span> <em>5 Vulnerability Management</em></div>
+          <div class="chunk-meta"><span class="chunk-num">#16</span> <em>4  Wireless Network Security</em></div>
           <div class="chunk-text">Internal and external network vulnerability scans must be performed at least quarterly and after any significant infrastructure change.</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#23</span> <em>5 Vulnerability Management</em></div>
+          <div class="chunk-meta"><span class="chunk-num">#17</span> <em>4  Wireless Network Security</em></div>
           <div class="chunk-text">External scans must be performed by a PCI SSC Approved Scanning Vendor (ASV).</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#24</span> <em>5 Vulnerability Management</em></div>
+          <div class="chunk-meta"><span class="chunk-num">#18</span> <em>4  Wireless Network Security</em></div>
           <div class="chunk-text">Penetration testing of the network perimeter and critical systems must be conducted at least annually.</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#25</span> <em>5 Vulnerability Management</em></div>
-          <div class="chunk-text">High-risk vulnerabilities (CVSS score 7.0 or above) identified during scanning must be remediated within 30 calendar days.</div>
+          <div class="chunk-meta"><span class="chunk-num">#19</span> <em>4  Wireless Network Security</em></div>
+          <div class="chunk-text">High-risk vulnerabilities (CVSS score 7.0 or above) identified during scanning must be remediated within 30 calendar days. Critical vulnerabilities must be patched or mitigated within 72 hours of discovery.</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#26</span> <em>5 Vulnerability Management</em></div>
-          <div class="chunk-text">Critical vulnerabilities must be patched or mitigated within 72 hours of discovery.</div>
-          <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
-        </div>
-        
-        <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#27</span> <em>5 Vulnerability Management</em></div>
+          <div class="chunk-meta"><span class="chunk-num">#20</span> <em>4  Wireless Network Security</em></div>
           <div class="chunk-text">All remediation activities must be documented and verified through re-scanning.</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
-        
+        <div class="page-separator"><span>Page 3</span></div>
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#28</span> <em>6 Network Change Management</em></div>
-          <div class="chunk-text">All changes to network connections and to configurations of NSCs must be approved and managed in accordance with the organizational change control process.</div>
-          <div><span class="ctrl-tag" title="PCI DSS 1.2.2: All changes to network connections and to configurations of NSCs are approved and managed in accordance with the change control process defined at Requirement 6.5.1.">PCI-DSS 1.2.2</span></div>
+          <div class="chunk-meta"><span class="chunk-num">#21</span> <em>6  Network Change Management</em></div>
+          <div class="chunk-text">All changes to network connections and to configurations of NSCs must be approved and managed in accordance with the organizational change control process. This includes the addition, removal, or modification of any network connection as well as changes that affect how network security controls perform their security function.</div>
+          <div><span class="ctrl-tag" title="PCI DSS 1.2.1: Configuration standards for NSC rulesets are:
+•	 Defined.
+•	 Implemented.
+•	 Maintained.">PCI-DSS 1.2.1</span><span class="ctrl-tag" title="PCI DSS 1.2.2: All changes to network connections and to configurations of NSCs are approved and managed in accordance with the change control process defined at Requirement 6.5.1.">PCI-DSS 1.2.2</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#29</span> <em>6 Network Change Management</em></div>
-          <div class="chunk-text">This includes the addition, removal, or modification of any network connection as well as changes that affect how network security controls perform their security function.</div>
-          <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
-        </div>
-        
-        <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#30</span> <em>6 Network Change Management</em></div>
+          <div class="chunk-meta"><span class="chunk-num">#22</span> <em>6  Network Change Management</em></div>
           <div class="chunk-text">Change requests must document the business justification, impact analysis, rollback procedures, and security review.</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#31</span> <em>6 Network Change Management</em></div>
+          <div class="chunk-meta"><span class="chunk-num">#23</span> <em>6  Network Change Management</em></div>
           <div class="chunk-text">Emergency changes must be reviewed and formally approved within 72 hours of implementation.</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#32</span> <em>6 Network Change Management</em></div>
+          <div class="chunk-meta"><span class="chunk-num">#24</span> <em>6  Network Change Management</em></div>
           <div class="chunk-text">All changes must be tested in a non-production environment before deployment.</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#33</span> <em>7 Network Monitoring and Intrusion Detection</em></div>
+          <div class="chunk-meta"><span class="chunk-num">#25</span> <em>7  Network Monitoring and Intrusion Detection</em></div>
           <div class="chunk-text">Network-based intrusion detection or prevention systems (IDS/IPS) must be deployed at the perimeter of the CDE and at critical points within the network.</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#34</span> <em>7 Network Monitoring and Intrusion Detection</em></div>
+          <div class="chunk-meta"><span class="chunk-num">#26</span> <em>7  Network Monitoring and Intrusion Detection</em></div>
           <div class="chunk-text">All IDS/IPS signatures must be updated within 24 hours of vendor release.</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#35</span> <em>7 Network Monitoring and Intrusion Detection</em></div>
+          <div class="chunk-meta"><span class="chunk-num">#27</span> <em>7  Network Monitoring and Intrusion Detection</em></div>
           <div class="chunk-text">Network traffic logs must be captured and retained for a minimum of twelve months, with at least three months immediately available for analysis.</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#36</span> <em>7 Network Monitoring and Intrusion Detection</em></div>
+          <div class="chunk-meta"><span class="chunk-num">#28</span> <em>7  Network Monitoring and Intrusion Detection</em></div>
           <div class="chunk-text">Security event monitoring must operate continuously (24/7/365).</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
         
         <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#37</span> <em>7 Network Monitoring and Intrusion Detection</em></div>
-          <div class="chunk-text">Automated alerts must be configured for anomalous network activity including unusual traffic patterns, unauthorized connection attempts, and data exfiltration indicators.</div>
-          <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
-        </div>
-        
-        <div class="chunk-section">
-          <div class="chunk-meta"><span class="chunk-num">#38</span> <em>7 Network Monitoring and Intrusion Detection</em></div>
-          <div class="chunk-text">All critical security alerts must be investigated and documented within four hours of detection.</div>
+          <div class="chunk-meta"><span class="chunk-num">#29</span> <em>7  Network Monitoring and Intrusion Detection</em></div>
+          <div class="chunk-text">Automated alerts must be configured for anomalous network activity including unusual traffic patterns, unauthorized connection attempts, and data exfiltration indicators. All critical security alerts must be investigated and documented within four hours of detection.</div>
           <div><span class="ctrl-tag" style="background:var(--yellow);color:#000">Unmapped</span></div>
         </div>
         

@@ -98,8 +98,15 @@ def _format_rationale(
     if rationale is None:
         return ("N/A", "")
     if isinstance(rationale, MappingRationale):
-        icon = "\u2705" if rationale.is_compliant else "\u26a0\ufe0f"
-        status = "Compliant" if rationale.is_compliant else "Non-compliant"
+        from ctrlmap.models.schemas import ComplianceLevel
+
+        level = rationale.compliance_level
+        if level == ComplianceLevel.FULLY_COMPLIANT:
+            icon, status = "\u2705", "Compliant"
+        elif level == ComplianceLevel.PARTIALLY_COMPLIANT:
+            icon, status = "\U0001f7e1", "Partially compliant"
+        else:
+            icon, status = "\u26a0\ufe0f", "Non-compliant"
         verdict = f"{icon} {status} ({rationale.confidence_score:.2f})"
         return (verdict, rationale.explanation)
     return ("Insufficient evidence", rationale.reason)

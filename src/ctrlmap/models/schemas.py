@@ -12,6 +12,8 @@ SecurityControl
     Standardized control definition (e.g., NIST AC-2).
 CommonControl
     Unified deduplicated control with source references.
+ComplianceLevel
+    Three-tier compliance classification.
 MappingRationale
     LLM-generated compliance justification.
 InsufficientEvidence
@@ -22,7 +24,9 @@ MappedResult
 
 from __future__ import annotations
 
-from pydantic import BaseModel, ConfigDict, Field
+from enum import Enum
+
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 
 class ParsedChunk(BaseModel):
@@ -47,6 +51,7 @@ class SecurityControl(BaseModel):
     framework: str
     title: str
     description: str
+    requirement_family: str = ""
 
 
 class CommonControl(BaseModel):
@@ -60,14 +65,40 @@ class CommonControl(BaseModel):
     source_references: list[str]
 
 
+class ComplianceLevel(str, Enum):  # noqa: UP042
+    """Three-tier compliance classification for control mappings."""
+
+    FULLY_COMPLIANT = "fully_compliant"
+    PARTIALLY_COMPLIANT = "partially_compliant"
+    NON_COMPLIANT = "non_compliant"
+
+
 class MappingRationale(BaseModel):
     """LLM-generated rationale when sufficient evidence supports a mapping."""
 
     model_config = ConfigDict(extra="forbid", strict=True)
 
     is_compliant: bool
+    compliance_level: ComplianceLevel = ComplianceLevel.NON_COMPLIANT
     confidence_score: float = Field(ge=0.0, le=1.0)
     explanation: str
+
+    @model_validator(mode="after")
+    def _default_compliance_level(self) -> MappingRationale:
+        """Derive compliance_level from is_compliant when not explicitly set.
+
+        If the caller only provides ``is_compliant`` (backward-compat path),
+        this validator sets compliance_level to the appropriate binary value.
+        When compliance_level is explicitly provided, it takes precedence.
+        """
+        # Detect whether compliance_level was explicitly provided.
+        # If the field still has its schema default AND it contradicts
+        # is_compliant, override it with the inferred value.
+        if self.is_compliant and self.compliance_level == ComplianceLevel.NON_COMPLIANT:
+            self.compliance_level = ComplianceLevel.FULLY_COMPLIANT
+        elif not self.is_compliant and self.compliance_level == ComplianceLevel.FULLY_COMPLIANT:
+            self.compliance_level = ComplianceLevel.NON_COMPLIANT
+        return self
 
 
 class InsufficientEvidence(BaseModel):
