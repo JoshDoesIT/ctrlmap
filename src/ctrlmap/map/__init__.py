@@ -20,4 +20,3 @@ __all__ = [
     "map_controls",
     "resolve_meta_requirements",
 ]
-
