@@ -13,7 +13,7 @@ index_command
 """
 
 from ctrlmap.index.embedder import Embedder
-from ctrlmap.index.query import QueryResult, query
+from ctrlmap.index.query import QueryResult, query, query_by_embedding
 from ctrlmap.index.vector_store import VectorStore
 
-__all__ = ["Embedder", "QueryResult", "VectorStore", "query"]
+__all__ = ["Embedder", "QueryResult", "VectorStore", "query", "query_by_embedding"]

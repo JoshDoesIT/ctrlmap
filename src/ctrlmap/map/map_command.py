@@ -99,6 +99,16 @@ def map_controls_cmd(
         "--top-k",
         help="Maximum supporting chunks per control.",
     ),
+    concurrency: int = typer.Option(
+        4,
+        "--concurrency",
+        help="Maximum concurrent LLM requests (higher = faster, more RAM).",
+    ),
+    cache: bool = typer.Option(
+        False,
+        "--cache/--no-cache",
+        help="Enable LLM response cache for faster re-runs.",
+    ),
 ) -> None:
     """Map policies to security controls via vector similarity."""
     console.print("[bold blue]Map:[/] Loading framework controls...")
@@ -115,7 +125,12 @@ def map_controls_cmd(
     )
 
     if rationale:
-        results = enrich_with_rationale(results, llm_model=llm_model)
+        results = enrich_with_rationale(
+            results,
+            llm_model=llm_model,
+            concurrency=concurrency,
+            cache_enabled=cache,
+        )
 
     # Load ALL chunks for the Policy Coverage tab
     all_chunks = store.get_all_chunks("chunks")

@@ -9,11 +9,22 @@ Ref: GitHub Issue #11.
 
 from __future__ import annotations
 
+import functools
 from typing import cast
 
 from sentence_transformers import SentenceTransformer
 
 from ctrlmap._defaults import DEFAULT_EMBEDDING_MODEL
+
+
+@functools.cache
+def _load_model(model_name: str) -> SentenceTransformer:
+    """Load a SentenceTransformer model (cached per model name).
+
+    First call loads the model (~1-2s); subsequent calls return
+    the cached instance immediately.
+    """
+    return SentenceTransformer(model_name)
 
 
 class Embedder:
@@ -22,10 +33,13 @@ class Embedder:
     Args:
         model_name: The Sentence-Transformers model to load.
             Defaults to ``all-MiniLM-L6-v2`` (lightweight, CPU-friendly).
+
+    The underlying model is cached per ``model_name`` and shared across
+    all ``Embedder`` instances in the same process.
     """
 
     def __init__(self, model_name: str = DEFAULT_EMBEDDING_MODEL) -> None:
-        self._model = SentenceTransformer(model_name)
+        self._model = _load_model(model_name)
 
     def embed_text(self, text: str) -> list[float]:
         """Embed a single text string into a float vector.

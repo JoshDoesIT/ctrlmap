@@ -8,15 +8,21 @@ and produces clean, sentence-aligned control statements.
 Each extracted control becomes a ``ParsedChunk`` with accurate
 section headers and page numbers — no paragraph-joining, sentence
 healing, or boilerplate filtering needed.
+
+Performance:
+    Uses ``asyncio.gather()`` with bounded semaphore to process
+    multiple page segments concurrently, replacing the previous
+    serial loop.  Uses the fast 7B model by default.
 """
 
 from __future__ import annotations
 
+import asyncio
 import re
 import uuid
 
 from ctrlmap._console import err_console
-from ctrlmap._defaults import DEFAULT_LLM_MODEL
+from ctrlmap._defaults import DEFAULT_FAST_MODEL
 from ctrlmap.llm._json_utils import extract_json_array
 from ctrlmap.llm.client import OllamaClient
 from ctrlmap.llm.prompts import load_prompt
@@ -29,6 +35,9 @@ _SECTION_HEADER_RE = re.compile(r"^\d+(?:\.\d+)*\s{2,}\S", re.MULTILINE)
 
 # Max chars per LLM call — pages larger than this get split into sections
 _PAGE_SPLIT_THRESHOLD = 1500
+
+# Default concurrency for async extraction
+_DEFAULT_CONCURRENCY = 4
 
 
 def _split_page_into_sections(page_text: str) -> list[str]:
@@ -70,6 +79,54 @@ def _split_page_into_sections(page_text: str) -> list[str]:
     return segments
 
 
+async def _extract_section_async(
+    *,
+    section_text: str,
+    page_number: int,
+    document_name: str,
+    client: OllamaClient,
+    semaphore: asyncio.Semaphore,
+) -> list[dict[str, str]]:
+    """Send one text section to the LLM (async) and parse the response.
+
+    Retries up to ``_MAX_RETRIES`` times on parse failure.
+
+    Returns:
+        A list of dicts with ``section`` and ``text`` keys.
+    """
+    template = load_prompt("control_extraction.txt")
+    prompt = template.format(
+        page_number=page_number,
+        document_name=document_name,
+        page_text=section_text,
+    )
+
+    for attempt in range(_MAX_RETRIES + 1):
+        async with semaphore:
+            raw_response = (await client.call_llm_async(prompt, "control_extraction")).strip()
+        controls = extract_json_array(raw_response)
+
+        if controls:
+            return controls
+
+        if attempt < _MAX_RETRIES:
+            err_console.print(
+                f"[yellow]  Page {page_number}: JSON parse failed, "
+                f"retrying ({attempt + 1}/{_MAX_RETRIES})…[/]"
+            )
+        else:
+            err_console.print(
+                f"[red]  Page {page_number}: extraction failed "
+                f"after {_MAX_RETRIES + 1} attempts "
+                f"({len(section_text)} chars).[/]"
+            )
+            err_console.print(
+                f"[dim]DEBUG page {page_number} raw LLM response:\n{raw_response[:500]}[/]",
+            )
+
+    return []
+
+
 def _extract_section(
     *,
     section_text: str,
@@ -77,9 +134,9 @@ def _extract_section(
     document_name: str,
     client: OllamaClient,
 ) -> list[dict[str, str]]:
-    """Send one text section to the LLM and parse the response.
+    """Send one text section to the LLM and parse the response (sync).
 
-    Retries up to ``_MAX_RETRIES`` times on parse failure.
+    Retained for backward compatibility. Prefer the async variant.
 
     Returns:
         A list of dicts with ``section`` and ``text`` keys.
@@ -116,11 +173,69 @@ def _extract_section(
     return []
 
 
+def _build_chunks_from_controls(
+    controls: list[dict[str, str]],
+    *,
+    page_number: int,
+    document_name: str,
+    segment: str,
+) -> list[ParsedChunk]:
+    """Convert extracted control dicts to ParsedChunk instances.
+
+    Verifies each control exists in the source segment to catch
+    LLM hallucinations.
+
+    Args:
+        controls: List of dicts with ``section`` and ``text`` keys.
+        page_number: Source page number.
+        document_name: Source document name.
+        segment: The original text segment (for hallucination checks).
+
+    Returns:
+        A list of ``ParsedChunk`` instances.
+    """
+    _norm_seg = " ".join(segment.split())
+
+    def _text_position(ctrl: dict[str, str], _seg: str = _norm_seg) -> int:
+        text = ctrl.get("text", "").strip()
+        needle = " ".join(text[:60].split())
+        pos = _seg.find(needle)
+        return pos if pos >= 0 else len(_seg)
+
+    controls.sort(key=_text_position)
+
+    chunks: list[ParsedChunk] = []
+    for ctrl in controls:
+        text = ctrl.get("text", "").strip()
+        section = ctrl.get("section", "").strip() or None
+        if len(text) < 50:
+            continue
+
+        # Verify the control text exists in the source segment
+        verify_needle = " ".join(text[:30].split())
+        if _norm_seg.find(verify_needle) < 0:
+            err_console.print(
+                f'[yellow]  Page {page_number}: dropped hallucinated control "{text[:60]}…"[/]'
+            )
+            continue
+
+        chunks.append(
+            ParsedChunk(
+                chunk_id=str(uuid.uuid4()),
+                document_name=document_name,
+                page_number=page_number,
+                raw_text=text,
+                section_header=section,
+            )
+        )
+    return chunks
+
+
 def extract_controls_with_llm(
     pages: list[dict[str, str | int]],
     *,
     document_name: str,
-    model: str = DEFAULT_LLM_MODEL,
+    model: str = DEFAULT_FAST_MODEL,
 ) -> list[ParsedChunk]:
     """Extract individual controls from raw page text using a local LLM.
 
@@ -128,16 +243,41 @@ def extract_controls_with_llm(
     so the LLM processes a focused block of text and doesn't truncate
     or drop controls.
 
+    Uses ``asyncio`` for concurrent extraction across all segments.
+
     Args:
         pages: List of dicts with ``page_number`` (int) and ``text`` (str).
         document_name: Source document filename.
-        model: Ollama model name (default: ``qwen2.5:14b``).
+        model: Ollama model name (default: fast 7B model).
+
+    Returns:
+        A list of ``ParsedChunk`` instances, one per extracted control.
+    """
+    return asyncio.run(_extract_async(pages, document_name=document_name, model=model))
+
+
+async def _extract_async(
+    pages: list[dict[str, str | int]],
+    *,
+    document_name: str,
+    model: str,
+) -> list[ParsedChunk]:
+    """Async extraction pipeline — concurrent across page segments.
+
+    Args:
+        pages: List of dicts with ``page_number`` (int) and ``text`` (str).
+        document_name: Source document filename.
+        model: Ollama model name.
 
     Returns:
         A list of ``ParsedChunk`` instances, one per extracted control.
     """
     client = OllamaClient(model=model)
-    chunks: list[ParsedChunk] = []
+    semaphore = asyncio.Semaphore(_DEFAULT_CONCURRENCY)
+
+    # Build all (segment, page_number) pairs
+    tasks: list[asyncio.Task[list[dict[str, str]]]] = []
+    segment_info: list[tuple[str, int]] = []  # (segment_text, page_number)
 
     for page in pages:
         page_number = int(page["page_number"])
@@ -152,52 +292,35 @@ def extract_controls_with_llm(
             if len(segment) < 50:
                 continue
 
-            controls = _extract_section(
-                section_text=segment,
-                page_number=page_number,
-                document_name=document_name,
-                client=client,
-            )
-
-            # Re-sort by text position in the original segment
-            # to guarantee document order regardless of LLM output order.
-            # Normalize whitespace: PDF text has embedded line breaks that
-            # the LLM strips out, causing str.find() to miss matches.
-            _norm_seg = " ".join(segment.split())
-
-            def _text_position(ctrl: dict[str, str], _seg: str = _norm_seg) -> int:
-                text = ctrl.get("text", "").strip()
-                needle = " ".join(text[:60].split())
-                pos = _seg.find(needle)
-                return pos if pos >= 0 else len(_seg)
-
-            controls.sort(key=_text_position)
-
-            for ctrl in controls:
-                text = ctrl.get("text", "").strip()
-                section = ctrl.get("section", "").strip() or None
-                if len(text) < 50:
-                    continue
-
-                # Verify the control text exists in the source segment
-                # to catch LLM hallucinations. Use first 30 chars normalized.
-                verify_needle = " ".join(text[:30].split())
-                if _norm_seg.find(verify_needle) < 0:
-                    err_console.print(
-                        f"[yellow]  Page {page_number}: dropped "
-                        f"hallucinated control "
-                        f'"{text[:60]}…"[/]'
-                    )
-                    continue
-
-                chunks.append(
-                    ParsedChunk(
-                        chunk_id=str(uuid.uuid4()),
-                        document_name=document_name,
+            segment_info.append((segment, page_number))
+            tasks.append(
+                asyncio.ensure_future(
+                    _extract_section_async(
+                        section_text=segment,
                         page_number=page_number,
-                        raw_text=text,
-                        section_header=section,
+                        document_name=document_name,
+                        client=client,
+                        semaphore=semaphore,
                     )
                 )
+            )
+
+    if not tasks:
+        return []
+
+    # Run all extractions concurrently
+    all_results = await asyncio.gather(*tasks)
+
+    # Build chunks from results
+    chunks: list[ParsedChunk] = []
+    for (segment, page_number), controls in zip(segment_info, all_results, strict=True):
+        chunks.extend(
+            _build_chunks_from_controls(
+                controls,
+                page_number=page_number,
+                document_name=document_name,
+                segment=segment,
+            )
+        )
 
     return chunks

@@ -39,11 +39,13 @@ Embeds text and stores vectors locally.
 
 Matches controls to supporting evidence via RAG, then enriches with LLM analysis.
 
-- **`mapper.py`** — Core mapping: query expansion → vector search → min-score filtering
-- **`enrichment.py`** — Orchestrates the 5-step LLM pipeline: relevance filter → rationale → meta-classify → gap → resolve. Entry point: `enrich_with_rationale()`
+- **`mapper.py`** — Core mapping: query expansion → batch embedding → vector search → min-score filtering (`top_k=5`, `min_score=0.50`)
+- **`enrichment.py`** — Streaming per-control async pipeline: merged relevance+rationale → meta-classify (7B, only unmapped) → gap rationale (7B, async) → resolve. Dual-model architecture: 14B for accuracy-critical evaluation, 7B for simple tasks.
 - **`meta_requirements.py`** — Governance/documentation meta-requirement classification
-- **`map_command.py`** — CLI wiring + format dispatch via `_FORMAT_REGISTRY`
+- **`map_command.py`** — CLI wiring + format dispatch via `_FORMAT_REGISTRY`. Supports `--concurrency` and `--cache` flags.
 - **`expansion_map.json`** — Domain synonym data for query expansion
+
+**Performance:** Merged relevance+rationale prompt halves LLM calls per chunk. Model tiering (14B rationale, 7B meta/gap) doubles throughput for simple tasks. Batch embedding, concurrent `asyncio`, and optional SQLite cache (`--cache`) provide further gains. Embedder uses `@functools.cache` to share the model across pipeline stages.
 
 **Output:** `MappedResult` objects with rationales.
 
@@ -61,14 +63,15 @@ Deduplicates overlapping controls across frameworks.
 |--------|----------------|
 | `ctrlmap.models.schemas` | Pydantic V2 data models (`ParsedChunk`, `SecurityControl`, `MappedResult`, etc.) |
 | `ctrlmap.models.oscal` | OSCAL JSON catalog parser |
-| `ctrlmap.llm.client` | Ollama client (connection handling, prompt formatting) |
+| `ctrlmap.llm.client` | Ollama client with async support, transparent cache integration |
 | `ctrlmap.llm.structured_output` | LLM response → `MappingRationale \| InsufficientEvidence` |
 | `ctrlmap.llm._json_utils` | Shared JSON extraction utilities for LLM responses |
-| `ctrlmap.llm.prompts/` | Externalized prompt templates (`.txt` files) |
+| `ctrlmap.llm.cache` | SQLite-backed LLM response cache (wired into `call_llm_async`) |
+| `ctrlmap.llm.prompts/` | Externalized prompt templates (`.txt` files) including merged relevance+rationale |
 | `ctrlmap.export.*` | Output formatters (CSV, Markdown, OSCAL, HTML) |
 | `ctrlmap.eval_command` | CLI subcommand for the RAG evaluation harness |
 | `ctrlmap.eval_ragas` | RAGAS integration for retrieval quality metrics |
-| `ctrlmap._defaults` | Centralized default constants (model names) |
+| `ctrlmap._defaults` | Centralized default constants (`DEFAULT_LLM_MODEL`, `DEFAULT_FAST_MODEL`) |
 | `ctrlmap._console` | Shared Rich console instances |
 
 ## Data Flow
