@@ -87,8 +87,9 @@ def _is_chunk_boilerplate(text: str) -> bool:
     """Detect obvious cover-page legal fragments in a final chunk.
 
     Only drops VERY short fragments that are clearly mid-sentence
-    cover page boilerplate (legal disclaimers, date notices).
-    Longer chunks are never dropped — they may contain valid policy text.
+    cover page boilerplate (legal disclaimers, date notices, approval
+    stamps).  Longer chunks are never dropped — they may contain valid
+    policy text.
 
     Args:
         text: The chunk text.
@@ -96,6 +97,18 @@ def _is_chunk_boilerplate(text: str) -> bool:
     Returns:
         ``True`` if the chunk is an obvious cover-page fragment.
     """
+    lower = text.lower()
+
+    # Approval stamps (any length) — CISO / executive sign-off boilerplate
+    # that appears on every policy cover page and causes false-positive
+    # mappings against governance controls like PCI DSS 12.1.4.
+    if "approved by the" in lower and (
+        "security officer" in lower
+        or "ciso" in lower
+        or "executive management" in lower
+    ):
+        return True
+
     # Only consider short chunks — longer text is never boilerplate
     if len(text) >= 120:
         return False
@@ -105,7 +118,6 @@ def _is_chunk_boilerplate(text: str) -> bool:
         return True
 
     # Short fragment that IS the legal disclaimer tail
-    lower = text.lower()
     if "prohibited" in lower and ("reproduction" in lower or "disclosure" in lower):
         return True
     return "effective as of the date" in lower

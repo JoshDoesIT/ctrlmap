@@ -297,12 +297,13 @@ class TestResolveMetaRequirements:
         assert isinstance(meta_112.rationale, MappingRationale)
         assert meta_112.rationale.is_compliant is True
 
-    def test_resolve_marks_meta_noncompliant_when_siblings_have_gaps(
+    def test_resolve_marks_meta_partial_when_siblings_have_mixed_results(
         self,
         mixed_sibling_results: list[MappedResult],
     ) -> None:
-        """Meta-requirements are non-compliant when some siblings fail."""
+        """Meta-requirements are partially_compliant when some siblings pass and some fail."""
         from ctrlmap.map.meta_requirements import resolve_meta_requirements
+        from ctrlmap.models.schemas import ComplianceLevel
 
         meta_ids = {"1.1.1"}
         resolved = resolve_meta_requirements(
@@ -312,8 +313,9 @@ class TestResolveMetaRequirements:
 
         meta_111 = next(r for r in resolved if r.control.control_id == "1.1.1")
         assert isinstance(meta_111.rationale, MappingRationale)
-        assert meta_111.rationale.is_compliant is False
-        # Should mention the non-compliant sibling
+        assert meta_111.rationale.compliance_level == ComplianceLevel.PARTIALLY_COMPLIANT
+        assert meta_111.rationale.is_compliant is True
+        # Should mention the non-compliant sibling in gaps
         assert "1.2.2" in meta_111.rationale.explanation
 
     def test_resolve_leaves_non_meta_controls_untouched(
@@ -451,77 +453,97 @@ class TestGovernanceControlOverride:
             f"got {r612.rationale.compliance_level}"
         )
 
-    def test_meta_with_direct_evidence_preserved_when_correct(self) -> None:
-        """A meta-control with direct chunk evidence and a compliant LLM
-        rationale should NOT be overridden to non-compliant just because
-        an unrelated sibling in the same requirement family has a gap.
+    def test_meta_with_direct_evidence_overridden_by_sibling_aggregation(self) -> None:
+        """A meta-control classified as meta should ALWAYS be overridden
+        by sibling aggregation, even if it happens to have direct evidence.
 
-        Reproduces the 12.1.4 bug: 'CISO formally assigned' has direct
-        evidence from the policy header, but gets overridden because
-        12.2.1 (end-user acceptable use) is a gap.
+        The rationale: meta-requirements like 'All policies in Requirement X
+        are documented' should reflect the aggregate compliance of their
+        siblings, not the compliance of a single matched chunk.
         """
         from ctrlmap.map.meta_requirements import resolve_meta_requirements
         from ctrlmap.models.schemas import ComplianceLevel
 
-        # 12.1.4 — meta with direct evidence (CISO assignment, compliant)
-        result_1214 = MappedResult(
+        # 1.1.1 — meta with direct evidence (chunk matched)
+        result_111 = MappedResult(
             control=SecurityControl(
-                control_id="12.1.4",
+                control_id="1.1.1",
                 framework="PCI-DSS",
-                title="CISO responsibility formally assigned",
+                title="PCI DSS 1.1.1",
                 description=(
-                    "Responsibility for information security is formally assigned to a CISO."
+                    "All security policies and operational procedures "
+                    "that are identified in Requirement 1 are documented."
                 ),
             ),
             supporting_chunks=[
                 ParsedChunk(
-                    chunk_id="c-ciso",
-                    document_name="policy.pdf",
-                    page_number=1,
+                    chunk_id="c-nsc",
+                    document_name="network_policy.pdf",
+                    page_number=2,
                     raw_text=(
-                        "This policy has been approved by the"
-                        " Chief Information Security Officer"
-                        " Acme Corp Network Security Policy."
+                        "Configuration standards for NSC rulesets "
+                        "must be defined, documented, and maintained."
                     ),
                 ),
             ],
             rationale=MappingRationale(
                 is_compliant=True,
                 compliance_level=ComplianceLevel.FULLY_COMPLIANT,
-                confidence_score=0.95,
-                explanation="CISO role is explicitly referenced in the policy header.",
+                confidence_score=0.90,
+                explanation="NSC standards are documented.",
             ),
         )
 
-        # 12.2.1 — non-compliant gap (acceptable use policy)
-        result_1221 = MappedResult(
+        # 1.2.1 — compliant sibling
+        result_121 = MappedResult(
             control=SecurityControl(
-                control_id="12.2.1",
+                control_id="1.2.1",
                 framework="PCI-DSS",
-                title="Acceptable use policies",
-                description="Acceptable use policies for end-user technologies are documented.",
+                title="PCI DSS 1.2.1",
+                description="Config standards defined.",
+            ),
+            supporting_chunks=[],
+            rationale=MappingRationale(
+                is_compliant=True,
+                compliance_level=ComplianceLevel.FULLY_COMPLIANT,
+                confidence_score=0.90,
+                explanation="Config standards exist.",
+            ),
+        )
+
+        # 1.2.2 — NON-compliant sibling (gap)
+        result_122 = MappedResult(
+            control=SecurityControl(
+                control_id="1.2.2",
+                framework="PCI-DSS",
+                title="PCI DSS 1.2.2",
+                description="Change control process.",
             ),
             supporting_chunks=[],
             rationale=MappingRationale(
                 is_compliant=False,
                 compliance_level=ComplianceLevel.NON_COMPLIANT,
-                confidence_score=0.90,
-                explanation="No acceptable use policy exists.",
+                confidence_score=0.80,
+                explanation="No change control.",
             ),
         )
 
-        results = [result_1214, result_1221]
+        results = [result_111, result_121, result_122]
         resolved = resolve_meta_requirements(
             results=results,
-            meta_control_ids={"12.1.4"},
+            meta_control_ids={"1.1.1"},
         )
 
-        r1214 = next(r for r in resolved if r.control.control_id == "12.1.4")
-        assert isinstance(r1214.rationale, MappingRationale)
-        # Should KEEP its compliant verdict — has direct evidence
-        assert r1214.rationale.compliance_level == ComplianceLevel.FULLY_COMPLIANT, (
-            f"Expected 12.1.4 to KEEP FULLY_COMPLIANT (has direct evidence), "
-            f"got {r1214.rationale.compliance_level}"
+        r111 = next(r for r in resolved if r.control.control_id == "1.1.1")
+        assert isinstance(r111.rationale, MappingRationale)
+        # Mixed siblings (1 compliant, 1 non-compliant) → partially_compliant
+        assert r111.rationale.compliance_level == ComplianceLevel.PARTIALLY_COMPLIANT, (
+            f"Expected 1.1.1 to be PARTIALLY_COMPLIANT (mixed siblings), "
+            f"got {r111.rationale.compliance_level}"
+        )
+        # Supporting chunks should be cleared for meta-requirements
+        assert len(r111.supporting_chunks) == 0, (
+            "Meta-requirements should clear supporting chunks after override"
         )
 
     def test_meta_overridden_noncompliant_when_siblings_have_gaps(self) -> None:
@@ -604,10 +626,14 @@ class TestGovernanceControlOverride:
         )
 
         r824 = next(r for r in resolved if r.control.control_id == "8.2.4")
-        # Should be non-compliant — sibling 8.2.5 has a gap
+        # Mixed siblings (1 compliant, 1 non-compliant) → partially_compliant
         assert isinstance(r824.rationale, MappingRationale)
-        assert not r824.rationale.is_compliant, (
-            f"Expected 8.2.4 to be non-compliant (sibling gap), but got {r824.rationale}"
+        assert r824.rationale.compliance_level == ComplianceLevel.PARTIALLY_COMPLIANT, (
+            f"Expected 8.2.4 to be PARTIALLY_COMPLIANT (mixed siblings), "
+            f"got {r824.rationale.compliance_level}"
+        )
+        assert r824.rationale.is_compliant is True, (
+            f"Expected 8.2.4 is_compliant=True (partially compliant), but got False"
         )
 
 

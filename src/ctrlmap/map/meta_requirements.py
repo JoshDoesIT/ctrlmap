@@ -35,6 +35,8 @@ def classify_meta_requirement(
     return client.classify_control_type(control_text=control_text)
 
 
+
+
 def classify_meta_controls(
     *,
     results: list[MappedResult],
@@ -140,73 +142,63 @@ def resolve_meta_requirements(
         # Aggregate sibling verdicts
         from ctrlmap.models.schemas import ComplianceLevel
 
-        non_compliant = [
+        fully = [
             s
             for s in siblings
-            if s.rationale.compliance_level == ComplianceLevel.NON_COMPLIANT  # type: ignore[union-attr]
+            if s.rationale.compliance_level == ComplianceLevel.FULLY_COMPLIANT  # type: ignore[union-attr]
         ]
         partial = [
             s
             for s in siblings
             if s.rationale.compliance_level == ComplianceLevel.PARTIALLY_COMPLIANT  # type: ignore[union-attr]
         ]
+        non_compliant = [
+            s
+            for s in siblings
+            if s.rationale.compliance_level == ComplianceLevel.NON_COMPLIANT  # type: ignore[union-attr]
+        ]
 
-        has_direct_evidence = bool(result.supporting_chunks)
+        avg_score = sum(
+            s.rationale.confidence_score  # type: ignore[union-attr,misc]
+            for s in siblings
+        ) / len(siblings)
 
-        if non_compliant:
+        if len(non_compliant) == len(siblings):
+            # ALL siblings are non-compliant → meta is non-compliant
             gap_ids = [s.control.control_id for s in non_compliant]
-
-            if has_direct_evidence and isinstance(result.rationale, MappingRationale):
-                # Control has direct evidence AND the LLM rated it —
-                # preserve the LLM's verdict.  The evidence was already
-                # verified for relevance in Step 1 of the pipeline.
-                continue
-
+            result.supporting_chunks = []
             result.rationale = MappingRationale(
                 is_compliant=False,
                 compliance_level=ComplianceLevel.NON_COMPLIANT,
                 confidence_score=0.90,
                 explanation=(
-                    f"Inferred from sibling controls: "
-                    f"{len(non_compliant)} of {len(siblings)} evaluated "
-                    f"controls in Requirement {family} are non-compliant "
-                    f"({', '.join(gap_ids)}). This governance requirement "
-                    f"cannot be met until all sibling controls are addressed."
+                    f"Inferred from sibling controls: all "
+                    f"{len(siblings)} evaluated controls in Requirement "
+                    f"{family} are non-compliant ({', '.join(gap_ids)}). "
+                    f"This governance requirement cannot be met."
                 ),
             )
-        elif partial:
-            if has_direct_evidence and isinstance(result.rationale, MappingRationale):
-                continue
-
+        elif non_compliant or partial:
+            # Mixed results → partially_compliant
+            gap_ids = [s.control.control_id for s in non_compliant]
             partial_ids = [s.control.control_id for s in partial]
-            avg_score = sum(
-                s.rationale.confidence_score  # type: ignore[union-attr,misc]
-                for s in siblings
-            ) / len(siblings)
+            issues = gap_ids + partial_ids
+            compliant_count = len(fully)
+            result.supporting_chunks = []
             result.rationale = MappingRationale(
                 is_compliant=True,
                 compliance_level=ComplianceLevel.PARTIALLY_COMPLIANT,
                 confidence_score=round(min(avg_score, 1.0), 2),
                 explanation=(
-                    f"Inferred from sibling controls: "
-                    f"{len(partial)} of {len(siblings)} evaluated "
-                    f"controls in Requirement {family} are partially "
-                    f"compliant ({', '.join(partial_ids)}). Full compliance "
-                    f"requires addressing remaining gaps."
+                    f"Inferred from sibling controls: {compliant_count} "
+                    f"of {len(siblings)} evaluated controls in Requirement "
+                    f"{family} are fully compliant. Gaps remain in "
+                    f"{', '.join(issues)}."
                 ),
             )
         else:
-            # All siblings compliant — infer compliance for governance
-            # controls that have no direct evidence.  This overrides any
-            # gap rationale from Step 4, since the gap was generated
-            # before sibling information was available.
-            if has_direct_evidence:
-                continue
-
-            avg_score = sum(
-                s.rationale.confidence_score  # type: ignore[union-attr,misc]
-                for s in siblings
-            ) / len(siblings)
+            # All siblings compliant — infer compliance
+            result.supporting_chunks = []
             result.rationale = MappingRationale(
                 is_compliant=True,
                 compliance_level=ComplianceLevel.FULLY_COMPLIANT,

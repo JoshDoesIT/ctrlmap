@@ -1,0 +1,135 @@
+{
+    "description": "End-to-end evaluation scenario: 5 controls + 8 policy chunks. Tests the full pipeline from indexing through meta-requirement resolution.",
+    "controls": [
+        {
+            "control_id": "AC-03",
+            "framework": "NIST SP 800-53 Rev 5",
+            "title": "Access Enforcement",
+            "description": "Enforce approved authorizations for logical access to information and system resources in accordance with applicable access control policies.",
+            "requirement_family": "Access Control"
+        },
+        {
+            "control_id": "AC-07",
+            "framework": "NIST SP 800-53 Rev 5",
+            "title": "Unsuccessful Logon Attempts",
+            "description": "Enforce a limit of consecutive invalid logon attempts by a user and automatically lock the account when the maximum number of unsuccessful attempts is exceeded.",
+            "requirement_family": "Access Control"
+        },
+        {
+            "control_id": "SC-28",
+            "framework": "NIST SP 800-53 Rev 5",
+            "title": "Protection of Information at Rest",
+            "description": "Protect the confidentiality of information at rest.",
+            "requirement_family": "System and Communications Protection"
+        },
+        {
+            "control_id": "AU-03",
+            "framework": "NIST SP 800-53 Rev 5",
+            "title": "Content of Audit Records",
+            "description": "Ensure that audit records contain information that establishes the following: What type of event occurred; When the event occurred; Where the event occurred; Source of the event; Outcome of the event; and Identity of any individuals, subjects, or objects/entities associated with the event.",
+            "requirement_family": "Audit and Accountability"
+        },
+        {
+            "control_id": "CP-09",
+            "framework": "NIST SP 800-53 Rev 5",
+            "title": "System Backup",
+            "description": "Conduct backups of user-level information and system-level information. Protect the confidentiality, integrity, and availability of backup information.",
+            "requirement_family": "Contingency Planning"
+        }
+    ],
+    "chunks": [
+        {
+            "chunk_id": "e2e-ac3-001",
+            "document_name": "access_control_policy.pdf",
+            "page_number": 3,
+            "raw_text": "The system enforces role-based access control (RBAC) for all logical access to information resources. Users are granted access based on their assigned roles, and access permissions are validated at each point of entry using centralized authentication services.",
+            "section_header": "Access Enforcement"
+        },
+        {
+            "chunk_id": "e2e-ac7-001",
+            "document_name": "access_control_policy.pdf",
+            "page_number": 5,
+            "raw_text": "After five consecutive failed login attempts, the user account is automatically locked for 30 minutes. The security team is notified of repeated lockouts, and persistent failed attempts trigger an investigation by the incident response team.",
+            "section_header": "Account Lockout Policy"
+        },
+        {
+            "chunk_id": "e2e-sc28-001",
+            "document_name": "data_protection_policy.pdf",
+            "page_number": 2,
+            "raw_text": "All sensitive data stored on servers, databases, and endpoint devices is encrypted at rest using AES-256 encryption. Full disk encryption is enabled on all laptops and mobile devices. Encryption keys are managed centrally through the key management system.",
+            "section_header": "Data at Rest Encryption"
+        },
+        {
+            "chunk_id": "e2e-au3-001",
+            "document_name": "audit_policy.pdf",
+            "page_number": 4,
+            "raw_text": "Each audit record includes the timestamp, source IP address, user identity, event type, event outcome (success or failure), and the affected resource. Records are stored in a standardized format compatible with the SIEM platform.",
+            "section_header": "Audit Record Content"
+        },
+        {
+            "chunk_id": "e2e-cp9-001",
+            "document_name": "contingency_plan.pdf",
+            "page_number": 7,
+            "raw_text": "Full system backups are performed weekly and incremental backups are performed nightly. Backup media is encrypted using AES-256 and stored at a geographically separate offsite facility. Backup restoration is tested quarterly to verify data integrity.",
+            "section_header": "Backup Schedule"
+        },
+        {
+            "chunk_id": "e2e-noise-001",
+            "document_name": "hr_policy.pdf",
+            "page_number": 1,
+            "raw_text": "This policy has been approved by the Chief Information Security Officer on January 15, 2024. It supersedes all previous versions and is effective immediately upon publication. All employees must acknowledge receipt.",
+            "section_header": "Approval Block"
+        },
+        {
+            "chunk_id": "e2e-noise-002",
+            "document_name": "training_policy.pdf",
+            "page_number": 2,
+            "raw_text": "All employees complete annual security awareness training covering phishing identification, password hygiene, social engineering tactics, and data handling procedures. Role-based training is provided for IT staff.",
+            "section_header": "Security Training"
+        },
+        {
+            "chunk_id": "e2e-noise-003",
+            "document_name": "media_policy.pdf",
+            "page_number": 1,
+            "raw_text": "Media protection policies define handling requirements for digital and non-digital media containing sensitive information. Media is classified according to the data it contains and protected with appropriate physical safeguards.",
+            "section_header": "Media Protection"
+        }
+    ],
+    "expected_outcomes": {
+        "AC-03": {
+            "has_supporting_chunks": true,
+            "expected_relevant_chunk_ids": [
+                "e2e-ac3-001"
+            ],
+            "expected_is_compliant": true
+        },
+        "AC-07": {
+            "has_supporting_chunks": true,
+            "expected_relevant_chunk_ids": [
+                "e2e-ac7-001"
+            ],
+            "expected_is_compliant": true
+        },
+        "SC-28": {
+            "has_supporting_chunks": true,
+            "expected_relevant_chunk_ids": [
+                "e2e-sc28-001"
+            ],
+            "expected_is_compliant": true
+        },
+        "AU-03": {
+            "has_supporting_chunks": true,
+            "expected_relevant_chunk_ids": [
+                "e2e-au3-001"
+            ],
+            "expected_is_compliant": true
+        },
+        "CP-09": {
+            "has_supporting_chunks": true,
+            "expected_relevant_chunk_ids": [
+                "e2e-cp9-001"
+            ],
+            "expected_is_compliant": true
+        }
+    }
+}

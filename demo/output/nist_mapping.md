@@ -2,47 +2,55 @@
 
 ## AC-1 — Policy and Procedures
 
-**Framework:** NIST-800-53 | **Verdict:** ✅ Compliant (0.90)
+**Framework:** NIST-800-53 | **Verdict:** 🟡 Partially compliant (1.00)
 
-**Rationale:** The policy text clearly outlines the principles and procedures for developing and disseminating access control policies and procedures, including restricting administrative and privileged access, reviewing user access rights regularly, assigning access based on job classification and function, and documenting all access permissions in an access control matrix.
+**Rationale:** The policy text provides evidence for developing and documenting access control policies and procedures, but it does not explicitly mention disseminating these policies and procedures.
 
 **Supporting Evidence:**
 
 | # | Source | Page | Section | Excerpt |
 |---|--------|------|---------|---------|
-| 1 | access_control_policy.pdf | 2 | 3.2  Privileged Access Management | Administrative and privileged access must be restricted to personnel whose job duties specifically require such acces... |
-| 2 | access_control_policy.pdf | 3 | 4  Periodic Access Reviews | User access rights must be reviewed at least every six months to verify that access remains appropriate for the user'... |
-| 3 | access_control_policy.pdf | 2 | 3.1  Role-Based Access Control (RBAC) | Access rights must be assigned based on job classification and function, following the principle of least privilege. ... |
+| 1 | access_control_policy.pdf | 2 | 3.1  Role-Based Access Control (RBAC) | Access rights must be assigned based on job classification and function, following the principle of least privilege. ... |
 
 ---
 
 ## AC-2 — Account Management
 
-**Framework:** NIST-800-53 | **Verdict:** ⚠️ Non-compliant (0.50)
+**Framework:** NIST-800-53 | **Verdict:** ⚠️ Non-compliant (0.75)
 
-**Rationale:** The policy text does not specifically address account management, including defining and documenting types of accounts allowed or prohibited for use within the system.
+**Rationale:** The policy text addresses aspects related to privileged access restrictions, separate credentials usage, and logging requirements. However, it does not explicitly define or document the specific types of accounts allowed or prohibited as required by AC-2.
 
 **Supporting Evidence:**
 
 | # | Source | Page | Section | Excerpt |
 |---|--------|------|---------|---------|
-| 1 | access_control_policy.pdf | 3 | 4  Periodic Access Reviews | This policy establishes the requirements for managing access to Acme Corp information systems, applications, and data... |
+| 1 | access_control_policy.pdf | 2 | 3.1  Role-Based Access Control (RBAC) | Access rights must be assigned based on job classification and function, following the principle of least privilege. ... |
+| 2 | access_control_policy.pdf | 2 | 3.2  Privileged Access Management | Administrative and privileged access must be restricted to personnel whose job duties specifically require such acces... |
+| 3 | access_control_policy.pdf | 2 | 2.1  Unique User Identification | In cases where shared accounts are technically unavoidable (e.g., certain legacy systems), compensating controls incl... |
 
 ---
 
 ## AC-2(1) — Automated System Account Management
 
-**Framework:** NIST-800-53 | **Verdict:** ⚠️ Non-compliant (0.90)
+**Framework:** NIST-800-53 | **Verdict:** ⚠️ Non-compliant (0.00)
 
-**Rationale:** The organization lacks policy documentation outlining its approach to automated system account management, making it difficult to ensure that system accounts are properly managed and secured. Specifically, there is no guidance on the use of automated mechanisms for account creation, modification, or deletion. This gap makes it challenging to maintain accountability, track changes, and detect potential security incidents related to system accounts.
+**Rationale:** The security control AC-2(1) requires that system accounts are managed using automated mechanisms to ensure efficiency and reduce human error. Without corresponding policy documentation in the organization's library, there is no guidance or mandate for implementing such automation, leading to a lack of standardization and potential vulnerabilities. To address this gap, the organization needs to create policies that specify requirements for automated account management systems, including procedures for creating, modifying, disabling accounts, and ensuring regular audits of these processes.
 
 ---
 
 ## SC-28 — Protection of Information at Rest
 
-**Framework:** NIST-800-53 | **Verdict:** ⚠️ Non-compliant (0.90)
+**Framework:** NIST-800-53 | **Verdict:** ✅ Compliant (1.00)
 
-**Rationale:** The organization's lack of policy coverage for protecting information at rest (SC-28) may result in unauthorized access, modification, or theft of sensitive data stored on devices, media, or other storage systems. To address this gap, a new policy should be created outlining the procedures for encrypting and securing sensitive data at rest, including measures such as full-disk encryption, secure deletion practices, and proper disposal of outdated media.
+**Rationale:** The policy text directly addresses the protection of information at rest by requiring encryption for all cardholder data stored across various mediums. This provides sufficient evidence to cover the confidentiality and integrity requirements specified in SC-28.
+
+**Supporting Evidence:**
+
+| # | Source | Page | Section | Excerpt |
+|---|--------|------|---------|---------|
+| 1 | data_protection_policy.pdf | 2 | 1  Purpose and Scope | It covers data classification, encryption standards, key management, data retention, and secure disposal procedures. |
+| 2 | data_protection_policy.pdf | 2 | 3.1  Encryption Standards | Database-level encryption using Transparent Data Encryption (TDE) is required for all production databases containing... |
+| 3 | data_protection_policy.pdf | 2 | 3.1  Encryption Standards | All cardholder data stored in databases, file systems, backup media, and portable storage devices must be encrypted u... |
 
 ---
 

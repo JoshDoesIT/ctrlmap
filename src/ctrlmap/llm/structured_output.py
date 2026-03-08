@@ -61,7 +61,7 @@ def generate_rationale(
     *,
     control_text: str,
     chunk_text: str,
-    model: str = "llama3",
+    model: str = "qwen2.5:14b",
     client: OllamaClient | None = None,
 ) -> MappingRationale | InsufficientEvidence:
     """Generate a structured rationale from the LLM.
@@ -73,7 +73,7 @@ def generate_rationale(
     Args:
         control_text: The security control description.
         chunk_text: The policy text excerpt.
-        model: Ollama model name (default: ``llama3``).
+        model: Ollama model name (default: ``qwen2.5:14b``).
         client: Optional pre-configured OllamaClient.
 
     Returns:
@@ -97,7 +97,7 @@ def generate_rationale(
 def generate_gap_rationale(
     *,
     control_text: str,
-    model: str = "llama3",
+    model: str = "qwen2.5:14b",
     client: OllamaClient | None = None,
 ) -> MappingRationale | InsufficientEvidence:
     """Generate a rationale for a control with no matching policy evidence.
@@ -107,7 +107,7 @@ def generate_gap_rationale(
 
     Args:
         control_text: The security control description.
-        model: Ollama model name (default: ``llama3``).
+        model: Ollama model name (default: ``qwen2.5:14b``).
         client: Optional pre-configured OllamaClient.
 
     Returns:
@@ -180,6 +180,24 @@ def _parse_response(raw: str) -> MappingRationale | InsufficientEvidence | None:
 
                 with suppress(ValueError):
                     kwargs["compliance_level"] = ComplianceLevel(data["compliance_level"])
+
+            # Programmatic override: if sub_requirements array is present,
+            # verify compliance_level is consistent with the counts.
+            sub_reqs = data.get("sub_requirements")
+            if isinstance(sub_reqs, list) and sub_reqs:
+                from ctrlmap.models.schemas import ComplianceLevel
+
+                covered = sum(1 for s in sub_reqs if s.get("covered") is True)
+                total = len(sub_reqs)
+                if covered == total:
+                    computed = ComplianceLevel.FULLY_COMPLIANT
+                elif covered > 0:
+                    computed = ComplianceLevel.PARTIALLY_COMPLIANT
+                else:
+                    computed = ComplianceLevel.NON_COMPLIANT
+                kwargs["compliance_level"] = computed
+                kwargs["is_compliant"] = computed != ComplianceLevel.NON_COMPLIANT
+
             return MappingRationale(**kwargs)  # type: ignore[arg-type]
         elif output_type == "InsufficientEvidence":
             return InsufficientEvidence(

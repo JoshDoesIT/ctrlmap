@@ -64,7 +64,7 @@ def map_controls_cmd(
         help="Output file path. Prints to stdout if not specified.",
     ),
     llm_model: str = typer.Option(
-        "llama3",
+        "qwen2.5:14b",
         "--llm-model",
         help="Ollama model name for rationale generation.",
     ),
@@ -74,7 +74,7 @@ def map_controls_cmd(
         help="Invoke LLM for compliance rationale generation.",
     ),
     top_k: int = typer.Option(
-        5,
+        10,
         "--top-k",
         help="Maximum supporting chunks per control.",
     ),
@@ -178,14 +178,48 @@ def map_controls_cmd(
 def _emit_results(
     results: list,  # type: ignore[type-arg]
     output_format: str,
-    output_path: Path | None,
+    output_path: Path | None = None,
     all_chunks: list | None = None,  # type: ignore[type-arg]
 ) -> None:
-    """Route results to the appropriate formatter and output destination."""
-    if output_path:
-        _write_to_file(results, output_format, output_path, all_chunks=all_chunks)
-    else:
-        _write_to_stdout(results, output_format, all_chunks=all_chunks)
+    """Route results to the appropriate formatter and output destination.
+
+    Supports comma-separated ``output_format`` values (e.g.
+    ``"markdown,json,html"``) paired with comma-separated paths in
+    ``output_path``.  This allows a single LLM run to produce all
+    report formats at once, eliminating inter-run inconsistencies.
+
+    Args:
+        results: The mapping results to export.
+        output_format: One or more comma-separated format names.
+        output_path: One or more comma-separated file paths (or ``None``
+            for stdout when using a single format).
+        all_chunks: All indexed chunks for the Policy Coverage tab (HTML).
+    """
+    formats = [f.strip() for f in output_format.split(",")]
+
+    if len(formats) == 1:
+        # Single format — backward-compatible behavior
+        if output_path:
+            _write_to_file(results, formats[0], output_path, all_chunks=all_chunks)
+        else:
+            _write_to_stdout(results, formats[0], all_chunks=all_chunks)
+        return
+
+    # Multi-format: output_path is required and must have matching count
+    if output_path is None:
+        msg = "Multi-format output requires --output with comma-separated paths"
+        raise ValueError(msg)
+
+    paths = [Path(p.strip()) for p in str(output_path).split(",")]
+    if len(formats) != len(paths):
+        msg = (
+            f"Multi-format/path count mismatch: "
+            f"{len(formats)} format(s) but {len(paths)} path(s)"
+        )
+        raise ValueError(msg)
+
+    for fmt, path in zip(formats, paths):
+        _write_to_file(results, fmt, path, all_chunks=all_chunks)
 
 
 def _write_to_file(
@@ -227,3 +261,4 @@ def _write_to_stdout(
         typer.echo(format_html(results, all_chunks=all_chunks))
     else:
         typer.echo(json.dumps([r.model_dump() for r in results], indent=2))
+

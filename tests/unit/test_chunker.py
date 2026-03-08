@@ -445,3 +445,69 @@ class TestSemanticChunkOverlap:
         # Check for duplicates
         unique = set(all_sentences_flat)
         assert len(unique) == len(all_sentences_flat), "overlap=0 should produce no duplicates"
+
+
+class TestBoilerplateFiltering:
+    """Cover-page CISO approval text should be filtered from final chunks.
+
+    The boilerplate text "This policy has been approved by the Chief
+    Information Security Officer" survives into final chunks because it
+    exceeds the 120-char threshold in ``_is_chunk_boilerplate()``.
+    When combined with the policy title (e.g. "Acme Corp Access Control
+    Policy"), it becomes a standalone chunk that lacks terminal punctuation
+    and causes false-positive mappings (e.g. PCI DSS 12.1.4).
+    """
+
+    def test_ciso_approval_text_is_boilerplate(self) -> None:
+        """CISO approval stamps should be detected as boilerplate."""
+        from ctrlmap.parse.chunker import _is_chunk_boilerplate
+
+        # This is the actual text from the demo PDFs
+        text = (
+            "This policy has been approved by the Chief Information "
+            "Security Officer Acme Corp Access Control Policy"
+        )
+        assert _is_chunk_boilerplate(text), (
+            f"CISO approval text should be detected as boilerplate: {text!r}"
+        )
+
+    def test_ciso_approval_filtered_from_chunk_document(self) -> None:
+        """chunk_document should not produce chunks from CISO approval text."""
+        from ctrlmap.parse.chunker import chunk_document
+
+        blocks = [
+            # Page 1: cover page with CISO approval
+            _make_block(
+                72,
+                200,
+                540,
+                230,
+                (
+                    "This policy has been approved by the Chief Information "
+                    "Security Officer Acme Corp Access Control Policy"
+                ),
+                page=1,
+            ),
+            # Page 2: real content
+            _make_block(72, 82, 540, 101, "1  Purpose and Scope", page=2),
+            _make_block(
+                72,
+                113,
+                540,
+                170,
+                (
+                    "This policy establishes the requirements for managing access "
+                    "to Acme Corp information systems and data assets."
+                ),
+                page=2,
+            ),
+        ]
+
+        chunks = chunk_document(blocks, document_name="policy.pdf")
+
+        for chunk in chunks:
+            assert "approved by the Chief Information Security Officer" not in chunk.raw_text, (
+                f"CISO approval boilerplate survived as chunk: {chunk.raw_text!r}"
+            )
+
+

@@ -1,0 +1,142 @@
+[
+    {
+        "id": "meta-true-01",
+        "control_id": "1.1.1",
+        "control_text": "1.1.1: All security policies and operational procedures that are identified in Requirement 1 are documented, kept up to date, in use, and known to all affected parties.",
+        "expected_is_meta": true,
+        "rationale": "Classic meta: solely governs documentation/awareness of Requirement 1 policies."
+    },
+    {
+        "id": "meta-true-02",
+        "control_id": "2.1.1",
+        "control_text": "2.1.1: All security policies and operational procedures that are identified in Requirement 2 are documented, kept up to date, in use, and known to all affected parties.",
+        "expected_is_meta": true,
+        "rationale": "Classic meta: solely governs documentation/awareness of Requirement 2 policies."
+    },
+    {
+        "id": "meta-true-03",
+        "control_id": "3.1.1",
+        "control_text": "3.1.1: All security policies and operational procedures that are identified in Requirement 3 are documented, kept up to date, in use, and known to all affected parties.",
+        "expected_is_meta": true,
+        "rationale": "Classic meta: solely governs documentation/awareness of Requirement 3 policies."
+    },
+    {
+        "id": "meta-true-04",
+        "control_id": "6.1.1",
+        "control_text": "6.1.1: All security policies and operational procedures that are identified in Requirement 6 are documented, kept up to date, in use, and known to all affected parties.",
+        "expected_is_meta": true,
+        "rationale": "Classic meta: solely governs documentation/awareness of Requirement 6 policies."
+    },
+    {
+        "id": "meta-true-05",
+        "control_id": "1.1.2",
+        "control_text": "1.1.2: Roles and responsibilities for performing activities in Requirement 1 are documented, assigned, and understood.",
+        "expected_is_meta": true,
+        "rationale": "Meta: governs role documentation for Requirement 1, no specific security action."
+    },
+    {
+        "id": "meta-true-06",
+        "control_id": "8.1.2",
+        "control_text": "8.1.2: Roles and responsibilities for performing activities in Requirement 8 are documented, assigned, and understood.",
+        "expected_is_meta": true,
+        "rationale": "Meta: governs role documentation for Requirement 8, no specific security action."
+    },
+    {
+        "id": "meta-true-07",
+        "control_id": "10.1.1",
+        "control_text": "10.1.1: All security policies and operational procedures that are identified in Requirement 10 are documented, kept up to date, in use, and known to all affected parties.",
+        "expected_is_meta": true,
+        "rationale": "Classic meta: solely governs documentation/awareness of Requirement 10 policies."
+    },
+    {
+        "id": "meta-false-01",
+        "control_id": "8.3.1",
+        "control_text": "8.3.1: All user access to system components for users and administrators is authenticated via at least one of the following authentication factors: Something you know, Something you have, Something you are.",
+        "expected_is_meta": false,
+        "rationale": "Substantive: prescribes specific authentication factor requirements."
+    },
+    {
+        "id": "meta-false-02",
+        "control_id": "1.2.1",
+        "control_text": "1.2.1: Configuration standards are defined and implemented for all network security controls (NSCs).",
+        "expected_is_meta": false,
+        "rationale": "Substantive: prescribes defining and implementing NSC configuration standards."
+    },
+    {
+        "id": "meta-false-03",
+        "control_id": "3.4.1",
+        "control_text": "3.4.1: Primary Account Number (PAN) is masked when displayed, so that only personnel with a legitimate business need can see more than the BIN and last four digits.",
+        "expected_is_meta": false,
+        "rationale": "Substantive: prescribes specific data masking for PAN display."
+    },
+    {
+        "id": "meta-false-04",
+        "control_id": "6.2.1",
+        "control_text": "6.2.1: Bespoke and custom software is developed securely.",
+        "expected_is_meta": false,
+        "rationale": "Substantive: prescribes secure software development practices."
+    },
+    {
+        "id": "meta-false-05",
+        "control_id": "8.2.1",
+        "control_text": "8.2.1: All users are assigned a unique ID before access to system components or cardholder data is allowed.",
+        "expected_is_meta": false,
+        "rationale": "Substantive: prescribes unique user identification."
+    },
+    {
+        "id": "meta-false-06",
+        "control_id": "12.1.1",
+        "control_text": "12.1.1: An overall information security policy is established, published, maintained, and disseminated to all relevant personnel and to relevant vendors and business partners.",
+        "expected_is_meta": false,
+        "rationale": "Substantive: prescribes establishing and publishing a specific policy."
+    },
+    {
+        "id": "meta-false-07",
+        "control_id": "12.1.2",
+        "control_text": "12.1.2: The information security policy clearly defines information security roles and responsibilities for all personnel.",
+        "expected_is_meta": false,
+        "rationale": "Substantive: prescribes that the policy defines roles, not just documents OTHER requirements."
+    },
+    {
+        "id": "meta-false-08",
+        "control_id": "12.5.1",
+        "control_text": "12.5.1: An inventory of system components that are in scope for PCI DSS, including a description of function/use, is maintained and kept current.",
+        "expected_is_meta": false,
+        "rationale": "Substantive: prescribes maintaining a specific inventory."
+    },
+    {
+        "id": "meta-false-09",
+        "control_id": "3.5.1",
+        "control_text": "3.5.1: PAN is secured wherever it is stored.",
+        "expected_is_meta": false,
+        "rationale": "Substantive: prescribes securing stored PAN data."
+    },
+    {
+        "id": "meta-false-10",
+        "control_id": "8.3.6",
+        "control_text": "8.3.6: If passwords/passphrases are used as authentication factors, they meet minimum complexity: at least 12 characters containing both numeric and alphabetic characters.",
+        "expected_is_meta": false,
+        "rationale": "Substantive: prescribes specific password complexity requirements."
+    },
+    {
+        "id": "meta-false-11",
+        "control_id": "12.4.1",
+        "control_text": "12.4.1: Responsibility is formally assigned for the protection of cardholder data and a PCI DSS compliance program.",
+        "expected_is_meta": false,
+        "rationale": "Substantive: prescribes formally assigning responsibility to a specific role."
+    },
+    {
+        "id": "meta-false-12",
+        "control_id": "8.2.2",
+        "control_text": "8.2.2: Group, shared, or generic accounts, or other shared authentication credentials are only used when necessary on an exception basis.",
+        "expected_is_meta": false,
+        "rationale": "Substantive: prescribes restrictions on shared/group accounts."
+    },
+    {
+        "id": "meta-false-13",
+        "control_id": "1.4.1",
+        "control_text": "1.4.1: NSCs are implemented between trusted and untrusted networks.",
+        "expected_is_meta": false,
+        "rationale": "Substantive: prescribes implementing network security controls."
+    }
+]
