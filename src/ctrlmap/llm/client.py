@@ -66,10 +66,10 @@ class OllamaClient:
             raise OllamaConnectionError(msg) from exc
 
     # ------------------------------------------------------------------
-    # Internal helper
+    # LLM call
     # ------------------------------------------------------------------
 
-    def _call_llm(self, prompt: str, method_name: str) -> str:
+    def call_llm(self, prompt: str, method_name: str) -> str:
         """Send a prompt to Ollama, log timing, and return raw response.
 
         Centralizes the call → log → return pattern so that every public
@@ -124,7 +124,7 @@ class OllamaClient:
             control_text=control_text,
             chunk_text=chunk_text,
         )
-        return self._call_llm(prompt, "generate")
+        return self.call_llm(prompt, "generate")
 
     def classify_control_type(self, *, control_text: str) -> bool:
         """Ask the LLM whether a control is a meta-requirement.
@@ -142,7 +142,7 @@ class OllamaClient:
         template = load_prompt("meta_classification.txt")
         prompt = template.format(control_text=control_text)
         try:
-            raw = self._call_llm(prompt, "classify_control_type").strip()
+            raw = self.call_llm(prompt, "classify_control_type").strip()
             cleaned = extract_json_object(raw)
             data = json.loads(cleaned)
             return bool(data.get("is_meta", False))
@@ -163,7 +163,7 @@ class OllamaClient:
         """
         template = load_prompt("gap_rationale.txt")
         prompt = template.format(control_text=control_text)
-        return self._call_llm(prompt, "generate_gap")
+        return self.call_llm(prompt, "generate_gap")
 
     def verify_chunk_relevance(
         self,
@@ -194,7 +194,7 @@ class OllamaClient:
             requirement_family=requirement_family or "Not specified",
         )
         try:
-            raw = self._call_llm(prompt, "verify_chunk_relevance").strip()
+            raw = self.call_llm(prompt, "verify_chunk_relevance").strip()
             cleaned = extract_json_object(raw)
             data = json.loads(cleaned)
             return bool(data.get("relevant", False))

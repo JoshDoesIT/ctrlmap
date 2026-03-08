@@ -218,3 +218,85 @@ class TestEvalCommand:
             ],
         )
         assert result.exit_code == 1
+
+
+class TestComputeMetric:
+    """Isolated unit tests for the _compute_metric function."""
+
+    def test_precision_perfect(self) -> None:
+        """Precision is 1.0 when all retrieved IDs are expected."""
+        from ctrlmap.eval_command import _compute_metric
+
+        score = _compute_metric("precision", {"a", "b"}, {"a", "b"})
+        assert score == 1.0
+
+    def test_precision_partial(self) -> None:
+        """Precision reflects the fraction of retrieved IDs that are expected."""
+        from ctrlmap.eval_command import _compute_metric
+
+        score = _compute_metric("precision", {"a"}, {"a", "b"})
+        assert score == pytest.approx(0.5)
+
+    def test_recall_perfect(self) -> None:
+        """Recall is 1.0 when all expected IDs are retrieved."""
+        from ctrlmap.eval_command import _compute_metric
+
+        score = _compute_metric("recall", {"a", "b"}, {"a", "b", "c"})
+        assert score == 1.0
+
+    def test_recall_partial(self) -> None:
+        """Recall reflects the fraction of expected IDs that were retrieved."""
+        from ctrlmap.eval_command import _compute_metric
+
+        score = _compute_metric("recall", {"a", "b"}, {"a"})
+        assert score == pytest.approx(0.5)
+
+    def test_empty_retrieved(self) -> None:
+        """Both metrics return 0.0 when no IDs are retrieved."""
+        from ctrlmap.eval_command import _compute_metric
+
+        assert _compute_metric("precision", {"a"}, set()) == 0.0
+        assert _compute_metric("recall", {"a"}, set()) == 0.0
+
+    def test_empty_expected_recall(self) -> None:
+        """Recall returns 0.0 when expected set is empty."""
+        from ctrlmap.eval_command import _compute_metric
+
+        assert _compute_metric("recall", set(), {"a"}) == 0.0
+
+
+class TestLoadGoldenDataset:
+    """Isolated unit tests for the _load_golden_dataset function."""
+
+    def test_valid_dataset(self, tmp_path: Path) -> None:
+        """Correctly loads a well-formed golden dataset."""
+        from ctrlmap.eval_command import _load_golden_dataset
+
+        data = {"queries": [{"query": "test", "expected_ids": ["a"]}]}
+        path = tmp_path / "valid.json"
+        path.write_text(json.dumps(data), encoding="utf-8")
+        result = _load_golden_dataset(path)
+        assert len(result) == 1
+        assert result[0]["query"] == "test"
+
+    def test_empty_queries_raises(self, tmp_path: Path) -> None:
+        """Raises BadParameter when queries array is empty."""
+        import typer
+
+        from ctrlmap.eval_command import _load_golden_dataset
+
+        path = tmp_path / "empty.json"
+        path.write_text(json.dumps({"queries": []}), encoding="utf-8")
+        with pytest.raises(typer.BadParameter, match="non-empty"):
+            _load_golden_dataset(path)
+
+    def test_missing_queries_key_raises(self, tmp_path: Path) -> None:
+        """Raises BadParameter when 'queries' key is missing."""
+        import typer
+
+        from ctrlmap.eval_command import _load_golden_dataset
+
+        path = tmp_path / "no_key.json"
+        path.write_text(json.dumps({"data": []}), encoding="utf-8")
+        with pytest.raises(typer.BadParameter, match="non-empty"):
+            _load_golden_dataset(path)

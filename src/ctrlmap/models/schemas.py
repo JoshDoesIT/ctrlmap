@@ -53,6 +53,14 @@ class SecurityControl(BaseModel):
     description: str
     requirement_family: str = ""
 
+    def as_prompt_text(self) -> str:
+        """Format the control as a single prompt string for LLM consumption.
+
+        Returns:
+            A string like ``"AC-2: Account Management. <description>"``.
+        """
+        return f"{self.control_id}: {self.title}. {self.description}"
+
 
 class CommonControl(BaseModel):
     """A deduplicated control synthesized from multiple overlapping requirements."""

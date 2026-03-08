@@ -88,7 +88,7 @@ def map_controls(
     results: list[MappedResult] = []
 
     for control in controls:
-        query_text = f"{control.control_id}: {control.title}. {control.description}"
+        query_text = control.as_prompt_text()
         # Include the requirement family context to anchor embeddings
         # to the correct domain (e.g. "Develop and Maintain Secure
         # Systems and Software") and reduce cross-family false matches.

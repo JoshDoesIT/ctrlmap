@@ -92,7 +92,7 @@ def _extract_section(
     )
 
     for attempt in range(_MAX_RETRIES + 1):
-        raw_response = client._call_llm(prompt, "control_extraction").strip()
+        raw_response = client.call_llm(prompt, "control_extraction").strip()
         controls = extract_json_array(raw_response)
 
         if controls:

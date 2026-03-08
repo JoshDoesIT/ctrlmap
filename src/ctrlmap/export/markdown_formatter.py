@@ -10,6 +10,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
+from ctrlmap.export._formatting import truncate
 from ctrlmap.models.schemas import (
     ComplianceLevel,
     InsufficientEvidence,
@@ -65,7 +66,7 @@ def format_markdown(results: list[MappedResult]) -> str:
                 source = chunk.document_name
                 page = chunk.page_number
                 section = chunk.section_header or "—"
-                excerpt = _truncate(chunk.raw_text, 120)
+                excerpt = truncate(chunk.raw_text, max_len=120)
                 lines.append(f"| {i} | {source} | {page} | {section} | {excerpt} |")
 
             lines.append("")
@@ -110,11 +111,3 @@ def _format_rationale(
         verdict = f"{icon} {status} ({rationale.confidence_score:.2f})"
         return (verdict, rationale.explanation)
     return ("Insufficient evidence", rationale.reason)
-
-
-def _truncate(text: str, max_len: int = 120) -> str:
-    """Truncate text to max_len characters, adding ellipsis if needed."""
-    text = text.replace("\n", " ").strip()
-    if len(text) <= max_len:
-        return text
-    return text[: max_len - 3] + "..."
