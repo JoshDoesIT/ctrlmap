@@ -153,21 +153,27 @@ SUITES: dict[str, Any] = {
 # ---------------------------------------------------------------------------
 def main() -> None:
     parser = argparse.ArgumentParser(description="Compare Ollama models on eval suites")
-    parser.add_argument("models", nargs="*", default=["llama3"],
-                        help="Model names to compare (e.g. llama3 qwen2.5:14b)")
-    parser.add_argument("--suite", choices=list(SUITES.keys()),
-                        help="Run a single suite instead of all")
-    parser.add_argument("--json", action="store_true",
-                        help="Output raw JSON results instead of table")
+    parser.add_argument(
+        "models",
+        nargs="*",
+        default=["llama3"],
+        help="Model names to compare (e.g. llama3 qwen2.5:14b)",
+    )
+    parser.add_argument(
+        "--suite", choices=list(SUITES.keys()), help="Run a single suite instead of all"
+    )
+    parser.add_argument(
+        "--json", action="store_true", help="Output raw JSON results instead of table"
+    )
     args = parser.parse_args()
 
     suites_to_run = {args.suite: SUITES[args.suite]} if args.suite else SUITES
     all_results: dict[str, dict[str, dict[str, float]]] = {}
 
     for model in args.models:
-        print(f"\n{'='*60}")
+        print(f"\n{'=' * 60}")
         print(f"  MODEL: {model}")
-        print(f"{'='*60}")
+        print(f"{'=' * 60}")
         all_results[model] = {}
 
         for suite_name, runner in suites_to_run.items():
@@ -193,9 +199,9 @@ def main() -> None:
         return
 
     # Print comparison table
-    print(f"\n\n{'='*80}")
+    print(f"\n\n{'=' * 80}")
     print("  MODEL COMPARISON RESULTS")
-    print(f"{'='*80}\n")
+    print(f"{'=' * 80}\n")
 
     # Collect all metric names
     all_metrics: list[tuple[str, str]] = []

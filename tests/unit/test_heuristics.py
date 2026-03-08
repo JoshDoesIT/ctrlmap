@@ -160,7 +160,7 @@ class TestDynamicHeaderFooterDetection:
             _make_block(72, 637, 540, 652, "4  Wireless Network Security", page=2),
             _make_block(72, 668, 540, 683, "NSCs must be installed.", page=2),
             _make_block(72, 714, 540, 729, "strings must be changed", page=2),
-            _make_block(72, 730, 540, 745, "installation. A wireless IDS must be deployed.", page=2),
+            _make_block(72, 730, 540, 745, "A wireless IDS must be deployed.", page=2),
             _make_block(72, 746, 540, 761, "access points on a quarterly basis.", page=2),
             # Actual footer — isolated at y0=807 (gap of ~46pt from last body block)
             _make_block(72, 807, 540, 820, "Page 2/3", page=2),
@@ -172,12 +172,8 @@ class TestDynamicHeaderFooterDetection:
         roles = classify_blocks(blocks)
 
         # The block at y0=730 must be BODY, not FOOTER
-        assert roles[3] == ElementRole.BODY, (
-            f"Block at y0=730 misclassified as {roles[3]}"
-        )
-        assert roles[4] == ElementRole.BODY, (
-            f"Block at y0=746 misclassified as {roles[4]}"
-        )
+        assert roles[3] == ElementRole.BODY, f"Block at y0=730 misclassified as {roles[3]}"
+        assert roles[4] == ElementRole.BODY, f"Block at y0=746 misclassified as {roles[4]}"
         # The actual footer at y0=807 should be FOOTER
         assert roles[5] == ElementRole.FOOTER
 
@@ -217,4 +213,3 @@ class TestDynamicHeaderFooterDetection:
         assert roles[1] == ElementRole.BODY
         assert roles[2] == ElementRole.BODY
         assert roles[3] == ElementRole.FOOTER
-

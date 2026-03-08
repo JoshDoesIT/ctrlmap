@@ -146,7 +146,7 @@ def classify_blocks(blocks: list[TextBlock]) -> list[ElementRole]:
     1. **Repeating text**: Blocks whose normalized text appears on 2+ pages
        at similar y-positions (within ``y_tolerance``) are headers/footers.
     2. **Gap isolation**: On any page, blocks separated from the body
-       cluster by a vertical gap ≥ 2× the median line spacing are
+       cluster by a vertical gap >= 2x the median line spacing are
        classified as header (if above the body cluster) or footer
        (if below).
 
@@ -205,7 +205,7 @@ def classify_blocks(blocks: list[TextBlock]) -> list[ElementRole]:
     for idx, block in enumerate(blocks):
         pages_dict[block.page_number].append((idx, block))
 
-    for page_num, page_items in pages_dict.items():
+    for _page_num, page_items in pages_dict.items():
         # Sort by y-position
         page_items.sort(key=lambda item: item[1].y0)
 
@@ -221,7 +221,7 @@ def classify_blocks(blocks: list[TextBlock]) -> list[ElementRole]:
             continue
         spacings.sort()
         median_spacing = spacings[len(spacings) // 2]
-        # Use 4× median spacing (min 50pt) to avoid catching section breaks
+        # Use 4x median spacing (min 50pt) to avoid catching section breaks
         gap_threshold = max(median_spacing * 4, 50.0)
 
         # Check for isolated blocks at the bottom (footer gap)
@@ -229,7 +229,7 @@ def classify_blocks(blocks: list[TextBlock]) -> list[ElementRole]:
             idx, block = page_items[i]
             if roles[idx] != ElementRole.BODY:
                 continue
-            prev_idx, prev_block = page_items[i - 1]
+            _prev_idx, prev_block = page_items[i - 1]
             gap = block.y0 - prev_block.y0
             if gap >= gap_threshold:
                 # Only treat as footers if few blocks below the gap
@@ -247,7 +247,7 @@ def classify_blocks(blocks: list[TextBlock]) -> list[ElementRole]:
             idx, block = page_items[i]
             if roles[idx] != ElementRole.BODY:
                 continue
-            next_idx, next_block = page_items[i + 1]
+            _next_idx, next_block = page_items[i + 1]
             gap = next_block.y0 - block.y0
             if gap >= gap_threshold:
                 # Only treat as headers if few blocks above the gap

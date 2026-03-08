@@ -35,8 +35,6 @@ def classify_meta_requirement(
     return client.classify_control_type(control_text=control_text)
 
 
-
-
 def classify_meta_controls(
     *,
     results: list[MappedResult],

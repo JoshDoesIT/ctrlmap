@@ -91,7 +91,7 @@ def parse(
 
         # Classify headers/footers dynamically (no hardcoded margins)
         roles = classify_blocks(blocks)
-        body_blocks = [b for b, role in zip(blocks, roles) if role == ElementRole.BODY]
+        body_blocks = [b for b, role in zip(blocks, roles, strict=True) if role == ElementRole.BODY]
 
         # Reorder for column-aware reading
         ordered_blocks = order_blocks_by_columns(body_blocks)

@@ -128,7 +128,7 @@ class TestMultiFormatEmit:
         """Mismatched format/path counts should raise ValueError."""
         from ctrlmap.map.map_command import _emit_results
 
-        with pytest.raises(ValueError, match="format.*path.*count"):
+        with pytest.raises(ValueError, match=r"format.*path.*count"):
             _emit_results(
                 sample_results,
                 output_format="markdown,json",

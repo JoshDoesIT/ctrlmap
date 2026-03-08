@@ -633,7 +633,7 @@ class TestGovernanceControlOverride:
             f"got {r824.rationale.compliance_level}"
         )
         assert r824.rationale.is_compliant is True, (
-            f"Expected 8.2.4 is_compliant=True (partially compliant), but got False"
+            "Expected 8.2.4 is_compliant=True (partially compliant), but got False"
         )
 
 

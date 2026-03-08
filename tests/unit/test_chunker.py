@@ -509,5 +509,3 @@ class TestBoilerplateFiltering:
             assert "approved by the Chief Information Security Officer" not in chunk.raw_text, (
                 f"CISO approval boilerplate survived as chunk: {chunk.raw_text!r}"
             )
-
-

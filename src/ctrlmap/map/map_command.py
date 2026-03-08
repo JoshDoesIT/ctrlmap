@@ -212,13 +212,10 @@ def _emit_results(
 
     paths = [Path(p.strip()) for p in str(output_path).split(",")]
     if len(formats) != len(paths):
-        msg = (
-            f"Multi-format/path count mismatch: "
-            f"{len(formats)} format(s) but {len(paths)} path(s)"
-        )
+        msg = f"Multi-format/path count mismatch: {len(formats)} format(s) but {len(paths)} path(s)"
         raise ValueError(msg)
 
-    for fmt, path in zip(formats, paths):
+    for fmt, path in zip(formats, paths, strict=True):
         _write_to_file(results, fmt, path, all_chunks=all_chunks)
 
 
@@ -261,4 +258,3 @@ def _write_to_stdout(
         typer.echo(format_html(results, all_chunks=all_chunks))
     else:
         typer.echo(json.dumps([r.model_dump() for r in results], indent=2))
-

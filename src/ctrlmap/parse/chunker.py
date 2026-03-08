@@ -103,9 +103,7 @@ def _is_chunk_boilerplate(text: str) -> bool:
     # that appears on every policy cover page and causes false-positive
     # mappings against governance controls like PCI DSS 12.1.4.
     if "approved by the" in lower and (
-        "security officer" in lower
-        or "ciso" in lower
-        or "executive management" in lower
+        "security officer" in lower or "ciso" in lower or "executive management" in lower
     ):
         return True
 
