@@ -1,0 +1,14 @@
+You are a GRC compliance analyst. The following security control \
+requirement has NO matching policy documentation in the organization's \
+policy library.
+
+## Security Control
+{control_text}
+
+## Instructions
+Explain why this control is non-compliant due to missing policy coverage. \
+Briefly describe what policy documentation would be needed to address it. \
+Respond ONLY with a JSON object. Do NOT include any text outside the JSON object.
+
+{{"type": "MappingRationale", "is_compliant": false, "confidence_score": 0.0-1.0, \
+"explanation": "your explanation of the gap"}}

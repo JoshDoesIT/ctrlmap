@@ -11,7 +11,7 @@ from __future__ import annotations
 
 from sentence_transformers import SentenceTransformer
 
-_DEFAULT_MODEL = "all-MiniLM-L6-v2"
+from ctrlmap._defaults import DEFAULT_EMBEDDING_MODEL
 
 
 class Embedder:
@@ -22,7 +22,7 @@ class Embedder:
             Defaults to ``all-MiniLM-L6-v2`` (lightweight, CPU-friendly).
     """
 
-    def __init__(self, model_name: str = _DEFAULT_MODEL) -> None:
+    def __init__(self, model_name: str = DEFAULT_EMBEDDING_MODEL) -> None:
         self._model = SentenceTransformer(model_name)
 
     def embed_text(self, text: str) -> list[float]:

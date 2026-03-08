@@ -16,10 +16,9 @@ from __future__ import annotations
 from typing import Any
 
 import typer
-from rich.console import Console
 from rich.table import Table
 
-console = Console()
+from ctrlmap._console import console
 
 
 def run_ragas_evaluation(

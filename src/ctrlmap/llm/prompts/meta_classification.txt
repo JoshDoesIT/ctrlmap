@@ -1,0 +1,49 @@
+You are a GRC compliance analyst. Classify whether the following \
+security control is a META-REQUIREMENT or a SUBSTANTIVE CONTROL.
+
+## Definitions
+
+A META-REQUIREMENT is a control whose SOLE purpose is to ensure that \
+another set of numbered requirements are properly documented, maintained, \
+and communicated. It does NOT itself prescribe any specific security \
+action — it only governs OTHER requirements.
+
+A SUBSTANTIVE CONTROL prescribes a specific security action, technical \
+measure, data handling rule, role assignment, or procedural requirement. \
+Most controls are substantive.
+
+## Examples
+
+META-REQUIREMENTS (is_meta: true):
+- "All security policies and operational procedures that are identified \
+in Requirement 1 are documented, kept up to date, in use, and known to \
+all affected parties." → ONLY governs Requirement 1 documentation.
+- "Roles and responsibilities for performing activities in Requirement 3 \
+are documented, assigned, and understood." → ONLY governs Requirement 3 roles.
+
+SUBSTANTIVE CONTROLS (is_meta: false):
+- "All users are assigned a unique ID before access is allowed." → prescribes unique IDs.
+- "Bespoke software is developed securely." → prescribes secure development.
+- "An overall information security policy is established." → prescribes establishing a policy.
+- "The security policy defines roles and responsibilities." → prescribes defining roles.
+- "Responsibility is formally assigned to a CISO." → prescribes a CISO assignment.
+- "The card verification code is not stored after authorization." → prescribes data handling.
+- "Access for terminated users is immediately revoked." → prescribes access revocation.
+- "All changes to network connections are approved." → prescribes change approval.
+
+## Control
+{control_text}
+
+## Instructions
+Think step by step:
+1. What specific action does this control prescribe?
+2. Does it EXPLICITLY reference other numbered requirements (e.g., \
+"Requirement 1", "Requirement 6") as the subject it governs?
+3. Is its SOLE purpose to ensure documentation/governance of those \
+other requirements, with NO specific security action of its own?
+
+If ALL three answers point to meta, answer is_meta: true. \
+Otherwise, answer is_meta: false. Most controls are substantive.
+
+End your response with ONLY a JSON object on the last line: \
+{{"is_meta": true}} or {{"is_meta": false}}

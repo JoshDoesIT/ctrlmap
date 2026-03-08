@@ -9,7 +9,7 @@ the verdict of sibling controls in the same requirement family.
 from __future__ import annotations
 
 from ctrlmap.llm.client import OllamaClient
-from ctrlmap.models.schemas import MappedResult, MappingRationale, SecurityControl
+from ctrlmap.models.schemas import ComplianceLevel, MappedResult, MappingRationale, SecurityControl
 
 
 def classify_meta_requirement(
@@ -138,7 +138,6 @@ def resolve_meta_requirements(
             continue
 
         # Aggregate sibling verdicts
-        from ctrlmap.models.schemas import ComplianceLevel
 
         fully = [
             s

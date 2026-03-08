@@ -15,6 +15,7 @@ from contextlib import suppress
 
 from pydantic import ValidationError
 
+from ctrlmap._defaults import DEFAULT_LLM_MODEL
 from ctrlmap.llm.client import OllamaClient
 from ctrlmap.models.schemas import ComplianceLevel, InsufficientEvidence, MappingRationale
 
@@ -61,7 +62,7 @@ def generate_rationale(
     *,
     control_text: str,
     chunk_text: str,
-    model: str = "qwen2.5:14b",
+    model: str = DEFAULT_LLM_MODEL,
     client: OllamaClient | None = None,
 ) -> MappingRationale | InsufficientEvidence:
     """Generate a structured rationale from the LLM.
@@ -97,7 +98,7 @@ def generate_rationale(
 def generate_gap_rationale(
     *,
     control_text: str,
-    model: str = "qwen2.5:14b",
+    model: str = DEFAULT_LLM_MODEL,
     client: OllamaClient | None = None,
 ) -> MappingRationale | InsufficientEvidence:
     """Generate a rationale for a control with no matching policy evidence.
@@ -176,8 +177,6 @@ def _parse_response(raw: str) -> MappingRationale | InsufficientEvidence | None:
             }
             # compliance_level is optional for backward compat
             if "compliance_level" in data:
-                from ctrlmap.models.schemas import ComplianceLevel
-
                 with suppress(ValueError):
                     kwargs["compliance_level"] = ComplianceLevel(data["compliance_level"])
 
@@ -185,8 +184,6 @@ def _parse_response(raw: str) -> MappingRationale | InsufficientEvidence | None:
             # verify compliance_level is consistent with the counts.
             sub_reqs = data.get("sub_requirements")
             if isinstance(sub_reqs, list) and sub_reqs:
-                from ctrlmap.models.schemas import ComplianceLevel
-
                 covered = sum(1 for s in sub_reqs if s.get("covered") is True)
                 total = len(sub_reqs)
                 if covered == total:

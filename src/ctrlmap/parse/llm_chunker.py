@@ -18,67 +18,14 @@ import sys
 import uuid
 
 import ollama
-from rich.console import Console
 
+from ctrlmap._console import err_console
+from ctrlmap._defaults import DEFAULT_LLM_MODEL
+from ctrlmap.llm.prompts import load_prompt
 from ctrlmap.models.schemas import ParsedChunk
 
-_DEFAULT_MODEL = "qwen2.5:14b"
 _MAX_RETRIES = 2
 
-_console = Console(stderr=True)
-
-_EXTRACT_PROMPT = """\
-You are a meticulous GRC (Governance, Risk, Compliance) document analyst. \
-Your job is to extract EVERY security control and requirement from policy text. \
-Missing even one control is a critical failure.
-
-Below is the raw text from **page {page_number}** of the policy document \
-"{document_name}".
-
-## Raw Page Text
-{page_text}
-
-## What counts as a control
-Extract ANY statement that:
-- Mandates an action (uses words like MUST, SHALL, REQUIRED, PROHIBITED)
-- Sets a constraint (minimum length, timeframe, frequency)
-- Defines an exception or compensating control
-- Specifies a review cycle or retention period
-- Requires logging, monitoring, or alerting
-- Assigns responsibility to a role or department
-
-## Rules
-1. Extract EVERY individual control — it is better to extract too many than \
-to miss one.
-2. Each control must be COMPLETE and self-contained.
-3. Do NOT include boilerplate (title pages, disclaimers, page numbers, \
-confidentiality notices, version info).
-4. Do NOT merge separate requirements — if a paragraph contains two distinct \
-obligations, extract them separately.
-5. DO include conditional requirements (e.g. "In cases where X, then Y must \
-be done").
-6. Include the section header each control belongs to.
-7. Output controls in the SAME ORDER they appear in the text, from top to \
-bottom. Do not reorder or group them.
-
-## Output format
-Respond ONLY with a JSON array. Each element must have:
-- "section": the section header/number (string)
-- "text": the full control statement (string)
-
-Example:
-[
-  {{"section": "2.1 Unique User Identification", "text": "All users must be \
-assigned a unique user ID before they are allowed access to any system \
-component or cardholder data."}},
-  {{"section": "2.1 Unique User Identification", "text": "In cases where \
-shared accounts are technically unavoidable, compensating controls including \
-enhanced logging and dual-authorization must be implemented and documented."}}
-]
-
-If the page contains no extractable controls (e.g. cover page), respond \
-with: []
-"""
 
 _SECTION_HEADER_RE = re.compile(r"^\d+(?:\.\d+)*\s{2,}\S", re.MULTILINE)
 
@@ -139,7 +86,8 @@ def _extract_section(
     Returns:
         A list of dicts with ``section`` and ``text`` keys.
     """
-    prompt = _EXTRACT_PROMPT.format(
+    template = load_prompt("control_extraction.txt")
+    prompt = template.format(
         page_number=page_number,
         document_name=document_name,
         page_text=section_text,
@@ -157,12 +105,12 @@ def _extract_section(
             return controls
 
         if attempt < _MAX_RETRIES:
-            _console.print(
+            err_console.print(
                 f"[yellow]  Page {page_number}: JSON parse failed, "
                 f"retrying ({attempt + 1}/{_MAX_RETRIES})…[/]"
             )
         else:
-            _console.print(
+            err_console.print(
                 f"[red]  Page {page_number}: extraction failed "
                 f"after {_MAX_RETRIES + 1} attempts "
                 f"({len(section_text)} chars).[/]"
@@ -179,7 +127,7 @@ def extract_controls_with_llm(
     pages: list[dict[str, str | int]],
     *,
     document_name: str,
-    model: str = _DEFAULT_MODEL,
+    model: str = DEFAULT_LLM_MODEL,
 ) -> list[ParsedChunk]:
     """Extract individual controls from raw page text using a local LLM.
 
@@ -241,7 +189,7 @@ def extract_controls_with_llm(
                 # to catch LLM hallucinations. Use first 30 chars normalized.
                 verify_needle = " ".join(text[:30].split())
                 if _norm_seg.find(verify_needle) < 0:
-                    _console.print(
+                    err_console.print(
                         f"[yellow]  Page {page_number}: dropped "
                         f"hallucinated control "
                         f'"{text[:60]}…"[/]'

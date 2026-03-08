@@ -1,4 +1,4 @@
-.PHONY: setup test test-unit test-eval test-eval-fast eval-run model-compare test-integration lint format build clean demo
+.PHONY: setup test test-unit test-eval test-eval-fast eval-run model-compare test-integration lint format typecheck build clean demo
 
 ## Setup ──────────────────────────────────────────────────────────────
 setup: ## Install all dependencies including Ollama, llama3, and ragas
@@ -34,7 +34,10 @@ lint: ## Run linter
 format: ## Format code
 	uv run ruff format .
 
-check: lint ## Lint and format check
+typecheck: ## Run mypy type checking
+	uv run mypy src/
+
+check: lint typecheck ## Lint, type-check, and format check
 	uv run ruff format --check .
 
 ## Build ──────────────────────────────────────────────────────────────
