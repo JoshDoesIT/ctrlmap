@@ -2,6 +2,12 @@
 
 Thanks for your interest in contributing to ctrlmap. This guide covers the development setup, coding standards, and contribution workflow.
 
+## Prerequisites
+
+- **[uv](https://docs.astral.sh/uv/getting-started/installation/)** — fast Python package manager
+- **Python 3.11+** — required by the project
+- **[Ollama](https://ollama.com/)** — local LLM runtime (installed by `make setup`)
+
 ## Development Setup
 
 1. **Clone the repository**
@@ -11,7 +17,7 @@ git clone https://github.com/JoshDoesIT/ctrlmap.git
 cd ctrlmap
 ```
 
-2. **Run the setup script** (installs Python deps, Ollama, and llama3)
+2. **Run the setup script** (installs Python deps, Ollama, and `qwen2.5:14b` model)
 
 ```bash
 make setup
@@ -46,8 +52,12 @@ Run all checks locally before pushing:
 ```bash
 make lint          # Ruff linter
 make format        # Ruff formatter
+make typecheck     # mypy strict type checking
+make check         # Lint + typecheck + format check
 make test          # Unit + integration tests
 make test-eval     # Evaluation tests (requires Ollama)
+make test-all      # All tests including eval
+make docs          # Build API documentation
 ```
 
 ## Commit Conventions
@@ -148,15 +158,21 @@ make test-eval
 uv run pytest tests/evaluation/test_compliance_accuracy.py -v
 uv run pytest tests/evaluation/test_relevance_accuracy.py -v
 uv run pytest tests/evaluation/test_meta_classification.py -v
+uv run pytest tests/evaluation/test_faithfulness.py -v
+uv run pytest tests/evaluation/test_retrieval_precision.py -v
+uv run pytest tests/evaluation/test_end_to_end_scenario.py -v
 
 # Run with model comparison
 uv run python tests/evaluation/model_compare.py
 ```
 
 Eval test fixtures are in `tests/fixtures/` as JSON. Each entry has:
+- `id`: Unique identifier for the test case
 - `control_text`: The security control being evaluated
 - `chunk_text`: The policy text excerpt (for relevance/compliance evals)
-- `expected_*`: The ground-truth label
+- `requirement_family`: The control's requirement family (e.g., "Access Control")
+- `expected_relevant` / `expected_compliant` / `expected_is_meta`: The ground-truth label
+- `rationale`: Explanation of why the expected label is correct
 
 
 ## License

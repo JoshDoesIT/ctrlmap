@@ -8,6 +8,7 @@
   <a href="https://github.com/JoshDoesIT/ctrlmap/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green" alt="License: MIT" /></a>
   <a href="https://github.com/astral-sh/ruff"><img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json" alt="Ruff" /></a>
   <a href="https://github.com/JoshDoesIT/ctrlmap"><img src="https://img.shields.io/badge/privacy-100%25_local-blueviolet?logo=shield" alt="Privacy: 100% Local" /></a>
+  <a href="https://mypy-lang.org/"><img src="https://img.shields.io/badge/type_checked-mypy_strict-blue?logo=python&logoColor=white" alt="mypy: strict" /></a>
 </p>
 
 <p align="center">
@@ -38,7 +39,7 @@ uv tool install ctrlmap
 ## Quick Start (Development)
 
 ```bash
-# One-command setup: installs Python deps, Ollama, and llama3 model
+# One-command setup: installs Python deps, Ollama, and qwen2.5:14b model
 make setup
 
 # Run all tests
@@ -69,7 +70,7 @@ This generates output in `demo/output/`:
 | `pci_mapping.md` | PCI DSS v4.0.1 control mappings with rationale |
 | `harmonized_controls.json` | Deduplicated common controls across both frameworks |
 
-> **Requires:** Ollama with `llama3` model. Run `make setup` first if needed.
+> **Requires:** Ollama with `qwen2.5:14b` model (~8 GB). Run `make setup` first if needed.
 
 ## CLI Commands
 
@@ -81,7 +82,7 @@ This generates output in `demo/output/`:
 | `ctrlmap harmonize` | Deduplicate controls across multiple frameworks |
 | `ctrlmap eval` | Evaluate RAG pipeline retrieval quality |
 
-The `map` command supports multiple output formats via `--output-format` (json, csv, markdown, oscal) and an `--output` flag for writing directly to a file.
+The `map` command supports multiple output formats via `--output-format` (json, csv, markdown, oscal, html) and an `--output` flag for writing directly to a file. The default LLM model is `qwen2.5:14b`; override with `--llm-model`.
 
 ## Architecture
 
@@ -107,11 +108,15 @@ ctrlmap/
 │   └── ctrlmap/
 │       ├── cli.py           # Typer command routing
 │       ├── eval_command.py  # RAG evaluation harness
+│       ├── _defaults.py     # Centralized model defaults
+│       ├── _console.py      # Shared Rich console instances
 │       ├── parse/           # PyMuPDF ingestion & semantic chunking
 │       ├── index/           # Sentence-transformers & ChromaDB
-│       ├── map/             # RAG retrieval, similarity scoring, harmonization
-│       ├── llm/             # Ollama tool-calling & structured outputs
-│       ├── export/          # CSV, Markdown, OSCAL JSON formatters
+│       ├── map/             # RAG retrieval, LLM enrichment, harmonization
+│       ├── llm/             # Ollama client & structured outputs
+│       │   └── prompts/     # LLM prompt templates (.txt files)
+│       ├── export/          # CSV, Markdown, OSCAL JSON, HTML formatters
+│       │   └── templates/   # HTML report CSS/JS assets
 │       └── models/          # Pydantic schemas & OSCAL serialization
 └── tests/
     ├── unit/
@@ -128,13 +133,18 @@ Zero bytes of sensitive telemetry or policy data ever leave the host machine. Al
 This project follows **Spec-Driven Development (SDD)** and **Test-Driven Development (TDD)**. Every feature is implemented using the Red-Green-Refactor cycle.
 
 ```bash
-make setup          # Install everything (deps, Ollama, llama3)
+make setup          # Install everything (deps, Ollama, qwen2.5:14b)
 make test           # Unit + integration tests
 make test-eval      # Evaluation tests (requires Ollama)
+make test-all       # All tests including eval
 make lint           # Ruff linter
 make format         # Ruff formatter
+make typecheck      # mypy strict type checking
+make check          # Lint + typecheck + format check
 make build          # Build wheel and sdist
 make install        # Install via uv tool (isolated env)
+make docs           # Build API documentation
+make docs-serve     # Serve docs locally with live-reload
 ```
 
 ## License

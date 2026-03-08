@@ -35,6 +35,7 @@ nav:
     - Map: api/map.md
     - LLM: api/llm.md
     - Export: api/export.md
+    - Eval: api/eval.md
 
 plugins:
   - search
@@ -61,5 +62,7 @@ markdown_extensions:
           class: mermaid
           format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.details
+  - pymdownx.snippets:
+      base_path: .
   - toc:
       permalink: true

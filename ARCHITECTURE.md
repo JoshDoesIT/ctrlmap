@@ -40,9 +40,9 @@ Embeds text and stores vectors locally.
 Matches controls to supporting evidence via RAG, then enriches with LLM analysis.
 
 - **`mapper.py`** — Core mapping: query expansion → vector search → min-score filtering
-- **`enrichment.py`** — 5-step LLM pipeline: relevance filter → rationale → meta-classify → gap → resolve
+- **`enrichment.py`** — Orchestrates the 5-step LLM pipeline: relevance filter → rationale → meta-classify → gap → resolve. Entry point: `enrich_with_rationale()`
 - **`meta_requirements.py`** — Governance/documentation meta-requirement classification
-- **`map_command.py`** — CLI wiring + format dispatch
+- **`map_command.py`** — CLI wiring + format dispatch via `_FORMAT_REGISTRY`
 - **`expansion_map.json`** — Domain synonym data for query expansion
 
 **Output:** `MappedResult` objects with rationales.
@@ -63,8 +63,11 @@ Deduplicates overlapping controls across frameworks.
 | `ctrlmap.models.oscal` | OSCAL JSON catalog parser |
 | `ctrlmap.llm.client` | Ollama client (connection handling, prompt formatting) |
 | `ctrlmap.llm.structured_output` | LLM response → `MappingRationale \| InsufficientEvidence` |
+| `ctrlmap.llm._json_utils` | Shared JSON extraction utilities for LLM responses |
 | `ctrlmap.llm.prompts/` | Externalized prompt templates (`.txt` files) |
 | `ctrlmap.export.*` | Output formatters (CSV, Markdown, OSCAL, HTML) |
+| `ctrlmap.eval_command` | CLI subcommand for the RAG evaluation harness |
+| `ctrlmap.eval_ragas` | RAGAS integration for retrieval quality metrics |
 | `ctrlmap._defaults` | Centralized default constants (model names) |
 | `ctrlmap._console` | Shared Rich console instances |
 
@@ -85,5 +88,5 @@ graph LR
 
 - **Local-first:** All processing (LLM, embeddings, vector store) runs locally. No data leaves the machine.
 - **Pipeline architecture:** Clear stage boundaries with serializable intermediate outputs (JSONL, ChromaDB).
-- **Pydantic V2 strict mode:** `extra='forbid'` and `strict=True` on all models for data integrity.
+- **Pydantic V2 strict mode:** `extra='forbid'` and `strict=True` on all core data models for data integrity.
 - **Test-driven:** Red-Green-Refactor on every feature. Unit, integration, and LLM evaluation test suites.
