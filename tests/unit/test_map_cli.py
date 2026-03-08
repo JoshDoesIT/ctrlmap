@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-from unittest.mock import patch
+from unittest.mock import AsyncMock, patch
 
 from typer.testing import CliRunner
 
@@ -155,20 +155,21 @@ class TestMapCommand:
         with (
             patch("ctrlmap.map.map_command.map_controls", return_value=[mock_result]),
             patch("ctrlmap.map.map_command.VectorStore"),
-            patch("ctrlmap.map.enrichment.generate_rationale") as mock_gen,
             patch("ctrlmap.llm.client.OllamaClient") as mock_ollama_cls,
         ):
             from ctrlmap.models.schemas import MappingRationale
 
-            # Mock the relevance checker to approve all chunks
+            # Mock the merged evaluate_chunk_async to return a rationale
             mock_client = mock_ollama_cls.return_value
-            mock_client.verify_chunk_relevance.return_value = True
-
-            mock_gen.return_value = MappingRationale(
-                is_compliant=True,
-                confidence_score=0.9,
-                explanation="Compliant.",
+            mock_client.evaluate_chunk_async = AsyncMock(
+                return_value=MappingRationale(
+                    is_compliant=True,
+                    confidence_score=0.9,
+                    explanation="Compliant.",
+                )
             )
+            mock_client.classify_control_type_async = AsyncMock(return_value=False)
+
             result = runner.invoke(
                 app,
                 [
@@ -183,4 +184,3 @@ class TestMapCommand:
                 ],
             )
         assert result.exit_code == 0
-        mock_gen.assert_called()

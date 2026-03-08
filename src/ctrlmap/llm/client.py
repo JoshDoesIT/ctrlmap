@@ -12,6 +12,11 @@ from __future__ import annotations
 import json
 import logging
 import time
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from ctrlmap.llm.cache import LLMCache
+    from ctrlmap.models.schemas import InsufficientEvidence, MappingRationale
 
 import ollama
 
@@ -34,9 +39,15 @@ class OllamaClient:
         timeout: Timeout in seconds for inference requests (default: 120).
     """
 
-    def __init__(self, model: str = DEFAULT_LLM_MODEL, timeout: int = 120) -> None:
+    def __init__(
+        self,
+        model: str = DEFAULT_LLM_MODEL,
+        timeout: int = 120,
+        cache: LLMCache | None = None,
+    ) -> None:
         self._model = model
         self._timeout = timeout
+        self._cache = cache
 
     def is_available(self) -> bool:
         """Check if Ollama is reachable.
@@ -201,3 +212,176 @@ class OllamaClient:
         except Exception:
             # On error, keep the chunk to avoid false drops
             return True
+
+    # ------------------------------------------------------------------
+    # Async API
+    # ------------------------------------------------------------------
+
+    async def call_llm_async(self, prompt: str, method_name: str) -> str:
+        """Async version of :meth:`call_llm` using ``ollama.AsyncClient``.
+
+        Checks the cache (if configured) before calling the LLM, and
+        stores the result after a successful call.
+
+        Args:
+            prompt: The fully-formatted LLM prompt string.
+            method_name: Identifier for structured log entries.
+
+        Returns:
+            The raw LLM response content as a string.
+        """
+        # Check cache first
+        if self._cache is not None:
+            cached = self._cache.get(model=self._model, prompt=prompt)
+            if cached is not None:
+                return cached
+
+        t0 = time.monotonic()
+        async_client = ollama.AsyncClient()
+        response = await async_client.chat(
+            model=self._model,
+            messages=[{"role": "user", "content": prompt}],
+            options={"temperature": 0},
+        )
+        raw = str(response.message.content)
+        _log.debug(
+            json.dumps(
+                {
+                    "method": method_name,
+                    "model": self._model,
+                    "latency_ms": round((time.monotonic() - t0) * 1000),
+                    "output_len": len(raw),
+                }
+            )
+        )
+
+        # Store in cache
+        if self._cache is not None:
+            self._cache.put(model=self._model, prompt=prompt, response=raw)
+
+        return raw
+
+    async def generate_async(self, *, control_text: str, chunk_text: str) -> str:
+        """Async version of :meth:`generate`.
+
+        Args:
+            control_text: The security control description.
+            chunk_text: The policy text excerpt.
+
+        Returns:
+            The raw LLM response content as a string.
+        """
+        template = load_prompt("compliance_rationale.txt")
+        prompt = template.format(
+            control_text=control_text,
+            chunk_text=chunk_text,
+        )
+        return await self.call_llm_async(prompt, "generate")
+
+    async def classify_control_type_async(self, *, control_text: str) -> bool:
+        """Async version of :meth:`classify_control_type`.
+
+        Args:
+            control_text: The security control description.
+
+        Returns:
+            ``True`` if the control is a meta-requirement, ``False`` otherwise.
+        """
+        template = load_prompt("meta_classification.txt")
+        prompt = template.format(control_text=control_text)
+        try:
+            raw = (await self.call_llm_async(prompt, "classify_control_type")).strip()
+            cleaned = extract_json_object(raw)
+            data = json.loads(cleaned)
+            return bool(data.get("is_meta", False))
+        except Exception:
+            return False
+
+    async def generate_gap_async(self, *, control_text: str) -> str:
+        """Async version of :meth:`generate_gap`.
+
+        Args:
+            control_text: The security control description.
+
+        Returns:
+            The raw LLM response content as a string.
+        """
+        template = load_prompt("gap_rationale.txt")
+        prompt = template.format(control_text=control_text)
+        return await self.call_llm_async(prompt, "generate_gap")
+
+    async def verify_chunk_relevance_async(
+        self,
+        *,
+        control_text: str,
+        chunk_text: str,
+        requirement_family: str = "",
+    ) -> bool:
+        """Async version of :meth:`verify_chunk_relevance`.
+
+        Args:
+            control_text: The security control description.
+            chunk_text: The policy text excerpt.
+            requirement_family: The parent requirement family title.
+
+        Returns:
+            ``True`` if the LLM confirms direct relevance, ``False`` otherwise.
+        """
+        template = load_prompt("relevance_check.txt")
+        prompt = template.format(
+            control_text=control_text,
+            chunk_text=chunk_text,
+            requirement_family=requirement_family or "Not specified",
+        )
+        try:
+            raw = (await self.call_llm_async(prompt, "verify_chunk_relevance")).strip()
+            cleaned = extract_json_object(raw)
+            data = json.loads(cleaned)
+            return bool(data.get("relevant", False))
+        except Exception:
+            # On error, keep the chunk to avoid false drops
+            return True
+
+    async def evaluate_chunk_async(
+        self,
+        *,
+        control_text: str,
+        chunk_text: str,
+        requirement_family: str = "",
+    ) -> MappingRationale | InsufficientEvidence:
+        """Evaluate a chunk in a single LLM call (merged relevance + rationale).
+
+        Combines the relevance check and rationale generation into one
+        prompt to halve the number of LLM calls. Returns
+        ``InsufficientEvidence`` for irrelevant chunks and
+        ``MappingRationale`` for relevant ones.
+
+        Args:
+            control_text: The security control description.
+            chunk_text: The policy text excerpt.
+            requirement_family: The parent requirement family title.
+
+        Returns:
+            A ``MappingRationale`` or ``InsufficientEvidence`` instance.
+        """
+        from ctrlmap.llm.structured_output import _parse_response
+        from ctrlmap.models.schemas import InsufficientEvidence
+
+        template = load_prompt("merged_relevance_rationale.txt")
+        prompt = template.format(
+            control_text=control_text,
+            chunk_text=chunk_text,
+            requirement_family=requirement_family or "Not specified",
+        )
+
+        max_retries = 2
+        for _attempt in range(max_retries + 1):
+            raw = await self.call_llm_async(prompt, "evaluate_chunk")
+            result = _parse_response(raw)
+            if result is not None:
+                return result
+
+        return InsufficientEvidence(
+            reason="Invalid LLM output after retries.",
+            required_context="A well-formed JSON response from the LLM.",
+        )

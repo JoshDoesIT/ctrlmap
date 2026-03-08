@@ -4,6 +4,11 @@ Iterates through SecurityControl objects, queries the vector database
 for top-K matching policy chunks, and returns MappedResult objects
 ranked by cosine similarity.
 
+Performance:
+    Builds all query texts upfront and uses ``embed_batch()`` for a
+    single vectorization pass, then queries ChromaDB with pre-computed
+    embeddings via ``query_by_embedding()``.
+
 Ref: GitHub Issue #16.
 """
 
@@ -15,7 +20,7 @@ from pathlib import Path
 from typing import cast
 
 from ctrlmap.index.embedder import Embedder
-from ctrlmap.index.query import query
+from ctrlmap.index.query import query_by_embedding
 from ctrlmap.index.vector_store import VectorStore
 from ctrlmap.models.schemas import MappedResult, ParsedChunk, SecurityControl
 
@@ -61,8 +66,8 @@ def map_controls(
     controls: list[SecurityControl],
     store: VectorStore,
     collection_name: str,
-    top_k: int = 10,
-    min_score: float = 0.35,
+    top_k: int = 5,
+    min_score: float = 0.50,
     embedder: Embedder | None = None,
 ) -> list[MappedResult]:
     """Map security controls to supporting policy chunks via vector similarity.
@@ -70,6 +75,10 @@ def map_controls(
     For each control, queries the vector DB for the top-K most similar
     policy chunks and filters out results below ``min_score`` to prevent
     weak/irrelevant matches from appearing as false positives.
+
+    Uses batch embedding for performance: all query texts are embedded
+    in a single pass via ``embed_batch()``, then each pre-computed
+    embedding is used for ANN search via ``query_by_embedding()``.
 
     Args:
         controls: List of SecurityControl objects to map.
@@ -86,23 +95,26 @@ def map_controls(
     if embedder is None:
         embedder = Embedder()
 
-    results: list[MappedResult] = []
-
+    # Build all query texts upfront
+    query_texts: list[str] = []
     for control in controls:
         query_text = control.as_prompt_text()
-        # Include the requirement family context to anchor embeddings
-        # to the correct domain (e.g. "Develop and Maintain Secure
-        # Systems and Software") and reduce cross-family false matches.
         if control.requirement_family:
             query_text = f"[{control.requirement_family}] {query_text}"
         query_text = _expand_query(query_text)
+        query_texts.append(query_text)
 
-        query_results = query(
+    # Batch embed all queries in one pass
+    embeddings = embedder.embed_batch(query_texts)
+
+    results: list[MappedResult] = []
+
+    for control, embedding in zip(controls, embeddings, strict=True):
+        query_results = query_by_embedding(
             store=store,
             collection_name=collection_name,
-            query_text=query_text,
+            embedding=embedding,
             top_k=top_k,
-            embedder=embedder,
         )
 
         supporting_chunks: list[ParsedChunk] = []

@@ -100,3 +100,64 @@ def query(
         )
 
     return query_results
+
+
+def query_by_embedding(
+    *,
+    store: VectorStore,
+    collection_name: str,
+    embedding: list[float],
+    top_k: int = 5,
+    filters: dict[str, str] | None = None,
+) -> list[QueryResult]:
+    """Perform an ANN similarity search using a pre-computed embedding.
+
+    This avoids recomputing the embedding when the caller has already
+    embedded the query text (e.g. via :meth:`Embedder.embed_batch`).
+
+    Args:
+        store: The VectorStore instance to query.
+        collection_name: Name of the ChromaDB collection to search.
+        embedding: Pre-computed embedding vector.
+        top_k: Maximum number of results to return (default: 5).
+        filters: Optional metadata filters (AND logic).
+
+    Returns:
+        A list of ``QueryResult`` objects sorted by similarity (descending).
+    """
+    collection = store.get_or_create_collection(collection_name)
+
+    # Build ChromaDB where clause from filters
+    where: dict[str, Any] | None = None
+    if filters:
+        conditions: list[dict[str, Any]] = [{k: {"$eq": v}} for k, v in filters.items()]
+        where = conditions[0] if len(conditions) == 1 else {"$and": conditions}
+
+    results = collection.query(
+        query_embeddings=[embedding],  # type: ignore[arg-type]
+        n_results=top_k,
+        where=where,
+        include=["documents", "metadatas", "distances"],
+    )
+
+    query_results: list[QueryResult] = []
+
+    ids = (results.get("ids") or [[]])[0]
+    documents = (results.get("documents") or [[]])[0]
+    metadatas = (results.get("metadatas") or [[]])[0]
+    distances = (results.get("distances") or [[]])[0]
+
+    for i, chunk_id in enumerate(ids):
+        distance = distances[i] if distances else 0.0
+        score = max(0.0, 1.0 - distance)
+
+        query_results.append(
+            QueryResult(
+                chunk_id=chunk_id,
+                raw_text=documents[i] if documents else "",
+                score=score,
+                metadata=dict(metadatas[i]) if metadatas else {},
+            )
+        )
+
+    return query_results

@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import json
 import logging
-from unittest.mock import MagicMock, patch
+from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
@@ -247,3 +247,201 @@ class TestOllamaStructuredLogging:
         assert len(log_entries) >= 1
         log_data = json.loads(log_entries[0].message)
         assert log_data["method"] == "generate_gap"
+
+
+class TestOllamaAsyncClient:
+    """Async LLM client methods for concurrent enrichment pipeline."""
+
+    @pytest.mark.asyncio()
+    async def test_call_llm_async_returns_string(self) -> None:
+        """call_llm_async() returns the LLM response as a string."""
+        from ctrlmap.llm.client import OllamaClient
+
+        with patch("ctrlmap.llm.client.ollama.AsyncClient") as mock_async_cls:
+            mock_instance = MagicMock()
+            mock_instance.chat = AsyncMock(
+                return_value=MagicMock(message=MagicMock(content="response text"))
+            )
+            mock_async_cls.return_value = mock_instance
+
+            client = OllamaClient(model="llama3")
+            result = await client.call_llm_async("test prompt", "test_method")
+            assert isinstance(result, str)
+            assert result == "response text"
+
+    @pytest.mark.asyncio()
+    async def test_call_llm_async_uses_temperature_zero(self) -> None:
+        """Async LLM calls pass temperature=0 for deterministic output."""
+        from ctrlmap.llm.client import OllamaClient
+
+        with patch("ctrlmap.llm.client.ollama.AsyncClient") as mock_async_cls:
+            mock_instance = MagicMock()
+            mock_instance.chat = AsyncMock(
+                return_value=MagicMock(message=MagicMock(content="response"))
+            )
+            mock_async_cls.return_value = mock_instance
+
+            client = OllamaClient()
+            await client.call_llm_async("prompt", "test")
+
+            call_args = mock_instance.chat.call_args
+            options = call_args.kwargs.get("options") or call_args[1].get("options", {})
+            assert options.get("temperature") == 0
+
+    @pytest.mark.asyncio()
+    async def test_verify_chunk_relevance_async_returns_bool(self) -> None:
+        """verify_chunk_relevance_async() returns True/False like its sync counterpart."""
+        from ctrlmap.llm.client import OllamaClient
+
+        with patch("ctrlmap.llm.client.ollama.AsyncClient") as mock_async_cls:
+            mock_instance = MagicMock()
+            mock_instance.chat = AsyncMock(
+                return_value=MagicMock(message=MagicMock(content='{"relevant": true}'))
+            )
+            mock_async_cls.return_value = mock_instance
+
+            client = OllamaClient()
+            result = await client.verify_chunk_relevance_async(
+                control_text="AC-1: Policy.",
+                chunk_text="All employees must follow access control procedures.",
+            )
+            assert result is True
+
+    @pytest.mark.asyncio()
+    async def test_generate_async_returns_string(self) -> None:
+        """generate_async() returns the raw LLM response."""
+        from ctrlmap.llm.client import OllamaClient
+
+        with patch("ctrlmap.llm.client.ollama.AsyncClient") as mock_async_cls:
+            mock_instance = MagicMock()
+            mock_instance.chat = AsyncMock(
+                return_value=MagicMock(message=MagicMock(content="rationale text"))
+            )
+            mock_async_cls.return_value = mock_instance
+
+            client = OllamaClient()
+            result = await client.generate_async(
+                control_text="AC-1: Policy.",
+                chunk_text="All employees must follow access control procedures.",
+            )
+            assert result == "rationale text"
+
+    @pytest.mark.asyncio()
+    async def test_classify_control_type_async_returns_bool(self) -> None:
+        """classify_control_type_async() returns True/False."""
+        from ctrlmap.llm.client import OllamaClient
+
+        with patch("ctrlmap.llm.client.ollama.AsyncClient") as mock_async_cls:
+            mock_instance = MagicMock()
+            mock_instance.chat = AsyncMock(
+                return_value=MagicMock(message=MagicMock(content='{"is_meta": false}'))
+            )
+            mock_async_cls.return_value = mock_instance
+
+            client = OllamaClient()
+            result = await client.classify_control_type_async(
+                control_text="AC-1: Access Control Policy.",
+            )
+            assert result is False
+
+    @pytest.mark.asyncio()
+    async def test_generate_gap_async_returns_string(self) -> None:
+        """generate_gap_async() returns the raw LLM response."""
+        from ctrlmap.llm.client import OllamaClient
+
+        with patch("ctrlmap.llm.client.ollama.AsyncClient") as mock_async_cls:
+            mock_instance = MagicMock()
+            mock_instance.chat = AsyncMock(
+                return_value=MagicMock(message=MagicMock(content="gap rationale"))
+            )
+            mock_async_cls.return_value = mock_instance
+
+            client = OllamaClient()
+            result = await client.generate_gap_async(
+                control_text="SC-28: Protection of Information at Rest.",
+            )
+            assert result == "gap rationale"
+
+    @pytest.mark.asyncio()
+    async def test_call_llm_async_emits_structured_log(
+        self, caplog: pytest.LogCaptureFixture
+    ) -> None:
+        """Async LLM calls emit structured JSON logs like sync calls."""
+        from ctrlmap.llm.client import OllamaClient
+
+        with patch("ctrlmap.llm.client.ollama.AsyncClient") as mock_async_cls:
+            mock_instance = MagicMock()
+            mock_instance.chat = AsyncMock(
+                return_value=MagicMock(message=MagicMock(content="response"))
+            )
+            mock_async_cls.return_value = mock_instance
+
+            with caplog.at_level(logging.DEBUG, logger="ctrlmap.llm"):
+                client = OllamaClient()
+                await client.call_llm_async("prompt", "test_method")
+
+        log_entries = [r for r in caplog.records if r.name == "ctrlmap.llm"]
+        assert len(log_entries) >= 1
+        log_data = json.loads(log_entries[0].message)
+        assert log_data["method"] == "test_method"
+        assert "latency_ms" in log_data
+
+    @pytest.mark.asyncio()
+    async def test_evaluate_chunk_async_returns_rationale_for_relevant(self) -> None:
+        """evaluate_chunk_async() returns MappingRationale for relevant chunks."""
+        from ctrlmap.llm.client import OllamaClient
+        from ctrlmap.models.schemas import MappingRationale
+
+        rationale_json = json.dumps(
+            {
+                "type": "MappingRationale",
+                "is_compliant": True,
+                "compliance_level": "fully_compliant",
+                "confidence_score": 0.95,
+                "sub_requirements": [],
+                "explanation": "The policy addresses the control.",
+            }
+        )
+
+        with patch("ctrlmap.llm.client.ollama.AsyncClient") as mock_async_cls:
+            mock_instance = MagicMock()
+            mock_instance.chat = AsyncMock(
+                return_value=MagicMock(message=MagicMock(content=rationale_json))
+            )
+            mock_async_cls.return_value = mock_instance
+
+            client = OllamaClient()
+            result = await client.evaluate_chunk_async(
+                control_text="AC-1: Access Control Policy.",
+                chunk_text="All employees must follow access control procedures.",
+            )
+            assert isinstance(result, MappingRationale)
+            assert result.is_compliant is True
+
+    @pytest.mark.asyncio()
+    async def test_evaluate_chunk_async_returns_insufficient_for_irrelevant(self) -> None:
+        """evaluate_chunk_async() returns InsufficientEvidence for irrelevant chunks."""
+        from ctrlmap.llm.client import OllamaClient
+        from ctrlmap.models.schemas import InsufficientEvidence
+
+        insufficient_json = json.dumps(
+            {
+                "type": "InsufficientEvidence",
+                "reason": "The chunk is about cafeteria hours.",
+                "required_context": "Policy about access control.",
+            }
+        )
+
+        with patch("ctrlmap.llm.client.ollama.AsyncClient") as mock_async_cls:
+            mock_instance = MagicMock()
+            mock_instance.chat = AsyncMock(
+                return_value=MagicMock(message=MagicMock(content=insufficient_json))
+            )
+            mock_async_cls.return_value = mock_instance
+
+            client = OllamaClient()
+            result = await client.evaluate_chunk_async(
+                control_text="AC-1: Access Control Policy.",
+                chunk_text="The cafeteria is open Monday through Friday.",
+            )
+            assert isinstance(result, InsufficientEvidence)
