@@ -8,10 +8,10 @@ Ref: GitHub Issue #22.
 
 from __future__ import annotations
 
-import tempfile
 from pathlib import Path
 
 from ctrlmap.models.schemas import (
+    ComplianceLevel,
     InsufficientEvidence,
     MappedResult,
     MappingRationale,
@@ -83,8 +83,10 @@ def export_markdown(results: list[MappedResult], path: Path) -> None:
         results: List of MappedResult objects to export.
         path: Output file path.
     """
+    from ctrlmap.export._io import atomic_write
+
     content = format_markdown(results)
-    _atomic_write(path, content)
+    atomic_write(path, content)
 
 
 def _format_rationale(
@@ -98,8 +100,6 @@ def _format_rationale(
     if rationale is None:
         return ("N/A", "")
     if isinstance(rationale, MappingRationale):
-        from ctrlmap.models.schemas import ComplianceLevel
-
         level = rationale.compliance_level
         if level == ComplianceLevel.FULLY_COMPLIANT:
             icon, status = "\u2705", "Compliant"
@@ -118,18 +118,3 @@ def _truncate(text: str, max_len: int = 120) -> str:
     if len(text) <= max_len:
         return text
     return text[: max_len - 3] + "..."
-
-
-def _atomic_write(path: Path, content: str) -> None:
-    """Write content to a file atomically via temp file + rename."""
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with tempfile.NamedTemporaryFile(
-        mode="w",
-        encoding="utf-8",
-        dir=path.parent,
-        suffix=".tmp",
-        delete=False,
-    ) as tmp:
-        tmp.write(content)
-        tmp_path = Path(tmp.name)
-    tmp_path.rename(path)

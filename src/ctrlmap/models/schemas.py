@@ -24,7 +24,7 @@ MappedResult
 
 from __future__ import annotations
 
-from enum import Enum
+from enum import StrEnum
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
@@ -65,7 +65,7 @@ class CommonControl(BaseModel):
     source_references: list[str]
 
 
-class ComplianceLevel(str, Enum):  # noqa: UP042
+class ComplianceLevel(StrEnum):
     """Three-tier compliance classification for control mappings."""
 
     FULLY_COMPLIANT = "fully_compliant"

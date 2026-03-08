@@ -18,8 +18,9 @@ import json
 from pathlib import Path
 
 import typer
-from rich.console import Console
 
+from ctrlmap._console import console
+from ctrlmap._defaults import DEFAULT_LLM_MODEL
 from ctrlmap.export.csv_formatter import export_csv, format_csv
 from ctrlmap.export.html_formatter import export_html, format_html
 from ctrlmap.export.markdown_formatter import export_markdown, format_markdown
@@ -33,9 +34,7 @@ from ctrlmap.llm.structured_output import (
 from ctrlmap.map.mapper import map_controls
 from ctrlmap.map.meta_requirements import classify_meta_controls, resolve_meta_requirements
 from ctrlmap.models.oscal import parse_oscal_catalog
-from ctrlmap.models.schemas import MappingRationale, ParsedChunk
-
-console = Console()
+from ctrlmap.models.schemas import MappedResult, MappingRationale, ParsedChunk
 
 
 def map_controls_cmd(
@@ -64,7 +63,7 @@ def map_controls_cmd(
         help="Output file path. Prints to stdout if not specified.",
     ),
     llm_model: str = typer.Option(
-        "qwen2.5:14b",
+        DEFAULT_LLM_MODEL,
         "--llm-model",
         help="Ollama model name for rationale generation.",
     ),
@@ -176,10 +175,10 @@ def map_controls_cmd(
 
 
 def _emit_results(
-    results: list,  # type: ignore[type-arg]
+    results: list[MappedResult],
     output_format: str,
     output_path: Path | None = None,
-    all_chunks: list | None = None,  # type: ignore[type-arg]
+    all_chunks: list[ParsedChunk] | None = None,
 ) -> None:
     """Route results to the appropriate formatter and output destination.
 
@@ -220,10 +219,10 @@ def _emit_results(
 
 
 def _write_to_file(
-    results: list,  # type: ignore[type-arg]
+    results: list[MappedResult],
     output_format: str,
     path: Path,
-    all_chunks: list | None = None,  # type: ignore[type-arg]
+    all_chunks: list[ParsedChunk] | None = None,
 ) -> None:
     """Write results to a file using the appropriate formatter."""
     if output_format == "csv":
@@ -242,9 +241,9 @@ def _write_to_file(
 
 
 def _write_to_stdout(
-    results: list,  # type: ignore[type-arg]
+    results: list[MappedResult],
     output_format: str,
-    all_chunks: list | None = None,  # type: ignore[type-arg]
+    all_chunks: list[ParsedChunk] | None = None,
 ) -> None:
     """Write results to stdout using the appropriate formatter."""
     if output_format == "csv":

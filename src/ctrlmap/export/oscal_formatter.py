@@ -9,13 +9,13 @@ Ref: GitHub Issue #22.
 from __future__ import annotations
 
 import json
-import tempfile
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
 from ctrlmap.models.schemas import (
+    ComplianceLevel,
     InsufficientEvidence,
     MappedResult,
     MappingRationale,
@@ -97,9 +97,11 @@ def export_oscal(results: list[MappedResult], path: Path) -> None:
         results: List of MappedResult objects to export.
         path: Output file path.
     """
+    from ctrlmap.export._io import atomic_write
+
     oscal_dict = format_oscal(results)
     content = json.dumps(oscal_dict, indent=2, ensure_ascii=False)
-    _atomic_write(path, content)
+    atomic_write(path, content)
 
 
 def _determine_state(
@@ -109,8 +111,6 @@ def _determine_state(
     if rationale is None:
         return "not-satisfied"
     if isinstance(rationale, MappingRationale):
-        from ctrlmap.models.schemas import ComplianceLevel
-
         level = rationale.compliance_level
         if level == ComplianceLevel.FULLY_COMPLIANT:
             return "satisfied"
@@ -131,18 +131,3 @@ def _format_rationale(
             f"Explanation: {rationale.explanation}"
         )
     return f"Insufficient evidence: {rationale.reason}. Required: {rationale.required_context}"
-
-
-def _atomic_write(path: Path, content: str) -> None:
-    """Write content to a file atomically via temp file + rename."""
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with tempfile.NamedTemporaryFile(
-        mode="w",
-        encoding="utf-8",
-        dir=path.parent,
-        suffix=".tmp",
-        delete=False,
-    ) as tmp:
-        tmp.write(content)
-        tmp_path = Path(tmp.name)
-    tmp_path.rename(path)

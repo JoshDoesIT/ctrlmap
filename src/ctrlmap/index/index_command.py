@@ -17,14 +17,13 @@ import json
 from pathlib import Path
 
 import typer
-from rich.console import Console
 
+from ctrlmap._console import console
+from ctrlmap._defaults import DEFAULT_EMBEDDING_MODEL
 from ctrlmap.index.embedder import Embedder
 from ctrlmap.index.vector_store import VectorStore
 from ctrlmap.models.oscal import parse_oscal_catalog
 from ctrlmap.models.schemas import ParsedChunk
-
-console = Console()
 
 
 def index(
@@ -51,7 +50,7 @@ def index(
         resolve_path=True,
     ),
     embedding_model: str = typer.Option(
-        "all-MiniLM-L6-v2",
+        DEFAULT_EMBEDDING_MODEL,
         "--embedding-model",
         help="Sentence-Transformers model name.",
     ),

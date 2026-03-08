@@ -10,7 +10,6 @@ from __future__ import annotations
 
 import csv
 import io
-import tempfile
 from pathlib import Path
 
 from ctrlmap.models.schemas import (
@@ -78,8 +77,10 @@ def export_csv(results: list[MappedResult], path: Path) -> None:
         results: List of MappedResult objects to export.
         path: Output file path.
     """
+    from ctrlmap.export._io import atomic_write
+
     content = format_csv(results)
-    _atomic_write(path, content)
+    atomic_write(path, content)
 
 
 def _extract_rationale_fields(
@@ -101,18 +102,3 @@ def _extract_rationale_fields(
         "confidence_score": "",
         "rationale": f"InsufficientEvidence: {rationale.reason}",
     }
-
-
-def _atomic_write(path: Path, content: str) -> None:
-    """Write content to a file atomically via temp file + rename."""
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with tempfile.NamedTemporaryFile(
-        mode="w",
-        encoding="utf-8",
-        dir=path.parent,
-        suffix=".tmp",
-        delete=False,
-    ) as tmp:
-        tmp.write(content)
-        tmp_path = Path(tmp.name)
-    tmp_path.rename(path)

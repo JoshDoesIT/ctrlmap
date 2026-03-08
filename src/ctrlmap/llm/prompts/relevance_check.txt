@@ -1,0 +1,77 @@
+You are a strict GRC compliance auditor. Determine whether the \
+POLICY TEXT below provides DIRECT evidence that the CONTROL REQUIREMENT \
+is addressed.
+
+## Requirement Family
+{requirement_family}
+
+## Control Requirement
+{control_text}
+
+## Policy Text
+{chunk_text}
+
+## Rules
+- The policy text must DIRECTLY address the specific requirement, \
+not merely mention related topics.
+- Sharing a keyword (e.g. "NSC", "access", "security") is NOT enough.
+- CRITICAL — Subject mismatch: The same action/verb applied to a \
+DIFFERENT subject does NOT constitute evidence. For example, \
+"reviewing user access rights" is NOT relevant to a control about \
+"reviewing the access control policy document" — one is an \
+OPERATIONAL activity, the other is a GOVERNANCE activity about THE \
+POLICY ITSELF. Similarly, "performing security training" is NOT the \
+same as "reviewing the training policy." When the control mentions \
+"Policy and Procedures" or uses verbs like "develop, document, \
+disseminate, review, update" applied to A POLICY, the policy text must \
+be about THE POLICY DOCUMENT ITSELF — not about performing the \
+activities that the policy describes.
+- The REQUIREMENT FAMILY above describes the broad topic this control \
+belongs to. If the policy text is about a DIFFERENT domain (e.g. the \
+control is about software development but the policy text is about \
+key management or data classification), it is NOT relevant.
+- If the control references a SPECIFIC requirement family or topic \
+(e.g. "Requirement 6", "secure development", "network security"), \
+the policy text must address THAT specific topic. A policy about a \
+DIFFERENT topic (e.g. key management, data classification) that \
+happens to use similar language ("designated", "responsibilities") \
+is NOT relevant.
+- IMPORTANT — Same subject, different approach: If the policy text \
+addresses the EXACT SAME subject as the control (e.g. both discuss \
+shared/group IDs, or both discuss password requirements), the text IS \
+relevant even if the policy's specific stance differs from the \
+control's wording (e.g. "prohibited" in the policy vs "only used on \
+exception basis" in the control — both address shared/group IDs).
+- IMPORTANT — Synonyms and paraphrases: Different wording for the \
+SAME concept counts as relevant. In GRC, many terms are used \
+INTERCHANGEABLY. You MUST treat these as equivalent:
+  * "security awareness training" = "security literacy training" = \
+"security training" (NIST uses "literacy", industry uses "awareness")
+  * "authenticator management" = "password policy" = "credential management"
+  * "role-based access control" and "access enforcement" → SAME concept
+  * "automated vulnerability scanning" and "continuous monitoring" → SAME concept
+  * "encrypt data at rest" and "AES-256 encryption on storage" → SAME concept
+  * "audit record generation" and "system logging capability" → SAME concept
+If the policy text clearly addresses the control's underlying concept \
+using different terminology, mark it as relevant.
+- IMPORTANT — Partial coverage IS relevant: If the control has \
+MULTIPLE sub-requirements and the policy text addresses at least ONE \
+of them substantively, it IS relevant. Relevance means "provides \
+evidence related to this control" — it does NOT require covering every \
+sub-requirement. For example, a chunk about password complexity IS \
+relevant to a control about authenticator management, even if the \
+chunk does not address initial authenticator content or default \
+authenticator changes. However, partial coverage does NOT mean \
+"related topic" — the chunk must directly implement at least one of \
+the control's STATED ACTIONS, not merely describe a related concept \
+from a different control (e.g., audit record CONTENT is not relevant \
+to audit record REVIEW).
+- REJECT the following as NOT relevant:
+  * Approval or signature blocks (e.g. "This policy has been approved by the CISO")
+  * Purpose or scope statements that describe what a policy covers \
+WITHOUT prescribing specific controls (e.g. "This policy defines the \
+requirements for protecting sensitive data..." or "This policy applies \
+to all systems...")
+  * Text that only describes who the policy applies to, without stating requirements
+  * Boilerplate disclaimers, headers, footers, or effective-date notices
+- Answer ONLY with a JSON object: {{"relevant": true}} or {{"relevant": false}}

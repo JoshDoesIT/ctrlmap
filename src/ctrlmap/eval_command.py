@@ -18,14 +18,12 @@ from pathlib import Path
 from typing import Any
 
 import typer
-from rich.console import Console
 from rich.table import Table
 
+from ctrlmap._console import console
 from ctrlmap.index.embedder import Embedder
 from ctrlmap.index.query import query
 from ctrlmap.index.vector_store import VectorStore
-
-console = Console()
 
 
 def eval_cmd(

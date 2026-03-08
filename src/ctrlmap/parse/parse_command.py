@@ -17,18 +17,18 @@ Ref: GitHub Issue #9.
 
 from __future__ import annotations
 
+import uuid
 from enum import StrEnum
 from pathlib import Path
 
 import typer
-from rich.console import Console
 
+from ctrlmap._console import console
+from ctrlmap._defaults import DEFAULT_LLM_MODEL
 from ctrlmap.models.schemas import ParsedChunk
 from ctrlmap.parse.chunker import chunk_document
 from ctrlmap.parse.extractor import TextBlock, extract_page_texts, extract_text_blocks
 from ctrlmap.parse.heuristics import ElementRole, classify_blocks, order_blocks_by_columns
-
-console = Console()
 
 
 class Strategy(StrEnum):
@@ -70,7 +70,7 @@ def parse(
         min=50,
     ),
     model: str = typer.Option(
-        "qwen2.5:14b",
+        DEFAULT_LLM_MODEL,
         "--model",
         "-m",
         help="Ollama model name (only used with 'llm' strategy).",
@@ -128,8 +128,6 @@ def _fixed_chunk(
     Returns:
         A list of ``ParsedChunk`` instances.
     """
-    import uuid
-
     all_text = " ".join(b.text for b in blocks)
     page_number = blocks[0].page_number if blocks else 1
     chunks: list[ParsedChunk] = []

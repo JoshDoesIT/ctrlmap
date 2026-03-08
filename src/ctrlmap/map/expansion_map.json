@@ -1,0 +1,20 @@
+{
+    "information at rest": "encryption, AES, TDE, full-disk encryption, data-at-rest, disk encryption, database encryption, storage encryption, encrypted at rest, data protection",
+    "information in transit": "TLS, SSL, HTTPS, transport encryption, VPN, IPsec",
+    "cryptographic protection": "encryption, key management, PKI, certificate, AES",
+    "audit events": "logging, SIEM, log retention, audit trail, event monitoring",
+    "flaw remediation": "patching, vulnerability management, CVE, security update",
+    "access enforcement": "RBAC, ACL, permissions, authorization, least privilege",
+    "incident response": "breach notification, forensics, incident handling, CSIRT",
+    "risk assessment": "risk analysis, threat modeling, vulnerability assessment",
+    "system monitoring": "IDS, IPS, intrusion detection, network monitoring, SIEM",
+    "boundary protection": "firewall, DMZ, network segmentation, NSC, perimeter",
+    "information flow": "data flow, network flow, ACL, firewall rules, flow control, flow enforcement, data transfer, cross-domain",
+    "physical access": "badge, biometric, door lock, visitor escort, card reader, facility access, building entry, physical security",
+    "physical access control": "badge reader, security camera, visitor sign-in, escort, two-factor entry, biometric scanner, server room access, entry point, building access",
+    "policy and procedures": "policy document, security procedures, disseminate, document, develop policy, maintain policy, policy review",
+    "maintenance": "maintenance activities, scheduled maintenance, authorized personnel, maintenance tools, maintenance records, preventive maintenance, system maintenance, hardware maintenance",
+    "system and services acquisition": "acquisition contracts, vendor compliance, security requirements, procurement, supply chain, third-party assessment",
+    "system and communications protection": "network security architecture, secure communication, boundary protection, TLS, communication protocols, network security, data in transit",
+    "flow enforcement": "network segmentation, firewall rules, information flow, data flow control, transfer gateway, traffic inspection, cross-domain, security domain"
+}

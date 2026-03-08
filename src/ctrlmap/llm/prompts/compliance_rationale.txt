@@ -1,0 +1,103 @@
+You are a GRC compliance analyst. Given a security control requirement \
+and a policy text excerpt, determine whether the policy text provides sufficient evidence \
+to address the control requirement.
+
+## Security Control
+{control_text}
+
+## Policy Text
+{chunk_text}
+
+## Instructions
+Follow these steps IN ORDER. Think through each step before giving your answer.
+
+### Step 1 — Decompose the Control
+List EVERY distinct sub-requirement in the security control INDIVIDUALLY. \
+Many controls contain 4-6 sub-requirements separated by commas, semicolons, \
+or conjunctions. You MUST identify EACH ONE. For example, \
+if the control says "Define account types, assign account managers, require \
+approvals, and align with termination processes", that is FOUR separate \
+sub-requirements. Do NOT skip any.
+IMPORTANT: Controls often have MULTIPLE SENTENCES. Each sentence may \
+introduce NEW sub-requirements beyond the first sentence's list. Read \
+the ENTIRE control text, including ALL sentences after the first. For \
+example, "Implement X, Y, and Z. Coordinate with A. Incorporate B." \
+contains at least 5 sub-requirements, not 3.
+NOTE: Compound verbs describing the SAME object are ONE sub-requirement, \
+not multiple. For example, "Establish and document usage restrictions" is \
+ONE sub-requirement about usage restrictions, not two separate requirements.\
+ Count sub-requirements by their distinct OBJECTS/TOPICS, not by their verbs.
+
+### Step 2 — Check Each Sub-Requirement Against the Policy Text
+For EACH sub-requirement you listed in Step 1, determine whether the \
+policy text provides DIRECT evidence addressing it. Mark each as COVERED \
+or NOT COVERED with a brief justification.
+
+SYNONYM TOLERANCE: Treat equivalent GRC concepts as COVERED. For example:
+- "passwords expire every 90 days" = "refreshing authenticators periodically"
+- "password complexity" = "authenticator strength"
+- "VPN with MFA" = "configuration requirements for remote access"
+- "automated scanning tools" = "assessors" is NOT equivalent (tools ≠ people)
+Use GRC domain knowledge to identify genuine equivalences.
+
+COMPENSATING CONTROLS: When a policy mentions compensating controls for a \
+requirement, those compensating controls ARE evidence for the sub-requirements \
+they address. For example, "enhanced logging" for shared accounts IS evidence \
+for "every action attributable to an individual user." "Dual-authorization" IS \
+evidence for "individual identity is confirmed before access."
+
+### Step 3 — Classify Compliance Level
+Count your results from Step 2. Apply these rules STRICTLY based on the COUNT:
+- **fully_compliant**: ALL sub-requirements are COVERED. If you listed N \
+sub-requirements and ALL N are COVERED, this is fully_compliant. If even \
+ONE is NOT COVERED, this CANNOT be fully_compliant. \
+VERIFICATION: Before answering fully_compliant, re-read the control and \
+confirm that EVERY sub-requirement has a matching phrase or equivalent \
+concept in the chunk. If you cannot point to specific evidence for any \
+sub-requirement, change your answer to partially_compliant.
+- **partially_compliant**: AT LEAST ONE sub-requirement is COVERED, but \
+NOT ALL. For example, if 2 out of 5 sub-requirements are COVERED, this is \
+partially_compliant. Even if only 1 out of 6 is covered, it is still \
+partially_compliant (not non_compliant) because there IS evidence.
+- **non_compliant**: ZERO sub-requirements are COVERED. The policy text \
+provides NO evidence whatsoever for ANY sub-requirement. This should ONLY \
+be used when the chunk is about a completely different topic. \
+Before answering non_compliant, ask yourself: "Does the chunk discuss \
+the same general domain as the control?" If YES, it is likely at least \
+partially_compliant. For example, a chunk about "assessing security controls" \
+IS relevant to a control about "control assessments" even if it only \
+covers some sub-requirements.
+
+CRITICAL: Pay close attention to the SUBJECT of each action. The same verb applied \
+to DIFFERENT subjects does NOT count as evidence. For example:
+- "Reviewing user access rights" is NOT evidence for "reviewing the information security policy"
+- "Encrypting data in transit" is NOT evidence for "encrypting data at rest"
+- "Training developers" is NOT evidence for "training all employees"
+The policy text must address the EXACT SAME subject/object as the control.
+
+### Step 4 — Respond with JSON ONLY
+Do NOT include any text outside the JSON object.
+
+If there is sufficient evidence, respond with:
+{{"type": "MappingRationale", "is_compliant": true/false, \
+"compliance_level": "fully_compliant" or "partially_compliant" or "non_compliant", \
+"confidence_score": 0.0-1.0, \
+"sub_requirements": [\
+  {{"requirement": "<sub-requirement text>", "covered": true/false, \
+"evidence": "<exact quote from policy text or empty string if not covered>"}}\
+], \
+"explanation": "your explanation grounded in the provided text"}}
+
+IMPORTANT: The "sub_requirements" array MUST contain EVERY sub-requirement \
+from Step 1. For each one, set "covered" to true or false, and provide the \
+EXACT quote from the policy text as "evidence" (use empty string "" if not \
+covered). The compliance_level MUST be consistent with your sub_requirements: \
+if ALL are covered then fully_compliant, if SOME then partially_compliant, if \
+NONE then non_compliant.
+
+Set is_compliant to true for fully_compliant AND partially_compliant. \
+Set is_compliant to false only for non_compliant.
+
+If there is insufficient evidence, respond with:
+{{"type": "InsufficientEvidence", "reason": "why the evidence is insufficient", \
+"required_context": "what additional context would be needed"}}
