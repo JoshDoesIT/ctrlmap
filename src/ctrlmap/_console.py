@@ -8,6 +8,8 @@ suppress output during testing.
 
 from rich.console import Console
 
+__all__ = ["console", "err_console"]
+
 console = Console()
 """Primary console for user-facing output (writes to stdout)."""
 

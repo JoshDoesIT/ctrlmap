@@ -12,6 +12,7 @@ from __future__ import annotations
 import functools
 import json
 from pathlib import Path
+from typing import cast
 
 from ctrlmap.index.embedder import Embedder
 from ctrlmap.index.query import query
@@ -28,7 +29,7 @@ def _load_expansion_map() -> dict[str, str]:
     Returns:
         A dict mapping abstract GRC concepts to domain-specific synonyms.
     """
-    return json.loads(_EXPANSION_MAP_FILE.read_text(encoding="utf-8"))  # type: ignore[no-any-return]
+    return cast(dict[str, str], json.loads(_EXPANSION_MAP_FILE.read_text(encoding="utf-8")))
 
 
 def _expand_query(query_text: str) -> str:

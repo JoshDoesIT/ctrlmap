@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import json
 import uuid
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -81,7 +81,7 @@ def format_oscal(results: list[MappedResult]) -> dict[str, Any]:
             "uuid": str(uuid.uuid4()),
             "metadata": {
                 "title": "ctrlmap Assessment Results",
-                "last-modified": datetime.now(tz=timezone.utc).isoformat(),  # noqa: UP017
+                "last-modified": datetime.now(tz=UTC).isoformat(),
                 "version": "1.0.0",
                 "oscal-version": "1.1.2",
             },

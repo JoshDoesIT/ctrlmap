@@ -155,7 +155,7 @@ class TestMapCommand:
         with (
             patch("ctrlmap.map.map_command.map_controls", return_value=[mock_result]),
             patch("ctrlmap.map.map_command.VectorStore"),
-            patch("ctrlmap.map.map_command.generate_rationale") as mock_gen,
+            patch("ctrlmap.map.enrichment.generate_rationale") as mock_gen,
             patch("ctrlmap.llm.client.OllamaClient") as mock_ollama_cls,
         ):
             from ctrlmap.models.schemas import MappingRationale

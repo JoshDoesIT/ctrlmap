@@ -98,8 +98,14 @@ def cluster_controls(
             unified_desc = cluster_ctrls[0].description
         else:
             theme = cluster_ctrls[0].title
-            descriptions = [c.description for c in cluster_ctrls]
-            unified_desc = " ".join(descriptions)
+            # Use the longest description as the primary, append unique
+            # content from shorter descriptions separated by pipes.
+            descriptions = sorted(
+                {c.description for c in cluster_ctrls},
+                key=len,
+                reverse=True,
+            )
+            unified_desc = " | ".join(descriptions)
 
         result.append(
             CommonControl(

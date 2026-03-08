@@ -1,4 +1,4 @@
-.PHONY: setup test test-unit test-eval test-eval-fast eval-run model-compare test-integration lint format typecheck build clean demo
+.PHONY: setup test test-unit test-eval test-eval-fast eval-run model-compare test-integration lint format typecheck build clean demo docs docs-serve
 
 ## Setup ──────────────────────────────────────────────────────────────
 setup: ## Install all dependencies including Ollama, llama3, and ragas
@@ -46,6 +46,13 @@ build: ## Build wheel and sdist
 
 install: ## Install via uv tool (isolated env)
 	uv tool install --force .
+
+## Docs ───────────────────────────────────────────────────────────────
+docs: ## Build API documentation
+	uv run mkdocs build
+
+docs-serve: ## Serve docs locally with live-reload
+	uv run mkdocs serve
 
 ## Demo ───────────────────────────────────────────────────────────────
 demo: ## Run the end-to-end demo (requires Ollama + llama3)

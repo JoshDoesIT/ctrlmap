@@ -40,7 +40,7 @@ class Strategy(StrEnum):
 
 
 def parse(
-    input_path: Path = typer.Option(  # noqa: B008
+    input_path: Path = typer.Option(
         ...,
         "--input",
         "-i",
@@ -49,14 +49,14 @@ def parse(
         readable=True,
         resolve_path=True,
     ),
-    output_path: Path = typer.Option(  # noqa: B008
+    output_path: Path = typer.Option(
         ...,
         "--output",
         "-o",
         help="Path for the .jsonl output file.",
         resolve_path=True,
     ),
-    strategy: Strategy = typer.Option(  # noqa: B008
+    strategy: Strategy = typer.Option(
         Strategy.SEMANTIC,
         "--strategy",
         "-s",

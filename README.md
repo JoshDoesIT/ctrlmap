@@ -85,6 +85,19 @@ The `map` command supports multiple output formats via `--output-format` (json, 
 
 ## Architecture
 
+```mermaid
+graph LR
+    A[PDF Documents] -->|parse| B[JSONL Chunks]
+    D[OSCAL Framework] -->|index| C
+    B -->|index| C[ChromaDB]
+    C -->|map| E[MappedResults]
+    E -->|LLM enrich| F[Rationales]
+    F -->|harmonize| G[CommonControls]
+    F -->|export| H[CSV / MD / OSCAL / HTML]
+```
+
+> See [ARCHITECTURE.md](ARCHITECTURE.md) for detailed module responsibilities and design principles.
+
 ```
 ctrlmap/
 ├── pyproject.toml

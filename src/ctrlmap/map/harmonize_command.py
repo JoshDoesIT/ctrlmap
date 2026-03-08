@@ -25,7 +25,7 @@ from ctrlmap.models.schemas import SecurityControl
 
 
 def harmonize(
-    inputs: Path = typer.Option(  # noqa: B008
+    inputs: Path = typer.Option(
         ...,
         "--inputs",
         help="Directory containing OSCAL JSON framework files.",

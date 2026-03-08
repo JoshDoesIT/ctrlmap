@@ -27,7 +27,7 @@ from ctrlmap.models.schemas import ParsedChunk
 
 
 def index(
-    chunks_path: Path = typer.Option(  # noqa: B008
+    chunks_path: Path = typer.Option(
         ...,
         "--chunks",
         help="Path to a .jsonl file of parsed chunks.",
@@ -35,7 +35,7 @@ def index(
         readable=True,
         resolve_path=True,
     ),
-    framework_path: Path = typer.Option(  # noqa: B008
+    framework_path: Path = typer.Option(
         ...,
         "--framework",
         help="Path to an OSCAL JSON framework file.",
@@ -43,7 +43,7 @@ def index(
         readable=True,
         resolve_path=True,
     ),
-    db_path: Path = typer.Option(  # noqa: B008
+    db_path: Path = typer.Option(
         Path("./ctrlmap_db"),
         "--db-path",
         help="ChromaDB persistence directory.",

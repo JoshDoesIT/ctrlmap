@@ -9,6 +9,8 @@ Ref: GitHub Issue #11.
 
 from __future__ import annotations
 
+from typing import cast
+
 from sentence_transformers import SentenceTransformer
 
 from ctrlmap._defaults import DEFAULT_EMBEDDING_MODEL
@@ -35,7 +37,7 @@ class Embedder:
             A list of floats representing the embedding vector.
         """
         vector = self._model.encode(text, convert_to_numpy=True)
-        return vector.tolist()  # type: ignore[no-any-return]
+        return cast(list[float], vector.tolist())
 
     def embed_batch(self, texts: list[str]) -> list[list[float]]:
         """Embed multiple texts in a single batch for performance.
