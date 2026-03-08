@@ -15,7 +15,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 import typer
 from rich.table import Table
@@ -27,13 +27,13 @@ from ctrlmap.index.vector_store import VectorStore
 
 
 def eval_cmd(
-    db_path: Path = typer.Option(  # noqa: B008
+    db_path: Path = typer.Option(
         ...,
         "--db-path",
         help="ChromaDB persistence directory.",
         resolve_path=True,
     ),
-    golden_dataset: Path = typer.Option(  # noqa: B008
+    golden_dataset: Path = typer.Option(
         ...,
         "--golden-dataset",
         help="Path to a JSON golden dataset file.",
@@ -127,7 +127,7 @@ def _load_golden_dataset(path: Path) -> list[dict[str, Any]]:
         msg = "Golden dataset must contain a non-empty 'queries' array."
         raise typer.BadParameter(msg)
 
-    return queries  # type: ignore[no-any-return]
+    return cast(list[dict[str, Any]], queries)
 
 
 def _compute_metric(

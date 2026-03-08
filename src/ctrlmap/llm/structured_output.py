@@ -149,15 +149,15 @@ def _parse_response(raw: str) -> MappingRationale | InsufficientEvidence | None:
 
     try:
         if output_type == "MappingRationale":
-            kwargs: dict[str, object] = {
-                "is_compliant": data["is_compliant"],
-                "confidence_score": data["confidence_score"],
-                "explanation": data["explanation"],
-            }
+            is_compliant = data["is_compliant"]
+            confidence_score = data["confidence_score"]
+            explanation = data["explanation"]
+            compliance_level: ComplianceLevel | None = None
+
             # compliance_level is optional for backward compat
             if "compliance_level" in data:
                 with suppress(ValueError):
-                    kwargs["compliance_level"] = ComplianceLevel(data["compliance_level"])
+                    compliance_level = ComplianceLevel(data["compliance_level"])
 
             # Programmatic override: if sub_requirements array is present,
             # verify compliance_level is consistent with the counts.
@@ -171,10 +171,18 @@ def _parse_response(raw: str) -> MappingRationale | InsufficientEvidence | None:
                     computed = ComplianceLevel.PARTIALLY_COMPLIANT
                 else:
                     computed = ComplianceLevel.NON_COMPLIANT
-                kwargs["compliance_level"] = computed
-                kwargs["is_compliant"] = computed != ComplianceLevel.NON_COMPLIANT
+                compliance_level = computed
+                is_compliant = computed != ComplianceLevel.NON_COMPLIANT
 
-            return MappingRationale(**kwargs)  # type: ignore[arg-type]
+            rationale_kwargs: dict[str, object] = {
+                "is_compliant": is_compliant,
+                "confidence_score": confidence_score,
+                "explanation": explanation,
+            }
+            if compliance_level is not None:
+                rationale_kwargs["compliance_level"] = compliance_level
+
+            return MappingRationale.model_validate(rationale_kwargs)
         elif output_type == "InsufficientEvidence":
             return InsufficientEvidence(
                 reason=data["reason"],
