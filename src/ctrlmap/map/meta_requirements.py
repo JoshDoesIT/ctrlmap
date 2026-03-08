@@ -159,9 +159,7 @@ def resolve_meta_requirements(
             if r.compliance_level == ComplianceLevel.NON_COMPLIANT
         ]
 
-        avg_score = sum(r.confidence_score for r in sibling_rationales) / len(
-            sibling_rationales
-        )
+        avg_score = sum(r.confidence_score for r in sibling_rationales) / len(sibling_rationales)
 
         if len(non_compliant) == len(siblings):
             # ALL siblings are non-compliant → meta is non-compliant

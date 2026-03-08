@@ -165,7 +165,6 @@ def classify_blocks(blocks: list[TextBlock]) -> list[ElementRole]:
     # Group blocks by their normalized text + approximate y-position
     # A "signature" that recurs on 2+ pages → header or footer
 
-
     # Map: (norm_text, y_bucket) → set of page numbers
     sig_pages: dict[tuple[str, int], set[int]] = defaultdict(set)
     sig_blocks: dict[tuple[str, int], list[int]] = defaultdict(list)

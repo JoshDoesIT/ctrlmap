@@ -201,6 +201,3 @@ def extract_controls_with_llm(
                 )
 
     return chunks
-
-
-
