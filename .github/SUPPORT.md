@@ -6,7 +6,7 @@ If you need help with ctrlmap, here are the best places to start:
 
 - **README**: The [README](../README.md) covers installation, CLI usage, and architecture
 - **Issues**: Search [existing issues](https://github.com/JoshDoesIT/ctrlmap/issues) for known problems and solutions
-- **Discussions**: For questions and general help, open a [discussion](https://github.com/JoshDoesIT/ctrlmap/discussions)
+- **Discussions**: For questions and general help, open a [discussion](https://github.com/JoshDoesIT/ctrlmap/discussions) (requires [Discussions to be enabled](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/enabling-or-disabling-github-discussions-for-a-repository) in the repo settings)
 
 ## Reporting Bugs
 

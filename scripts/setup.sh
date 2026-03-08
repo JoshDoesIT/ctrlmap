@@ -59,7 +59,7 @@ else
 fi
 
 # ── Pull model ────────────────────────────────────────────────────────
-MODEL="llama3"
+MODEL="qwen2.5:14b"
 info "Pulling $MODEL model (this may take a few minutes on first run)..."
 if ollama list 2>/dev/null | grep -q "$MODEL"; then
     info "$MODEL model is already available."

@@ -32,6 +32,7 @@ ctrlmap runs entirely locally with no network calls to external services. The pr
 - Dependency vulnerabilities in the Python supply chain
 - File handling and path traversal in document parsing
 - Local data integrity and access control
+- LLM prompt injection via adversarial PDF content that could manipulate compliance outputs
 
 ### Out of Scope
 

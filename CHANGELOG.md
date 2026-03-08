@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Dynamic version sourced from installed package metadata instead of hardcoded string.
+- Version read from installed package metadata at runtime (`importlib.metadata`).
 - `LayoutType` and `ElementRole` enums now use `StrEnum` for consistency.
 - Debug output in LLM chunker now uses centralized `err_console` instead of bare `print`.
 - Late imports in `heuristics.py` moved to file-level.
@@ -23,6 +23,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `CHANGELOG.md` following Keep a Changelog format.
 - `ctrlmap.llm._json_utils` module for shared JSON extraction utilities.
+- `enrichment.py` pipeline module extracted from `map_command.py`.
+- `SecurityControl.as_prompt_text()` method for LLM prompt formatting.
+- `_FORMAT_REGISTRY` format dispatch registry replacing hardcoded branching.
+- `_defaults.py` for centralized model name constants.
+- `_console.py` for shared Rich console instances with `__all__` exports.
+- `expansion_map.json` externalized domain synonym data.
 
 ## [0.1.0] - 2026-03-08
 

@@ -25,3 +25,4 @@ graph LR
 - [Map](api/map.md) — Control mapping and LLM enrichment
 - [LLM](api/llm.md) — Ollama client and structured output
 - [Export](api/export.md) — Output formatters
+- [Eval](api/eval.md) — RAG evaluation harness
