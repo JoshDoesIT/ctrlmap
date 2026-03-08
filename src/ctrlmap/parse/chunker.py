@@ -12,11 +12,13 @@ Ref: GitHub Issue #8.
 
 from __future__ import annotations
 
+import functools
 import re
 import uuid
 from dataclasses import dataclass, field
 from typing import Any
 
+from ctrlmap._defaults import DEFAULT_EMBEDDING_MODEL
 from ctrlmap.models.schemas import ParsedChunk
 from ctrlmap.parse.extractor import TextBlock
 
@@ -279,6 +281,7 @@ def structural_chunk(blocks: list[TextBlock]) -> list[StructuralSection]:
 # --- Phase 2: Semantic Chunking ---
 
 
+@functools.lru_cache(maxsize=1)
 def _get_embedder() -> Any:
     """Lazily load the sentence-transformers model.
 
@@ -286,11 +289,7 @@ def _get_embedder() -> Any:
     """
     from sentence_transformers import SentenceTransformer
 
-    if not hasattr(_get_embedder, "_model"):
-        _get_embedder._model = SentenceTransformer(  # type: ignore[attr-defined]
-            "all-MiniLM-L6-v2"
-        )
-    return _get_embedder._model  # type: ignore[attr-defined]
+    return SentenceTransformer(DEFAULT_EMBEDDING_MODEL)
 
 
 def _cosine_similarity(a: list[float], b: list[float]) -> float:

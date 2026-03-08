@@ -114,6 +114,32 @@ class TestSecurityControl:
                 # missing framework, title, description
             )  # type: ignore[call-arg]
 
+    def test_as_prompt_text_format(self) -> None:
+        """as_prompt_text returns 'id: title. description' string."""
+        from ctrlmap.models.schemas import SecurityControl
+
+        control = SecurityControl(
+            control_id="AC-2",
+            framework="NIST-800-53-r5",
+            title="Account Management",
+            description="Manage system accounts.",
+        )
+        assert control.as_prompt_text() == "AC-2: Account Management. Manage system accounts."
+
+    def test_as_prompt_text_with_requirement_family(self) -> None:
+        """as_prompt_text ignores requirement_family (only id, title, description)."""
+        from ctrlmap.models.schemas import SecurityControl
+
+        control = SecurityControl(
+            control_id="8.2.2",
+            framework="PCI DSS v4.0",
+            title="Unique User Identification",
+            description="Assign unique IDs.",
+            requirement_family="Identify Users",
+        )
+        expected = "8.2.2: Unique User Identification. Assign unique IDs."
+        assert control.as_prompt_text() == expected
+
 
 class TestCommonControl:
     """Tests for the CommonControl model."""

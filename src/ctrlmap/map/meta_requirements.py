@@ -31,8 +31,7 @@ def classify_meta_requirement(
     Returns:
         ``True`` if the control is a meta-requirement, ``False`` otherwise.
     """
-    control_text = f"{control.control_id}: {control.title}. {control.description}"
-    return client.classify_control_type(control_text=control_text)
+    return client.classify_control_type(control_text=control.as_prompt_text())
 
 
 def classify_meta_controls(

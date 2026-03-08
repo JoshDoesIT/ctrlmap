@@ -487,11 +487,3 @@ def _get_rationale_text(
     if isinstance(rationale, MappingRationale):
         return rationale.explanation
     return rationale.reason
-
-
-def _truncate(text: str, max_len: int = 150) -> str:
-    """Truncate text to max_len characters, adding ellipsis if needed."""
-    text = text.replace("\n", " ").strip()
-    if len(text) <= max_len:
-        return text
-    return text[: max_len - 3] + "..."
