@@ -1,0 +1,226 @@
+[
+    {
+        "id": "comp-fc-01",
+        "control_text": "AC-07: Unsuccessful Logon Attempts. Enforce a limit of consecutive invalid logon attempts by a user and automatically lock the account when the maximum number is exceeded.",
+        "chunk_text": "After five consecutive failed login attempts, the user account is automatically locked for 30 minutes. The security team is notified of repeated lockouts, and persistent failed attempts trigger an investigation by the incident response team.",
+        "expected_compliance_level": "fully_compliant",
+        "expected_is_compliant": true,
+        "rationale": "Chunk covers both requirements: attempt limit (5) and automatic lockout (30 min)."
+    },
+    {
+        "id": "comp-fc-02",
+        "control_text": "SC-28: Protection of Information at Rest. Protect the confidentiality of information at rest.",
+        "chunk_text": "All sensitive data stored on servers, databases, and endpoint devices is encrypted at rest using AES-256 encryption. Full disk encryption is enabled on all laptops and mobile devices. Encryption keys are managed centrally through the key management system.",
+        "expected_compliance_level": "fully_compliant",
+        "expected_is_compliant": true,
+        "rationale": "Comprehensive data-at-rest encryption across all device types with key management."
+    },
+    {
+        "id": "comp-fc-03",
+        "control_text": "MP-06: Media Sanitization. Sanitize system media prior to disposal, release, or reuse using approved methods.",
+        "chunk_text": "All storage media is sanitized using NIST SP 800-88 approved methods before disposal or reuse. Hard drives are degaussed and physically destroyed. Sanitization activities are documented and certificates of destruction are retained.",
+        "expected_compliance_level": "fully_compliant",
+        "expected_is_compliant": true,
+        "rationale": "Covers approved methods (NIST 800-88), destruction, and documentation."
+    },
+    {
+        "id": "comp-fc-04",
+        "control_text": "AC-03: Access Enforcement. Enforce approved authorizations for logical access to information and system resources.",
+        "chunk_text": "The system enforces role-based access control (RBAC) for all logical access to information resources. Users are granted access based on their assigned roles, and access permissions are validated at each point of entry using centralized authentication services.",
+        "expected_compliance_level": "fully_compliant",
+        "expected_is_compliant": true,
+        "rationale": "RBAC enforcement at all entry points with centralized validation."
+    },
+    {
+        "id": "comp-fc-05",
+        "control_text": "PE-03: Physical Access Control. Enforce physical access authorizations at entry/exit points. Escort visitors and control visitor activity.",
+        "chunk_text": "Building entry points are controlled by badge readers and monitored by security cameras. Visitors must sign in at reception and be escorted at all times. Server rooms require two-factor authentication (badge plus biometric) for entry.",
+        "expected_compliance_level": "fully_compliant",
+        "expected_is_compliant": true,
+        "rationale": "Badge access, camera monitoring, visitor escort, and MFA for sensitive areas."
+    },
+    {
+        "id": "comp-fc-06",
+        "control_text": "IR-06: Incident Reporting. Require personnel to report suspected incidents to the organizational incident response capability within a defined time period.",
+        "chunk_text": "All employees are required to report suspected security incidents to the helpdesk or security team within one hour of discovery. The incident response team reports confirmed incidents to management and external authorities as required by regulation.",
+        "expected_compliance_level": "fully_compliant",
+        "expected_is_compliant": true,
+        "rationale": "Specifies reporting requirement (1 hour), channels (helpdesk/security team), and escalation."
+    },
+    {
+        "id": "comp-fc-07",
+        "control_text": "RA-05: Vulnerability Monitoring and Scanning. Monitor and scan for vulnerabilities in the system. Remediate legitimate vulnerabilities in accordance with risk assessment.",
+        "chunk_text": "Vulnerability scans are conducted weekly on all networked systems using an approved scanning tool. Critical vulnerabilities must be remediated within 15 days, high within 30 days, and medium within 90 days. Scan results are reported to system owners.",
+        "expected_compliance_level": "fully_compliant",
+        "expected_is_compliant": true,
+        "rationale": "Regular scanning, risk-based remediation timelines, and reporting to owners."
+    },
+    {
+        "id": "comp-fc-08",
+        "control_text": "CA-07: Continuous Monitoring. Develop a system-level continuous monitoring strategy that includes establishing system-level metrics and ongoing control assessments.",
+        "chunk_text": "The organization employs a continuous monitoring strategy that includes automated vulnerability scanning on a weekly basis, configuration compliance checks daily, and real-time monitoring of security-relevant events through the SIEM platform.",
+        "expected_compliance_level": "partially_compliant",
+        "expected_is_compliant": true,
+        "rationale": "Ongoing control assessments covered (weekly vulnerability scanning, daily config checks, real-time SIEM monitoring), but no explicit mention of establishing system-level metrics."
+    },
+    {
+        "id": "comp-fc-09",
+        "control_text": "AU-03: Content of Audit Records. Ensure audit records contain: event type, when, where, source, outcome, and identity of associated individuals.",
+        "chunk_text": "Each audit record includes the timestamp, source IP address, user identity, event type, event outcome (success or failure), and the affected resource. Records are stored in a standardized format compatible with the SIEM platform.",
+        "expected_compliance_level": "fully_compliant",
+        "expected_is_compliant": true,
+        "rationale": "All required audit record fields are present: timestamp, source, identity, type, outcome."
+    },
+    {
+        "id": "comp-fc-10",
+        "control_text": "AC-17: Remote Access. Establish and document usage restrictions, configuration requirements, and implementation guidance for remote access.",
+        "chunk_text": "Remote access to organizational systems is permitted only through the approved VPN solution using multi-factor authentication. Split tunneling is disabled, and all remote sessions are logged. Remote access agreements must be signed by all telecommuting personnel.",
+        "expected_compliance_level": "fully_compliant",
+        "expected_is_compliant": true,
+        "rationale": "Covers approved method (VPN+MFA), restrictions (no split tunnel), logging, and agreements."
+    },
+    {
+        "id": "comp-pc-01",
+        "control_text": "IA-05: Authenticator Management. Manage system authenticators by ensuring sufficient strength, changing defaults before first use, refreshing authenticators periodically, and changing group authenticators when membership changes.",
+        "chunk_text": "Authenticator management procedures require passwords to be at least 14 characters with complexity requirements. Passwords expire every 90 days and the last 24 passwords are remembered.",
+        "expected_compliance_level": "partially_compliant",
+        "expected_is_compliant": true,
+        "rationale": "Password strength and rotation are covered, but no mention of default password changes, hardware token management, or group authenticator changes."
+    },
+    {
+        "id": "comp-pc-02",
+        "control_text": "AC-02: Account Management. Define allowed account types, assign account managers, require approvals for account creation, monitor usage, and align with personnel termination processes.",
+        "chunk_text": "The IT department maintains a comprehensive account management process that defines allowed account types including individual, shared, group, and service accounts. Emergency and temporary accounts must be approved by the CISO and expire automatically after 72 hours.",
+        "expected_compliance_level": "partially_compliant",
+        "expected_is_compliant": true,
+        "rationale": "Account types and approval process covered, but no mention of account managers, usage monitoring, or termination alignment."
+    },
+    {
+        "id": "comp-pc-03",
+        "control_text": "CP-02: Contingency Plan. Develop a contingency plan that identifies essential missions, recovery objectives, restoration priorities. Distribute copies, coordinate with incident handling, and protect from unauthorized disclosure.",
+        "chunk_text": "A comprehensive contingency plan identifies essential missions and business functions, recovery objectives, and restoration priorities. The plan includes procedures for activating recovery operations and returning to normal operations.",
+        "expected_compliance_level": "partially_compliant",
+        "expected_is_compliant": true,
+        "rationale": "Core planning elements covered, but no mention of distribution, incident handling coordination, or protection from disclosure."
+    },
+    {
+        "id": "comp-pc-04",
+        "control_text": "CM-08: System Component Inventory. Develop and document an inventory of system components that accurately reflects the system, is consistent with authorization boundary, includes all components, and is reviewed/updated periodically.",
+        "chunk_text": "The organization maintains a comprehensive inventory of all system components including hardware, software, firmware, and network devices. The inventory is updated automatically using discovery tools.",
+        "expected_compliance_level": "partially_compliant",
+        "expected_is_compliant": true,
+        "rationale": "Inventory exists with auto-discovery, but no mention of authorization boundary consistency or periodic review schedule."
+    },
+    {
+        "id": "comp-pc-05",
+        "control_text": "IR-04: Incident Handling. Implement incident handling including preparation, detection and analysis, containment, eradication, and recovery. Coordinate with contingency planning. Incorporate lessons learned. Ensure rigor is comparable across organization.",
+        "chunk_text": "The incident response team implements a structured incident handling process that includes preparation, detection and analysis, containment, eradication, recovery, and post-incident activity phases. All incidents are tracked through the ticketing system.",
+        "expected_compliance_level": "partially_compliant",
+        "expected_is_compliant": true,
+        "rationale": "Core phases covered, but no mention of contingency planning coordination, lessons learned incorporation, or cross-org consistency."
+    },
+    {
+        "id": "comp-pc-06",
+        "control_text": "AU-02: Event Logging. Identify the types of events that the system is capable of logging. Coordinate with other entities requiring audit information. Specify event types for logging. Provide rationale for event type selection. Review and update event types periodically.",
+        "chunk_text": "The system is configured to log successful and failed authentication attempts, privilege escalation events, file access to sensitive data, configuration changes, and administrative actions. The list of auditable events is reviewed annually.",
+        "expected_compliance_level": "partially_compliant",
+        "expected_is_compliant": true,
+        "rationale": "Event types and annual review covered, but no mention of coordination with other entities or rationale documentation for event selection."
+    },
+    {
+        "id": "comp-pc-07",
+        "control_text": "PE-02: Physical Access Authorizations. Develop, approve, and maintain a list of authorized individuals. Issue authorization credentials. Review the access list detailing authorized facility access. Remove individuals when access is no longer required.",
+        "chunk_text": "Physical access authorization lists are maintained by the facilities security team. Authorized personnel are issued badge credentials. The authorization list is reviewed quarterly.",
+        "expected_compliance_level": "partially_compliant",
+        "expected_is_compliant": true,
+        "rationale": "List maintenance, credential issuance, and quarterly reviews covered, but no explicit mention of removing individuals upon termination."
+    },
+    {
+        "id": "comp-pc-08",
+        "control_text": "CA-02: Control Assessments. Select assessors, develop assessment plan with scope, ensure plan approval, assess controls to determine correctness and effectiveness, produce assessment report, and provide results to designated officials.",
+        "chunk_text": "Security controls are assessed annually using a combination of automated scanning tools, manual testing, and interviews with system operators. Assessment results are documented in a formal report with findings, risk ratings, and remediation timelines.",
+        "expected_compliance_level": "partially_compliant",
+        "expected_is_compliant": true,
+        "rationale": "Assessment methods and reporting covered, but no mention of assessor selection, plan development/approval, or results distribution to officials."
+    },
+    {
+        "id": "comp-nc-01",
+        "control_text": "AC-11: Device Lock. Prevent further access to the system by initiating a device lock after a period of inactivity. Retain the device lock until the user reestablishes access using identification and authentication procedures.",
+        "chunk_text": "The organization has documented an audit and accountability policy that defines the scope of audit logging, roles responsible for audit management, and requirements for audit log retention and protection.",
+        "expected_compliance_level": "non_compliant",
+        "expected_is_compliant": false,
+        "rationale": "Chunk is about audit logging policy, not device lock. No evidence for the control."
+    },
+    {
+        "id": "comp-nc-02",
+        "control_text": "SC-13: Cryptographic Protection. Determine the cryptographic uses and implement the required types of cryptography for each specified use.",
+        "chunk_text": "Security and privacy planning policies establish the requirements for developing, maintaining, and updating system security plans and privacy impact assessments.",
+        "expected_compliance_level": "non_compliant",
+        "expected_is_compliant": false,
+        "rationale": "Chunk is about security planning, not cryptographic protection. No crypto evidence."
+    },
+    {
+        "id": "comp-nc-03",
+        "control_text": "CP-09: System Backup. Conduct backups of user-level and system-level information. Protect the confidentiality, integrity, and availability of backup information.",
+        "chunk_text": "Risk assessment policies define the methodology, scope, and frequency of organizational risk assessments. Risk assessments are conducted annually or upon significant system changes.",
+        "expected_compliance_level": "non_compliant",
+        "expected_is_compliant": false,
+        "rationale": "Chunk is about risk assessment, not system backup. No backup evidence."
+    },
+    {
+        "id": "comp-nc-04",
+        "control_text": "AC-08: System Use Notification. Display a system use notification to users before granting access that provides privacy and security notices.",
+        "chunk_text": "The organization deploys firewalls, intrusion detection systems, and web application firewalls at managed network boundaries. All inbound and outbound traffic is filtered against security policies.",
+        "expected_compliance_level": "non_compliant",
+        "expected_is_compliant": false,
+        "rationale": "Chunk is about boundary protection, not system use notification banners."
+    },
+    {
+        "id": "comp-nc-05",
+        "control_text": "AC-05: Separation of Duties. Identify and document duties that require separation. Define system access authorizations to support separation of duties.",
+        "chunk_text": "The organization monitors information systems using intrusion detection systems, security information and event management (SIEM) tools, and endpoint detection and response (EDR) agents. Alerts are triaged by the SOC within 15 minutes.",
+        "expected_compliance_level": "non_compliant",
+        "expected_is_compliant": false,
+        "rationale": "Chunk is about system monitoring, not separation of duties."
+    },
+    {
+        "id": "comp-nc-06",
+        "control_text": "IA-02: Identification and Authentication. Uniquely identify and authenticate organizational users and associate that unique identification with processes.",
+        "chunk_text": "Contingency planning policies define the scope, roles, and responsibilities for business continuity and disaster recovery planning. The policy requires that contingency plans be tested annually.",
+        "expected_compliance_level": "non_compliant",
+        "expected_is_compliant": false,
+        "rationale": "Chunk is about contingency planning, not identification and authentication."
+    },
+    {
+        "id": "comp-nc-07",
+        "control_text": "AU-12: Audit Record Generation. Provide audit record generation capability for defined event types on system components.",
+        "chunk_text": "Media protection policies define handling requirements for digital and non-digital media containing sensitive information. Media is classified according to the data it contains and protected with appropriate safeguards.",
+        "expected_compliance_level": "non_compliant",
+        "expected_is_compliant": false,
+        "rationale": "Chunk is about media protection, not audit record generation."
+    },
+    {
+        "id": "comp-nc-08",
+        "control_text": "SC-07: Boundary Protection. Monitor and control communications at external managed interfaces. Implement subnetworks for publicly accessible components.",
+        "chunk_text": "The organization maintains a security awareness and training policy that requires all employees to complete initial security training within 30 days of hire and annual refresher training thereafter.",
+        "expected_compliance_level": "non_compliant",
+        "expected_is_compliant": false,
+        "rationale": "Chunk is about security awareness training, not boundary protection."
+    },
+    {
+        "id": "comp-nc-09",
+        "control_text": "CM-02: Baseline Configuration. Develop, document, and maintain under configuration control a current baseline configuration of the system.",
+        "chunk_text": "System and services acquisition policies require security requirements to be included in acquisition contracts. Vendors must demonstrate compliance with organizational security standards.",
+        "expected_compliance_level": "non_compliant",
+        "expected_is_compliant": false,
+        "rationale": "Chunk is about acquisition policy, not baseline configuration."
+    },
+    {
+        "id": "comp-nc-10",
+        "control_text": "SC-12: Cryptographic Key Establishment and Management. Establish and manage cryptographic keys in accordance with key management requirements.",
+        "chunk_text": "All organizational information systems display an approved banner before granting access. The notification warns that the system is for authorized use only, that activity may be monitored and recorded.",
+        "expected_compliance_level": "non_compliant",
+        "expected_is_compliant": false,
+        "rationale": "Chunk is about system use notification banners, not key management."
+    }
+]

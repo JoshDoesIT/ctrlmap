@@ -17,7 +17,11 @@ from ctrlmap.models.schemas import MappedResult, ParsedChunk, SecurityControl
 # Static keyword map for query expansion.
 # Maps abstract GRC concepts to domain-specific terms that improve retrieval.
 _EXPANSION_MAP: dict[str, str] = {
-    "information at rest": "encryption, AES, TDE, full-disk encryption, data-at-rest",
+    "information at rest": (
+        "encryption, AES, TDE, full-disk encryption, data-at-rest, "
+        "disk encryption, database encryption, storage encryption, "
+        "encrypted at rest, data protection"
+    ),
     "information in transit": "TLS, SSL, HTTPS, transport encryption, VPN, IPsec",
     "cryptographic protection": "encryption, key management, PKI, certificate, AES",
     "audit events": "logging, SIEM, log retention, audit trail, event monitoring",
@@ -27,6 +31,41 @@ _EXPANSION_MAP: dict[str, str] = {
     "risk assessment": "risk analysis, threat modeling, vulnerability assessment",
     "system monitoring": "IDS, IPS, intrusion detection, network monitoring, SIEM",
     "boundary protection": "firewall, DMZ, network segmentation, NSC, perimeter",
+    "information flow": (
+        "data flow, network flow, ACL, firewall rules, flow control, "
+        "flow enforcement, data transfer, cross-domain"
+    ),
+    "physical access": (
+        "badge, biometric, door lock, visitor escort, card reader, "
+        "facility access, building entry, physical security"
+    ),
+    "physical access control": (
+        "badge reader, security camera, visitor sign-in, escort, "
+        "two-factor entry, biometric scanner, server room access, "
+        "entry point, building access"
+    ),
+    "policy and procedures": (
+        "policy document, security procedures, disseminate, document, "
+        "develop policy, maintain policy, policy review"
+    ),
+    "maintenance": (
+        "maintenance activities, scheduled maintenance, authorized personnel, "
+        "maintenance tools, maintenance records, preventive maintenance, "
+        "system maintenance, hardware maintenance"
+    ),
+    "system and services acquisition": (
+        "acquisition contracts, vendor compliance, security requirements, "
+        "procurement, supply chain, third-party assessment"
+    ),
+    "system and communications protection": (
+        "network security architecture, secure communication, boundary protection, "
+        "TLS, communication protocols, network security, data in transit"
+    ),
+    "flow enforcement": (
+        "network segmentation, firewall rules, information flow, "
+        "data flow control, transfer gateway, traffic inspection, "
+        "cross-domain, security domain"
+    ),
 }
 
 
@@ -59,7 +98,7 @@ def map_controls(
     controls: list[SecurityControl],
     store: VectorStore,
     collection_name: str,
-    top_k: int = 5,
+    top_k: int = 10,
     min_score: float = 0.35,
     embedder: Embedder | None = None,
 ) -> list[MappedResult]:
@@ -73,7 +112,7 @@ def map_controls(
         controls: List of SecurityControl objects to map.
         store: The VectorStore instance containing indexed policy chunks.
         collection_name: Name of the ChromaDB collection to search.
-        top_k: Maximum number of supporting chunks per control (default: 5).
+        top_k: Maximum number of supporting chunks per control (default: 10).
         min_score: Minimum similarity score to include a chunk (default: 0.35).
             Chunks below this threshold are dropped to avoid false matches.
         embedder: Optional Embedder instance. Creates a default one if None.

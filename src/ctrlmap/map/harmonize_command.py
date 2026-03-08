@@ -41,7 +41,7 @@ def harmonize(
         help="Cosine similarity threshold for clustering (0.0-1.0).",
     ),
     llm_model: str = typer.Option(
-        "llama3",
+        "qwen2.5:14b",
         "--llm-model",
         help="Ollama model name (reserved for future use).",
     ),

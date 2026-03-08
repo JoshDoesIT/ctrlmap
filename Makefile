@@ -1,4 +1,4 @@
-.PHONY: setup test test-unit test-eval test-integration lint format build clean demo
+.PHONY: setup test test-unit test-eval test-eval-fast eval-run model-compare test-integration lint format build clean demo
 
 ## Setup ──────────────────────────────────────────────────────────────
 setup: ## Install all dependencies including Ollama, llama3, and ragas
@@ -15,6 +15,15 @@ test-integration: ## Run integration tests
 
 test-eval: ## Run evaluation tests (requires Ollama)
 	uv run pytest tests/evaluation/ -m eval -v -s
+
+test-eval-fast: ## Quick eval: run E2E scenario only (fast iteration)
+	uv run pytest tests/evaluation/test_end_to_end_scenario.py -m eval -v -s
+
+eval-run: ## Run all eval suites via the prompt regression harness
+	uv run python tests/evaluation/eval_runner.py
+
+model-compare: ## Compare models on eval suites (MODELS="llama3 qwen2.5:14b")
+	uv run python tests/evaluation/model_compare.py $(MODELS)
 
 test-all: test test-eval ## Run everything including eval tests
 

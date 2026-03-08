@@ -22,7 +22,7 @@ from rich.console import Console
 
 from ctrlmap.models.schemas import ParsedChunk
 
-_DEFAULT_MODEL = "llama3"
+_DEFAULT_MODEL = "qwen2.5:14b"
 _MAX_RETRIES = 2
 
 _console = Console(stderr=True)

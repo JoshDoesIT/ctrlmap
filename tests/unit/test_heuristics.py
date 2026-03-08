@@ -116,3 +116,100 @@ class TestColumnOrdering:
         ordered = order_blocks_by_columns(blocks)
         texts = [b.text for b in ordered]
         assert texts == ["L1", "L2", "R1", "R2"]
+
+
+class TestDynamicHeaderFooterDetection:
+    """Dynamic detection of headers/footers without hardcoded margins.
+
+    Headers/footers are identified by repeating text patterns across
+    pages and by vertical gap isolation from the body text cluster.
+    """
+
+    def test_repeating_footer_text_across_pages_detected(self) -> None:
+        """Text that appears on multiple pages at similar y-positions → footer."""
+        from ctrlmap.parse.heuristics import ElementRole, classify_blocks
+
+        blocks = [
+            # Page 1 — body + footer
+            _make_block(72, 100, 540, 118, "Body text page one.", page=1),
+            _make_block(72, 750, 540, 765, "Page 1 of 3 - Confidential", page=1),
+            # Page 2 — body + footer (same text pattern)
+            _make_block(72, 100, 540, 118, "Body text page two.", page=2),
+            _make_block(72, 750, 540, 765, "Page 2 of 3 - Confidential", page=2),
+        ]
+
+        roles = classify_blocks(blocks)
+
+        assert roles[0] == ElementRole.BODY
+        assert roles[1] == ElementRole.FOOTER
+        assert roles[2] == ElementRole.BODY
+        assert roles[3] == ElementRole.FOOTER
+
+    def test_body_near_bottom_not_misclassified_as_footer(self) -> None:
+        """Body text at y0=730 must NOT be classified as footer.
+
+        Reproduces the network_security_policy.pdf bug: the block at
+        y0=730 contains 'installation. A wireless intrusion...' which
+        is body text, but gets misclassified as footer when using a
+        hardcoded 70pt margin (792 - 70 = 722 threshold).
+        """
+        from ctrlmap.parse.heuristics import ElementRole, classify_blocks
+
+        blocks = [
+            # Page 2 body blocks with regular ~15pt spacing
+            _make_block(72, 637, 540, 652, "4  Wireless Network Security", page=2),
+            _make_block(72, 668, 540, 683, "NSCs must be installed.", page=2),
+            _make_block(72, 714, 540, 729, "strings must be changed", page=2),
+            _make_block(72, 730, 540, 745, "A wireless IDS must be deployed.", page=2),
+            _make_block(72, 746, 540, 761, "access points on a quarterly basis.", page=2),
+            # Actual footer — isolated at y0=807 (gap of ~46pt from last body block)
+            _make_block(72, 807, 540, 820, "Page 2/3", page=2),
+            # Same footer on page 3 to enable repeating-text detection
+            _make_block(72, 807, 540, 820, "Page 3/3", page=3),
+            _make_block(72, 100, 540, 118, "Body text page three.", page=3),
+        ]
+
+        roles = classify_blocks(blocks)
+
+        # The block at y0=730 must be BODY, not FOOTER
+        assert roles[3] == ElementRole.BODY, f"Block at y0=730 misclassified as {roles[3]}"
+        assert roles[4] == ElementRole.BODY, f"Block at y0=746 misclassified as {roles[4]}"
+        # The actual footer at y0=807 should be FOOTER
+        assert roles[5] == ElementRole.FOOTER
+
+    def test_repeating_header_detected(self) -> None:
+        """Text repeated at page tops → header."""
+        from ctrlmap.parse.heuristics import ElementRole, classify_blocks
+
+        blocks = [
+            _make_block(72, 30, 540, 48, "Acme Corp - CONFIDENTIAL", page=1),
+            _make_block(72, 100, 540, 118, "Body text.", page=1),
+            _make_block(72, 30, 540, 48, "Acme Corp - CONFIDENTIAL", page=2),
+            _make_block(72, 100, 540, 118, "More body text.", page=2),
+        ]
+
+        roles = classify_blocks(blocks)
+
+        assert roles[0] == ElementRole.HEADER
+        assert roles[1] == ElementRole.BODY
+        assert roles[2] == ElementRole.HEADER
+        assert roles[3] == ElementRole.BODY
+
+    def test_single_page_gap_detection(self) -> None:
+        """On a single-page doc, footers are detected via gap isolation."""
+        from ctrlmap.parse.heuristics import ElementRole, classify_blocks
+
+        blocks = [
+            _make_block(72, 100, 540, 118, "Body line 1.", page=1),
+            _make_block(72, 130, 540, 148, "Body line 2.", page=1),
+            _make_block(72, 160, 540, 178, "Body line 3.", page=1),
+            # Large gap then footer
+            _make_block(72, 750, 540, 765, "Page 1/1", page=1),
+        ]
+
+        roles = classify_blocks(blocks)
+
+        assert roles[0] == ElementRole.BODY
+        assert roles[1] == ElementRole.BODY
+        assert roles[2] == ElementRole.BODY
+        assert roles[3] == ElementRole.FOOTER

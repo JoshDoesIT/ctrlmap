@@ -26,7 +26,7 @@ from rich.console import Console
 from ctrlmap.models.schemas import ParsedChunk
 from ctrlmap.parse.chunker import chunk_document
 from ctrlmap.parse.extractor import TextBlock, extract_page_texts, extract_text_blocks
-from ctrlmap.parse.heuristics import ElementRole, classify_block, order_blocks_by_columns
+from ctrlmap.parse.heuristics import ElementRole, classify_blocks, order_blocks_by_columns
 
 console = Console()
 
@@ -70,7 +70,7 @@ def parse(
         min=50,
     ),
     model: str = typer.Option(
-        "llama3",
+        "qwen2.5:14b",
         "--model",
         "-m",
         help="Ollama model name (only used with 'llm' strategy).",
@@ -89,8 +89,9 @@ def parse(
             console.print("[yellow]No text blocks found in the PDF.[/]")
             raise typer.Exit(code=0)
 
-        # Filter out headers/footers from the primary text
-        body_blocks = [b for b in blocks if classify_block(b) == ElementRole.BODY]
+        # Classify headers/footers dynamically (no hardcoded margins)
+        roles = classify_blocks(blocks)
+        body_blocks = [b for b, role in zip(blocks, roles, strict=True) if role == ElementRole.BODY]
 
         # Reorder for column-aware reading
         ordered_blocks = order_blocks_by_columns(body_blocks)

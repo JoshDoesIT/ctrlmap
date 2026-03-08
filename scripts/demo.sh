@@ -108,48 +108,23 @@ info "PCI DSS v4.0.1 indexed ($(elapsed $T))"
 step "Step 4/5: Mapping Controls (with LLM Rationale)"
 
 T=$(date +%s)
-info "Mapping against NIST 800-53..."
+info "Mapping against NIST 800-53 (markdown + html in one pass)..."
 uv run ctrlmap map \
     --framework "$FRAMEWORKS_DIR/nist_800_53_subset.json" \
     --db-path "$OUTPUT_DIR/demo_db" \
     --rationale \
-    --output-format markdown \
-    --output "$OUTPUT_DIR/nist_mapping.md"
+    --output-format "markdown,html" \
+    --output "$OUTPUT_DIR/nist_mapping.md,$OUTPUT_DIR/nist_report.html"
 info "NIST mapping complete"
 
-info "Mapping against PCI DSS v4.0.1..."
+info "Mapping against PCI DSS v4.0.1 (markdown + json + html in one pass)..."
 uv run ctrlmap map \
     --framework "$FRAMEWORKS_DIR/pci_dss_v4_oscal.json" \
     --db-path "$OUTPUT_DIR/demo_db" \
     --rationale \
-    --output-format markdown \
-    --output "$OUTPUT_DIR/pci_mapping.md"
+    --output-format "markdown,json,html" \
+    --output "$OUTPUT_DIR/pci_mapping.md,$OUTPUT_DIR/pci_mapping.json,$OUTPUT_DIR/pci_report.html"
 info "PCI DSS mapping complete ($(elapsed $T))"
-
-# Also export as JSON for programmatic consumption
-uv run ctrlmap map \
-    --framework "$FRAMEWORKS_DIR/pci_dss_v4_oscal.json" \
-    --db-path "$OUTPUT_DIR/demo_db" \
-    --output-format json \
-    --output "$OUTPUT_DIR/pci_mapping.json"
-
-# Generate interactive HTML reports
-info "Generating interactive HTML reports..."
-uv run ctrlmap map \
-    --framework "$FRAMEWORKS_DIR/nist_800_53_subset.json" \
-    --db-path "$OUTPUT_DIR/demo_db" \
-    --rationale \
-    --output-format html \
-    --output "$OUTPUT_DIR/nist_report.html"
-
-uv run ctrlmap map \
-    --framework "$FRAMEWORKS_DIR/pci_dss_v4_oscal.json" \
-    --db-path "$OUTPUT_DIR/demo_db" \
-    --rationale \
-    --output-format html \
-    --output "$OUTPUT_DIR/pci_report.html"
-
-info "HTML reports generated"
 
 # ── Step 5: Harmonize ───────────────────────────────────────────────
 step "Step 5/5: Harmonizing Controls Across Frameworks"

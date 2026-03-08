@@ -27,6 +27,7 @@ import pytest
 from ctrlmap.index.embedder import Embedder
 from ctrlmap.index.query import query
 from ctrlmap.index.vector_store import VectorStore
+from ctrlmap.map.mapper import _expand_query
 from ctrlmap.models.schemas import ParsedChunk
 
 GOLDEN_DATASET_PATH = Path(__file__).parent.parent / "fixtures" / "golden_dataset.json"
@@ -67,6 +68,9 @@ class TestRetrievalPrecision:
         For each control query in the golden dataset, we check whether the
         expected chunk IDs appear in the top-5 retrieved results. A query
         is counted as a hit if at least one expected chunk is in the top-5.
+
+        To match the real pipeline, queries are passed through
+        ``_expand_query()`` before embedding, which appends domain synonyms.
         """
         dataset = _load_golden_dataset()
         embedder = Embedder()
@@ -82,7 +86,8 @@ class TestRetrievalPrecision:
         per_query_results: list[dict] = []
 
         for entry in dataset["queries"]:
-            query_text = entry["query"]
+            # Apply expansion to match the real pipeline (mapper.py)
+            query_text = _expand_query(entry["query"])
             expected_ids = set(entry["expected_chunk_ids"])
 
             results = query(

@@ -58,10 +58,20 @@ def eval_cmd(
         "--top-k",
         help="Number of top results to consider for evaluation.",
     ),
+    limit: int = typer.Option(
+        0,
+        "--limit",
+        help="Limit evaluation to the first N queries (0 = all). "
+        "Useful for fast iteration on prompt changes.",
+    ),
 ) -> None:
     """Evaluate RAG pipeline retrieval quality against a golden dataset."""
     console.print("[bold blue]Eval:[/] Loading golden dataset...")
     dataset = _load_golden_dataset(golden_dataset)
+
+    if limit > 0:
+        dataset = dataset[:limit]
+        console.print(f"[yellow]Limited to first {limit} queries.[/]")
 
     console.print(f"[dim]Evaluating {len(dataset)} queries (metric={metric}, top-k={top_k})...[/]")
     store = VectorStore(db_path=db_path)
