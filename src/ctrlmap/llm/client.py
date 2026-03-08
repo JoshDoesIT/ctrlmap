@@ -11,12 +11,12 @@ from __future__ import annotations
 
 import json
 import logging
-import re
 import time
 
 import ollama
 
 from ctrlmap._defaults import DEFAULT_LLM_MODEL
+from ctrlmap.llm._json_utils import extract_json_object
 from ctrlmap.llm.prompts import load_prompt
 
 _log = logging.getLogger("ctrlmap.llm")
@@ -65,6 +65,47 @@ class OllamaClient:
             )
             raise OllamaConnectionError(msg) from exc
 
+    # ------------------------------------------------------------------
+    # Internal helper
+    # ------------------------------------------------------------------
+
+    def _call_llm(self, prompt: str, method_name: str) -> str:
+        """Send a prompt to Ollama, log timing, and return raw response.
+
+        Centralizes the call → log → return pattern so that every public
+        method only needs to build its prompt and interpret the result.
+
+        Args:
+            prompt: The fully-formatted LLM prompt string.
+            method_name: Identifier for structured log entries
+                (e.g. ``"generate"``, ``"classify_control_type"``).
+
+        Returns:
+            The raw LLM response content as a string.
+        """
+        t0 = time.monotonic()
+        response = ollama.chat(
+            model=self._model,
+            messages=[{"role": "user", "content": prompt}],
+            options={"temperature": 0},
+        )
+        raw = str(response.message.content)
+        _log.debug(
+            json.dumps(
+                {
+                    "method": method_name,
+                    "model": self._model,
+                    "latency_ms": round((time.monotonic() - t0) * 1000),
+                    "output_len": len(raw),
+                }
+            )
+        )
+        return raw
+
+    # ------------------------------------------------------------------
+    # Public API
+    # ------------------------------------------------------------------
+
     def generate(self, *, control_text: str, chunk_text: str) -> str:
         """Generate a rationale by sending control + chunk to the LLM.
 
@@ -83,25 +124,7 @@ class OllamaClient:
             control_text=control_text,
             chunk_text=chunk_text,
         )
-
-        t0 = time.monotonic()
-        response = ollama.chat(
-            model=self._model,
-            messages=[{"role": "user", "content": prompt}],
-            options={"temperature": 0},
-        )
-        raw = str(response.message.content)
-        _log.debug(
-            json.dumps(
-                {
-                    "method": "generate",
-                    "model": self._model,
-                    "latency_ms": round((time.monotonic() - t0) * 1000),
-                    "output_len": len(raw),
-                }
-            )
-        )
-        return raw
+        return self._call_llm(prompt, "generate")
 
     def classify_control_type(self, *, control_text: str) -> bool:
         """Ask the LLM whether a control is a meta-requirement.
@@ -119,24 +142,8 @@ class OllamaClient:
         template = load_prompt("meta_classification.txt")
         prompt = template.format(control_text=control_text)
         try:
-            t0 = time.monotonic()
-            response = ollama.chat(
-                model=self._model,
-                messages=[{"role": "user", "content": prompt}],
-                options={"temperature": 0},
-            )
-            raw = str(response.message.content).strip()
-            _log.debug(
-                json.dumps(
-                    {
-                        "method": "classify_control_type",
-                        "model": self._model,
-                        "latency_ms": round((time.monotonic() - t0) * 1000),
-                        "output_len": len(raw),
-                    }
-                )
-            )
-            cleaned = _extract_json(raw)
+            raw = self._call_llm(prompt, "classify_control_type").strip()
+            cleaned = extract_json_object(raw)
             data = json.loads(cleaned)
             return bool(data.get("is_meta", False))
         except Exception:
@@ -156,24 +163,7 @@ class OllamaClient:
         """
         template = load_prompt("gap_rationale.txt")
         prompt = template.format(control_text=control_text)
-        t0 = time.monotonic()
-        response = ollama.chat(
-            model=self._model,
-            messages=[{"role": "user", "content": prompt}],
-            options={"temperature": 0},
-        )
-        raw = str(response.message.content)
-        _log.debug(
-            json.dumps(
-                {
-                    "method": "generate_gap",
-                    "model": self._model,
-                    "latency_ms": round((time.monotonic() - t0) * 1000),
-                    "output_len": len(raw),
-                }
-            )
-        )
-        return raw
+        return self._call_llm(prompt, "generate_gap")
 
     def verify_chunk_relevance(
         self,
@@ -204,43 +194,10 @@ class OllamaClient:
             requirement_family=requirement_family or "Not specified",
         )
         try:
-            t0 = time.monotonic()
-            response = ollama.chat(
-                model=self._model,
-                messages=[{"role": "user", "content": prompt}],
-                options={"temperature": 0},
-            )
-            raw = str(response.message.content).strip()
-            _log.debug(
-                json.dumps(
-                    {
-                        "method": "verify_chunk_relevance",
-                        "model": self._model,
-                        "latency_ms": round((time.monotonic() - t0) * 1000),
-                        "output_len": len(raw),
-                    }
-                )
-            )
-            # Extract JSON from potential markdown fences / preamble
-            cleaned = _extract_json(raw)
+            raw = self._call_llm(prompt, "verify_chunk_relevance").strip()
+            cleaned = extract_json_object(raw)
             data = json.loads(cleaned)
             return bool(data.get("relevant", False))
         except Exception:
             # On error, keep the chunk to avoid false drops
             return True
-
-
-def _extract_json(raw: str) -> str:
-    """Extract a JSON object from raw LLM output.
-
-    Handles markdown code fences, preamble text, and trailing
-    explanations surrounding the JSON object.
-    """
-    text = raw.strip()
-    fence_match = re.search(r"```(?:json)?\s*(\{.*?\})\s*```", text, re.DOTALL)
-    if fence_match:
-        return fence_match.group(1)
-    brace_match = re.search(r"\{.*\}", text, re.DOTALL)
-    if brace_match:
-        return brace_match.group(0)
-    return text

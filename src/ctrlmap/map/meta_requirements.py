@@ -137,28 +137,29 @@ def resolve_meta_requirements(
             # No evaluated siblings — can't aggregate
             continue
 
-        # Aggregate sibling verdicts
+        # Build a typed list of rationales — safe because siblings are
+        # already filtered to only include MappingRationale instances.
+        sibling_rationales: list[MappingRationale] = [
+            r.rationale for r in siblings if isinstance(r.rationale, MappingRationale)
+        ]
 
         fully = [
             s
-            for s in siblings
-            if s.rationale.compliance_level == ComplianceLevel.FULLY_COMPLIANT  # type: ignore[union-attr]
+            for s, r in zip(siblings, sibling_rationales, strict=True)
+            if r.compliance_level == ComplianceLevel.FULLY_COMPLIANT
         ]
         partial = [
             s
-            for s in siblings
-            if s.rationale.compliance_level == ComplianceLevel.PARTIALLY_COMPLIANT  # type: ignore[union-attr]
+            for s, r in zip(siblings, sibling_rationales, strict=True)
+            if r.compliance_level == ComplianceLevel.PARTIALLY_COMPLIANT
         ]
         non_compliant = [
             s
-            for s in siblings
-            if s.rationale.compliance_level == ComplianceLevel.NON_COMPLIANT  # type: ignore[union-attr]
+            for s, r in zip(siblings, sibling_rationales, strict=True)
+            if r.compliance_level == ComplianceLevel.NON_COMPLIANT
         ]
 
-        avg_score = sum(
-            s.rationale.confidence_score  # type: ignore[union-attr,misc]
-            for s in siblings
-        ) / len(siblings)
+        avg_score = sum(r.confidence_score for r in sibling_rationales) / len(sibling_rationales)
 
         if len(non_compliant) == len(siblings):
             # ALL siblings are non-compliant → meta is non-compliant

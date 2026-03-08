@@ -9,12 +9,14 @@ Ref: GitHub Issue #7.
 
 from __future__ import annotations
 
-from enum import Enum
+import re
+from collections import defaultdict
+from enum import StrEnum
 
 from ctrlmap.parse.extractor import TextBlock
 
 
-class LayoutType(Enum):
+class LayoutType(StrEnum):
     """Detected page layout type."""
 
     SINGLE_COLUMN = "single_column"
@@ -22,7 +24,7 @@ class LayoutType(Enum):
     TABLE = "table"
 
 
-class ElementRole(Enum):
+class ElementRole(StrEnum):
     """Semantic role of a text block on the page."""
 
     HEADER = "header"
@@ -129,10 +131,7 @@ def _normalize_for_comparison(text: str) -> str:
     (page numbers, dates) with placeholders so that
     "Page 1 of 3" and "Page 2 of 3" are treated as the same pattern.
     """
-    import re
-
     t = text.strip().lower()
-    # Replace digits with a placeholder token
     t = re.sub(r"\d+", "#", t)
     return t
 
@@ -165,7 +164,6 @@ def classify_blocks(blocks: list[TextBlock]) -> list[ElementRole]:
     # --- Phase 1: Repeating text across pages ---
     # Group blocks by their normalized text + approximate y-position
     # A "signature" that recurs on 2+ pages → header or footer
-    from collections import defaultdict
 
     # Map: (norm_text, y_bucket) → set of page numbers
     sig_pages: dict[tuple[str, int], set[int]] = defaultdict(set)
