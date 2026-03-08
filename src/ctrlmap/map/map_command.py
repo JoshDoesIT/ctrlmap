@@ -95,12 +95,12 @@ def map_controls_cmd(
         help="Invoke LLM for compliance rationale generation.",
     ),
     top_k: int = typer.Option(
-        10,
+        5,
         "--top-k",
         help="Maximum supporting chunks per control.",
     ),
     concurrency: int = typer.Option(
-        4,
+        8,
         "--concurrency",
         help="Maximum concurrent LLM requests (higher = faster, more RAM).",
     ),

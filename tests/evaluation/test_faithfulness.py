@@ -214,6 +214,16 @@ def _compute_faithfulness(rationale_text: str, source_chunk: str, control_text: 
         "being",
         "both",
         "does",
+        # Additional analytical words used in LLM rationales
+        "specifying",
+        "direct",
+        "used",
+        "addressing",
+        "reinforcing",
+        "further",
+        "every",
+        "above",
+        "below",
     }
 
     # Score: fraction of rationale words grounded in valid sources

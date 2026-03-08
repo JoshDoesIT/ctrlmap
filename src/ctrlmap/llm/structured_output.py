@@ -182,7 +182,18 @@ def _parse_response(raw: str) -> MappingRationale | InsufficientEvidence | None:
             if compliance_level is not None:
                 rationale_kwargs["compliance_level"] = compliance_level
 
-            return MappingRationale.model_validate(rationale_kwargs)
+            rationale = MappingRationale.model_validate(rationale_kwargs)
+
+            # Guard: zero confidence means the LLM found the chunk
+            # irrelevant but used the wrong response type.  Convert to
+            # InsufficientEvidence so downstream logic treats it correctly.
+            if rationale.confidence_score == 0.0:
+                return InsufficientEvidence(
+                    reason=explanation or "Zero-confidence rationale.",
+                    required_context="Policy text directly addressing the control.",
+                )
+
+            return rationale
         elif output_type == "InsufficientEvidence":
             return InsufficientEvidence(
                 reason=data["reason"],
@@ -195,3 +206,76 @@ def _parse_response(raw: str) -> MappingRationale | InsufficientEvidence | None:
             )
     except (KeyError, ValidationError):
         return None
+
+
+def _parse_batch_response(
+    raw: str,
+    *,
+    expected_count: int,
+) -> list[MappingRationale | InsufficientEvidence] | None:
+    """Parse a JSON array of batch evaluation results from the LLM.
+
+    Each element in the array is parsed independently using
+    ``_parse_response``. Elements that fail to parse are replaced with
+    ``InsufficientEvidence``.
+
+    Args:
+        raw: The raw LLM response string, expected to contain a JSON array.
+        expected_count: The number of chunks that were sent.
+
+    Returns:
+        A list of parsed results, or ``None`` if the response cannot be
+        parsed as a JSON array at all.
+    """
+
+    # Try to extract a JSON array from the response
+    cleaned = raw.strip()
+
+    # Find the JSON array boundaries
+    start = cleaned.find("[")
+    end = cleaned.rfind("]")
+    if start < 0 or end < 0 or end <= start:
+        return None
+
+    try:
+        items = json.loads(cleaned[start : end + 1])
+    except (json.JSONDecodeError, TypeError):
+        return None
+
+    if not isinstance(items, list):
+        return None
+
+    results: list[MappingRationale | InsufficientEvidence] = []
+    for item in items:
+        if not isinstance(item, dict):
+            results.append(
+                InsufficientEvidence(
+                    reason="Invalid batch element: not a JSON object.",
+                    required_context="Each element must be a valid JSON object.",
+                )
+            )
+            continue
+
+        # Re-serialize and parse through the standard _parse_response
+        item_json = json.dumps(item)
+        parsed = _parse_response(item_json)
+        if parsed is not None:
+            results.append(parsed)
+        else:
+            results.append(
+                InsufficientEvidence(
+                    reason="Failed to parse batch element.",
+                    required_context="A valid MappingRationale or InsufficientEvidence.",
+                )
+            )
+
+    # Pad with InsufficientEvidence if fewer results than expected
+    while len(results) < expected_count:
+        results.append(
+            InsufficientEvidence(
+                reason="Missing batch element in LLM response.",
+                required_context="One evaluation per chunk.",
+            )
+        )
+
+    return results[:expected_count]
