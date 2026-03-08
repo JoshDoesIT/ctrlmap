@@ -10,12 +10,12 @@ Ref: GitHub Issue #19.
 from __future__ import annotations
 
 import json
-import re
 from contextlib import suppress
 
 from pydantic import ValidationError
 
 from ctrlmap._defaults import DEFAULT_LLM_MODEL
+from ctrlmap.llm._json_utils import extract_json_object
 from ctrlmap.llm.client import OllamaClient
 from ctrlmap.models.schemas import ComplianceLevel, InsufficientEvidence, MappingRationale
 
@@ -129,27 +129,6 @@ def generate_gap_rationale(
     )
 
 
-def _extract_json(raw: str) -> str:
-    """Extract a JSON object from raw LLM output.
-
-    Handles common quirks: markdown code fences, preamble text,
-    and trailing explanations surrounding the JSON.
-    """
-    text = raw.strip()
-
-    # Strip markdown code fences: ```json ... ``` or ``` ... ```
-    fence_match = re.search(r"```(?:json)?\s*(\{.*?\})\s*```", text, re.DOTALL)
-    if fence_match:
-        return fence_match.group(1)
-
-    # Try to extract the first top-level JSON object { ... }
-    brace_match = re.search(r"\{.*\}", text, re.DOTALL)
-    if brace_match:
-        return brace_match.group(0)
-
-    return text
-
-
 def _parse_response(raw: str) -> MappingRationale | InsufficientEvidence | None:
     """Attempt to parse a raw LLM response into a structured output.
 
@@ -159,7 +138,7 @@ def _parse_response(raw: str) -> MappingRationale | InsufficientEvidence | None:
     Returns:
         A validated Pydantic model instance, or None if parsing fails.
     """
-    cleaned = _extract_json(raw)
+    cleaned = extract_json_object(raw)
     try:
         data = json.loads(cleaned)
     except (json.JSONDecodeError, TypeError):

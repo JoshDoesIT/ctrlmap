@@ -12,15 +12,13 @@ healing, or boilerplate filtering needed.
 
 from __future__ import annotations
 
-import json
 import re
-import sys
 import uuid
-
-import ollama
 
 from ctrlmap._console import err_console
 from ctrlmap._defaults import DEFAULT_LLM_MODEL
+from ctrlmap.llm._json_utils import extract_json_array
+from ctrlmap.llm.client import OllamaClient
 from ctrlmap.llm.prompts import load_prompt
 from ctrlmap.models.schemas import ParsedChunk
 
@@ -77,7 +75,7 @@ def _extract_section(
     section_text: str,
     page_number: int,
     document_name: str,
-    model: str,
+    client: OllamaClient,
 ) -> list[dict[str, str]]:
     """Send one text section to the LLM and parse the response.
 
@@ -94,12 +92,8 @@ def _extract_section(
     )
 
     for attempt in range(_MAX_RETRIES + 1):
-        response = ollama.chat(
-            model=model,
-            messages=[{"role": "user", "content": prompt}],
-        )
-        raw_response = str(response.message.content).strip()
-        controls = _parse_llm_response(raw_response)
+        raw_response = client._call_llm(prompt, "control_extraction").strip()
+        controls = extract_json_array(raw_response)
 
         if controls:
             return controls
@@ -115,9 +109,8 @@ def _extract_section(
                 f"after {_MAX_RETRIES + 1} attempts "
                 f"({len(section_text)} chars).[/]"
             )
-            print(
-                f"DEBUG page {page_number} raw LLM response:\n{raw_response[:500]}",
-                file=sys.stderr,
+            err_console.print(
+                f"[dim]DEBUG page {page_number} raw LLM response:\n{raw_response[:500]}[/]",
             )
 
     return []
@@ -138,11 +131,12 @@ def extract_controls_with_llm(
     Args:
         pages: List of dicts with ``page_number`` (int) and ``text`` (str).
         document_name: Source document filename.
-        model: Ollama model name (default: ``llama3``).
+        model: Ollama model name (default: ``qwen2.5:14b``).
 
     Returns:
         A list of ``ParsedChunk`` instances, one per extracted control.
     """
+    client = OllamaClient(model=model)
     chunks: list[ParsedChunk] = []
 
     for page in pages:
@@ -162,7 +156,7 @@ def extract_controls_with_llm(
                 section_text=segment,
                 page_number=page_number,
                 document_name=document_name,
-                model=model,
+                client=client,
             )
 
             # Re-sort by text position in the original segment
@@ -209,41 +203,4 @@ def extract_controls_with_llm(
     return chunks
 
 
-def _parse_llm_response(raw: str) -> list[dict[str, str]]:
-    """Parse the LLM's JSON array response, handling common formatting issues.
 
-    Args:
-        raw: Raw LLM response string.
-
-    Returns:
-        A list of dicts with ``section`` and ``text`` keys.
-    """
-    # Strip markdown code fences if present
-    cleaned = raw.strip()
-    if cleaned.startswith("```"):
-        # Remove opening fence (```json or ```)
-        first_newline = cleaned.index("\n")
-        cleaned = cleaned[first_newline + 1 :]
-    if cleaned.endswith("```"):
-        cleaned = cleaned[:-3]
-    cleaned = cleaned.strip()
-
-    try:
-        result = json.loads(cleaned)
-        if isinstance(result, list):
-            return result
-    except json.JSONDecodeError:
-        pass
-
-    # Fallback: try to find JSON array in the response
-    start = cleaned.find("[")
-    end = cleaned.rfind("]")
-    if start != -1 and end != -1 and end > start:
-        try:
-            result = json.loads(cleaned[start : end + 1])
-            if isinstance(result, list):
-                return result
-        except json.JSONDecodeError:
-            pass
-
-    return []
