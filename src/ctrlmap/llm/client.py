@@ -417,9 +417,7 @@ class OllamaClient:
         template = load_prompt("batch_evaluation.txt")
 
         # Build numbered chunk listing
-        numbered_chunks = "\n".join(
-            f"### Chunk {i}\n{text}" for i, text in enumerate(chunk_texts)
-        )
+        numbered_chunks = "\n".join(f"### Chunk {i}\n{text}" for i, text in enumerate(chunk_texts))
 
         prompt = template.format(
             control_text=control_text,

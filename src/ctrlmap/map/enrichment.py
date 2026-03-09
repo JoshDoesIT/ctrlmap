@@ -123,9 +123,7 @@ async def _enrich_async(
         _process_one_control(r, llm_client, fast_client, semaphore) for r in results
     ]
     meta_flags = await asyncio.gather(*per_control_tasks)
-    console.print(
-        f"[dim]  Step 1+2 (evaluate + classify): {time.monotonic() - t0:.1f}s[/]"
-    )
+    console.print(f"[dim]  Step 1+2 (evaluate + classify): {time.monotonic() - t0:.1f}s[/]")
 
     meta_ids = {results[i].control.control_id for i, is_meta in enumerate(meta_flags) if is_meta}
 
@@ -137,21 +135,15 @@ async def _enrich_async(
             f"[bold blue]LLM:[/] Generating {gap_count} gap rationales ({DEFAULT_FAST_MODEL})..."
         )
         await _step_generate_gaps(results, fast_client, semaphore)
-        console.print(
-            f"[dim]  Step 3 (gap rationales): {time.monotonic() - t1:.1f}s[/]"
-        )
+        console.print(f"[dim]  Step 3 (gap rationales): {time.monotonic() - t1:.1f}s[/]")
 
     # Step 4: Resolve meta-requirements via sibling aggregation (no LLM)
     t2 = time.monotonic()
     console.print("[bold blue]LLM:[/] Resolving meta-requirements...")
     resolved = resolve_meta_requirements(results=results, meta_control_ids=meta_ids)
-    console.print(
-        f"[dim]  Step 4 (meta-resolution): {time.monotonic() - t2:.1f}s[/]"
-    )
+    console.print(f"[dim]  Step 4 (meta-resolution): {time.monotonic() - t2:.1f}s[/]")
 
-    console.print(
-        f"[bold green]Pipeline total:[/] {time.monotonic() - pipeline_start:.1f}s"
-    )
+    console.print(f"[bold green]Pipeline total:[/] {time.monotonic() - pipeline_start:.1f}s")
 
     if cache is not None:
         stats = cache.stats()

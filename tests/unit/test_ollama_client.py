@@ -594,9 +594,7 @@ class TestBatchChunkEvaluation:
         with patch("ctrlmap.llm.client.ollama.AsyncClient") as mock_async_cls:
             mock_instance = MagicMock()
             mock_instance.chat = AsyncMock(
-                return_value=MagicMock(
-                    message=MagicMock(content="This is not valid JSON at all")
-                )
+                return_value=MagicMock(message=MagicMock(content="This is not valid JSON at all"))
             )
             mock_async_cls.return_value = mock_instance
 
