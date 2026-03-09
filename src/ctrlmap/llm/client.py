@@ -48,6 +48,7 @@ class OllamaClient:
         self._model = model
         self._timeout = timeout
         self._cache = cache
+        self._async_client = ollama.AsyncClient()
 
     def is_available(self) -> bool:
         """Check if Ollama is reachable.
@@ -237,8 +238,7 @@ class OllamaClient:
                 return cached
 
         t0 = time.monotonic()
-        async_client = ollama.AsyncClient()
-        response = await async_client.chat(
+        response = await self._async_client.chat(
             model=self._model,
             messages=[{"role": "user", "content": prompt}],
             options={"temperature": 0},
@@ -385,3 +385,58 @@ class OllamaClient:
             reason="Invalid LLM output after retries.",
             required_context="A well-formed JSON response from the LLM.",
         )
+
+    async def evaluate_chunks_batch_async(
+        self,
+        *,
+        control_text: str,
+        chunk_texts: list[str],
+        requirement_family: str = "",
+    ) -> list[MappingRationale | InsufficientEvidence]:
+        """Evaluate multiple chunks in a single LLM call for performance.
+
+        Sends all chunks for one control in a single prompt and asks the
+        LLM to return a JSON array of evaluations.  This turns
+        ``controls x chunks`` calls into just ``controls`` calls.
+
+        Falls back to ``InsufficientEvidence`` for all chunks if the
+        response cannot be parsed.
+
+        Args:
+            control_text: The security control description.
+            chunk_texts: List of policy text excerpts to evaluate.
+            requirement_family: The parent requirement family title.
+
+        Returns:
+            A list of ``MappingRationale`` or ``InsufficientEvidence``,
+            one per input chunk, in the same order.
+        """
+        from ctrlmap.llm.structured_output import _parse_batch_response
+        from ctrlmap.models.schemas import InsufficientEvidence
+
+        template = load_prompt("batch_evaluation.txt")
+
+        # Build numbered chunk listing
+        numbered_chunks = "\n".join(f"### Chunk {i}\n{text}" for i, text in enumerate(chunk_texts))
+
+        prompt = template.format(
+            control_text=control_text,
+            chunk_count=len(chunk_texts),
+            numbered_chunks=numbered_chunks,
+            requirement_family=requirement_family or "Not specified",
+        )
+
+        raw = await self.call_llm_async(prompt, "evaluate_chunks_batch")
+        results = _parse_batch_response(raw, expected_count=len(chunk_texts))
+
+        if results is not None:
+            return results
+
+        # Fallback: return InsufficientEvidence for all chunks
+        return [
+            InsufficientEvidence(
+                reason="Batch evaluation failed: invalid LLM output.",
+                required_context="A well-formed JSON array from the LLM.",
+            )
+            for _ in chunk_texts
+        ]

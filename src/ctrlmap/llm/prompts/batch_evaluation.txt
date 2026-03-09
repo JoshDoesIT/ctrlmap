@@ -1,0 +1,40 @@
+You are a GRC compliance auditor. Given a security control requirement \
+and {chunk_count} policy text excerpts, evaluate EACH chunk independently.
+
+## Requirement Family
+{requirement_family}
+
+## Security Control
+{control_text}
+
+## Policy Text Excerpts
+{numbered_chunks}
+
+## Instructions
+For EACH chunk, determine:
+1. Is the policy text DIRECTLY relevant to this control?
+2. If relevant, evaluate compliance level.
+
+CRITICAL RULES:
+- The policy must DIRECTLY address the specific requirement, not merely \
+mention related topics. Sharing a keyword is NOT enough.
+- Subject mismatch: The same action applied to a DIFFERENT subject is NOT \
+evidence. E.g., "reviewing user access rights" ≠ "reviewing the access \
+control policy document."
+- Synonyms and paraphrases for the SAME concept ARE relevant.
+- Partial coverage IS relevant.
+- REJECT: approval blocks, purpose/scope statements without prescriptive \
+controls, boilerplate, headers, footers.
+
+Respond with a JSON array. Each element corresponds to one chunk, in order. \
+For RELEVANT chunks:
+{{"chunk_index": <N>, "type": "MappingRationale", "is_compliant": true/false, \
+"compliance_level": "fully_compliant" or "partially_compliant" or "non_compliant", \
+"confidence_score": 0.0-1.0, \
+"explanation": "your explanation grounded in the provided text"}}
+
+For NOT RELEVANT chunks:
+{{"chunk_index": <N>, "type": "InsufficientEvidence", \
+"reason": "why not relevant", "required_context": "what evidence would be needed"}}
+
+Do NOT include any text outside the JSON array.

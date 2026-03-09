@@ -51,10 +51,15 @@ Count your results from Step 2. Apply these rules STRICTLY based on the COUNT:
 - **fully_compliant**: ALL sub-requirements are COVERED. If you listed N \
 sub-requirements and ALL N are COVERED, this is fully_compliant. If even \
 ONE is NOT COVERED, this CANNOT be fully_compliant. \
-VERIFICATION: Before answering fully_compliant, re-read the control and \
-confirm that EVERY sub-requirement has a matching phrase or equivalent \
-concept in the chunk. If you cannot point to specific evidence for any \
-sub-requirement, change your answer to partially_compliant.
+VERIFICATION: Before answering fully_compliant, go through your Step 2 \
+results one by one. For EACH sub-requirement, point to the EXACT phrase \
+in the policy text that covers it. If you cannot quote specific text for \
+ANY sub-requirement, you MUST answer partially_compliant instead. \
+COMMON TRAP: When a control lists two different concepts joined by "and" \
+(e.g., "establishing metrics and ongoing assessments"), these are TWO \
+separate sub-requirements. Evidence for one does NOT satisfy the other. \
+Activities (scanning, monitoring) are NOT the same as metrics (KPIs, \
+thresholds, SLAs).
 - **partially_compliant**: AT LEAST ONE sub-requirement is COVERED, but \
 NOT ALL. For example, if 2 out of 5 sub-requirements are COVERED, this is \
 partially_compliant. Even if only 1 out of 6 is covered, it is still \

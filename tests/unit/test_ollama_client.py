@@ -445,3 +445,165 @@ class TestOllamaAsyncClient:
                 chunk_text="The cafeteria is open Monday through Friday.",
             )
             assert isinstance(result, InsufficientEvidence)
+
+
+class TestAsyncClientSingleton:
+    """The AsyncClient should be created once and reused across all async calls."""
+
+    @pytest.mark.asyncio()
+    async def test_async_client_is_reused_across_calls(self) -> None:
+        """Multiple call_llm_async invocations should use the same AsyncClient instance."""
+        from ctrlmap.llm.client import OllamaClient
+
+        with patch("ctrlmap.llm.client.ollama.AsyncClient") as mock_async_cls:
+            mock_instance = MagicMock()
+            mock_instance.chat = AsyncMock(
+                return_value=MagicMock(message=MagicMock(content="response"))
+            )
+            mock_async_cls.return_value = mock_instance
+
+            client = OllamaClient()
+            await client.call_llm_async("prompt 1", "test")
+            await client.call_llm_async("prompt 2", "test")
+            await client.call_llm_async("prompt 3", "test")
+
+            # AsyncClient() should only be called ONCE (in __init__),
+            # not once per call_llm_async
+            assert mock_async_cls.call_count == 1, (
+                f"AsyncClient instantiated {mock_async_cls.call_count} times, expected 1"
+            )
+
+    @pytest.mark.asyncio()
+    async def test_async_client_exists_as_attribute(self) -> None:
+        """OllamaClient should have an _async_client attribute after init."""
+        from ctrlmap.llm.client import OllamaClient
+
+        with patch("ctrlmap.llm.client.ollama.AsyncClient") as mock_async_cls:
+            mock_async_cls.return_value = MagicMock()
+            client = OllamaClient()
+            assert hasattr(client, "_async_client"), (
+                "OllamaClient should have an _async_client attribute"
+            )
+
+
+class TestBatchChunkEvaluation:
+    """Batch evaluation sends multiple chunks in one LLM call for performance."""
+
+    @pytest.mark.asyncio()
+    async def test_evaluate_chunks_batch_async_returns_list(self) -> None:
+        """evaluate_chunks_batch_async() returns a list of results, one per chunk."""
+        from ctrlmap.llm.client import OllamaClient
+        from ctrlmap.models.schemas import InsufficientEvidence, MappingRationale
+
+        batch_response = json.dumps(
+            [
+                {
+                    "chunk_index": 0,
+                    "type": "MappingRationale",
+                    "is_compliant": True,
+                    "compliance_level": "fully_compliant",
+                    "confidence_score": 0.95,
+                    "explanation": "The policy addresses the control.",
+                },
+                {
+                    "chunk_index": 1,
+                    "type": "InsufficientEvidence",
+                    "reason": "Cafeteria hours.",
+                    "required_context": "Access control policy.",
+                },
+            ]
+        )
+
+        with patch("ctrlmap.llm.client.ollama.AsyncClient") as mock_async_cls:
+            mock_instance = MagicMock()
+            mock_instance.chat = AsyncMock(
+                return_value=MagicMock(message=MagicMock(content=batch_response))
+            )
+            mock_async_cls.return_value = mock_instance
+
+            client = OllamaClient()
+            results = await client.evaluate_chunks_batch_async(
+                control_text="AC-1: Access Control Policy.",
+                chunk_texts=[
+                    "All employees must follow access control procedures.",
+                    "The cafeteria is open Monday through Friday.",
+                ],
+                requirement_family="Access Control",
+            )
+            assert len(results) == 2
+            assert isinstance(results[0], MappingRationale)
+            assert isinstance(results[1], InsufficientEvidence)
+
+    @pytest.mark.asyncio()
+    async def test_evaluate_chunks_batch_async_single_llm_call(self) -> None:
+        """Batch evaluation makes exactly ONE LLM call for multiple chunks."""
+        from ctrlmap.llm.client import OllamaClient
+
+        batch_response = json.dumps(
+            [
+                {
+                    "chunk_index": 0,
+                    "type": "MappingRationale",
+                    "is_compliant": True,
+                    "compliance_level": "fully_compliant",
+                    "confidence_score": 0.9,
+                    "explanation": "Covers access control.",
+                },
+                {
+                    "chunk_index": 1,
+                    "type": "MappingRationale",
+                    "is_compliant": True,
+                    "compliance_level": "partially_compliant",
+                    "confidence_score": 0.7,
+                    "explanation": "Partially covers requirement.",
+                },
+                {
+                    "chunk_index": 2,
+                    "type": "InsufficientEvidence",
+                    "reason": "Unrelated content.",
+                    "required_context": "Need access control policy.",
+                },
+            ]
+        )
+
+        with patch("ctrlmap.llm.client.ollama.AsyncClient") as mock_async_cls:
+            mock_instance = MagicMock()
+            mock_instance.chat = AsyncMock(
+                return_value=MagicMock(message=MagicMock(content=batch_response))
+            )
+            mock_async_cls.return_value = mock_instance
+
+            client = OllamaClient()
+            await client.evaluate_chunks_batch_async(
+                control_text="AC-1: Policy.",
+                chunk_texts=["chunk 1", "chunk 2", "chunk 3"],
+                requirement_family="Access Control",
+            )
+
+            # Exactly ONE chat call for all 3 chunks
+            assert mock_instance.chat.call_count == 1, (
+                f"Expected 1 LLM call, got {mock_instance.chat.call_count}"
+            )
+
+    @pytest.mark.asyncio()
+    async def test_evaluate_chunks_batch_async_falls_back_on_invalid_json(self) -> None:
+        """If the batch response is invalid JSON, returns InsufficientEvidence for all."""
+        from ctrlmap.llm.client import OllamaClient
+        from ctrlmap.models.schemas import InsufficientEvidence
+
+        with patch("ctrlmap.llm.client.ollama.AsyncClient") as mock_async_cls:
+            mock_instance = MagicMock()
+            mock_instance.chat = AsyncMock(
+                return_value=MagicMock(message=MagicMock(content="This is not valid JSON at all"))
+            )
+            mock_async_cls.return_value = mock_instance
+
+            client = OllamaClient()
+            results = await client.evaluate_chunks_batch_async(
+                control_text="AC-1: Policy.",
+                chunk_texts=["chunk 1", "chunk 2"],
+                requirement_family="Access Control",
+            )
+
+            assert len(results) == 2
+            assert all(isinstance(r, InsufficientEvidence) for r in results)

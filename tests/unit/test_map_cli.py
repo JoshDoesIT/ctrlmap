@@ -159,14 +159,16 @@ class TestMapCommand:
         ):
             from ctrlmap.models.schemas import MappingRationale
 
-            # Mock the merged evaluate_chunk_async to return a rationale
+            # Mock the batch evaluate_chunks_batch_async to return a list of rationales
             mock_client = mock_ollama_cls.return_value
-            mock_client.evaluate_chunk_async = AsyncMock(
-                return_value=MappingRationale(
-                    is_compliant=True,
-                    confidence_score=0.9,
-                    explanation="Compliant.",
-                )
+            mock_client.evaluate_chunks_batch_async = AsyncMock(
+                return_value=[
+                    MappingRationale(
+                        is_compliant=True,
+                        confidence_score=0.9,
+                        explanation="Compliant.",
+                    )
+                ]
             )
             mock_client.classify_control_type_async = AsyncMock(return_value=False)
 

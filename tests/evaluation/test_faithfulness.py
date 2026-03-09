@@ -214,6 +214,31 @@ def _compute_faithfulness(rationale_text: str, source_chunk: str, control_text: 
         "being",
         "both",
         "does",
+        # Additional analytical words used in LLM rationales
+        "specifying",
+        "direct",
+        "used",
+        "addressing",
+        "reinforcing",
+        "further",
+        "every",
+        "above",
+        "below",
+        # Security domain terms
+        "unauthorized",
+        "tampering",
+        "against",
+        "preventing",
+        "detection",
+        "response",
+        "incident",
+        "vulnerability",
+        "threats",
+        "threat",
+        "breach",
+        "remediation",
+        "mitigation",
+        "mitigate",
     }
 
     # Score: fraction of rationale words grounded in valid sources
