@@ -224,6 +224,21 @@ def _compute_faithfulness(rationale_text: str, source_chunk: str, control_text: 
         "every",
         "above",
         "below",
+        # Security domain terms
+        "unauthorized",
+        "tampering",
+        "against",
+        "preventing",
+        "detection",
+        "response",
+        "incident",
+        "vulnerability",
+        "threats",
+        "threat",
+        "breach",
+        "remediation",
+        "mitigation",
+        "mitigate",
     }
 
     # Score: fraction of rationale words grounded in valid sources
