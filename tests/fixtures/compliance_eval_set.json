@@ -222,5 +222,185 @@
         "expected_compliance_level": "non_compliant",
         "expected_is_compliant": false,
         "rationale": "Chunk is about system use notification banners, not key management."
+    },
+
+    {
+        "id": "comp-dm-01",
+        "control_text": "AC-03: Access Enforcement. Enforce approved authorizations for logical access to information and system resources in accordance with applicable access control policies.",
+        "chunk_text": "Visitors must sign the access log at the front desk and be escorted at all times by an authorized employee. Visitor badges are returned upon departure and access logs are reviewed weekly by the facilities security team.",
+        "expected_compliance_level": "non_compliant",
+        "expected_is_compliant": false,
+        "rationale": "Domain mismatch: chunk is about physical visitor access (badges, escort), not logical access enforcement (RBAC, system permissions)."
+    },
+    {
+        "id": "comp-dm-02",
+        "control_text": "PE-03: Physical Access Control. Enforce physical access authorizations at entry/exit points. Escort visitors and control visitor activity.",
+        "chunk_text": "Users are granted system access based on their assigned roles using role-based access control (RBAC). Access requests require manager approval and are provisioned through the identity management platform. Access reviews are conducted quarterly.",
+        "expected_compliance_level": "non_compliant",
+        "expected_is_compliant": false,
+        "rationale": "Domain mismatch: chunk is about logical access (RBAC, identity management), not physical access (badges, entry points, visitor escort)."
+    },
+    {
+        "id": "comp-dm-03",
+        "control_text": "8.3.1: All user access to system components is authenticated via multi-factor authentication.",
+        "chunk_text": "Physical access to the data center requires dual authentication: an authorized badge swipe followed by biometric fingerprint verification. Entry logs are maintained and reviewed daily by the physical security team.",
+        "expected_compliance_level": "non_compliant",
+        "expected_is_compliant": false,
+        "rationale": "Domain mismatch: chunk is about physical data center entry (badge + biometric for building access), not logical user authentication (MFA for system login)."
+    },
+    {
+        "id": "comp-dm-04",
+        "control_text": "RA-05: Vulnerability Monitoring and Scanning. Monitor and scan for vulnerabilities in the system. Remediate legitimate vulnerabilities in accordance with risk assessment.",
+        "chunk_text": "All code changes undergo peer review and automated unit testing before deployment. Static analysis tools scan source code for common coding errors and security anti-patterns during the CI/CD pipeline.",
+        "expected_compliance_level": "non_compliant",
+        "expected_is_compliant": false,
+        "rationale": "Process mismatch: code review and static analysis (development security) are not the same as vulnerability scanning and remediation (operational security)."
+    },
+    {
+        "id": "comp-dm-05",
+        "control_text": "SA-11: Developer Testing and Evaluation. Require the developer to create and implement a security test plan, conduct testing, and provide evidence of testing.",
+        "chunk_text": "Network vulnerability scans are performed weekly using Nessus. Critical vulnerabilities must be remediated within 15 days. Scan results are reported to system owners and tracked in the vulnerability management dashboard.",
+        "expected_compliance_level": "non_compliant",
+        "expected_is_compliant": false,
+        "rationale": "Process mismatch: network vulnerability scanning (ops) is not developer security testing (SDLC testing, test plans, development-phase evidence)."
+    },
+    {
+        "id": "comp-dm-06",
+        "control_text": "CM-03: Configuration Change Control. Determine and document types of changes under configuration control. Review proposed changes and approve or disapprove. Document change decisions.",
+        "chunk_text": "Penetration testing is conducted annually by an independent third party. The scope includes external network perimeter, internal network segments, and web applications. Findings are classified by severity and tracked to remediation.",
+        "expected_compliance_level": "non_compliant",
+        "expected_is_compliant": false,
+        "rationale": "Process mismatch: penetration testing methodology is not change management/configuration change control."
+    },
+    {
+        "id": "comp-dm-07",
+        "control_text": "AT-02: Security Awareness Training. Provide security literacy training to system users. Provide role-based security training to privileged users.",
+        "chunk_text": "The organization classifies data into four categories: Public, Internal, Confidential, and Restricted. Classification labels must be applied to all documents and electronic communications. Data owners are responsible for assigning appropriate classifications.",
+        "expected_compliance_level": "non_compliant",
+        "expected_is_compliant": false,
+        "rationale": "Domain mismatch: chunk is about data classification, not security awareness training."
+    },
+    {
+        "id": "comp-dm-08",
+        "control_text": "AC-01: Policy and Procedures. Develop, document, and disseminate an access control policy. Review and update the access control policy and procedures.",
+        "chunk_text": "System administrators review user access rights quarterly to ensure permissions align with current job functions. Excessive privileges are removed, and shared accounts are documented with compensating controls.",
+        "expected_compliance_level": "non_compliant",
+        "expected_is_compliant": false,
+        "rationale": "Subject mismatch: reviewing user access rights (operational activity) is not reviewing/updating the access control policy document (governance activity about the policy itself)."
+    },
+
+    {
+        "id": "comp-bp-01",
+        "control_text": "AC-03: Access Enforcement. Enforce approved authorizations for logical access to information and system resources.",
+        "chunk_text": "This policy defines the requirements for controlling access to organizational information systems and data. It applies to all employees, contractors, and third-party personnel who access organizational resources. The purpose of this policy is to ensure that access is granted based on business need and least privilege principles.",
+        "expected_compliance_level": "non_compliant",
+        "expected_is_compliant": false,
+        "rationale": "Boilerplate: this is a purpose/scope statement describing what the policy covers without any prescriptive controls. No enforcement mechanisms specified."
+    },
+    {
+        "id": "comp-bp-02",
+        "control_text": "SC-28: Protection of Information at Rest. Protect the confidentiality of information at rest.",
+        "chunk_text": "This policy has been approved by the Chief Information Security Officer (CISO) and the Executive Management team. It is effective as of the date of approval and supersedes all prior versions of this document.",
+        "expected_compliance_level": "non_compliant",
+        "expected_is_compliant": false,
+        "rationale": "Boilerplate: approval/signature block with no security controls. Executive sign-off is not evidence and should be rejected."
+    },
+    {
+        "id": "comp-bp-03",
+        "control_text": "IR-06: Incident Reporting. Require personnel to report suspected incidents to the organizational incident response capability.",
+        "chunk_text": "Incident Response Policy — Version 3.2 — Classification: Internal — Effective: January 15, 2025. This document is the property of Acme Corporation. Unauthorized reproduction or distribution is strictly prohibited.",
+        "expected_compliance_level": "non_compliant",
+        "expected_is_compliant": false,
+        "rationale": "Boilerplate: cover page metadata with version, classification, effective date, and legal disclaimer. No incident reporting requirements specified."
+    },
+    {
+        "id": "comp-bp-04",
+        "control_text": "CM-02: Baseline Configuration. Develop, document, and maintain under configuration control a current baseline configuration of the system.",
+        "chunk_text": "The objectives of this policy are to: (1) establish a framework for managing system configurations, (2) define roles and responsibilities for configuration management activities, and (3) ensure compliance with applicable regulatory requirements. This policy applies to all information systems owned or operated by the organization.",
+        "expected_compliance_level": "non_compliant",
+        "expected_is_compliant": false,
+        "rationale": "Boilerplate: introductory objectives paragraph describing what the policy aims to do, without any actual configuration management controls."
+    },
+    {
+        "id": "comp-bp-05",
+        "control_text": "RA-05: Vulnerability Monitoring and Scanning. Monitor and scan for vulnerabilities in the system.",
+        "chunk_text": "This policy is applicable to all departments, business units, and subsidiaries of the organization. It covers all information systems, networks, and applications regardless of their physical location. Questions regarding this policy should be directed to the Information Security Office.",
+        "expected_compliance_level": "non_compliant",
+        "expected_is_compliant": false,
+        "rationale": "Boilerplate: applicability/scope statement with no vulnerability scanning controls whatsoever."
+    },
+
+    {
+        "id": "comp-syn-01",
+        "control_text": "AT-02: Security Awareness Training. Provide security literacy training to system users including initial training and refresher training periodically.",
+        "chunk_text": "All new employees must complete security awareness education within the first week of employment. Annual security refresher courses are mandatory for all personnel. Completion status is tracked and reported to department managers monthly.",
+        "expected_compliance_level": "fully_compliant",
+        "expected_is_compliant": true,
+        "rationale": "Synonym match: 'security awareness education' = 'security literacy training'. Initial and periodic refresher training are both covered."
+    },
+    {
+        "id": "comp-syn-02",
+        "control_text": "IA-05: Authenticator Management. Manage system authenticators by ensuring sufficient strength and refreshing authenticators periodically.",
+        "chunk_text": "The credential management program enforces password complexity rules requiring at least 14 characters with uppercase, lowercase, digits, and special characters. Credentials expire every 90 days and the last 24 are remembered to prevent reuse.",
+        "expected_compliance_level": "fully_compliant",
+        "expected_is_compliant": true,
+        "rationale": "Synonym match: 'credential management' = 'authenticator management'. Password complexity = authenticator strength. Expiry = periodic refresh."
+    },
+    {
+        "id": "comp-syn-03",
+        "control_text": "AU-02: Event Logging. Identify the types of events that the system is capable of logging in support of the audit function.",
+        "chunk_text": "The system logging capability captures authentication events, privilege escalation, data access, and configuration modifications. Each log entry includes timestamp, user identity, source IP, event type, and outcome.",
+        "expected_compliance_level": "fully_compliant",
+        "expected_is_compliant": true,
+        "rationale": "Synonym match: 'system logging capability' = 'event logging'. Event types are identified as required."
+    },
+    {
+        "id": "comp-syn-04",
+        "control_text": "AC-17: Remote Access. Establish usage restrictions and configuration requirements for remote access connections.",
+        "chunk_text": "Telecommuting personnel must connect through the approved virtual private network using two-factor verification. Split tunneling is disabled on all remote connections. All remote sessions are logged and monitored by the SOC.",
+        "expected_compliance_level": "fully_compliant",
+        "expected_is_compliant": true,
+        "rationale": "Synonym match: 'virtual private network' = VPN, 'two-factor verification' = MFA. Usage restrictions (no split tunnel) and configuration requirements covered."
+    },
+    {
+        "id": "comp-syn-05",
+        "control_text": "SC-28: Protection of Information at Rest. Protect the confidentiality of information at rest.",
+        "chunk_text": "Storage-level cryptographic safeguards are applied to all databases and file servers containing sensitive records. The AES-256 cipher suite is employed for volume-level protection and hardware security modules manage the cryptographic material lifecycle.",
+        "expected_compliance_level": "fully_compliant",
+        "expected_is_compliant": true,
+        "rationale": "Synonym match: 'cryptographic safeguards' = 'encryption/protection'. 'cryptographic material lifecycle' = key management. Covers data at rest encryption comprehensively."
+    },
+
+    {
+        "id": "comp-sub-01",
+        "control_text": "AC-02: Account Management. Define allowed account types, assign account managers, require approvals for account creation, monitor usage, disable inactive accounts, and align with personnel termination processes.",
+        "chunk_text": "The IT department defines allowed account types (individual, shared, service, emergency). Each system has a designated account manager. Account creation requires documented approval from the data owner.",
+        "expected_compliance_level": "partially_compliant",
+        "expected_is_compliant": true,
+        "rationale": "Multi-sub-requirement (6 total): 3/6 covered (account types, account managers, creation approval). Missing: usage monitoring, inactive account disabling, termination alignment."
+    },
+    {
+        "id": "comp-sub-02",
+        "control_text": "IR-04: Incident Handling. Implement incident handling including preparation, detection and analysis, containment, eradication, and recovery. Coordinate with contingency planning. Incorporate lessons learned into incident response procedures.",
+        "chunk_text": "The organization's incident handling process covers all phases: preparation, detection and analysis, containment, eradication, and recovery. After-action reviews are conducted for all significant incidents and lessons learned are incorporated into updated procedures.",
+        "expected_compliance_level": "partially_compliant",
+        "expected_is_compliant": true,
+        "rationale": "Multi-sub-requirement (7+ total): 6/7 covered (all 5 phases + lessons learned). Missing: coordination with contingency planning is not mentioned."
+    },
+    {
+        "id": "comp-sub-03",
+        "control_text": "CA-07: Continuous Monitoring. Develop a system-level continuous monitoring strategy that includes establishing metrics to be monitored, establishing frequencies for monitoring, and ensuring ongoing assessments of security controls.",
+        "chunk_text": "The continuous monitoring program defines scanning frequencies: vulnerability scans weekly, configuration compliance checks daily, and log analysis in real-time via SIEM. Security control effectiveness is assessed quarterly through automated testing.",
+        "expected_compliance_level": "partially_compliant",
+        "expected_is_compliant": true,
+        "rationale": "Multi-sub-requirement: monitoring frequencies and ongoing assessments are covered, but 'establishing metrics to be monitored' (KPIs, thresholds, SLAs) is not addressed. Activities ≠ metrics."
+    },
+    {
+        "id": "comp-sub-04",
+        "control_text": "AU-02: Event Logging. Identify the types of events that the system is capable of logging. Coordinate with other entities requiring audit information. Specify event types for logging. Provide rationale for event type selection. Review and update event types periodically.",
+        "chunk_text": "The system logs authentication events, privilege changes, data access, and system errors. Event types are reviewed and updated annually by the security team to ensure alignment with current threat landscape.",
+        "expected_compliance_level": "partially_compliant",
+        "expected_is_compliant": true,
+        "rationale": "Multi-sub-requirement (5 total): 3/5 covered (event types identified, types specified, annual review). Missing: coordination with other entities, rationale for event type selection."
     }
 ]

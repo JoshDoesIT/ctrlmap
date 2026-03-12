@@ -161,16 +161,21 @@ class TestMapCommand:
 
             # Mock the batch evaluate_chunks_batch_async to return a list of rationales
             mock_client = mock_ollama_cls.return_value
+            mock_client.warmup_async = AsyncMock()
             mock_client.evaluate_chunks_batch_async = AsyncMock(
-                return_value=[
-                    MappingRationale(
-                        is_compliant=True,
-                        confidence_score=0.9,
-                        explanation="Compliant.",
-                    )
-                ]
+                return_value=(
+                    [
+                        MappingRationale(
+                            is_compliant=True,
+                            confidence_score=0.9,
+                            explanation="Compliant.",
+                        )
+                    ],
+                    [[]],  # sub_requirements
+                )
             )
             mock_client.classify_control_type_async = AsyncMock(return_value=False)
+            mock_client.classify_controls_batch_async = AsyncMock(return_value=[False])
 
             result = runner.invoke(
                 app,

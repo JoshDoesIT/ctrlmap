@@ -34,6 +34,11 @@ elapsed() {
     echo "$((end - start))s"
 }
 
+# ── Performance tuning ───────────────────────────────────────────────
+# Enable Ollama continuous batching for concurrent request processing.
+# Without this, Ollama serializes all inference requests on a single GPU.
+export OLLAMA_NUM_PARALLEL=4
+
 # ── Preflight ────────────────────────────────────────────────────────
 echo -e "${BOLD}${CYAN}"
 echo "  ┌─────────────────────────────────────────────────────┐"
@@ -113,17 +118,27 @@ uv run ctrlmap map \
     --framework "$FRAMEWORKS_DIR/nist_800_53_subset.json" \
     --db-path "$OUTPUT_DIR/demo_db" \
     --rationale \
+    --cache \
+    --top-k 5 \
     --output-format "markdown,html" \
-    --output "$OUTPUT_DIR/nist_mapping.md,$OUTPUT_DIR/nist_report.html"
-info "NIST mapping complete"
+    --output "$OUTPUT_DIR/nist_mapping.md,$OUTPUT_DIR/nist_report.html" &
+NIST_PID=$!
 
 info "Mapping against PCI DSS v4.0.1 (markdown + json + html in one pass)..."
 uv run ctrlmap map \
     --framework "$FRAMEWORKS_DIR/pci_dss_v4_oscal.json" \
     --db-path "$OUTPUT_DIR/demo_db" \
     --rationale \
+    --cache \
+    --top-k 5 \
     --output-format "markdown,json,html" \
-    --output "$OUTPUT_DIR/pci_mapping.md,$OUTPUT_DIR/pci_mapping.json,$OUTPUT_DIR/pci_report.html"
+    --output "$OUTPUT_DIR/pci_mapping.md,$OUTPUT_DIR/pci_mapping.json,$OUTPUT_DIR/pci_report.html" &
+PCI_PID=$!
+
+# Wait for both mapping jobs to finish
+wait $NIST_PID
+info "NIST mapping complete"
+wait $PCI_PID
 info "PCI DSS mapping complete ($(elapsed $T))"
 
 # ── Step 5: Harmonize ───────────────────────────────────────────────

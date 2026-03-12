@@ -641,8 +641,8 @@ class TestPerChunkSelection:
     """Per-chunk rationale selection should pick the best rationale."""
 
     def test_select_best_rationale_picks_compliant_over_non_compliant(self) -> None:
-        """When one chunk produces compliant and another non-compliant,
-        the compliant rationale should be selected."""
+        """With majority vote, a 1:1 tie between FC and NC breaks
+        conservatively to NC (lower compliance level)."""
         from ctrlmap.llm.structured_output import select_best_rationale
         from ctrlmap.models.schemas import ComplianceLevel
 
@@ -659,8 +659,9 @@ class TestPerChunkSelection:
             explanation="Chunk does not address the control.",
         )
 
+        # 1:1 tie → conservative tie-break picks NC
         best = select_best_rationale([non_compliant, compliant])
-        assert best.compliance_level == ComplianceLevel.FULLY_COMPLIANT
+        assert best.compliance_level == ComplianceLevel.NON_COMPLIANT
 
     def test_select_best_rationale_picks_higher_confidence(self) -> None:
         """When multiple chunks produce the same compliance level,

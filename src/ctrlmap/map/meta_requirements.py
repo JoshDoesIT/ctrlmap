@@ -8,8 +8,37 @@ the verdict of sibling controls in the same requirement family.
 
 from __future__ import annotations
 
+import re
+
 from ctrlmap.llm.client import OllamaClient
 from ctrlmap.models.schemas import ComplianceLevel, MappedResult, MappingRationale, SecurityControl
+
+# Heuristic patterns that reliably identify governance/meta-requirements.
+# These are framework-agnostic and catch common PCI DSS, NIST, ISO patterns.
+_META_PATTERNS: list[re.Pattern[str]] = [
+    # "All security policies ... are documented / kept up to date / in use"
+    re.compile(
+        r"all\s+security\s+policies\s+and\s+operational\s+procedures.*"
+        r"(?:documented|kept\s+up\s+to\s+date|in\s+use|known\s+to\s+all)",
+        re.IGNORECASE | re.DOTALL,
+    ),
+    # "Roles and responsibilities for performing activities in Requirement X"
+    re.compile(
+        r"roles\s+and\s+responsibilities\s+for\s+performing\s+activities\s+in\s+requirement",
+        re.IGNORECASE,
+    ),
+]
+
+
+def _heuristic_is_meta(control: SecurityControl) -> bool:
+    """Detect meta-requirements using text pattern heuristics.
+
+    Framework-agnostic fallback for cases where the LLM batch classifier
+    misses governance controls. Returns ``True`` if the control's
+    description matches any known governance pattern.
+    """
+    text = control.description or ""
+    return any(p.search(text) for p in _META_PATTERNS)
 
 
 def classify_meta_requirement(
