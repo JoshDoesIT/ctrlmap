@@ -12,7 +12,7 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass, field
 
-from rank_bm25 import BM25Okapi
+from rank_bm25 import BM25Okapi  # type: ignore[import-untyped]
 
 from ctrlmap.index.query import QueryResult, query_by_embedding
 from ctrlmap.index.vector_store import VectorStore

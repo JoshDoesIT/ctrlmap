@@ -9,6 +9,7 @@ Ref: GitHub Issue #18.
 
 from __future__ import annotations
 
+import contextlib
 import json
 import logging
 import time
@@ -83,14 +84,12 @@ class OllamaClient:
         Prevents cold-start latency on the first real inference call.
         The response is discarded.
         """
-        try:
+        with contextlib.suppress(Exception):  # warmup failure is non-fatal
             await self._async_client.chat(
                 model=self._model,
                 messages=[{"role": "user", "content": "hi"}],
                 options={"temperature": 0, "num_predict": 1},
             )
-        except Exception:
-            pass  # warmup failure is non-fatal
 
     # ------------------------------------------------------------------
     # LLM call
@@ -120,7 +119,7 @@ class OllamaClient:
         }
         if json_mode:
             kwargs["format"] = "json"
-        response = ollama.chat(**kwargs)  # type: ignore[arg-type]
+        response = ollama.chat(**kwargs)  # type: ignore[call-overload]
         raw = str(response.message.content)
         _log.debug(
             json.dumps(
@@ -269,7 +268,7 @@ class OllamaClient:
         }
         if json_mode:
             kwargs["format"] = "json"
-        response = await self._async_client.chat(**kwargs)  # type: ignore[arg-type]
+        response = await self._async_client.chat(**kwargs)  # type: ignore[call-overload]
         raw = str(response.message.content)
         _log.debug(
             json.dumps(
@@ -317,7 +316,9 @@ class OllamaClient:
         template = load_prompt("meta_classification.txt")
         prompt = template.format(control_text=control_text)
         try:
-            raw = (await self.call_llm_async(prompt, "classify_control_type", json_mode=True)).strip()
+            raw = (
+                await self.call_llm_async(prompt, "classify_control_type", json_mode=True)
+            ).strip()
             cleaned = extract_json_object(raw)
             data = json.loads(cleaned)
             return bool(data.get("is_meta", False))
@@ -361,7 +362,9 @@ class OllamaClient:
             requirement_family=requirement_family or "Not specified",
         )
         try:
-            raw = (await self.call_llm_async(prompt, "verify_chunk_relevance", json_mode=True)).strip()
+            raw = (
+                await self.call_llm_async(prompt, "verify_chunk_relevance", json_mode=True)
+            ).strip()
             cleaned = extract_json_object(raw)
             data = json.loads(cleaned)
             return bool(data.get("relevant", False))
@@ -467,9 +470,7 @@ class OllamaClient:
             raw = await self.call_llm_async(prompt, "evaluate_chunks_batch")
             results = _parse_batch_response(raw, expected_count=len(chunk_texts))
             if results is not None:
-                sub_reqs = extract_sub_requirements_from_batch(
-                    raw, expected_count=len(chunk_texts)
-                )
+                sub_reqs = extract_sub_requirements_from_batch(raw, expected_count=len(chunk_texts))
                 return results, sub_reqs
             if attempt == 0:
                 _log.warning("Batch evaluation parse failed, retrying (attempt 2/2)")
@@ -568,10 +569,9 @@ class OllamaClient:
         truncated = text[:max_chars]
         # Find the last sentence-ending period followed by a space or at end
         last_period = truncated.rfind(". ")
-        if last_period < 0:
+        if last_period < 0 and truncated.endswith("."):
             # Also check for period at the very end of the window
-            if truncated.endswith("."):
-                last_period = len(truncated) - 1
+            last_period = len(truncated) - 1
         if last_period >= max_chars * 0.5:
             return truncated[: last_period + 1]
         return truncated + "\n[...truncated]"

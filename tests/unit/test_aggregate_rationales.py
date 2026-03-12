@@ -34,7 +34,11 @@ class TestAggregateRationales:
         )
         sub2 = [
             {"requirement": "Test for wireless APs", "covered": False, "evidence": ""},
-            {"requirement": "Detect unauthorized APs", "covered": True, "evidence": "WIDS deployed"},
+            {
+                "requirement": "Detect unauthorized APs",
+                "covered": True,
+                "evidence": "WIDS deployed",
+            },
             {"requirement": "Testing quarterly", "covered": False, "evidence": ""},
         ]
 

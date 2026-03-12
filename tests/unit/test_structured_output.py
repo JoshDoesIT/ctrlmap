@@ -271,4 +271,3 @@ class TestMajorityVoteAggregation:
         result = select_best_rationale([rationale])
         assert result is not None
         assert result.compliance_level == ComplianceLevel.PARTIALLY_COMPLIANT
-

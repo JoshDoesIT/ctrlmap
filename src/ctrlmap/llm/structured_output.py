@@ -57,9 +57,7 @@ def select_best_rationale(
         return rationales[0]
 
     # Count votes per compliance level
-    level_counts: Counter[ComplianceLevel] = Counter(
-        r.compliance_level for r in rationales
-    )
+    level_counts: Counter[ComplianceLevel] = Counter(r.compliance_level for r in rationales)
 
     # Find the winning level: most votes, then lowest priority (conservative)
     winning_level = min(
@@ -176,12 +174,14 @@ def aggregate_rationales(
                 f"{covered}/{total} sub-requirements. "
                 f"Missing: {'; '.join(missing_reqs)}"
             )
-        return _apply_confidence_floor(MappingRationale(
-            is_compliant=computed != ComplianceLevel.NON_COMPLIANT,
-            compliance_level=computed,
-            confidence_score=min(best.confidence_score, 1.0),
-            explanation=explanation,
-        ))
+        return _apply_confidence_floor(
+            MappingRationale(
+                is_compliant=computed != ComplianceLevel.NON_COMPLIANT,
+                compliance_level=computed,
+                confidence_score=min(best.confidence_score, 1.0),
+                explanation=explanation,
+            )
+        )
 
     return _apply_confidence_floor(best)
 

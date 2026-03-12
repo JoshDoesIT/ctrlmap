@@ -147,9 +147,6 @@ async def _enrich_async(
     # Partition into meta vs non-meta controls
     non_meta_results = [r for r in results if r.control.control_id not in meta_ids]
 
-
-
-
     # Step 0c: Deduplicate chunks within each control
     for r in non_meta_results:
         r.supporting_chunks = _deduplicate_chunks(r.supporting_chunks)
@@ -169,10 +166,7 @@ async def _enrich_async(
 
     # Step 2: LLM batch meta-classification (only non-heuristic controls)
     t1 = time.monotonic()
-    non_heuristic = [
-        (i, r) for i, r in enumerate(results)
-        if r.control.control_id not in meta_ids
-    ]
+    non_heuristic = [(i, r) for i, r in enumerate(results) if r.control.control_id not in meta_ids]
     console.print(
         f"[bold blue]LLM:[/] Batch meta-classifying "
         f"{len(non_heuristic)} controls ({DEFAULT_FAST_MODEL}, "
@@ -184,7 +178,7 @@ async def _enrich_async(
             batch_flags = await fast_client.classify_controls_batch_async(
                 control_texts=control_texts,
             )
-        for (orig_idx, _), is_meta in zip(non_heuristic, batch_flags):
+        for (orig_idx, _), is_meta in zip(non_heuristic, batch_flags, strict=True):
             if is_meta:
                 meta_ids.add(results[orig_idx].control.control_id)
 
@@ -247,8 +241,6 @@ def _deduplicate_chunks(chunks: list[ParsedChunk]) -> list[ParsedChunk]:
             seen.add(key)
             unique.append(chunk)
     return unique
-
-
 
 
 async def _process_one_control(

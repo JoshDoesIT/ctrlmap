@@ -158,9 +158,7 @@ def map_controls(
 
     results: list[MappedResult] = []
 
-    for control, embedding, bm25_query_text in zip(
-        controls, embeddings, bm25_queries, strict=True
-    ):
+    for control, embedding, bm25_query_text in zip(controls, embeddings, bm25_queries, strict=True):
         # Use hybrid search (BM25 + ANN fusion via RRF)
         if bm25_index.bm25 is not None:
             query_results = hybrid_query(
@@ -202,4 +200,3 @@ def map_controls(
         )
 
     return results
-
