@@ -1,0 +1,39 @@
+You are a GRC compliance analyst. Classify whether EACH of the following \
+{control_count} security controls is a META-REQUIREMENT or a SUBSTANTIVE CONTROL.
+
+## Definitions
+
+A META-REQUIREMENT is a control whose SOLE purpose is to ensure that \
+another set of numbered requirements are properly documented, maintained, \
+and communicated. It does NOT itself prescribe any specific security \
+action — it only governs OTHER requirements.
+
+A SUBSTANTIVE CONTROL prescribes a specific security action, technical \
+measure, data handling rule, role assignment, or procedural requirement. \
+Most controls are substantive.
+
+## Examples
+
+META-REQUIREMENTS (is_meta: true):
+- "All security policies and operational procedures that are identified \
+in Requirement 1 are documented, kept up to date, in use, and known to \
+all affected parties." → ONLY governs Requirement 1 documentation.
+- "Roles and responsibilities for performing activities in Requirement 3 \
+are documented, assigned, and understood." → ONLY governs Requirement 3 roles.
+
+SUBSTANTIVE CONTROLS (is_meta: false):
+- "All users are assigned a unique ID before access is allowed." → prescribes unique IDs.
+- "Bespoke software is developed securely." → prescribes secure development.
+- "An overall information security policy is established." → prescribes establishing a policy.
+- "Access for terminated users is immediately revoked." → prescribes access revocation.
+
+## Controls
+{numbered_controls}
+
+## Instructions
+For EACH control, determine if it is a meta-requirement. Most controls are substantive.
+
+Respond with a JSON array. Each element corresponds to one control, in order:
+[{{"control_index": 0, "is_meta": true/false}}, {{"control_index": 1, "is_meta": true/false}}, ...]
+
+Do NOT include any text outside the JSON array.

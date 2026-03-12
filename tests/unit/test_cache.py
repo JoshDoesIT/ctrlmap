@@ -46,6 +46,7 @@ class TestLLMCache:
 
         cache1 = LLMCache(cache_dir=tmp_path)
         cache1.put(model="llama3", prompt="persistent", response="persisted value")
+        cache1.flush()
 
         cache2 = LLMCache(cache_dir=tmp_path)
         assert cache2.get(model="llama3", prompt="persistent") == "persisted value"

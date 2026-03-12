@@ -1,8 +1,12 @@
 """P3: End-to-end pipeline scenario evaluation.
 
-Runs the complete ctrlmap pipeline (index → map → LLM relevance filter →
-rationale → gap → meta-resolution) against a small, controlled scenario
-and asserts structural correctness of outputs.
+Runs the complete ctrlmap pipeline using the REAL ``enrich_with_rationale()``
+entry point (not individual function calls) against a small, controlled
+scenario and asserts structural correctness of outputs.
+
+This validates that the actual production pipeline — including batch
+evaluation, batch meta-classification, chunk truncation, and heuristic
+pre-filtering — produces correct results.
 
 This test is designed for fast iteration — 5 controls + 8 chunks runs
 in seconds vs. the full demo's hundreds of controls taking minutes.
@@ -19,14 +23,8 @@ import pytest
 
 from ctrlmap.index.embedder import Embedder
 from ctrlmap.index.vector_store import VectorStore
-from ctrlmap.llm.client import OllamaClient
-from ctrlmap.llm.structured_output import (
-    generate_gap_rationale,
-    generate_rationale,
-    select_best_rationale,
-)
+from ctrlmap.map.enrichment import enrich_with_rationale
 from ctrlmap.map.mapper import map_controls
-from ctrlmap.map.meta_requirements import classify_meta_controls, resolve_meta_requirements
 from ctrlmap.models.schemas import MappingRationale, ParsedChunk, SecurityControl
 
 FIXTURE_PATH = Path(__file__).parent.parent / "fixtures" / "e2e_scenario.json"
@@ -40,19 +38,18 @@ def _load_scenario() -> dict:
 
 @pytest.mark.eval
 class TestEndToEndScenario:
-    """P3: Full pipeline regression test against a controlled scenario."""
+    """P3: Full pipeline regression test using the real enrichment pipeline."""
 
     def test_pipeline_produces_correct_outcomes(self, tmp_path: Path) -> None:
-        """Full pipeline must produce correct chunk assignments and compliance.
+        """Real pipeline must produce correct chunk assignments and compliance.
 
         Steps:
-        1. Index scenario chunks
+        1. Index scenario chunks into a temporary vector store
         2. Map controls to chunks via vector similarity
-        3. LLM relevance filter
-        4. Generate rationales
-        5. Generate gap rationales
-        6. Classify and resolve meta-requirements
-        7. Assert outcomes match expected
+        3. Run the REAL ``enrich_with_rationale()`` pipeline (batch
+           evaluation, batch meta-classification, gap rationale, meta
+           resolution)
+        4. Assert outcomes match expected
         """
         scenario = _load_scenario()
 
@@ -82,58 +79,15 @@ class TestEndToEndScenario:
             embedder=embedder,
         )
 
-        # --- Step 3: LLM relevance filter ---
-        llm_client = OllamaClient()
-        for result in results:
-            if not result.supporting_chunks:
-                continue
-            ctrl = result.control
-            control_text = f"{ctrl.control_id}: {ctrl.title}. {ctrl.description}"
-            verified: list[ParsedChunk] = []
-            for chunk in result.supporting_chunks:
-                is_relevant = llm_client.verify_chunk_relevance(
-                    control_text=control_text,
-                    chunk_text=chunk.raw_text,
-                    requirement_family=ctrl.requirement_family,
-                )
-                if is_relevant:
-                    verified.append(chunk)
-                else:
-                    print(f"  Dropped: {ctrl.control_id} ← {chunk.chunk_id}")
-            result.supporting_chunks = verified
+        # --- Step 3: Run the REAL enrichment pipeline ---
+        from ctrlmap._defaults import DEFAULT_LLM_MODEL
 
-        # --- Step 4: Generate rationales ---
-        for result in results:
-            if not result.supporting_chunks:
-                continue
-            ctrl = result.control
-            control_text = f"{ctrl.control_id}: {ctrl.title}. {ctrl.description}"
-            chunk_rationales: list[MappingRationale] = []
-            for chunk in result.supporting_chunks:
-                rat = generate_rationale(
-                    control_text=control_text,
-                    chunk_text=chunk.raw_text,
-                )
-                if isinstance(rat, MappingRationale):
-                    chunk_rationales.append(rat)
-            best = select_best_rationale(chunk_rationales)
-            if best is not None:
-                result.rationale = best
-
-        # --- Step 5: Classify meta + gap rationales ---
-        meta_ids = classify_meta_controls(results=results, client=llm_client)
-
-        for result in results:
-            if result.rationale is None and not result.supporting_chunks:
-                ctrl = result.control
-                control_text = f"{ctrl.control_id}: {ctrl.title}. {ctrl.description}"
-                result.rationale = generate_gap_rationale(
-                    control_text=control_text,
-                    client=llm_client,
-                )
-
-        # --- Step 6: Resolve meta-requirements ---
-        results = resolve_meta_requirements(results=results, meta_control_ids=meta_ids)
+        results = enrich_with_rationale(
+            results,
+            llm_model=DEFAULT_LLM_MODEL,
+            concurrency=4,
+            cache_enabled=False,
+        )
 
         # --- Assert outcomes ---
         expected = scenario["expected_outcomes"]

@@ -10,21 +10,30 @@ Usage::
     if cached is None:
         response = llm_call(...)
         cache.put(model="llama3", prompt="...", response=response)
+    cache.flush()  # commit buffered writes
 """
 
 from __future__ import annotations
 
+import contextlib
 import hashlib
 import sqlite3
 from pathlib import Path
 
 
 class LLMCache:
-    """SQLite-backed LLM response cache.
+    """SQLite-backed LLM response cache with batched commits.
+
+    Buffers ``put()`` operations and commits them in a single
+    transaction when ``flush()`` is called — or when the buffer
+    reaches ``_FLUSH_INTERVAL`` entries.  This avoids per-insert
+    ``fsync`` overhead during high-throughput LLM pipelines.
 
     Args:
         cache_dir: Directory for the SQLite database file.
     """
+
+    _FLUSH_INTERVAL = 16
 
     def __init__(self, cache_dir: Path) -> None:
         cache_dir.mkdir(parents=True, exist_ok=True)
@@ -36,6 +45,12 @@ class LLMCache:
         self._conn.commit()
         self._hits = 0
         self._misses = 0
+        self._pending = 0
+
+    def __del__(self) -> None:
+        """Flush pending writes on instance destruction."""
+        with contextlib.suppress(Exception):
+            self.flush()
 
     @staticmethod
     def _make_key(model: str, prompt: str) -> str:
@@ -53,6 +68,9 @@ class LLMCache:
     def get(self, *, model: str, prompt: str) -> str | None:
         """Look up a cached response.
 
+        Flushes pending writes first so that recently cached
+        responses are visible.
+
         Args:
             model: The LLM model name.
             prompt: The full prompt text.
@@ -60,6 +78,8 @@ class LLMCache:
         Returns:
             The cached response string, or ``None`` on a miss.
         """
+        if self._pending:
+            self.flush()
         key = self._make_key(model, prompt)
         row = self._conn.execute("SELECT response FROM cache WHERE key = ?", (key,)).fetchone()
         if row is not None:
@@ -69,7 +89,7 @@ class LLMCache:
         return None
 
     def put(self, *, model: str, prompt: str, response: str) -> None:
-        """Store a response in the cache.
+        """Buffer a response for later commit.
 
         Args:
             model: The LLM model name.
@@ -81,7 +101,15 @@ class LLMCache:
             "INSERT OR REPLACE INTO cache (key, response) VALUES (?, ?)",
             (key, response),
         )
-        self._conn.commit()
+        self._pending += 1
+        if self._pending >= self._FLUSH_INTERVAL:
+            self.flush()
+
+    def flush(self) -> None:
+        """Commit all buffered writes to disk."""
+        if self._pending:
+            self._conn.commit()
+            self._pending = 0
 
     def clear(self) -> None:
         """Remove all cached entries."""
@@ -89,6 +117,7 @@ class LLMCache:
         self._conn.commit()
         self._hits = 0
         self._misses = 0
+        self._pending = 0
 
     def stats(self) -> dict[str, int]:
         """Return cache hit/miss statistics.

@@ -1,6 +1,6 @@
 [
   {
-    "common_id": "CC-395c4a7f",
+    "common_id": "CC-b9c7cce9",
     "theme": "Policy and Procedures",
     "unified_description": "Develop, document, and disseminate access control policies and procedures.",
     "source_references": [
@@ -8,23 +8,16 @@
     ]
   },
   {
-    "common_id": "CC-969b4780",
+    "common_id": "CC-82b43232",
     "theme": "Account Management",
-    "unified_description": "Define and document the types of accounts allowed and specifically prohibited for use within the system.",
+    "unified_description": "Define and document the types of accounts allowed and specifically prohibited for use within the system. | Support the management of system accounts using automated mechanisms.",
     "source_references": [
-      "AC-2"
-    ]
-  },
-  {
-    "common_id": "CC-4626709f",
-    "theme": "Automated System Account Management",
-    "unified_description": "Support the management of system accounts using automated mechanisms.",
-    "source_references": [
+      "AC-2",
       "AC-2(1)"
     ]
   },
   {
-    "common_id": "CC-06352f3a",
+    "common_id": "CC-a3769165",
     "theme": "Protection of Information at Rest",
     "unified_description": "Protect the confidentiality and integrity of information at rest.",
     "source_references": [
@@ -32,29 +25,45 @@
     ]
   },
   {
-    "common_id": "CC-59f0df03",
+    "common_id": "CC-7884e42e",
     "theme": "PCI DSS 1.1.1",
-    "unified_description": "All security policies and operational procedures that are identified in Requirement 1 are: \n\u2022\t Documented.\n\u2022\t Kept up to date.\n\u2022\t In use.\n\u2022\t Known to all affected parties. All security policies and operational procedures that are identified in Requirement 3 are: \n\u2022\tDocumented. \n\u2022\tKept up to date. \n\u2022\tIn use.\n\u2022\tKnown to all affected parties. All security policies and operational procedures that are identified in Requirement 6 are:\n\u2022\t Documented.\n\u2022\t Kept up to date.\n\u2022\t In use.\n\u2022\t Known to all affected parties. All security policies and operational procedures that are identified in Requirement 8 are:\n\u2022\t Documented.\n\u2022\t Kept up to date.\n\u2022\t In use.\n\u2022\t Known to all affected parties.",
+    "unified_description": "The security policy clearly defines information security roles and responsibilities for all personnel, and all personnel are aware and acknowledge their information security responsibilities. | An overall information security policy is: \n\u2022\t Established.\n\u2022\t Published.\n\u2022\t Maintained.\n\u2022\t Disseminated to all relevant personnel, as well as to relevant vendors and business partners. | All security policies and operational procedures that are identified in Requirement 11 are: \n\u2022\t Documented. \n\u2022\t Kept up to date.\n\u2022\t In use.\n\u2022\t Known to all affected parties. | All security policies and operational procedures that are identified in Requirement 9 are:\n\u2022\t Documented. \n\u2022\t Kept up to date. \n\u2022\t In use.\n\u2022\t Known to all affected parties. | All security policies and operational procedures that are identified in Requirement 10 are: \n\u2022\t Documented.\n\u2022\t Kept up to date.\n\u2022\t In use.\n\u2022\t Known to all affected parties. | All security policies and operational procedures that are identified in Requirement 2 are: \n\u2022\t Documented.\n\u2022\t Kept up to date.\n\u2022\t In use.\n\u2022\t Known to all affected parties. | All security policies and operational procedures that are identified in Requirement 1 are: \n\u2022\t Documented.\n\u2022\t Kept up to date.\n\u2022\t In use.\n\u2022\t Known to all affected parties. | All security policies and operational procedures that are identified in Requirement 6 are:\n\u2022\t Documented.\n\u2022\t Kept up to date.\n\u2022\t In use.\n\u2022\t Known to all affected parties. | All security policies and operational procedures that are identified in Requirement 8 are:\n\u2022\t Documented.\n\u2022\t Kept up to date.\n\u2022\t In use.\n\u2022\t Known to all affected parties. | All security policies and operational procedures that are identified in Requirement 3 are: \n\u2022\tDocumented. \n\u2022\tKept up to date. \n\u2022\tIn use.\n\u2022\tKnown to all affected parties. | All security policies and operational procedures that are identified in Requirement 7 are:\n\u2022\tDocumented, \n\u2022\tKept up to date\n\u2022\t In use \n\u2022\tKnown to all affected parties. | All security policies and operational procedures that are identified in Requirement 5 are:\n\u2022\t Documented\n\u2022\t Kept up to date\n\u2022\t In use\n\u2022\t Known to all affected parties | All security policies and operational procedures that are identified in Requirement 4 are:\n\u2022\t Documented\n\u2022\t Kept up to date\n\u2022\t In use\n\u2022\t Known to all affected parties",
     "source_references": [
       "1.1.1",
+      "2.1.1",
       "3.1.1",
+      "4.1.1",
+      "5.1.1",
       "6.1.1",
-      "8.1.1"
+      "7.1.1",
+      "8.1.1",
+      "9.1.1",
+      "10.1.1",
+      "11.1.1",
+      "12.1.1",
+      "12.1.3"
     ]
   },
   {
-    "common_id": "CC-cfe8f63e",
+    "common_id": "CC-a3e94f65",
     "theme": "PCI DSS 1.1.2",
-    "unified_description": "Roles and responsibilities for performing activities in Requirement 1 are documented, assigned, and understood. Roles and responsibilities for performing activities in Requirement 3 are documented, assigned, and understood. Roles and responsibilities for performing activities in Requirement 6 are documented, assigned, and understood. \nNew requirement - effective immediately Roles and responsibilities for performing activities in Requirement 8 are documented, assigned, and understood.",
+    "unified_description": "Roles and responsibilities for performing activities in Requirement 6 are documented, assigned, and understood. \nNew requirement - effective immediately | Roles and responsibilities for performing activities in Requirement 11 are documented, assigned, and understood. | Roles and responsibilities for performing activities in Requirement 10 are documented, assigned, and understood. | Roles and responsibilities for performing activities in Requirement 7 are documented, assigned, and understood. | Roles and responsibilities for performing activities in Requirement 5 are documented, assigned, and understood. | Roles and responsibilities for performing activities in Requirement 9 are documented, assigned, and understood. | Roles and responsibilities for performing activities in Requirement 3 are documented, assigned, and understood. | Roles and responsibilities for performing activities in Requirement 8 are documented, assigned, and understood. | Roles and responsibilities for performing activities in Requirement 2 are documented, assigned, and understood. | Roles and responsibilities for performing activities in Requirement 4 are documented, assigned, and understood. | Roles and responsibilities for performing activities in Requirement 1 are documented, assigned, and understood.",
     "source_references": [
       "1.1.2",
+      "2.1.2",
       "3.1.2",
+      "4.1.2",
+      "5.1.2",
       "6.1.2",
-      "8.1.2"
+      "7.1.2",
+      "8.1.2",
+      "9.1.2",
+      "10.1.2",
+      "11.1.2"
     ]
   },
   {
-    "common_id": "CC-d19f7fbf",
+    "common_id": "CC-0f2fdd32",
     "theme": "PCI DSS 1.2.1",
     "unified_description": "Configuration standards for NSC rulesets are:\n\u2022\t Defined.\n\u2022\t Implemented.\n\u2022\t Maintained.",
     "source_references": [
@@ -62,7 +71,7 @@
     ]
   },
   {
-    "common_id": "CC-b122e211",
+    "common_id": "CC-3668e677",
     "theme": "PCI DSS 1.2.2",
     "unified_description": "All changes to network connections and to configurations of NSCs are approved and managed in accordance with the change control process defined at Requirement 6.5.1.",
     "source_references": [
@@ -70,7 +79,7 @@
     ]
   },
   {
-    "common_id": "CC-7218e73e",
+    "common_id": "CC-9744977e",
     "theme": "PCI DSS 1.2.3",
     "unified_description": "An accurate network diagram(s) is maintained that shows all connections between the CDE and other networks, including any wireless networks.",
     "source_references": [
@@ -78,7 +87,7 @@
     ]
   },
   {
-    "common_id": "CC-e9422191",
+    "common_id": "CC-c08abf8b",
     "theme": "PCI DSS 1.2.4",
     "unified_description": "An accurate data-flow diagram(s) is maintained that meets the following:  \n\u2022\t Shows all account data flows across systems and networks.\n\u2022\t Updated as needed upon changes to the environment.",
     "source_references": [
@@ -86,7 +95,39 @@
     ]
   },
   {
-    "common_id": "CC-04d46536",
+    "common_id": "CC-4d574040",
+    "theme": "PCI DSS 2.2.1",
+    "unified_description": "Configuration standards are developed, implemented, and maintained to:\n\u2022\t Cover all system components.\n\u2022\t Address all known security vulnerabilities. \n\u2022\t Be consistent with industry-accepted system hardening standards or vendor hardening recommendations. \n\u2022\t Be updated as new vulnerability issues are identified, as defined in Requirement 6.3.1.\n\u2022\t Be applied when new systems are configured and verified as in place before or immediately after a system component is connected to a production environment.",
+    "source_references": [
+      "2.2.1"
+    ]
+  },
+  {
+    "common_id": "CC-e94d01fe",
+    "theme": "PCI DSS 2.2.2",
+    "unified_description": "Vendor default accounts are managed as follows:\n\u2022\t If the vendor default account(s) will be used, the default password is changed per Requirement 8.3.6.\n\u2022\t If the vendor default account(s) will not be used, the account is removed or disabled.",
+    "source_references": [
+      "2.2.2"
+    ]
+  },
+  {
+    "common_id": "CC-0a9c3ba0",
+    "theme": "PCI DSS 2.2.3",
+    "unified_description": "Primary functions requiring different security levels are managed as follows: \n\u2022\t Only one primary function exists on a system component,\nOR\n\u2022\t Primary functions with differing security levels that exist on the same system component are isolated from each other,\nOR\n\u2022\t Primary functions with differing security levels on the same system component are all secured to the level required by the function with the highest security need.",
+    "source_references": [
+      "2.2.3"
+    ]
+  },
+  {
+    "common_id": "CC-8775e29a",
+    "theme": "PCI DSS 2.3.1",
+    "unified_description": "For wireless environments connected to the CDE or transmitting account data, all wireless vendor defaults are changed at installation or are confirmed to be secure, including but not limited to:\n\u2022\t Default wireless encryption keys.\n\u2022\t Passwords on wireless access points.\n\u2022\t SNMP defaults,\n\u2022\t Any other security-related wireless vendor defaults.",
+    "source_references": [
+      "2.3.1"
+    ]
+  },
+  {
+    "common_id": "CC-0e732c4d",
     "theme": "PCI DSS 3.2.1",
     "unified_description": "Account data storage is kept to a minimum through implementation of data retention and disposal policies, procedures, and processes that include at least the following:\n\u2022\t Coverage for all locations of stored account data.\n\u2022\t Coverage for any sensitive authentication data (SAD) stored prior to completion of authorization. This bullet is a best practice until its effective date; refer to",
     "source_references": [
@@ -94,7 +135,7 @@
     ]
   },
   {
-    "common_id": "CC-9e5f3e6d",
+    "common_id": "CC-9b981ea1",
     "theme": "PCI DSS 3.3.1",
     "unified_description": "SAD is not stored after authorization, even if encrypted. All sensitive authentication data received is rendered unrecoverable upon completion of the authorization process",
     "source_references": [
@@ -102,7 +143,7 @@
     ]
   },
   {
-    "common_id": "CC-5c676cde",
+    "common_id": "CC-64f77090",
     "theme": "PCI DSS 3.3.1.1",
     "unified_description": "The full contents of any track are not stored upon completion of the authorization process.",
     "source_references": [
@@ -110,7 +151,7 @@
     ]
   },
   {
-    "common_id": "CC-99ea31ec",
+    "common_id": "CC-943d0a15",
     "theme": "PCI DSS 3.3.1.2",
     "unified_description": "The card verification code is not stored upon completion of the authorization process.",
     "source_references": [
@@ -118,7 +159,7 @@
     ]
   },
   {
-    "common_id": "CC-3ffed50a",
+    "common_id": "CC-44561c8f",
     "theme": "PCI DSS 3.3.1.3",
     "unified_description": "The personal identification number (PIN) and the PIN block are not stored upon completion of the authorization process.",
     "source_references": [
@@ -126,7 +167,42 @@
     ]
   },
   {
-    "common_id": "CC-d2380416",
+    "common_id": "CC-ee133ed0",
+    "theme": "PCI DSS 4.2.1",
+    "unified_description": "Strong cryptography and security protocols are implemented as follows to safeguard PAN during transmission over open, public networks:\n\u2022\t Only trusted keys and certificates are accepted.\n\u2022\t Certificates used to safeguard PAN during transmission over open, public networks are confirmed as valid and are not expired or revoked. This bullet is a best practice until its effective date; refer to applicability notes below for details.\n\u2022\t The protocol in use supports only secure versions or configurations and does not support fallback to, or use of insecure versions, algorithms, key sizes, or implementations.\n\u2022\t The encryption strength is appropriate for the encryption methodology in use.",
+    "source_references": [
+      "4.2.1"
+    ]
+  },
+  {
+    "common_id": "CC-2bf3b2ff",
+    "theme": "PCI DSS 4.2.1.1",
+    "unified_description": "An inventory of the entity\u2019s trusted keys and certificates is maintained.",
+    "source_references": [
+      "4.2.1.1"
+    ]
+  },
+  {
+    "common_id": "CC-ead82347",
+    "theme": "PCI DSS 4.2.2",
+    "unified_description": "PAN is secured with strong cryptography whenever it is sent via end-user messaging technologies.",
+    "source_references": [
+      "4.2.2"
+    ]
+  },
+  {
+    "common_id": "CC-d33318bb",
+    "theme": "PCI DSS 5.2.1",
+    "unified_description": "Any system components that are not at risk for malware are evaluated periodically to include the following: \n\u2022\t A documented list of all system components not at risk for malware.\n\u2022\t Identification and evaluation of evolving malware threats for those system components.\n\u2022\t Confirmation whether such system components continue to not require anti-malware protection. | An anti-malware solution(s) is deployed on all system components, except for those system components identified in periodic evaluations per Requirement 5.2.3 that concludes the system components are not at risk from malware. | The deployed anti-malware solution(s):\n\u2022\t Detects all known types of malware.\n\u2022\t Removes, blocks, or contains all known types of malware. | The anti-malware solution(s) is kept current via automatic updates.",
+    "source_references": [
+      "5.2.1",
+      "5.2.2",
+      "5.2.3",
+      "5.3.1"
+    ]
+  },
+  {
+    "common_id": "CC-31c7aeb7",
     "theme": "PCI DSS 6.2.1",
     "unified_description": "Bespoke and custom software are developed securely, as follows:\n\u2022\t Based on industry standards and/or best practices for secure development. \n\u2022\t In accordance with PCI DSS (for example, secure authentication and logging). \n\u2022\t Incorporating consideration of information security issues during each stage of the software development lifecycle.",
     "source_references": [
@@ -134,7 +210,7 @@
     ]
   },
   {
-    "common_id": "CC-c5d468fb",
+    "common_id": "CC-4924bb87",
     "theme": "PCI DSS 6.2.2",
     "unified_description": "Software development personnel working on bespoke and custom software are trained at least once every 12 months as follows: \n\u2022\t On software security relevant to their job function and development languages.\n\u2022\t Including secure software design and secure coding techniques.\n\u2022\t Including, if security testing tools are used, how to use the tools for detecting vulnerabilities in software.",
     "source_references": [
@@ -142,7 +218,7 @@
     ]
   },
   {
-    "common_id": "CC-b10e7ee9",
+    "common_id": "CC-00a93252",
     "theme": "PCI DSS 6.2.3",
     "unified_description": "Bespoke and custom software is reviewed prior to being released into production or to customers, to identify and correct potential coding vulnerabilities, as follows:\n\u2022\t Code reviews ensure code is developed according to secure coding guidelines.\n\u2022\t Code reviews look for both existing and emerging software vulnerabilities.\n\u2022\t Appropriate corrections are implemented prior to release.",
     "source_references": [
@@ -150,7 +226,24 @@
     ]
   },
   {
-    "common_id": "CC-5661e363",
+    "common_id": "CC-0675e30d",
+    "theme": "PCI DSS 7.2.1",
+    "unified_description": "An access control model is defined and includes granting access as follows:\n\u2022\t Appropriate access depending on the entity\u2019s business and access needs. \n\u2022\t Access to system components and data resources that is based on users\u2019 job classification and functions. \n\u2022\t The least privileges required (for example, user, administrator) to perform a job function. | Access is assigned to users, including privileged users, based on: \n\u2022\t Job classification and function.\n\u2022\t Least privileges necessary to perform job responsibilities.",
+    "source_references": [
+      "7.2.1",
+      "7.2.2"
+    ]
+  },
+  {
+    "common_id": "CC-84d55387",
+    "theme": "PCI DSS 7.2.3",
+    "unified_description": "Required privileges are approved by authorized personnel.",
+    "source_references": [
+      "7.2.3"
+    ]
+  },
+  {
+    "common_id": "CC-0b9235e8",
     "theme": "PCI DSS 8.2.1",
     "unified_description": "All users are assigned a unique ID before access to system components or cardholder data is allowed.",
     "source_references": [
@@ -158,7 +251,7 @@
     ]
   },
   {
-    "common_id": "CC-15a81f0a",
+    "common_id": "CC-a8aaea52",
     "theme": "PCI DSS 8.2.2",
     "unified_description": "Group, shared, or generic IDs, or other shared authentication credentials are only used when necessary on an exception basis, and are managed as follows:\n\u2022\t ID use is prevented unless needed for an exceptional circumstance.\n\u2022\t Use is limited to the time needed for the exceptional circumstance.\n\u2022\t Business justification for use is documented.\n\u2022\t Use is explicitly approved by management. \n\u2022\t Individual user identity is confirmed before access to an account is granted.\n\u2022\t Every action taken is attributable to an individual user.",
     "source_references": [
@@ -166,7 +259,7 @@
     ]
   },
   {
-    "common_id": "CC-ca9cb7bc",
+    "common_id": "CC-e1ac3c4a",
     "theme": "PCI DSS 8.2.3",
     "unified_description": "Additional requirement for service providers only: Service providers with remote access to customer premises use unique authentication factors for each customer premises.",
     "source_references": [
@@ -174,7 +267,7 @@
     ]
   },
   {
-    "common_id": "CC-9f107b62",
+    "common_id": "CC-a39f4815",
     "theme": "PCI DSS 8.2.4",
     "unified_description": "Addition, deletion, and modification of user IDs, authentication factors, and other identifier objects are managed as follows:\n\u2022\t Authorized with the appropriate approval.\n\u2022\t Implemented with only the privileges specified on the documented approval.",
     "source_references": [
@@ -182,7 +275,7 @@
     ]
   },
   {
-    "common_id": "CC-b13f0844",
+    "common_id": "CC-a8fbe7ed",
     "theme": "PCI DSS 8.2.5",
     "unified_description": "Access for terminated users is immediately revoked",
     "source_references": [
@@ -190,18 +283,112 @@
     ]
   },
   {
-    "common_id": "CC-c7e62ebd",
-    "theme": "PCI DSS 12.1.1",
-    "unified_description": "An overall information security policy is: \n\u2022\t Established.\n\u2022\t Published.\n\u2022\t Maintained.\n\u2022\t Disseminated to all relevant personnel, as well as to relevant vendors and business partners. The information security policy is:\n\u2022\t Reviewed at least once every 12 months.\n\u2022\t Updated as needed to reflect changes to business objectives or risks to the environment. The security policy clearly defines information security roles and responsibilities for all personnel, and all personnel are aware and acknowledge their information security responsibilities. Responsibility for information security is formally assigned to a Chief Information Security Officer or other information security knowledgeable member of executive management.",
+    "common_id": "CC-3b3e988d",
+    "theme": "PCI DSS 9.2.1",
+    "unified_description": "Appropriate facility entry controls are in place to restrict physical access to systems in the CDE.",
     "source_references": [
-      "12.1.1",
-      "12.1.2",
-      "12.1.3",
+      "9.2.1"
+    ]
+  },
+  {
+    "common_id": "CC-9d496bca",
+    "theme": "PCI DSS 9.2.1.1",
+    "unified_description": "Individual physical access to sensitive areas within the CDE is monitored with either video cameras or physical access control mechanisms (or both) as follows:\n\u2022\t Entry and exit points to/from sensitive areas within the CDE are monitored. \n\u2022\t Monitoring devices or mechanisms are protected from tampering or disabling.\n\u2022\t Collected data is reviewed and correlated with other entries.\n\u2022\t Collected data is stored for at least three months, unless otherwise restricted by law.",
+    "source_references": [
+      "9.2.1.1"
+    ]
+  },
+  {
+    "common_id": "CC-fdccd464",
+    "theme": "PCI DSS 9.3.1",
+    "unified_description": "Procedures are implemented for authorizing and managing physical access of personnel to the CDE, including:\n\u2022\t  Identifying personnel.\n\u2022\t Managing changes to an individual\u2019s physical access requirements.\n\u2022\t  Revoking or terminating personnel identification.\n\u2022\t  Limiting access to the identification process or system to authorized personnel.",
+    "source_references": [
+      "9.3.1"
+    ]
+  },
+  {
+    "common_id": "CC-ef8c731f",
+    "theme": "PCI DSS 9.4.1",
+    "unified_description": "All media with cardholder data is physically secured.",
+    "source_references": [
+      "9.4.1"
+    ]
+  },
+  {
+    "common_id": "CC-742beef9",
+    "theme": "PCI DSS 10.2.1",
+    "unified_description": "Audit logs are enabled and active for all system components and cardholder data. | Audit logs capture all individual user access to cardholder data.",
+    "source_references": [
+      "10.2.1",
+      "10.2.1.1"
+    ]
+  },
+  {
+    "common_id": "CC-d607d230",
+    "theme": "PCI DSS 10.2.2",
+    "unified_description": "Audit logs record the following details for each auditable event:\n\u2022\t User identification.\n\u2022\t Type of event.\n\u2022\t Date and time.\n\u2022\t Success and failure indication.\n\u2022\t Origination of event.\n\u2022\t Identity or name of affected data, system component, resource, or service (for example, name and protocol).",
+    "source_references": [
+      "10.2.2"
+    ]
+  },
+  {
+    "common_id": "CC-1cfd58f2",
+    "theme": "PCI DSS 10.3.1",
+    "unified_description": "Read access to audit logs files is limited to those with a job-related need.",
+    "source_references": [
+      "10.3.1"
+    ]
+  },
+  {
+    "common_id": "CC-03af88e9",
+    "theme": "PCI DSS 11.2.1",
+    "unified_description": "Authorized and unauthorized wireless access points are managed as follows:\n\u2022\t The presence of wireless (Wi-Fi) access points is tested for, \n\u2022\t All authorized and unauthorized wireless access points are detected and identified, \n\u2022\t Testing, detection, and identification occurs at least once every three months. \n\u2022\t If automated monitoring is used, personnel are notified via generated alerts.",
+    "source_references": [
+      "11.2.1"
+    ]
+  },
+  {
+    "common_id": "CC-14ef644d",
+    "theme": "PCI DSS 11.3.1",
+    "unified_description": "Internal vulnerability scans are performed as follows: \n\u2022\t At least once every three months.\n\u2022\t Vulnerabilities that are either high-risk or critical (according to the entity\u2019s vulnerability risk rankings defined at Requirement 6.3.1) are resolved.\n\u2022\t Rescans are performed that confirm all high-risk and all critical vulnerabilities (as noted above) have been resolved.\n\u2022\t Scan tool is kept up to date with latest vulnerability information.\n\u2022\t Scans are performed by qualified personnel and organizational independence of the tester exists.",
+    "source_references": [
+      "11.3.1"
+    ]
+  },
+  {
+    "common_id": "CC-18f4cb5d",
+    "theme": "PCI DSS 11.3.1.1",
+    "unified_description": "All other applicable vulnerabilities (those not ranked as high-risk vulnerabilities or critical vulnerabilities according to the entity\u2019s vulnerability risk rankings defined at Requirement 6.3.1) are managed as follows:\n\u2022\t Addressed based on the risk defined in the entity\u2019s targeted risk analysis, which is performed according to all elements specified in Requirement 12.3.1.\n\u2022\t Rescans are conducted as needed.",
+    "source_references": [
+      "11.3.1.1"
+    ]
+  },
+  {
+    "common_id": "CC-b2ee06a2",
+    "theme": "PCI DSS 11.4.1",
+    "unified_description": "A penetration testing methodology is defined, documented, and implemented by the entity, and includes: \n\u2022\t Industry-accepted penetration testing approaches.\n\u2022\t Coverage for the entire CDE perimeter and critical systems. \n\u2022\t Testing from both inside and outside the network. \n\u2022\t Testing to validate any segmentation and scope-reduction controls. \n\u2022\t Application-layer penetration testing to identify, at a minimum, the vulnerabilities listed in Requirement 6.2.4. \n\u2022\t Network-layer penetration tests that encompass all components that support network functions as well as operating systems. \n\u2022\t Review and consideration of threats and vulnerabilities experienced in the last 12 months. \n\u2022\t Documented approach to assessing and addressing the risk posed by exploitable vulnerabilities and security weaknesses found during penetration testing. \n\u2022\t Retention of penetration testing results and remediation activities results for at least 12 months.",
+    "source_references": [
+      "11.4.1"
+    ]
+  },
+  {
+    "common_id": "CC-2e8c6bc6",
+    "theme": "PCI DSS 12.1.2",
+    "unified_description": "The information security policy is:\n\u2022\t Reviewed at least once every 12 months.\n\u2022\t Updated as needed to reflect changes to business objectives or risks to the environment.",
+    "source_references": [
+      "12.1.2"
+    ]
+  },
+  {
+    "common_id": "CC-b0f52d49",
+    "theme": "PCI DSS 12.1.4",
+    "unified_description": "Responsibility for information security is formally assigned to a Chief Information Security Officer or other information security knowledgeable member of executive management.",
+    "source_references": [
       "12.1.4"
     ]
   },
   {
-    "common_id": "CC-7282b4ae",
+    "common_id": "CC-23bd655f",
     "theme": "PCI DSS 12.2.1",
     "unified_description": "Acceptable use policies for end-user technologies are documented and implemented, including:\n\u2022\t Explicit approval by authorized parties.\n\u2022\t Acceptable uses of the technology.\n\u2022\t List of products approved by the company for employee use, including hardware and software.",
     "source_references": [

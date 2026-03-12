@@ -9,6 +9,7 @@ Ref: GitHub Issue #18.
 
 from __future__ import annotations
 
+import contextlib
 import json
 import logging
 import time
@@ -77,11 +78,24 @@ class OllamaClient:
             )
             raise OllamaConnectionError(msg) from exc
 
+    async def warmup_async(self) -> None:
+        """Send a minimal prompt to pre-load the model into GPU memory.
+
+        Prevents cold-start latency on the first real inference call.
+        The response is discarded.
+        """
+        with contextlib.suppress(Exception):  # warmup failure is non-fatal
+            await self._async_client.chat(
+                model=self._model,
+                messages=[{"role": "user", "content": "hi"}],
+                options={"temperature": 0, "num_predict": 1},
+            )
+
     # ------------------------------------------------------------------
     # LLM call
     # ------------------------------------------------------------------
 
-    def call_llm(self, prompt: str, method_name: str) -> str:
+    def call_llm(self, prompt: str, method_name: str, *, json_mode: bool = False) -> str:
         """Send a prompt to Ollama, log timing, and return raw response.
 
         Centralizes the call → log → return pattern so that every public
@@ -91,16 +105,21 @@ class OllamaClient:
             prompt: The fully-formatted LLM prompt string.
             method_name: Identifier for structured log entries
                 (e.g. ``"generate"``, ``"classify_control_type"``).
+            json_mode: If True, constrain output to valid JSON via
+                Ollama's ``format`` parameter.
 
         Returns:
             The raw LLM response content as a string.
         """
         t0 = time.monotonic()
-        response = ollama.chat(
-            model=self._model,
-            messages=[{"role": "user", "content": prompt}],
-            options={"temperature": 0},
-        )
+        kwargs: dict[str, object] = {
+            "model": self._model,
+            "messages": [{"role": "user", "content": prompt}],
+            "options": {"temperature": 0},
+        }
+        if json_mode:
+            kwargs["format"] = "json"
+        response = ollama.chat(**kwargs)  # type: ignore[call-overload]
         raw = str(response.message.content)
         _log.debug(
             json.dumps(
@@ -136,7 +155,7 @@ class OllamaClient:
             control_text=control_text,
             chunk_text=chunk_text,
         )
-        return self.call_llm(prompt, "generate")
+        return self.call_llm(prompt, "generate", json_mode=True)
 
     def classify_control_type(self, *, control_text: str) -> bool:
         """Ask the LLM whether a control is a meta-requirement.
@@ -154,7 +173,7 @@ class OllamaClient:
         template = load_prompt("meta_classification.txt")
         prompt = template.format(control_text=control_text)
         try:
-            raw = self.call_llm(prompt, "classify_control_type").strip()
+            raw = self.call_llm(prompt, "classify_control_type", json_mode=True).strip()
             cleaned = extract_json_object(raw)
             data = json.loads(cleaned)
             return bool(data.get("is_meta", False))
@@ -175,7 +194,7 @@ class OllamaClient:
         """
         template = load_prompt("gap_rationale.txt")
         prompt = template.format(control_text=control_text)
-        return self.call_llm(prompt, "generate_gap")
+        return self.call_llm(prompt, "generate_gap", json_mode=True)
 
     def verify_chunk_relevance(
         self,
@@ -206,7 +225,7 @@ class OllamaClient:
             requirement_family=requirement_family or "Not specified",
         )
         try:
-            raw = self.call_llm(prompt, "verify_chunk_relevance").strip()
+            raw = self.call_llm(prompt, "verify_chunk_relevance", json_mode=True).strip()
             cleaned = extract_json_object(raw)
             data = json.loads(cleaned)
             return bool(data.get("relevant", False))
@@ -218,7 +237,9 @@ class OllamaClient:
     # Async API
     # ------------------------------------------------------------------
 
-    async def call_llm_async(self, prompt: str, method_name: str) -> str:
+    async def call_llm_async(
+        self, prompt: str, method_name: str, *, json_mode: bool = False
+    ) -> str:
         """Async version of :meth:`call_llm` using ``ollama.AsyncClient``.
 
         Checks the cache (if configured) before calling the LLM, and
@@ -227,6 +248,8 @@ class OllamaClient:
         Args:
             prompt: The fully-formatted LLM prompt string.
             method_name: Identifier for structured log entries.
+            json_mode: If True, constrain output to valid JSON via
+                Ollama's ``format`` parameter.
 
         Returns:
             The raw LLM response content as a string.
@@ -238,11 +261,14 @@ class OllamaClient:
                 return cached
 
         t0 = time.monotonic()
-        response = await self._async_client.chat(
-            model=self._model,
-            messages=[{"role": "user", "content": prompt}],
-            options={"temperature": 0},
-        )
+        kwargs: dict[str, object] = {
+            "model": self._model,
+            "messages": [{"role": "user", "content": prompt}],
+            "options": {"temperature": 0},
+        }
+        if json_mode:
+            kwargs["format"] = "json"
+        response = await self._async_client.chat(**kwargs)  # type: ignore[call-overload]
         raw = str(response.message.content)
         _log.debug(
             json.dumps(
@@ -276,7 +302,7 @@ class OllamaClient:
             control_text=control_text,
             chunk_text=chunk_text,
         )
-        return await self.call_llm_async(prompt, "generate")
+        return await self.call_llm_async(prompt, "generate", json_mode=True)
 
     async def classify_control_type_async(self, *, control_text: str) -> bool:
         """Async version of :meth:`classify_control_type`.
@@ -290,7 +316,9 @@ class OllamaClient:
         template = load_prompt("meta_classification.txt")
         prompt = template.format(control_text=control_text)
         try:
-            raw = (await self.call_llm_async(prompt, "classify_control_type")).strip()
+            raw = (
+                await self.call_llm_async(prompt, "classify_control_type", json_mode=True)
+            ).strip()
             cleaned = extract_json_object(raw)
             data = json.loads(cleaned)
             return bool(data.get("is_meta", False))
@@ -308,7 +336,7 @@ class OllamaClient:
         """
         template = load_prompt("gap_rationale.txt")
         prompt = template.format(control_text=control_text)
-        return await self.call_llm_async(prompt, "generate_gap")
+        return await self.call_llm_async(prompt, "generate_gap", json_mode=True)
 
     async def verify_chunk_relevance_async(
         self,
@@ -334,7 +362,9 @@ class OllamaClient:
             requirement_family=requirement_family or "Not specified",
         )
         try:
-            raw = (await self.call_llm_async(prompt, "verify_chunk_relevance")).strip()
+            raw = (
+                await self.call_llm_async(prompt, "verify_chunk_relevance", json_mode=True)
+            ).strip()
             cleaned = extract_json_object(raw)
             data = json.loads(cleaned)
             return bool(data.get("relevant", False))
@@ -376,7 +406,7 @@ class OllamaClient:
 
         max_retries = 2
         for _attempt in range(max_retries + 1):
-            raw = await self.call_llm_async(prompt, "evaluate_chunk")
+            raw = await self.call_llm_async(prompt, "evaluate_chunk", json_mode=True)
             result = _parse_response(raw)
             if result is not None:
                 return result
@@ -392,15 +422,19 @@ class OllamaClient:
         control_text: str,
         chunk_texts: list[str],
         requirement_family: str = "",
-    ) -> list[MappingRationale | InsufficientEvidence]:
+    ) -> tuple[
+        list[MappingRationale | InsufficientEvidence],
+        list[list[dict[str, object]]],
+    ]:
         """Evaluate multiple chunks in a single LLM call for performance.
 
         Sends all chunks for one control in a single prompt and asks the
         LLM to return a JSON array of evaluations.  This turns
         ``controls x chunks`` calls into just ``controls`` calls.
 
-        Falls back to ``InsufficientEvidence`` for all chunks if the
-        response cannot be parsed.
+        On parse failure, retries once (LLMs are non-deterministic),
+        then falls back to individual ``evaluate_chunk_async()`` calls
+        to prevent total evidence loss.
 
         Args:
             control_text: The security control description.
@@ -408,11 +442,16 @@ class OllamaClient:
             requirement_family: The parent requirement family title.
 
         Returns:
-            A list of ``MappingRationale`` or ``InsufficientEvidence``,
-            one per input chunk, in the same order.
+            A tuple of:
+            - A list of ``MappingRationale`` or ``InsufficientEvidence``,
+              one per input chunk, in the same order.
+            - A parallel list of sub_requirements arrays extracted from
+              the LLM response, for cross-chunk aggregation.
         """
-        from ctrlmap.llm.structured_output import _parse_batch_response
-        from ctrlmap.models.schemas import InsufficientEvidence
+        from ctrlmap.llm.structured_output import (
+            _parse_batch_response,
+            extract_sub_requirements_from_batch,
+        )
 
         template = load_prompt("batch_evaluation.txt")
 
@@ -426,17 +465,113 @@ class OllamaClient:
             requirement_family=requirement_family or "Not specified",
         )
 
-        raw = await self.call_llm_async(prompt, "evaluate_chunks_batch")
-        results = _parse_batch_response(raw, expected_count=len(chunk_texts))
+        # Try batch evaluation (with one retry)
+        for attempt in range(2):
+            raw = await self.call_llm_async(prompt, "evaluate_chunks_batch")
+            results = _parse_batch_response(raw, expected_count=len(chunk_texts))
+            if results is not None:
+                sub_reqs = extract_sub_requirements_from_batch(raw, expected_count=len(chunk_texts))
+                return results, sub_reqs
+            if attempt == 0:
+                _log.warning("Batch evaluation parse failed, retrying (attempt 2/2)")
 
-        if results is not None:
-            return results
-
-        # Fallback: return InsufficientEvidence for all chunks
-        return [
-            InsufficientEvidence(
-                reason="Batch evaluation failed: invalid LLM output.",
-                required_context="A well-formed JSON array from the LLM.",
+        # Fallback: evaluate each chunk individually
+        _log.warning(
+            "Batch evaluation failed after 2 attempts, "
+            f"falling back to {len(chunk_texts)} individual calls"
+        )
+        fallback_results: list[MappingRationale | InsufficientEvidence] = []
+        for chunk_text in chunk_texts:
+            result = await self.evaluate_chunk_async(
+                control_text=control_text,
+                chunk_text=chunk_text,
+                requirement_family=requirement_family,
             )
-            for _ in chunk_texts
-        ]
+            fallback_results.append(result)
+        return fallback_results, [[] for _ in range(len(chunk_texts))]
+
+    async def classify_controls_batch_async(
+        self,
+        *,
+        control_texts: list[str],
+    ) -> list[bool]:
+        """Classify multiple controls as meta/substantive in one LLM call.
+
+        Batches all controls into a single prompt, asking the LLM to
+        return a JSON array of ``{"control_index": N, "is_meta": bool}``.
+        This reduces ``N`` individual classification calls to ``1``.
+
+        Args:
+            control_texts: List of control descriptions to classify.
+
+        Returns:
+            A list of booleans (one per control, in order). ``True``
+            means meta-requirement, ``False`` means substantive.
+        """
+        if not control_texts:
+            return []
+
+        template = load_prompt("batch_meta_classification.txt")
+
+        numbered_controls = "\n".join(
+            f"### Control {i}\n{text}" for i, text in enumerate(control_texts)
+        )
+
+        prompt = template.format(
+            control_count=len(control_texts),
+            numbered_controls=numbered_controls,
+        )
+
+        raw = await self.call_llm_async(prompt, "classify_controls_batch")
+
+        # Parse JSON array response
+        try:
+            cleaned = raw.strip()
+            start = cleaned.find("[")
+            end = cleaned.rfind("]")
+            if start < 0 or end < 0 or end <= start:
+                return [False] * len(control_texts)
+
+            items = json.loads(cleaned[start : end + 1])
+            if not isinstance(items, list):
+                return [False] * len(control_texts)
+
+            # Build results indexed by control_index
+            results = [False] * len(control_texts)
+            for item in items:
+                if isinstance(item, dict):
+                    idx = item.get("control_index", -1)
+                    if 0 <= idx < len(control_texts):
+                        results[idx] = bool(item.get("is_meta", False))
+
+            return results
+        except Exception:
+            return [False] * len(control_texts)
+
+    @staticmethod
+    def truncate_chunk(text: str, max_chars: int = 1200) -> str:
+        """Truncate chunk text at a sentence boundary to limit prompt tokens.
+
+        Cuts at the last sentence-ending period before ``max_chars`` to
+        avoid splitting mid-sentence, which can change the meaning of
+        compliance-relevant text.  Falls back to a hard cut only when
+        no sentence boundary exists in the first half of the text.
+
+        Args:
+            text: The raw chunk text.
+            max_chars: Maximum character count (default: 1200).
+
+        Returns:
+            The truncated text, ending at a complete sentence when possible.
+        """
+        if len(text) <= max_chars:
+            return text
+        truncated = text[:max_chars]
+        # Find the last sentence-ending period followed by a space or at end
+        last_period = truncated.rfind(". ")
+        if last_period < 0 and truncated.endswith("."):
+            # Also check for period at the very end of the window
+            last_period = len(truncated) - 1
+        if last_period >= max_chars * 0.5:
+            return truncated[: last_period + 1]
+        return truncated + "\n[...truncated]"

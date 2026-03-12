@@ -1,15 +1,22 @@
 #!/usr/bin/env python3
 """Prompt regression harness for ctrlmap eval suites.
 
-Runs all eval suites (relevance, compliance, meta-classification,
-retrieval precision, and end-to-end scenario) and produces a summary
-table with per-suite scores.
+Runs all eval suites — each mirrors the actual production pipeline
+code paths — and produces a summary table with per-suite scores.
+
+Suites:
+    - **retrieval**: Vector similarity precision (Recall@5).
+    - **batch_eval**: Batch compliance evaluation via
+      ``evaluate_chunks_batch_async()`` (pipeline Step 1).
+    - **batch_meta**: Batch meta-classification via
+      ``classify_controls_batch_async()`` (pipeline Step 2).
+    - **e2e**: Full pipeline via ``enrich_with_rationale()`` (all steps).
 
 Usage::
 
     uv run python tests/evaluation/eval_runner.py
-    uv run python tests/evaluation/eval_runner.py --suite relevance
-    uv run python tests/evaluation/eval_runner.py --suite relevance --suite meta
+    uv run python tests/evaluation/eval_runner.py --suite batch_eval
+    uv run python tests/evaluation/eval_runner.py --suite batch_eval --suite e2e
 
 This is the P4 "prompt regression harness" — change a prompt in
 ``client.py``, run this script, and see if scores improve or regress.
@@ -28,23 +35,18 @@ SUITES: dict[str, dict[str, str]] = {
         "test": "tests/evaluation/test_retrieval_precision.py",
         "marker": "eval",
     },
-    "relevance": {
-        "name": "Relevance Verification (F1)",
-        "test": "tests/evaluation/test_relevance_accuracy.py",
+    "batch_eval": {
+        "name": "Batch Evaluation (Accuracy)",
+        "test": "tests/evaluation/test_batch_evaluation_accuracy.py",
         "marker": "eval",
     },
-    "compliance": {
-        "name": "Compliance Classification (Accuracy)",
-        "test": "tests/evaluation/test_compliance_accuracy.py",
-        "marker": "eval",
-    },
-    "meta": {
-        "name": "Meta-Classification (Accuracy)",
-        "test": "tests/evaluation/test_meta_classification.py",
+    "batch_meta": {
+        "name": "Batch Meta-Classification (Accuracy)",
+        "test": "tests/evaluation/test_batch_meta_classification.py",
         "marker": "eval",
     },
     "e2e": {
-        "name": "End-to-End Scenario",
+        "name": "End-to-End Scenario (Pipeline)",
         "test": "tests/evaluation/test_end_to_end_scenario.py",
         "marker": "eval",
     },

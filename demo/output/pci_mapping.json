@@ -11,8 +11,8 @@
     "rationale": {
       "is_compliant": true,
       "compliance_level": "partially_compliant",
-      "confidence_score": 1.0,
-      "explanation": "Inferred from sibling controls: 3 of 4 evaluated controls in Requirement 1 are fully compliant. Gaps remain in 1.2.1."
+      "confidence_score": 0.9,
+      "explanation": "Inferred from sibling controls: 1 of 4 evaluated controls in Requirement 1 are fully compliant. Gaps remain in 1.2.4, 1.2.1, 1.2.2."
     }
   },
   {
@@ -27,8 +27,8 @@
     "rationale": {
       "is_compliant": true,
       "compliance_level": "partially_compliant",
-      "confidence_score": 1.0,
-      "explanation": "Inferred from sibling controls: 3 of 4 evaluated controls in Requirement 1 are fully compliant. Gaps remain in 1.2.1."
+      "confidence_score": 0.9,
+      "explanation": "Inferred from sibling controls: 1 of 4 evaluated controls in Requirement 1 are fully compliant. Gaps remain in 1.2.4, 1.2.1, 1.2.2."
     }
   },
   {
@@ -41,10 +41,26 @@
     },
     "supporting_chunks": [
       {
-        "chunk_id": "3c675dc2-8244-4cf9-8709-636d4f782a70",
+        "chunk_id": "3c8879cd-881e-42a5-8b03-cc54ccceedfd",
         "document_name": "network_security_policy.pdf",
         "page_number": 2,
         "raw_text": "Configuration standards for all network security control (NSC) rulesets must be defined, documented, and maintained.",
+        "section_header": "2.1  Firewall Configuration Standards",
+        "embedding": null
+      },
+      {
+        "chunk_id": "a2e63d8b-245a-4a51-ac1e-cc217afe0d4a",
+        "document_name": "change_management_policy.pdf",
+        "page_number": 2,
+        "raw_text": "Configuration standards must be developed, implemented, and maintained for all system components. Standards must cover all system components including servers, network devices, databases, and applications. Standards must address all known security vulnerabilities. Standards must be consistent with industry-accepted system hardening benchmarks such as CIS Benchmarks, NIST, or vendor-specific hardening guides. Standards must be updated as new vulnerability issues are identified.",
+        "section_header": "2.2  Configuration Standards",
+        "embedding": null
+      },
+      {
+        "chunk_id": "2ac5d5a8-7314-4ec1-baba-216442222d1d",
+        "document_name": "network_security_policy.pdf",
+        "page_number": 2,
+        "raw_text": "Configuration files for NSCs must be secured from unauthorized access and kept consistent with active network configurations.",
         "section_header": "2.1  Firewall Configuration Standards",
         "embedding": null
       }
@@ -53,7 +69,7 @@
       "is_compliant": true,
       "compliance_level": "partially_compliant",
       "confidence_score": 1.0,
-      "explanation": "The policy text covers the definition and maintenance of configuration standards but does not explicitly mention implementation. However, since 'defined' and 'maintained' are covered comprehensively, it is reasonable to infer that implementation would naturally follow from these actions."
+      "explanation": "Combined evidence from 3 chunks covers 7/8 sub-requirements. Missing: Configuration standards for all network security control (NSC) rulesets must be implemented."
     }
   },
   {
@@ -66,19 +82,27 @@
     },
     "supporting_chunks": [
       {
-        "chunk_id": "ae0702fc-6d26-4fe6-82e9-3b791a30ad78",
+        "chunk_id": "0d920258-ae3b-42b9-afaa-5668daa402df",
         "document_name": "network_security_policy.pdf",
         "page_number": 3,
         "raw_text": "All changes to network connections and to configurations of NSCs must be approved and managed in accordance with the organizational change control process. This includes the addition, removal, or modification of any network connection as well as changes that affect how network security controls perform their security function.",
         "section_header": "6  Network Change Management",
         "embedding": null
+      },
+      {
+        "chunk_id": "59b1a218-c5c6-43ba-8a53-da32ea846bc8",
+        "document_name": "change_management_policy.pdf",
+        "page_number": 2,
+        "raw_text": "All changes to system components, network configurations, and software must follow the formal change control process. Change requests must document: a description of the change and its business justification, impact analysis including security implications, rollback procedures in case of failure, testing plan and expected outcomes, approval from the Change Advisory Board (CAB), and scheduled implementation window. Emergency changes must receive verbal approval from the CISO or designated authority and must be formally documented and reviewed within 72 hours of implementation.",
+        "section_header": "2.1  Change Request and Approval",
+        "embedding": null
       }
     ],
     "rationale": {
       "is_compliant": true,
-      "compliance_level": "fully_compliant",
+      "compliance_level": "partially_compliant",
       "confidence_score": 1.0,
-      "explanation": "The policy text directly addresses both sub-requirements by stating that all changes to network connections and configurations of NSCs are approved and managed according to an organizational change control process, which is equivalent to Requirement 6.5.1's defined process."
+      "explanation": "The chunk covers approval but does not specify management according to a specific requirement."
     }
   },
   {
@@ -91,19 +115,27 @@
     },
     "supporting_chunks": [
       {
-        "chunk_id": "6fdf8a94-7399-432a-bfe0-cab926701265",
+        "chunk_id": "e66c34f5-2b08-4b2f-81ac-d6a349805fa4",
         "document_name": "network_security_policy.pdf",
         "page_number": 2,
-        "raw_text": "An accurate network diagram must be maintained that shows all connections between the CDE and other networks, including wireless networks.",
+        "raw_text": "An accurate network diagram must be maintained that shows all connections between the CDE and other networks, including wireless networks. An accurate data-flow diagram must be maintained that shows all account data flows across systems and networks and must be updated whenever changes occur.",
         "section_header": "3  Network Segmentation and CDE Isolation",
+        "embedding": null
+      },
+      {
+        "chunk_id": "268e84c0-eeae-4fc9-9caf-874b716ef373",
+        "document_name": "network_security_policy.pdf",
+        "page_number": 2,
+        "raw_text": "NSCs must be installed between all wireless networks and the CDE, regardless of whether the wireless network is part of the CDE. All wireless traffic from wireless networks into the CDE must be denied by default, and only wireless traffic with an authorized business purpose may be allowed. Wireless networks must use WPA3 or WPA2 with AES encryption at minimum. Default wireless encryption keys, passwords, and SNMP community strings must be changed at installation.",
+        "section_header": "4  Wireless Network Security",
         "embedding": null
       }
     ],
     "rationale": {
       "is_compliant": true,
       "compliance_level": "fully_compliant",
-      "confidence_score": 1.0,
-      "explanation": "The policy text directly addresses the requirement by mandating the maintenance of an accurate network diagram showing all connections between the CDE and other networks, including wireless networks. There is a direct match in wording and intent."
+      "confidence_score": 0.8,
+      "explanation": "Combined evidence from 2 chunks covers all 3 sub-requirements: An accurate network diagram must be maintained that shows all connections between the CDE and other networks, including wireless networks.; The network diagram must be updated whenever changes occur.; NSCs must be installed between all wireless networks and the CDE."
     }
   },
   {
@@ -114,13 +146,126 @@
       "description": "An accurate data-flow diagram(s) is maintained that meets the following:  \n\u2022\t Shows all account data flows across systems and networks.\n\u2022\t Updated as needed upon changes to the environment.",
       "requirement_family": "Requirement 1: Install and Maintain Network Security Controls"
     },
+    "supporting_chunks": [],
+    "rationale": {
+      "is_compliant": false,
+      "compliance_level": "non_compliant",
+      "confidence_score": 0.8,
+      "explanation": "The organization lacks a policy that mandates the creation and maintenance of accurate data-flow diagrams for all account data flows across systems and networks as required by PCI DSS 1.2.4. A new policy should be established to ensure such diagrams are maintained and updated as needed."
+    }
+  },
+  {
+    "control": {
+      "control_id": "2.1.1",
+      "framework": "PCI-DSS",
+      "title": "PCI DSS 2.1.1",
+      "description": "All security policies and operational procedures that are identified in Requirement 2 are: \n\u2022\t Documented.\n\u2022\t Kept up to date.\n\u2022\t In use.\n\u2022\t Known to all affected parties.",
+      "requirement_family": "Requirement 2: Apply Secure Configurations to All System Components"
+    },
+    "supporting_chunks": [],
+    "rationale": {
+      "is_compliant": true,
+      "compliance_level": "partially_compliant",
+      "confidence_score": 0.88,
+      "explanation": "Inferred from sibling controls: 2 of 4 evaluated controls in Requirement 2 are fully compliant. Gaps remain in 2.2.1, 2.2.3."
+    }
+  },
+  {
+    "control": {
+      "control_id": "2.1.2",
+      "framework": "PCI-DSS",
+      "title": "PCI DSS 2.1.2",
+      "description": "Roles and responsibilities for performing activities in Requirement 2 are documented, assigned, and understood.",
+      "requirement_family": "Requirement 2: Apply Secure Configurations to All System Components"
+    },
+    "supporting_chunks": [],
+    "rationale": {
+      "is_compliant": true,
+      "compliance_level": "partially_compliant",
+      "confidence_score": 0.88,
+      "explanation": "Inferred from sibling controls: 2 of 4 evaluated controls in Requirement 2 are fully compliant. Gaps remain in 2.2.1, 2.2.3."
+    }
+  },
+  {
+    "control": {
+      "control_id": "2.2.1",
+      "framework": "PCI-DSS",
+      "title": "PCI DSS 2.2.1",
+      "description": "Configuration standards are developed, implemented, and maintained to:\n\u2022\t Cover all system components.\n\u2022\t Address all known security vulnerabilities. \n\u2022\t Be consistent with industry-accepted system hardening standards or vendor hardening recommendations. \n\u2022\t Be updated as new vulnerability issues are identified, as defined in Requirement 6.3.1.\n\u2022\t Be applied when new systems are configured and verified as in place before or immediately after a system component is connected to a production environment.",
+      "requirement_family": "Requirement 2: Apply Secure Configurations to All System Components"
+    },
     "supporting_chunks": [
       {
-        "chunk_id": "51f2e0ed-c236-465f-a06f-76506d0b11d2",
+        "chunk_id": "a2e63d8b-245a-4a51-ac1e-cc217afe0d4a",
+        "document_name": "change_management_policy.pdf",
+        "page_number": 2,
+        "raw_text": "Configuration standards must be developed, implemented, and maintained for all system components. Standards must cover all system components including servers, network devices, databases, and applications. Standards must address all known security vulnerabilities. Standards must be consistent with industry-accepted system hardening benchmarks such as CIS Benchmarks, NIST, or vendor-specific hardening guides. Standards must be updated as new vulnerability issues are identified.",
+        "section_header": "2.2  Configuration Standards",
+        "embedding": null
+      },
+      {
+        "chunk_id": "3c8879cd-881e-42a5-8b03-cc54ccceedfd",
         "document_name": "network_security_policy.pdf",
         "page_number": 2,
-        "raw_text": "An accurate data-flow diagram must be maintained that shows all account data flows across systems and networks and must be updated whenever changes occur.",
-        "section_header": "3  Network Segmentation and CDE Isolation",
+        "raw_text": "Configuration standards for all network security control (NSC) rulesets must be defined, documented, and maintained.",
+        "section_header": "2.1  Firewall Configuration Standards",
+        "embedding": null
+      },
+      {
+        "chunk_id": "e7453c23-06ff-42c6-96c1-1e9436e0e894",
+        "document_name": "network_security_policy.pdf",
+        "page_number": 2,
+        "raw_text": "All allowed services, protocols, and ports must be identified, approved, and have a defined business justification documented. Security features must be defined and implemented for all services, protocols, and ports that are considered insecure to mitigate associated risks.",
+        "section_header": "2.2  Traffic Control Rules",
+        "embedding": null
+      }
+    ],
+    "rationale": {
+      "is_compliant": true,
+      "compliance_level": "partially_compliant",
+      "confidence_score": 0.5,
+      "explanation": "Combined evidence from 3 chunks covers all 4 sub-requirements: Configuration standards are developed, implemented, and maintained to cover all system components.; Standards address all known security vulnerabilities.; Standards are consistent with industry-accepted system hardening standards or vendor hardening recommendations.; Standards are updated as new vulnerability issues are identified."
+    }
+  },
+  {
+    "control": {
+      "control_id": "2.2.2",
+      "framework": "PCI-DSS",
+      "title": "PCI DSS 2.2.2",
+      "description": "Vendor default accounts are managed as follows:\n\u2022\t If the vendor default account(s) will be used, the default password is changed per Requirement 8.3.6.\n\u2022\t If the vendor default account(s) will not be used, the account is removed or disabled.",
+      "requirement_family": "Requirement 2: Apply Secure Configurations to All System Components"
+    },
+    "supporting_chunks": [
+      {
+        "chunk_id": "7c6b77b1-6954-4ba0-99d4-321d03e835f5",
+        "document_name": "change_management_policy.pdf",
+        "page_number": 2,
+        "raw_text": "Vendor default accounts must be managed: default passwords must be changed, and unused default accounts must be removed or disabled before deployment to production.",
+        "section_header": "2.2  Configuration Standards",
+        "embedding": null
+      },
+      {
+        "chunk_id": "e4588639-afe8-4d8d-ad65-1af678364239",
+        "document_name": "network_security_policy.pdf",
+        "page_number": 2,
+        "raw_text": "Default vendor-supplied credentials on all network devices must be changed immediately upon deployment.",
+        "section_header": "2.1  Firewall Configuration Standards",
+        "embedding": null
+      },
+      {
+        "chunk_id": "1c9270cf-259f-4980-a469-313d60cd9c01",
+        "document_name": "change_management_policy.pdf",
+        "page_number": 3,
+        "raw_text": "For wireless environments connected to the CDE or transmitting account data, all wireless vendor defaults must be changed at installation, including default wireless encryption keys, passwords on wireless access points, and SNMP community strings.",
+        "section_header": "6  Wireless and Default Configuration Management",
+        "embedding": null
+      },
+      {
+        "chunk_id": "d5edb165-e3a1-4927-9df9-4a5e3c0b926b",
+        "document_name": "access_control_policy.pdf",
+        "page_number": 2,
+        "raw_text": "All system and application passwords must meet the following minimum requirements: minimum length of 12 characters, inclusion of numeric and alphabetic characters, passwords must be changed at least every 90 days, new passwords must not match any of the last four passwords used, first-time or reset passwords must be unique to each user and changed upon first use. Default vendor-supplied passwords on all system components must be changed before deployment to production.",
+        "section_header": "2.3  Password Requirements",
         "embedding": null
       }
     ],
@@ -128,7 +273,65 @@
       "is_compliant": true,
       "compliance_level": "fully_compliant",
       "confidence_score": 1.0,
-      "explanation": "Both sub-requirements of the control are directly addressed in the policy text, with exact matching language for maintaining an accurate data-flow diagram and updating it upon environmental changes."
+      "explanation": "Combined evidence from 4 chunks covers all 2 sub-requirements: If the vendor default account(s) will be used, the default password is changed per Requirement 8.3.6.; If the vendor default account(s) will not be used, the account is removed or disabled."
+    }
+  },
+  {
+    "control": {
+      "control_id": "2.2.3",
+      "framework": "PCI-DSS",
+      "title": "PCI DSS 2.2.3",
+      "description": "Primary functions requiring different security levels are managed as follows: \n\u2022\t Only one primary function exists on a system component,\nOR\n\u2022\t Primary functions with differing security levels that exist on the same system component are isolated from each other,\nOR\n\u2022\t Primary functions with differing security levels on the same system component are all secured to the level required by the function with the highest security need.",
+      "requirement_family": "Requirement 2: Apply Secure Configurations to All System Components"
+    },
+    "supporting_chunks": [
+      {
+        "chunk_id": "92f2dd6f-6cea-46d8-9c3a-2ccbced826cf",
+        "document_name": "change_management_policy.pdf",
+        "page_number": 2,
+        "raw_text": "Primary functions requiring different security levels must not coexist on the same system component unless properly isolated.",
+        "section_header": "3  Environment Separation",
+        "embedding": null
+      }
+    ],
+    "rationale": {
+      "is_compliant": true,
+      "compliance_level": "partially_compliant",
+      "confidence_score": 1.0,
+      "explanation": "The chunk addresses part of the control by stating that primary functions requiring different security levels must not coexist unless properly isolated, but it does not address securing all functions to the level required by the function with the highest security need."
+    }
+  },
+  {
+    "control": {
+      "control_id": "2.3.1",
+      "framework": "PCI-DSS",
+      "title": "PCI DSS 2.3.1",
+      "description": "For wireless environments connected to the CDE or transmitting account data, all wireless vendor defaults are changed at installation or are confirmed to be secure, including but not limited to:\n\u2022\t Default wireless encryption keys.\n\u2022\t Passwords on wireless access points.\n\u2022\t SNMP defaults,\n\u2022\t Any other security-related wireless vendor defaults.",
+      "requirement_family": "Requirement 2: Apply Secure Configurations to All System Components"
+    },
+    "supporting_chunks": [
+      {
+        "chunk_id": "1c9270cf-259f-4980-a469-313d60cd9c01",
+        "document_name": "change_management_policy.pdf",
+        "page_number": 3,
+        "raw_text": "For wireless environments connected to the CDE or transmitting account data, all wireless vendor defaults must be changed at installation, including default wireless encryption keys, passwords on wireless access points, and SNMP community strings.",
+        "section_header": "6  Wireless and Default Configuration Management",
+        "embedding": null
+      },
+      {
+        "chunk_id": "268e84c0-eeae-4fc9-9caf-874b716ef373",
+        "document_name": "network_security_policy.pdf",
+        "page_number": 2,
+        "raw_text": "NSCs must be installed between all wireless networks and the CDE, regardless of whether the wireless network is part of the CDE. All wireless traffic from wireless networks into the CDE must be denied by default, and only wireless traffic with an authorized business purpose may be allowed. Wireless networks must use WPA3 or WPA2 with AES encryption at minimum. Default wireless encryption keys, passwords, and SNMP community strings must be changed at installation.",
+        "section_header": "4  Wireless Network Security",
+        "embedding": null
+      }
+    ],
+    "rationale": {
+      "is_compliant": true,
+      "compliance_level": "fully_compliant",
+      "confidence_score": 1.0,
+      "explanation": "Combined evidence from 2 chunks covers all 4 sub-requirements: For wireless environments connected to the CDE or transmitting account data, all wireless vendor defaults must be changed at installation.; Default wireless encryption keys must be changed at installation.; Passwords on wireless access points must be changed at installation.; SNMP community strings must be changed at installation."
     }
   },
   {
@@ -143,7 +346,7 @@
     "rationale": {
       "is_compliant": true,
       "compliance_level": "partially_compliant",
-      "confidence_score": 0.95,
+      "confidence_score": 1.0,
       "explanation": "Inferred from sibling controls: 4 of 5 evaluated controls in Requirement 3 are fully compliant. Gaps remain in 3.2.1."
     }
   },
@@ -159,7 +362,7 @@
     "rationale": {
       "is_compliant": true,
       "compliance_level": "partially_compliant",
-      "confidence_score": 0.95,
+      "confidence_score": 1.0,
       "explanation": "Inferred from sibling controls: 4 of 5 evaluated controls in Requirement 3 are fully compliant. Gaps remain in 3.2.1."
     }
   },
@@ -173,7 +376,7 @@
     },
     "supporting_chunks": [
       {
-        "chunk_id": "aa1663f5-0719-4eb7-9607-bba9682f3121",
+        "chunk_id": "a43ba6c6-2eb5-4784-bc80-efda7b233bcf",
         "document_name": "data_protection_policy.pdf",
         "page_number": 3,
         "raw_text": "Account data storage must be kept to a minimum. Data retention policies must define the specific retention period for each data type and the business justification for retaining it. Cardholder data that exceeds the defined retention period must be securely deleted on a quarterly basis.",
@@ -181,7 +384,7 @@
         "embedding": null
       },
       {
-        "chunk_id": "f28452f7-ef11-4cad-bc55-dac5e068ecf0",
+        "chunk_id": "40419f40-65cb-421c-8eba-cfcbdc847ff8",
         "document_name": "data_protection_policy.pdf",
         "page_number": 3,
         "raw_text": "Sensitive authentication data (SAD) including the full track data, card verification codes (CVV/CVC), and PINs must never be stored after authorization, even in encrypted form.",
@@ -192,8 +395,8 @@
     "rationale": {
       "is_compliant": true,
       "compliance_level": "partially_compliant",
-      "confidence_score": 0.75,
-      "explanation": "The policy text provides evidence for one of the sub-requirements related to sensitive authentication data but does not address coverage for all locations of stored account data. Therefore, it is partially compliant with the control requirement."
+      "confidence_score": 1.0,
+      "explanation": "The chunk provides evidence for defining specific retention periods and secure deletion of cardholder data but does not address coverage for all locations of stored account data."
     }
   },
   {
@@ -206,7 +409,7 @@
     },
     "supporting_chunks": [
       {
-        "chunk_id": "f28452f7-ef11-4cad-bc55-dac5e068ecf0",
+        "chunk_id": "40419f40-65cb-421c-8eba-cfcbdc847ff8",
         "document_name": "data_protection_policy.pdf",
         "page_number": 3,
         "raw_text": "Sensitive authentication data (SAD) including the full track data, card verification codes (CVV/CVC), and PINs must never be stored after authorization, even in encrypted form.",
@@ -218,7 +421,7 @@
       "is_compliant": true,
       "compliance_level": "fully_compliant",
       "confidence_score": 1.0,
-      "explanation": "The policy text directly addresses the requirement by stating that sensitive authentication data must not be stored after authorization, regardless of encryption status. This matches exactly with the control's sub-requirement."
+      "explanation": "The chunk directly addresses the requirement to not store SAD after authorization."
     }
   },
   {
@@ -231,7 +434,7 @@
     },
     "supporting_chunks": [
       {
-        "chunk_id": "f28452f7-ef11-4cad-bc55-dac5e068ecf0",
+        "chunk_id": "40419f40-65cb-421c-8eba-cfcbdc847ff8",
         "document_name": "data_protection_policy.pdf",
         "page_number": 3,
         "raw_text": "Sensitive authentication data (SAD) including the full track data, card verification codes (CVV/CVC), and PINs must never be stored after authorization, even in encrypted form.",
@@ -243,7 +446,7 @@
       "is_compliant": true,
       "compliance_level": "fully_compliant",
       "confidence_score": 1.0,
-      "explanation": "The policy text explicitly states that sensitive authentication data, which includes full track data, must not be stored after authorization. This directly addresses the requirement to not store the full contents of any track upon completion of the authorization process."
+      "explanation": "The policy explicitly states that sensitive authentication data such as full track data cannot be stored post-authorization, which directly aligns with the security control."
     }
   },
   {
@@ -256,7 +459,7 @@
     },
     "supporting_chunks": [
       {
-        "chunk_id": "f28452f7-ef11-4cad-bc55-dac5e068ecf0",
+        "chunk_id": "40419f40-65cb-421c-8eba-cfcbdc847ff8",
         "document_name": "data_protection_policy.pdf",
         "page_number": 3,
         "raw_text": "Sensitive authentication data (SAD) including the full track data, card verification codes (CVV/CVC), and PINs must never be stored after authorization, even in encrypted form.",
@@ -268,7 +471,7 @@
       "is_compliant": true,
       "compliance_level": "fully_compliant",
       "confidence_score": 1.0,
-      "explanation": "The policy text explicitly states that sensitive authentication data such as CVV/CVC must not be stored after authorization, which directly addresses the requirement to not store card verification codes upon completion of the authorization process."
+      "explanation": "The chunk explicitly states that sensitive authentication data such as CVVs must not be stored post-authorization, which directly aligns with the security control."
     }
   },
   {
@@ -281,7 +484,7 @@
     },
     "supporting_chunks": [
       {
-        "chunk_id": "f28452f7-ef11-4cad-bc55-dac5e068ecf0",
+        "chunk_id": "40419f40-65cb-421c-8eba-cfcbdc847ff8",
         "document_name": "data_protection_policy.pdf",
         "page_number": 3,
         "raw_text": "Sensitive authentication data (SAD) including the full track data, card verification codes (CVV/CVC), and PINs must never be stored after authorization, even in encrypted form.",
@@ -293,7 +496,219 @@
       "is_compliant": true,
       "compliance_level": "fully_compliant",
       "confidence_score": 1.0,
-      "explanation": "The policy text explicitly states that sensitive authentication data such as PINs must not be stored after authorization, which directly addresses the requirement to ensure that PINs are not stored upon completion of the authorization process."
+      "explanation": "The policy explicitly states that sensitive authentication data, which includes PINs, must not be stored after authorization. This directly aligns with the security control requirement."
+    }
+  },
+  {
+    "control": {
+      "control_id": "4.1.1",
+      "framework": "PCI-DSS",
+      "title": "PCI DSS 4.1.1",
+      "description": "All security policies and operational procedures that are identified in Requirement 4 are:\n\u2022\t Documented\n\u2022\t Kept up to date\n\u2022\t In use\n\u2022\t Known to all affected parties",
+      "requirement_family": "Requirement 4: Protect Cardholder Data with Strong Cryptography During Transmission Over Open, Public Networks"
+    },
+    "supporting_chunks": [],
+    "rationale": {
+      "is_compliant": false,
+      "compliance_level": "non_compliant",
+      "confidence_score": 0.9,
+      "explanation": "Inferred from sibling controls: all 3 evaluated controls in Requirement 4 are non-compliant (4.2.1, 4.2.1.1, 4.2.2). This governance requirement cannot be met."
+    }
+  },
+  {
+    "control": {
+      "control_id": "4.1.2",
+      "framework": "PCI-DSS",
+      "title": "PCI DSS 4.1.2",
+      "description": "Roles and responsibilities for performing activities in Requirement 4 are documented, assigned, and understood.",
+      "requirement_family": "Requirement 4: Protect Cardholder Data with Strong Cryptography During Transmission Over Open, Public Networks"
+    },
+    "supporting_chunks": [],
+    "rationale": {
+      "is_compliant": false,
+      "compliance_level": "non_compliant",
+      "confidence_score": 0.9,
+      "explanation": "Inferred from sibling controls: all 3 evaluated controls in Requirement 4 are non-compliant (4.2.1, 4.2.1.1, 4.2.2). This governance requirement cannot be met."
+    }
+  },
+  {
+    "control": {
+      "control_id": "4.2.1",
+      "framework": "PCI-DSS",
+      "title": "PCI DSS 4.2.1",
+      "description": "Strong cryptography and security protocols are implemented as follows to safeguard PAN during transmission over open, public networks:\n\u2022\t Only trusted keys and certificates are accepted.\n\u2022\t Certificates used to safeguard PAN during transmission over open, public networks are confirmed as valid and are not expired or revoked. This bullet is a best practice until its effective date; refer to applicability notes below for details.\n\u2022\t The protocol in use supports only secure versions or configurations and does not support fallback to, or use of insecure versions, algorithms, key sizes, or implementations.\n\u2022\t The encryption strength is appropriate for the encryption methodology in use.",
+      "requirement_family": "Requirement 4: Protect Cardholder Data with Strong Cryptography During Transmission Over Open, Public Networks"
+    },
+    "supporting_chunks": [],
+    "rationale": {
+      "is_compliant": false,
+      "compliance_level": "non_compliant",
+      "confidence_score": 0.8,
+      "explanation": "The organization lacks specific policy documentation that directly addresses PCI DSS requirement 4.2.1, which mandates strong cryptography and security protocols for safeguarding PAN during transmission over open, public networks. To address this control, the organization needs to establish a detailed policy that outlines the acceptance criteria for trusted keys and certificates, procedures for validating certificate validity and non-revocation, restrictions on using insecure protocol versions or algorithms, and guidelines for appropriate encryption strength based on the chosen methodology."
+    }
+  },
+  {
+    "control": {
+      "control_id": "4.2.1.1",
+      "framework": "PCI-DSS",
+      "title": "PCI DSS 4.2.1.1",
+      "description": "An inventory of the entity\u2019s trusted keys and certificates is maintained.",
+      "requirement_family": "Requirement 4: Protect Cardholder Data with Strong Cryptography During Transmission Over Open, Public Networks"
+    },
+    "supporting_chunks": [],
+    "rationale": {
+      "is_compliant": false,
+      "compliance_level": "non_compliant",
+      "confidence_score": 0.8,
+      "explanation": "The organization lacks a policy that mandates maintaining an inventory of trusted keys and certificates as required by PCI DSS 4.2.1.1. This control is non-compliant because without such a policy, there is no documented process or procedure to ensure the entity regularly updates and maintains this critical information."
+    }
+  },
+  {
+    "control": {
+      "control_id": "4.2.2",
+      "framework": "PCI-DSS",
+      "title": "PCI DSS 4.2.2",
+      "description": "PAN is secured with strong cryptography whenever it is sent via end-user messaging technologies.",
+      "requirement_family": "Requirement 4: Protect Cardholder Data with Strong Cryptography During Transmission Over Open, Public Networks"
+    },
+    "supporting_chunks": [],
+    "rationale": {
+      "is_compliant": false,
+      "compliance_level": "non_compliant",
+      "confidence_score": 0.8,
+      "explanation": "The organization lacks a policy that specifically addresses the secure transmission of PAN (Primary Account Number) using end-user messaging technologies as required by PCI DSS 4.2.2. A new or updated policy is needed to ensure that appropriate strong cryptography measures are implemented and enforced for such transmissions."
+    }
+  },
+  {
+    "control": {
+      "control_id": "5.1.1",
+      "framework": "PCI-DSS",
+      "title": "PCI DSS 5.1.1",
+      "description": "All security policies and operational procedures that are identified in Requirement 5 are:\n\u2022\t Documented\n\u2022\t Kept up to date\n\u2022\t In use\n\u2022\t Known to all affected parties",
+      "requirement_family": "Requirement 5: Protect All Systems and Networks from Malicious Software"
+    },
+    "supporting_chunks": [],
+    "rationale": {
+      "is_compliant": true,
+      "compliance_level": "partially_compliant",
+      "confidence_score": 1.0,
+      "explanation": "Inferred from sibling controls: 3 of 4 evaluated controls in Requirement 5 are fully compliant. Gaps remain in 5.2.3."
+    }
+  },
+  {
+    "control": {
+      "control_id": "5.1.2",
+      "framework": "PCI-DSS",
+      "title": "PCI DSS 5.1.2",
+      "description": "Roles and responsibilities for performing activities in Requirement 5 are documented, assigned, and understood.",
+      "requirement_family": "Requirement 5: Protect All Systems and Networks from Malicious Software"
+    },
+    "supporting_chunks": [],
+    "rationale": {
+      "is_compliant": true,
+      "compliance_level": "partially_compliant",
+      "confidence_score": 1.0,
+      "explanation": "Inferred from sibling controls: 3 of 4 evaluated controls in Requirement 5 are fully compliant. Gaps remain in 5.2.3."
+    }
+  },
+  {
+    "control": {
+      "control_id": "5.2.1",
+      "framework": "PCI-DSS",
+      "title": "PCI DSS 5.2.1",
+      "description": "An anti-malware solution(s) is deployed on all system components, except for those system components identified in periodic evaluations per Requirement 5.2.3 that concludes the system components are not at risk from malware.",
+      "requirement_family": "Requirement 5: Protect All Systems and Networks from Malicious Software"
+    },
+    "supporting_chunks": [
+      {
+        "chunk_id": "b6b27b8e-0232-4ce6-bcd6-ef620e230dd3",
+        "document_name": "change_management_policy.pdf",
+        "page_number": 3,
+        "raw_text": "Anti-malware solutions must be deployed on all system components that are commonly affected by malicious software, including workstations, servers, and mobile devices. The deployed anti-malware solution must detect all known types of malware and must remove, block, or contain all known types of malware. Anti-malware definitions and signatures must be kept current via automatic updates. Any system components that are determined to not be at risk for malware must be documented and periodically re-evaluated to confirm that anti-malware protection is still not required. Periodic malware scans must be performed on all systems in the CDE.",
+        "section_header": "5  Anti-Malware and System Protection",
+        "embedding": null
+      }
+    ],
+    "rationale": {
+      "is_compliant": true,
+      "compliance_level": "fully_compliant",
+      "confidence_score": 1.0,
+      "explanation": "The chunk provides evidence for deploying anti-malware solutions and keeping them updated. However, it does not specify how system components are evaluated periodically to determine if they are at risk from malware."
+    }
+  },
+  {
+    "control": {
+      "control_id": "5.2.2",
+      "framework": "PCI-DSS",
+      "title": "PCI DSS 5.2.2",
+      "description": "The deployed anti-malware solution(s):\n\u2022\t Detects all known types of malware.\n\u2022\t Removes, blocks, or contains all known types of malware.",
+      "requirement_family": "Requirement 5: Protect All Systems and Networks from Malicious Software"
+    },
+    "supporting_chunks": [
+      {
+        "chunk_id": "b6b27b8e-0232-4ce6-bcd6-ef620e230dd3",
+        "document_name": "change_management_policy.pdf",
+        "page_number": 3,
+        "raw_text": "Anti-malware solutions must be deployed on all system components that are commonly affected by malicious software, including workstations, servers, and mobile devices. The deployed anti-malware solution must detect all known types of malware and must remove, block, or contain all known types of malware. Anti-malware definitions and signatures must be kept current via automatic updates. Any system components that are determined to not be at risk for malware must be documented and periodically re-evaluated to confirm that anti-malware protection is still not required. Periodic malware scans must be performed on all systems in the CDE.",
+        "section_header": "5  Anti-Malware and System Protection",
+        "embedding": null
+      }
+    ],
+    "rationale": {
+      "is_compliant": true,
+      "compliance_level": "fully_compliant",
+      "confidence_score": 1.0,
+      "explanation": "The policy excerpt explicitly states that the anti-malware solution must detect and handle (remove, block, or contain) all known types of malware."
+    }
+  },
+  {
+    "control": {
+      "control_id": "5.2.3",
+      "framework": "PCI-DSS",
+      "title": "PCI DSS 5.2.3",
+      "description": "Any system components that are not at risk for malware are evaluated periodically to include the following: \n\u2022\t A documented list of all system components not at risk for malware.\n\u2022\t Identification and evaluation of evolving malware threats for those system components.\n\u2022\t Confirmation whether such system components continue to not require anti-malware protection.",
+      "requirement_family": "Requirement 5: Protect All Systems and Networks from Malicious Software"
+    },
+    "supporting_chunks": [
+      {
+        "chunk_id": "b6b27b8e-0232-4ce6-bcd6-ef620e230dd3",
+        "document_name": "change_management_policy.pdf",
+        "page_number": 3,
+        "raw_text": "Anti-malware solutions must be deployed on all system components that are commonly affected by malicious software, including workstations, servers, and mobile devices. The deployed anti-malware solution must detect all known types of malware and must remove, block, or contain all known types of malware. Anti-malware definitions and signatures must be kept current via automatic updates. Any system components that are determined to not be at risk for malware must be documented and periodically re-evaluated to confirm that anti-malware protection is still not required. Periodic malware scans must be performed on all systems in the CDE.",
+        "section_header": "5  Anti-Malware and System Protection",
+        "embedding": null
+      }
+    ],
+    "rationale": {
+      "is_compliant": true,
+      "compliance_level": "partially_compliant",
+      "confidence_score": 1.0,
+      "explanation": "The chunk mentions the periodic evaluation of systems not at risk for malware but does not explicitly state a requirement for documenting such components. It covers identification and evaluation of evolving threats, as well as confirmation of continued lack of need for anti-malware protection."
+    }
+  },
+  {
+    "control": {
+      "control_id": "5.3.1",
+      "framework": "PCI-DSS",
+      "title": "PCI DSS 5.3.1",
+      "description": "The anti-malware solution(s) is kept current via automatic updates.",
+      "requirement_family": "Requirement 5: Protect All Systems and Networks from Malicious Software"
+    },
+    "supporting_chunks": [
+      {
+        "chunk_id": "b6b27b8e-0232-4ce6-bcd6-ef620e230dd3",
+        "document_name": "change_management_policy.pdf",
+        "page_number": 3,
+        "raw_text": "Anti-malware solutions must be deployed on all system components that are commonly affected by malicious software, including workstations, servers, and mobile devices. The deployed anti-malware solution must detect all known types of malware and must remove, block, or contain all known types of malware. Anti-malware definitions and signatures must be kept current via automatic updates. Any system components that are determined to not be at risk for malware must be documented and periodically re-evaluated to confirm that anti-malware protection is still not required. Periodic malware scans must be performed on all systems in the CDE.",
+        "section_header": "5  Anti-Malware and System Protection",
+        "embedding": null
+      }
+    ],
+    "rationale": {
+      "is_compliant": true,
+      "compliance_level": "fully_compliant",
+      "confidence_score": 1.0,
+      "explanation": "The chunk provides clear evidence that anti-malware solutions are deployed on all relevant system components, detect and handle malware effectively, and maintain up-to-date definitions through automatic updates."
     }
   },
   {
@@ -306,10 +721,10 @@
     },
     "supporting_chunks": [],
     "rationale": {
-      "is_compliant": false,
-      "compliance_level": "non_compliant",
+      "is_compliant": true,
+      "compliance_level": "partially_compliant",
       "confidence_score": 0.9,
-      "explanation": "Inferred from sibling controls: all 3 evaluated controls in Requirement 6 are non-compliant (6.2.1, 6.2.2, 6.2.3). This governance requirement cannot be met."
+      "explanation": "Inferred from sibling controls: 2 of 3 evaluated controls in Requirement 6 are fully compliant. Gaps remain in 6.2.1."
     }
   },
   {
@@ -322,10 +737,10 @@
     },
     "supporting_chunks": [],
     "rationale": {
-      "is_compliant": false,
-      "compliance_level": "non_compliant",
+      "is_compliant": true,
+      "compliance_level": "partially_compliant",
       "confidence_score": 0.9,
-      "explanation": "Inferred from sibling controls: all 3 evaluated controls in Requirement 6 are non-compliant (6.2.1, 6.2.2, 6.2.3). This governance requirement cannot be met."
+      "explanation": "Inferred from sibling controls: 2 of 3 evaluated controls in Requirement 6 are fully compliant. Gaps remain in 6.2.1."
     }
   },
   {
@@ -336,12 +751,37 @@
       "description": "Bespoke and custom software are developed securely, as follows:\n\u2022\t Based on industry standards and/or best practices for secure development. \n\u2022\t In accordance with PCI DSS (for example, secure authentication and logging). \n\u2022\t Incorporating consideration of information security issues during each stage of the software development lifecycle.",
       "requirement_family": "Requirement 6: Develop and Maintain Secure Systems and Software"
     },
-    "supporting_chunks": [],
+    "supporting_chunks": [
+      {
+        "chunk_id": "f1f60859-6b59-4487-961b-2b691d20aa64",
+        "document_name": "change_management_policy.pdf",
+        "page_number": 2,
+        "raw_text": "All bespoke and custom software must be developed securely based on industry standards and best practices. Security must be incorporated into each stage of the software development lifecycle including requirements, design, implementation, testing, deployment, and maintenance. Developers must follow secure coding guidelines that address common vulnerabilities including injection flaws, cross-site scripting, broken authentication, insecure direct object references, security misconfiguration, sensitive data exposure, and cross-site request forgery.",
+        "section_header": "4.1  Secure Development Practices",
+        "embedding": null
+      },
+      {
+        "chunk_id": "3df1d5a3-8092-458e-b7fb-75db9fcc3043",
+        "document_name": "security_awareness_policy.pdf",
+        "page_number": 2,
+        "raw_text": "Software development personnel working on bespoke and custom software must receive specialized training at least once every 12 months covering: secure coding practices and common vulnerability prevention (OWASP Top 10), secure software design principles, input validation and output encoding techniques, security testing methodologies and tools, code review for security vulnerabilities, and secure configuration of development environments. Developers must demonstrate competency through assessments.",
+        "section_header": "4.1  Developer Security Training",
+        "embedding": null
+      },
+      {
+        "chunk_id": "9c8343c7-e06c-4944-9975-ac3684c318ae",
+        "document_name": "change_management_policy.pdf",
+        "page_number": 3,
+        "raw_text": "All bespoke and custom software must undergo security code review prior to release to production. Code reviews must ensure code is developed according to secure coding guidelines, look for both existing and emerging software vulnerabilities, and verify that appropriate corrections are implemented prior to release.",
+        "section_header": "4.2  Code Review and Testing",
+        "embedding": null
+      }
+    ],
     "rationale": {
-      "is_compliant": false,
-      "compliance_level": "non_compliant",
-      "confidence_score": 0.0,
-      "explanation": "The control is non-compliant because there is no corresponding policy documentation in the organization's library that addresses secure software development practices as per PCI DSS 6.2.1 requirements. To address this gap, the organization needs to create and implement policies covering industry standards for secure coding, adherence to PCI DSS guidelines (such as secure authentication and logging), and integration of information security considerations throughout the entire software development lifecycle."
+      "is_compliant": true,
+      "compliance_level": "partially_compliant",
+      "confidence_score": 1.0,
+      "explanation": "The chunk covers secure development practices based on industry standards but does not explicitly mention PCI DSS compliance or specific security controls like authentication and logging."
     }
   },
   {
@@ -352,12 +792,37 @@
       "description": "Software development personnel working on bespoke and custom software are trained at least once every 12 months as follows: \n\u2022\t On software security relevant to their job function and development languages.\n\u2022\t Including secure software design and secure coding techniques.\n\u2022\t Including, if security testing tools are used, how to use the tools for detecting vulnerabilities in software.",
       "requirement_family": "Requirement 6: Develop and Maintain Secure Systems and Software"
     },
-    "supporting_chunks": [],
+    "supporting_chunks": [
+      {
+        "chunk_id": "3df1d5a3-8092-458e-b7fb-75db9fcc3043",
+        "document_name": "security_awareness_policy.pdf",
+        "page_number": 2,
+        "raw_text": "Software development personnel working on bespoke and custom software must receive specialized training at least once every 12 months covering: secure coding practices and common vulnerability prevention (OWASP Top 10), secure software design principles, input validation and output encoding techniques, security testing methodologies and tools, code review for security vulnerabilities, and secure configuration of development environments. Developers must demonstrate competency through assessments.",
+        "section_header": "4.1  Developer Security Training",
+        "embedding": null
+      },
+      {
+        "chunk_id": "f1f60859-6b59-4487-961b-2b691d20aa64",
+        "document_name": "change_management_policy.pdf",
+        "page_number": 2,
+        "raw_text": "All bespoke and custom software must be developed securely based on industry standards and best practices. Security must be incorporated into each stage of the software development lifecycle including requirements, design, implementation, testing, deployment, and maintenance. Developers must follow secure coding guidelines that address common vulnerabilities including injection flaws, cross-site scripting, broken authentication, insecure direct object references, security misconfiguration, sensitive data exposure, and cross-site request forgery.",
+        "section_header": "4.1  Secure Development Practices",
+        "embedding": null
+      },
+      {
+        "chunk_id": "9c8343c7-e06c-4944-9975-ac3684c318ae",
+        "document_name": "change_management_policy.pdf",
+        "page_number": 3,
+        "raw_text": "All bespoke and custom software must undergo security code review prior to release to production. Code reviews must ensure code is developed according to secure coding guidelines, look for both existing and emerging software vulnerabilities, and verify that appropriate corrections are implemented prior to release.",
+        "section_header": "4.2  Code Review and Testing",
+        "embedding": null
+      }
+    ],
     "rationale": {
-      "is_compliant": false,
-      "compliance_level": "non_compliant",
-      "confidence_score": 0.0,
-      "explanation": "The organization's policy library lacks documentation for training software development personnel on secure coding practices and security testing tools as required by PCI DSS 6.2.2."
+      "is_compliant": true,
+      "compliance_level": "fully_compliant",
+      "confidence_score": 0.85,
+      "explanation": "Combined evidence from 3 chunks covers all 3 sub-requirements: Software development personnel working on bespoke and custom software are trained at least once every 12 months.; Training includes secure software design and secure coding techniques.; If security testing tools are used, training must include how to use the tools for detecting vulnerabilities in software."
     }
   },
   {
@@ -368,12 +833,126 @@
       "description": "Bespoke and custom software is reviewed prior to being released into production or to customers, to identify and correct potential coding vulnerabilities, as follows:\n\u2022\t Code reviews ensure code is developed according to secure coding guidelines.\n\u2022\t Code reviews look for both existing and emerging software vulnerabilities.\n\u2022\t Appropriate corrections are implemented prior to release.",
       "requirement_family": "Requirement 6: Develop and Maintain Secure Systems and Software"
     },
+    "supporting_chunks": [
+      {
+        "chunk_id": "9c8343c7-e06c-4944-9975-ac3684c318ae",
+        "document_name": "change_management_policy.pdf",
+        "page_number": 3,
+        "raw_text": "All bespoke and custom software must undergo security code review prior to release to production. Code reviews must ensure code is developed according to secure coding guidelines, look for both existing and emerging software vulnerabilities, and verify that appropriate corrections are implemented prior to release.",
+        "section_header": "4.2  Code Review and Testing",
+        "embedding": null
+      },
+      {
+        "chunk_id": "f1f60859-6b59-4487-961b-2b691d20aa64",
+        "document_name": "change_management_policy.pdf",
+        "page_number": 2,
+        "raw_text": "All bespoke and custom software must be developed securely based on industry standards and best practices. Security must be incorporated into each stage of the software development lifecycle including requirements, design, implementation, testing, deployment, and maintenance. Developers must follow secure coding guidelines that address common vulnerabilities including injection flaws, cross-site scripting, broken authentication, insecure direct object references, security misconfiguration, sensitive data exposure, and cross-site request forgery.",
+        "section_header": "4.1  Secure Development Practices",
+        "embedding": null
+      },
+      {
+        "chunk_id": "3df1d5a3-8092-458e-b7fb-75db9fcc3043",
+        "document_name": "security_awareness_policy.pdf",
+        "page_number": 2,
+        "raw_text": "Software development personnel working on bespoke and custom software must receive specialized training at least once every 12 months covering: secure coding practices and common vulnerability prevention (OWASP Top 10), secure software design principles, input validation and output encoding techniques, security testing methodologies and tools, code review for security vulnerabilities, and secure configuration of development environments. Developers must demonstrate competency through assessments.",
+        "section_header": "4.1  Developer Security Training",
+        "embedding": null
+      }
+    ],
+    "rationale": {
+      "is_compliant": true,
+      "compliance_level": "fully_compliant",
+      "confidence_score": 0.85,
+      "explanation": "Combined evidence from 3 chunks covers all 3 sub-requirements: Code reviews ensure code is developed according to secure coding guidelines.; Code reviews look for both existing and emerging software vulnerabilities.; Appropriate corrections are implemented prior to release."
+    }
+  },
+  {
+    "control": {
+      "control_id": "7.1.1",
+      "framework": "PCI-DSS",
+      "title": "PCI DSS 7.1.1",
+      "description": "All security policies and operational procedures that are identified in Requirement 7 are:\n\u2022\tDocumented, \n\u2022\tKept up to date\n\u2022\t In use \n\u2022\tKnown to all affected parties.",
+      "requirement_family": "Requirement 7: Restrict Access to System Components and Cardholder Data by Business Need to Know"
+    },
+    "supporting_chunks": [],
+    "rationale": {
+      "is_compliant": true,
+      "compliance_level": "partially_compliant",
+      "confidence_score": 0.87,
+      "explanation": "Inferred from sibling controls: 1 of 3 evaluated controls in Requirement 7 are fully compliant. Gaps remain in 7.2.2, 7.2.3."
+    }
+  },
+  {
+    "control": {
+      "control_id": "7.1.2",
+      "framework": "PCI-DSS",
+      "title": "PCI DSS 7.1.2",
+      "description": "Roles and responsibilities for performing activities in Requirement 7 are documented, assigned, and understood.",
+      "requirement_family": "Requirement 7: Restrict Access to System Components and Cardholder Data by Business Need to Know"
+    },
+    "supporting_chunks": [],
+    "rationale": {
+      "is_compliant": true,
+      "compliance_level": "partially_compliant",
+      "confidence_score": 0.87,
+      "explanation": "Inferred from sibling controls: 1 of 3 evaluated controls in Requirement 7 are fully compliant. Gaps remain in 7.2.2, 7.2.3."
+    }
+  },
+  {
+    "control": {
+      "control_id": "7.2.1",
+      "framework": "PCI-DSS",
+      "title": "PCI DSS 7.2.1",
+      "description": "An access control model is defined and includes granting access as follows:\n\u2022\t Appropriate access depending on the entity\u2019s business and access needs. \n\u2022\t Access to system components and data resources that is based on users\u2019 job classification and functions. \n\u2022\t The least privileges required (for example, user, administrator) to perform a job function.",
+      "requirement_family": "Requirement 7: Restrict Access to System Components and Cardholder Data by Business Need to Know"
+    },
+    "supporting_chunks": [
+      {
+        "chunk_id": "8e546c77-3149-403d-b307-058c703c3f90",
+        "document_name": "access_control_policy.pdf",
+        "page_number": 2,
+        "raw_text": "Access rights must be assigned based on job classification and function, following the principle of least privilege. Access control systems must default to deny-all and restrict access to the minimum necessary for business functions. All access permissions must be documented in an access control matrix that maps roles to specific system privileges.",
+        "section_header": "3.1  Role-Based Access Control (RBAC)",
+        "embedding": null
+      }
+    ],
+    "rationale": {
+      "is_compliant": true,
+      "compliance_level": "fully_compliant",
+      "confidence_score": 1.0,
+      "explanation": "The policy excerpt clearly outlines that access rights are assigned based on job classification and functions, adhering to the principle of least privilege. This directly addresses all sub-requirements of PCI DSS 7.2.1."
+    }
+  },
+  {
+    "control": {
+      "control_id": "7.2.2",
+      "framework": "PCI-DSS",
+      "title": "PCI DSS 7.2.2",
+      "description": "Access is assigned to users, including privileged users, based on: \n\u2022\t Job classification and function.\n\u2022\t Least privileges necessary to perform job responsibilities.",
+      "requirement_family": "Requirement 7: Restrict Access to System Components and Cardholder Data by Business Need to Know"
+    },
     "supporting_chunks": [],
     "rationale": {
       "is_compliant": false,
       "compliance_level": "non_compliant",
-      "confidence_score": 0.0,
-      "explanation": "The organization's policy library lacks documentation for PCI DSS 6.2.3, which mandates that bespoke and custom software undergoes review to identify and correct potential coding vulnerabilities before release. Without this specific policy coverage, the organization cannot ensure adherence to secure coding guidelines or address emerging software vulnerabilities as required by the standard."
+      "confidence_score": 0.8,
+      "explanation": "The organization lacks a policy that explicitly outlines how access is assigned to users based on job classification and function, as well as the principle of least privileges necessary for performing job responsibilities. This missing documentation makes it difficult to ensure that all user access aligns with PCI DSS 7.2.2 requirements."
+    }
+  },
+  {
+    "control": {
+      "control_id": "7.2.3",
+      "framework": "PCI-DSS",
+      "title": "PCI DSS 7.2.3",
+      "description": "Required privileges are approved by authorized personnel.",
+      "requirement_family": "Requirement 7: Restrict Access to System Components and Cardholder Data by Business Need to Know"
+    },
+    "supporting_chunks": [],
+    "rationale": {
+      "is_compliant": false,
+      "compliance_level": "non_compliant",
+      "confidence_score": 0.8,
+      "explanation": "The organization lacks a policy that explicitly outlines the process for approving required privileges as mandated by PCI DSS 7.2.3. This results in a gap where there is no documented procedure to ensure that all privileges are reviewed and approved by authorized personnel."
     }
   },
   {
@@ -388,8 +967,8 @@
     "rationale": {
       "is_compliant": true,
       "compliance_level": "partially_compliant",
-      "confidence_score": 0.73,
-      "explanation": "Inferred from sibling controls: 3 of 5 evaluated controls in Requirement 8 are fully compliant. Gaps remain in 8.2.4, 8.2.2."
+      "confidence_score": 0.96,
+      "explanation": "Inferred from sibling controls: 2 of 5 evaluated controls in Requirement 8 are fully compliant. Gaps remain in 8.2.4, 8.2.2, 8.2.5."
     }
   },
   {
@@ -404,8 +983,8 @@
     "rationale": {
       "is_compliant": true,
       "compliance_level": "partially_compliant",
-      "confidence_score": 0.73,
-      "explanation": "Inferred from sibling controls: 3 of 5 evaluated controls in Requirement 8 are fully compliant. Gaps remain in 8.2.4, 8.2.2."
+      "confidence_score": 0.96,
+      "explanation": "Inferred from sibling controls: 2 of 5 evaluated controls in Requirement 8 are fully compliant. Gaps remain in 8.2.4, 8.2.2, 8.2.5."
     }
   },
   {
@@ -418,10 +997,10 @@
     },
     "supporting_chunks": [
       {
-        "chunk_id": "33b4b22c-9fa8-4305-a226-0fd042b00dbf",
+        "chunk_id": "dde804ac-c139-4868-83b4-cb3bf874f2d8",
         "document_name": "access_control_policy.pdf",
         "page_number": 2,
-        "raw_text": "All users must be assigned a unique user ID before they are allowed access to any system component or cardholder data.",
+        "raw_text": "All users must be assigned a unique user ID before they are allowed access to any system component or cardholder data. Generic, shared, or group IDs are strictly prohibited for standard operations.",
         "section_header": "2.1  Unique User Identification",
         "embedding": null
       }
@@ -430,7 +1009,7 @@
       "is_compliant": true,
       "compliance_level": "fully_compliant",
       "confidence_score": 1.0,
-      "explanation": "The policy text directly addresses the requirement by stating that all users must have a unique user ID assigned before being granted access to system components or cardholder data, which is equivalent to the control's sub-requirement."
+      "explanation": "The chunk directly addresses the requirement by mandating that all users receive a unique identifier prior to gaining access to system components and cardholder data."
     }
   },
   {
@@ -443,19 +1022,27 @@
     },
     "supporting_chunks": [
       {
-        "chunk_id": "0042d39a-9777-4b07-97f6-f89e4f8e7a74",
+        "chunk_id": "dde804ac-c139-4868-83b4-cb3bf874f2d8",
         "document_name": "access_control_policy.pdf",
         "page_number": 2,
-        "raw_text": "In cases where shared accounts are technically unavoidable (e.g., certain legacy systems), compensating controls including enhanced logging and dual-authorization must be implemented and documented.",
+        "raw_text": "All users must be assigned a unique user ID before they are allowed access to any system component or cardholder data. Generic, shared, or group IDs are strictly prohibited for standard operations.",
         "section_header": "2.1  Unique User Identification",
+        "embedding": null
+      },
+      {
+        "chunk_id": "d0c3793a-1e47-46f5-892c-f8cebaf7a099",
+        "document_name": "access_control_policy.pdf",
+        "page_number": 3,
+        "raw_text": "All access to system components and cardholder data must be logged. Audit logs must capture: user identification, type of event, date and time, success or failure indication, origination of event, and identity or name of affected data, system component, or resource.",
+        "section_header": "6  Audit Logging and Monitoring",
         "embedding": null
       }
     ],
     "rationale": {
       "is_compliant": true,
       "compliance_level": "partially_compliant",
-      "confidence_score": 0.65,
-      "explanation": "The policy text provides evidence for two sub-requirements related to dual-authorization and enhanced logging, which address the need for confirming individual identity before access is granted and attributing actions to individuals. However, it does not provide direct evidence for preventing ID use unless necessary, limiting use to exceptional circumstances, documenting business justification, or requiring explicit management approval."
+      "confidence_score": 1.0,
+      "explanation": "The chunk addresses the requirement for unique user identification but does not cover other aspects of managing group IDs and shared authentication credentials as specified in PCI DSS 8.2.2."
     }
   },
   {
@@ -468,7 +1055,7 @@
     },
     "supporting_chunks": [
       {
-        "chunk_id": "b6089250-68b2-439e-899d-b565e87258de",
+        "chunk_id": "b0452ec9-06b1-4a1f-899b-906eb645b305",
         "document_name": "access_control_policy.pdf",
         "page_number": 2,
         "raw_text": "Multi-factor authentication is required for all remote access to the corporate network and for all access to the Cardholder Data Environment (CDE). MFA must use at least two of the following factors: something the user knows (password or passphrase), something the user has (smart card, hardware token, or authenticator app), or something the user is (biometric verification). MFA tokens must not be shared between users. Service provider personnel with remote access to customer premises must also use unique MFA credentials per customer.",
@@ -480,7 +1067,7 @@
       "is_compliant": true,
       "compliance_level": "fully_compliant",
       "confidence_score": 1.0,
-      "explanation": "The policy text explicitly states that service provider personnel with remote access to customer premises must use unique MFA credentials for each customer, which directly addresses the requirement in PCI DSS 8.2.3."
+      "explanation": "The policy explicitly states that service provider personnel with remote access to customer premises must use unique MFA credentials for each customer, which directly aligns with the security control requirement."
     }
   },
   {
@@ -495,8 +1082,8 @@
     "rationale": {
       "is_compliant": false,
       "compliance_level": "non_compliant",
-      "confidence_score": 0.0,
-      "explanation": "The control is non-compliant because there is no policy documentation that outlines the process for managing user IDs, authentication factors, and other identifier objects as required by PCI DSS 8.2.4. To address this gap, the organization needs to create a detailed policy document specifying the procedures for authorized approval of changes, the roles responsible for these approvals, and the specific privileges granted based on documented approvals."
+      "confidence_score": 0.8,
+      "explanation": "The organization lacks policy documentation that outlines the procedures for managing user IDs, authentication factors, and other identifier objects as required by PCI DSS 8.2.4. Specifically, there are no documented processes for obtaining appropriate approvals or specifying privileges associated with these actions."
     }
   },
   {
@@ -509,19 +1096,76 @@
     },
     "supporting_chunks": [
       {
-        "chunk_id": "636f74e5-eaa1-483e-a8a1-872c3a027457",
+        "chunk_id": "f0450a34-4b1e-4b75-87e0-1365ee9c0db6",
         "document_name": "access_control_policy.pdf",
         "page_number": 3,
-        "raw_text": "For voluntary departures, access must be revoked no later than the last day of employment. Accounts belonging to terminated users must be disabled and retained in a dormant state for 90 days for forensic purposes before deletion.",
+        "raw_text": "All authentication tokens, badges, keys, and company equipment must be collected and documented before the employee departs the premises. For voluntary departures, access must be revoked no later than the last day of employment. Accounts belonging to terminated users must be disabled and retained in a dormant state for 90 days for forensic purposes before deletion.",
         "section_header": "5  Access Revocation and Termination",
+        "embedding": null
+      }
+    ],
+    "rationale": {
+      "is_compliant": true,
+      "compliance_level": "partially_compliant",
+      "confidence_score": 1.0,
+      "explanation": "The chunk specifies that accounts of terminated users are disabled after departure but retains them for 90 days. This partially aligns with the requirement as it does not immediately revoke access, but instead disables and retains accounts temporarily."
+    }
+  },
+  {
+    "control": {
+      "control_id": "9.1.1",
+      "framework": "PCI-DSS",
+      "title": "PCI DSS 9.1.1",
+      "description": "All security policies and operational procedures that are identified in Requirement 9 are:\n\u2022\t Documented. \n\u2022\t Kept up to date. \n\u2022\t In use.\n\u2022\t Known to all affected parties.",
+      "requirement_family": "Requirement 9: Restrict Physical Access to Cardholder Data"
+    },
+    "supporting_chunks": [],
+    "rationale": {
+      "is_compliant": true,
+      "compliance_level": "partially_compliant",
+      "confidence_score": 1.0,
+      "explanation": "Inferred from sibling controls: 2 of 4 evaluated controls in Requirement 9 are fully compliant. Gaps remain in 9.2.1.1, 9.3.1."
+    }
+  },
+  {
+    "control": {
+      "control_id": "9.1.2",
+      "framework": "PCI-DSS",
+      "title": "PCI DSS 9.1.2",
+      "description": "Roles and responsibilities for performing activities in Requirement 9 are documented, assigned, and understood.",
+      "requirement_family": "Requirement 9: Restrict Physical Access to Cardholder Data"
+    },
+    "supporting_chunks": [],
+    "rationale": {
+      "is_compliant": true,
+      "compliance_level": "partially_compliant",
+      "confidence_score": 1.0,
+      "explanation": "Inferred from sibling controls: 2 of 4 evaluated controls in Requirement 9 are fully compliant. Gaps remain in 9.2.1.1, 9.3.1."
+    }
+  },
+  {
+    "control": {
+      "control_id": "9.2.1",
+      "framework": "PCI-DSS",
+      "title": "PCI DSS 9.2.1",
+      "description": "Appropriate facility entry controls are in place to restrict physical access to systems in the CDE.",
+      "requirement_family": "Requirement 9: Restrict Physical Access to Cardholder Data"
+    },
+    "supporting_chunks": [
+      {
+        "chunk_id": "514818fa-fe69-44d0-b4b3-cd5ba51d4049",
+        "document_name": "physical_security_policy.pdf",
+        "page_number": 2,
+        "raw_text": "Appropriate facility entry controls must be in place to restrict physical access to systems in the CDE. Entry to sensitive areas including data centers, server rooms, and network closets must require badge access with multi-factor authentication (badge plus PIN or biometric). All entry points must be monitored by security cameras operating 24/7/365.",
+        "section_header": "2.1  Entry Controls",
         "embedding": null
       },
       {
-        "chunk_id": "fcf48c73-60a6-44ed-82b8-110725391b2e",
-        "document_name": "access_control_policy.pdf",
-        "page_number": 3,
-        "raw_text": "Upon termination of employment, all logical and physical access must be revoked immediately. The Human Resources department must notify IT Security within four hours of any termination.",
-        "section_header": "5  Access Revocation and Termination",
+        "chunk_id": "77203cc3-3eb8-41a0-b579-1ac2bdaeb9a5",
+        "document_name": "physical_security_policy.pdf",
+        "page_number": 2,
+        "raw_text": "Individual physical access to sensitive areas within the CDE must be monitored with either video cameras or physical access control mechanisms (or both) that can record and identify individual access.",
+        "section_header": "2.2  Individual Access Monitoring",
         "embedding": null
       }
     ],
@@ -529,7 +1173,409 @@
       "is_compliant": true,
       "compliance_level": "fully_compliant",
       "confidence_score": 1.0,
-      "explanation": "The policy text directly addresses the requirement by stating that upon termination of employment, all logical and physical access must be revoked immediately. This matches exactly with the control's sub-requirement."
+      "explanation": "The chunk provides specific details on facility entry controls, multi-factor authentication requirements for sensitive areas, and continuous monitoring with security cameras."
+    }
+  },
+  {
+    "control": {
+      "control_id": "9.2.1.1",
+      "framework": "PCI-DSS",
+      "title": "PCI DSS 9.2.1.1",
+      "description": "Individual physical access to sensitive areas within the CDE is monitored with either video cameras or physical access control mechanisms (or both) as follows:\n\u2022\t Entry and exit points to/from sensitive areas within the CDE are monitored. \n\u2022\t Monitoring devices or mechanisms are protected from tampering or disabling.\n\u2022\t Collected data is reviewed and correlated with other entries.\n\u2022\t Collected data is stored for at least three months, unless otherwise restricted by law.",
+      "requirement_family": "Requirement 9: Restrict Physical Access to Cardholder Data"
+    },
+    "supporting_chunks": [
+      {
+        "chunk_id": "514818fa-fe69-44d0-b4b3-cd5ba51d4049",
+        "document_name": "physical_security_policy.pdf",
+        "page_number": 2,
+        "raw_text": "Appropriate facility entry controls must be in place to restrict physical access to systems in the CDE. Entry to sensitive areas including data centers, server rooms, and network closets must require badge access with multi-factor authentication (badge plus PIN or biometric). All entry points must be monitored by security cameras operating 24/7/365.",
+        "section_header": "2.1  Entry Controls",
+        "embedding": null
+      },
+      {
+        "chunk_id": "77203cc3-3eb8-41a0-b579-1ac2bdaeb9a5",
+        "document_name": "physical_security_policy.pdf",
+        "page_number": 2,
+        "raw_text": "Individual physical access to sensitive areas within the CDE must be monitored with either video cameras or physical access control mechanisms (or both) that can record and identify individual access.",
+        "section_header": "2.2  Individual Access Monitoring",
+        "embedding": null
+      },
+      {
+        "chunk_id": "686ff7fb-b834-4f37-98a6-7a9871af995a",
+        "document_name": "physical_security_policy.pdf",
+        "page_number": 2,
+        "raw_text": "All visitors must be authorized before entering areas where cardholder data is processed or stored. Visitors must be identified by a government-issued photo ID and issued a temporary visitor badge that is visually distinguishable from employee badges. Visitors must be escorted at all times within sensitive areas by authorized personnel. A visitor log must be maintained that records the visitor's name, organization, date and time of entry and exit, and the name of the escort. Visitor logs must be retained for a minimum of three months.",
+        "section_header": "4  Visitor Management",
+        "embedding": null
+      }
+    ],
+    "rationale": {
+      "is_compliant": true,
+      "compliance_level": "partially_compliant",
+      "confidence_score": 1.0,
+      "explanation": "The chunk covers the monitoring of entry points but does not address protection against tampering or disabling of monitoring devices, review and correlation of collected data, or storage duration."
+    }
+  },
+  {
+    "control": {
+      "control_id": "9.3.1",
+      "framework": "PCI-DSS",
+      "title": "PCI DSS 9.3.1",
+      "description": "Procedures are implemented for authorizing and managing physical access of personnel to the CDE, including:\n\u2022\t  Identifying personnel.\n\u2022\t Managing changes to an individual\u2019s physical access requirements.\n\u2022\t  Revoking or terminating personnel identification.\n\u2022\t  Limiting access to the identification process or system to authorized personnel.",
+      "requirement_family": "Requirement 9: Restrict Physical Access to Cardholder Data"
+    },
+    "supporting_chunks": [
+      {
+        "chunk_id": "714c7eca-d62c-45c1-9d79-6967ff87b58e",
+        "document_name": "physical_security_policy.pdf",
+        "page_number": 2,
+        "raw_text": "Procedures must be implemented for authorizing and managing physical access of personnel to the CDE. Access to sensitive areas must be authorized based on individual job function and documented by an authorized approver.",
+        "section_header": "3  Personnel Access Management",
+        "embedding": null
+      },
+      {
+        "chunk_id": "514818fa-fe69-44d0-b4b3-cd5ba51d4049",
+        "document_name": "physical_security_policy.pdf",
+        "page_number": 2,
+        "raw_text": "Appropriate facility entry controls must be in place to restrict physical access to systems in the CDE. Entry to sensitive areas including data centers, server rooms, and network closets must require badge access with multi-factor authentication (badge plus PIN or biometric). All entry points must be monitored by security cameras operating 24/7/365.",
+        "section_header": "2.1  Entry Controls",
+        "embedding": null
+      },
+      {
+        "chunk_id": "77203cc3-3eb8-41a0-b579-1ac2bdaeb9a5",
+        "document_name": "physical_security_policy.pdf",
+        "page_number": 2,
+        "raw_text": "Individual physical access to sensitive areas within the CDE must be monitored with either video cameras or physical access control mechanisms (or both) that can record and identify individual access.",
+        "section_header": "2.2  Individual Access Monitoring",
+        "embedding": null
+      },
+      {
+        "chunk_id": "686ff7fb-b834-4f37-98a6-7a9871af995a",
+        "document_name": "physical_security_policy.pdf",
+        "page_number": 2,
+        "raw_text": "All visitors must be authorized before entering areas where cardholder data is processed or stored. Visitors must be identified by a government-issued photo ID and issued a temporary visitor badge that is visually distinguishable from employee badges. Visitors must be escorted at all times within sensitive areas by authorized personnel. A visitor log must be maintained that records the visitor's name, organization, date and time of entry and exit, and the name of the escort. Visitor logs must be retained for a minimum of three months.",
+        "section_header": "4  Visitor Management",
+        "embedding": null
+      }
+    ],
+    "rationale": {
+      "is_compliant": true,
+      "compliance_level": "partially_compliant",
+      "confidence_score": 1.0,
+      "explanation": "The chunk mentions authorizing and managing physical access based on job function but does not specify how changes in access requirements are managed."
+    }
+  },
+  {
+    "control": {
+      "control_id": "9.4.1",
+      "framework": "PCI-DSS",
+      "title": "PCI DSS 9.4.1",
+      "description": "All media with cardholder data is physically secured.",
+      "requirement_family": "Requirement 9: Restrict Physical Access to Cardholder Data"
+    },
+    "supporting_chunks": [
+      {
+        "chunk_id": "b49c52e0-f02f-47e6-8a62-b82ef25586a9",
+        "document_name": "physical_security_policy.pdf",
+        "page_number": 3,
+        "raw_text": "All media containing cardholder data must be physically secured in locked storage with access limited to authorized personnel only. Media includes hard drives, backup tapes, removable storage devices, paper receipts, and printouts containing cardholder data.",
+        "section_header": "5.1  Media Storage",
+        "embedding": null
+      }
+    ],
+    "rationale": {
+      "is_compliant": true,
+      "compliance_level": "fully_compliant",
+      "confidence_score": 1.0,
+      "explanation": "The chunk directly addresses the requirement by specifying that all media containing cardholder data must be stored securely and access is restricted to authorized personnel."
+    }
+  },
+  {
+    "control": {
+      "control_id": "10.1.1",
+      "framework": "PCI-DSS",
+      "title": "PCI DSS 10.1.1",
+      "description": "All security policies and operational procedures that are identified in Requirement 10 are: \n\u2022\t Documented.\n\u2022\t Kept up to date.\n\u2022\t In use.\n\u2022\t Known to all affected parties.",
+      "requirement_family": "Requirement 10: Log and Monitor All Access to System Components and Cardholder Data"
+    },
+    "supporting_chunks": [],
+    "rationale": {
+      "is_compliant": true,
+      "compliance_level": "partially_compliant",
+      "confidence_score": 0.95,
+      "explanation": "Inferred from sibling controls: 3 of 4 evaluated controls in Requirement 10 are fully compliant. Gaps remain in 10.3.1."
+    }
+  },
+  {
+    "control": {
+      "control_id": "10.1.2",
+      "framework": "PCI-DSS",
+      "title": "PCI DSS 10.1.2",
+      "description": "Roles and responsibilities for performing activities in Requirement 10 are documented, assigned, and understood.",
+      "requirement_family": "Requirement 10: Log and Monitor All Access to System Components and Cardholder Data"
+    },
+    "supporting_chunks": [],
+    "rationale": {
+      "is_compliant": true,
+      "compliance_level": "partially_compliant",
+      "confidence_score": 0.95,
+      "explanation": "Inferred from sibling controls: 3 of 4 evaluated controls in Requirement 10 are fully compliant. Gaps remain in 10.3.1."
+    }
+  },
+  {
+    "control": {
+      "control_id": "10.2.1",
+      "framework": "PCI-DSS",
+      "title": "PCI DSS 10.2.1",
+      "description": "Audit logs are enabled and active for all system components and cardholder data.",
+      "requirement_family": "Requirement 10: Log and Monitor All Access to System Components and Cardholder Data"
+    },
+    "supporting_chunks": [
+      {
+        "chunk_id": "d0c3793a-1e47-46f5-892c-f8cebaf7a099",
+        "document_name": "access_control_policy.pdf",
+        "page_number": 3,
+        "raw_text": "All access to system components and cardholder data must be logged. Audit logs must capture: user identification, type of event, date and time, success or failure indication, origination of event, and identity or name of affected data, system component, or resource.",
+        "section_header": "6  Audit Logging and Monitoring",
+        "embedding": null
+      }
+    ],
+    "rationale": {
+      "is_compliant": true,
+      "compliance_level": "fully_compliant",
+      "confidence_score": 1.0,
+      "explanation": "The policy excerpt explicitly states that all access to system components and cardholder data must be logged with specific details captured in the audit logs."
+    }
+  },
+  {
+    "control": {
+      "control_id": "10.2.1.1",
+      "framework": "PCI-DSS",
+      "title": "PCI DSS 10.2.1.1",
+      "description": "Audit logs capture all individual user access to cardholder data.",
+      "requirement_family": "Requirement 10: Log and Monitor All Access to System Components and Cardholder Data"
+    },
+    "supporting_chunks": [
+      {
+        "chunk_id": "d0c3793a-1e47-46f5-892c-f8cebaf7a099",
+        "document_name": "access_control_policy.pdf",
+        "page_number": 3,
+        "raw_text": "All access to system components and cardholder data must be logged. Audit logs must capture: user identification, type of event, date and time, success or failure indication, origination of event, and identity or name of affected data, system component, or resource.",
+        "section_header": "6  Audit Logging and Monitoring",
+        "embedding": null
+      }
+    ],
+    "rationale": {
+      "is_compliant": true,
+      "compliance_level": "fully_compliant",
+      "confidence_score": 1.0,
+      "explanation": "The chunk provides detailed requirements for logging all access to cardholder data and includes specific elements that must be captured in the audit logs."
+    }
+  },
+  {
+    "control": {
+      "control_id": "10.2.2",
+      "framework": "PCI-DSS",
+      "title": "PCI DSS 10.2.2",
+      "description": "Audit logs record the following details for each auditable event:\n\u2022\t User identification.\n\u2022\t Type of event.\n\u2022\t Date and time.\n\u2022\t Success and failure indication.\n\u2022\t Origination of event.\n\u2022\t Identity or name of affected data, system component, resource, or service (for example, name and protocol).",
+      "requirement_family": "Requirement 10: Log and Monitor All Access to System Components and Cardholder Data"
+    },
+    "supporting_chunks": [
+      {
+        "chunk_id": "d0c3793a-1e47-46f5-892c-f8cebaf7a099",
+        "document_name": "access_control_policy.pdf",
+        "page_number": 3,
+        "raw_text": "All access to system components and cardholder data must be logged. Audit logs must capture: user identification, type of event, date and time, success or failure indication, origination of event, and identity or name of affected data, system component, or resource.",
+        "section_header": "6  Audit Logging and Monitoring",
+        "embedding": null
+      }
+    ],
+    "rationale": {
+      "is_compliant": true,
+      "compliance_level": "fully_compliant",
+      "confidence_score": 1.0,
+      "explanation": "The policy excerpt explicitly states that audit logs must capture all the required details for each auditable event as per PCI DSS 10.2.2."
+    }
+  },
+  {
+    "control": {
+      "control_id": "10.3.1",
+      "framework": "PCI-DSS",
+      "title": "PCI DSS 10.3.1",
+      "description": "Read access to audit logs files is limited to those with a job-related need.",
+      "requirement_family": "Requirement 10: Log and Monitor All Access to System Components and Cardholder Data"
+    },
+    "supporting_chunks": [],
+    "rationale": {
+      "is_compliant": false,
+      "compliance_level": "non_compliant",
+      "confidence_score": 0.8,
+      "explanation": "The organization lacks a policy that explicitly limits read access to audit log files based on job-related need, which is required by PCI DSS 10.3.1."
+    }
+  },
+  {
+    "control": {
+      "control_id": "11.1.1",
+      "framework": "PCI-DSS",
+      "title": "PCI DSS 11.1.1",
+      "description": "All security policies and operational procedures that are identified in Requirement 11 are: \n\u2022\t Documented. \n\u2022\t Kept up to date.\n\u2022\t In use.\n\u2022\t Known to all affected parties.",
+      "requirement_family": "Requirement 11: Test Security of Systems and Networks Regularly"
+    },
+    "supporting_chunks": [],
+    "rationale": {
+      "is_compliant": true,
+      "compliance_level": "partially_compliant",
+      "confidence_score": 0.96,
+      "explanation": "Inferred from sibling controls: 0 of 4 evaluated controls in Requirement 11 are fully compliant. Gaps remain in 11.2.1, 11.3.1, 11.3.1.1, 11.4.1."
+    }
+  },
+  {
+    "control": {
+      "control_id": "11.1.2",
+      "framework": "PCI-DSS",
+      "title": "PCI DSS 11.1.2",
+      "description": "Roles and responsibilities for performing activities in Requirement 11 are documented, assigned, and understood.",
+      "requirement_family": "Requirement 11: Test Security of Systems and Networks Regularly"
+    },
+    "supporting_chunks": [],
+    "rationale": {
+      "is_compliant": true,
+      "compliance_level": "partially_compliant",
+      "confidence_score": 0.96,
+      "explanation": "Inferred from sibling controls: 0 of 4 evaluated controls in Requirement 11 are fully compliant. Gaps remain in 11.2.1, 11.3.1, 11.3.1.1, 11.4.1."
+    }
+  },
+  {
+    "control": {
+      "control_id": "11.2.1",
+      "framework": "PCI-DSS",
+      "title": "PCI DSS 11.2.1",
+      "description": "Authorized and unauthorized wireless access points are managed as follows:\n\u2022\t The presence of wireless (Wi-Fi) access points is tested for, \n\u2022\t All authorized and unauthorized wireless access points are detected and identified, \n\u2022\t Testing, detection, and identification occurs at least once every three months. \n\u2022\t If automated monitoring is used, personnel are notified via generated alerts.",
+      "requirement_family": "Requirement 11: Test Security of Systems and Networks Regularly"
+    },
+    "supporting_chunks": [
+      {
+        "chunk_id": "5eb650df-9183-4a10-9b92-6e80e8ddac1f",
+        "document_name": "change_management_policy.pdf",
+        "page_number": 3,
+        "raw_text": "Authorized and unauthorized wireless access points must be identified and managed. Testing for the presence of wireless access points must be performed at least once every three months. Internal vulnerability scans must be performed at least once every three months, and after any significant change.",
+        "section_header": "6  Wireless and Default Configuration Management",
+        "embedding": null
+      },
+      {
+        "chunk_id": "f00bd8c7-3015-422a-848a-7eac65aa6a91",
+        "document_name": "network_security_policy.pdf",
+        "page_number": 2,
+        "raw_text": "A wireless intrusion detection system (WIDS) must be deployed to detect and alert on unauthorized wireless access points on a quarterly basis.",
+        "section_header": "4  Wireless Network Security",
+        "embedding": null
+      }
+    ],
+    "rationale": {
+      "is_compliant": true,
+      "compliance_level": "partially_compliant",
+      "confidence_score": 1.0,
+      "explanation": "The chunk mentions testing for the presence of wireless access points and performing internal vulnerability scans at least once every three months. However, it does not specify detection and identification of all authorized and unauthorized wireless access points or notification through automated monitoring alerts."
+    }
+  },
+  {
+    "control": {
+      "control_id": "11.3.1",
+      "framework": "PCI-DSS",
+      "title": "PCI DSS 11.3.1",
+      "description": "Internal vulnerability scans are performed as follows: \n\u2022\t At least once every three months.\n\u2022\t Vulnerabilities that are either high-risk or critical (according to the entity\u2019s vulnerability risk rankings defined at Requirement 6.3.1) are resolved.\n\u2022\t Rescans are performed that confirm all high-risk and all critical vulnerabilities (as noted above) have been resolved.\n\u2022\t Scan tool is kept up to date with latest vulnerability information.\n\u2022\t Scans are performed by qualified personnel and organizational independence of the tester exists.",
+      "requirement_family": "Requirement 11: Test Security of Systems and Networks Regularly"
+    },
+    "supporting_chunks": [
+      {
+        "chunk_id": "fb379c8d-600f-4cd1-a705-045a8508037a",
+        "document_name": "network_security_policy.pdf",
+        "page_number": 3,
+        "raw_text": "Internal and external network vulnerability scans must be performed at least quarterly and after any significant infrastructure change.",
+        "section_header": "5  Vulnerability Management",
+        "embedding": null
+      },
+      {
+        "chunk_id": "5eb650df-9183-4a10-9b92-6e80e8ddac1f",
+        "document_name": "change_management_policy.pdf",
+        "page_number": 3,
+        "raw_text": "Authorized and unauthorized wireless access points must be identified and managed. Testing for the presence of wireless access points must be performed at least once every three months. Internal vulnerability scans must be performed at least once every three months, and after any significant change.",
+        "section_header": "6  Wireless and Default Configuration Management",
+        "embedding": null
+      },
+      {
+        "chunk_id": "295622d8-9176-4009-a8ec-64b1c2df58ec",
+        "document_name": "network_security_policy.pdf",
+        "page_number": 3,
+        "raw_text": "High-risk vulnerabilities (CVSS score 7.0 or above) identified during scanning must be remediated within 30 calendar days. Critical vulnerabilities must be patched or mitigated within 72 hours of discovery.",
+        "section_header": "5  Vulnerability Management",
+        "embedding": null
+      }
+    ],
+    "rationale": {
+      "is_compliant": true,
+      "compliance_level": "partially_compliant",
+      "confidence_score": 1.0,
+      "explanation": "The chunk specifies quarterly scans but does not address remediation of high-risk and critical vulnerabilities."
+    }
+  },
+  {
+    "control": {
+      "control_id": "11.3.1.1",
+      "framework": "PCI-DSS",
+      "title": "PCI DSS 11.3.1.1",
+      "description": "All other applicable vulnerabilities (those not ranked as high-risk vulnerabilities or critical vulnerabilities according to the entity\u2019s vulnerability risk rankings defined at Requirement 6.3.1) are managed as follows:\n\u2022\t Addressed based on the risk defined in the entity\u2019s targeted risk analysis, which is performed according to all elements specified in Requirement 12.3.1.\n\u2022\t Rescans are conducted as needed.",
+      "requirement_family": "Requirement 11: Test Security of Systems and Networks Regularly"
+    },
+    "supporting_chunks": [
+      {
+        "chunk_id": "a2e63d8b-245a-4a51-ac1e-cc217afe0d4a",
+        "document_name": "change_management_policy.pdf",
+        "page_number": 2,
+        "raw_text": "Configuration standards must be developed, implemented, and maintained for all system components. Standards must cover all system components including servers, network devices, databases, and applications. Standards must address all known security vulnerabilities. Standards must be consistent with industry-accepted system hardening benchmarks such as CIS Benchmarks, NIST, or vendor-specific hardening guides. Standards must be updated as new vulnerability issues are identified.",
+        "section_header": "2.2  Configuration Standards",
+        "embedding": null
+      }
+    ],
+    "rationale": {
+      "is_compliant": true,
+      "compliance_level": "partially_compliant",
+      "confidence_score": 0.85,
+      "explanation": "The chunk addresses the management of vulnerabilities based on risk analysis but does not explicitly mention conducting rescans as needed. The evidence provided focuses on maintaining configuration standards and addressing known security vulnerabilities, which aligns with part of the control requirement."
+    }
+  },
+  {
+    "control": {
+      "control_id": "11.4.1",
+      "framework": "PCI-DSS",
+      "title": "PCI DSS 11.4.1",
+      "description": "A penetration testing methodology is defined, documented, and implemented by the entity, and includes: \n\u2022\t Industry-accepted penetration testing approaches.\n\u2022\t Coverage for the entire CDE perimeter and critical systems. \n\u2022\t Testing from both inside and outside the network. \n\u2022\t Testing to validate any segmentation and scope-reduction controls. \n\u2022\t Application-layer penetration testing to identify, at a minimum, the vulnerabilities listed in Requirement 6.2.4. \n\u2022\t Network-layer penetration tests that encompass all components that support network functions as well as operating systems. \n\u2022\t Review and consideration of threats and vulnerabilities experienced in the last 12 months. \n\u2022\t Documented approach to assessing and addressing the risk posed by exploitable vulnerabilities and security weaknesses found during penetration testing. \n\u2022\t Retention of penetration testing results and remediation activities results for at least 12 months.",
+      "requirement_family": "Requirement 11: Test Security of Systems and Networks Regularly"
+    },
+    "supporting_chunks": [
+      {
+        "chunk_id": "d9757fe0-f1fc-46cc-b2fc-5ec79d79c16d",
+        "document_name": "network_security_policy.pdf",
+        "page_number": 3,
+        "raw_text": "Penetration testing of the network perimeter and critical systems must be conducted at least annually.",
+        "section_header": "5  Vulnerability Management",
+        "embedding": null
+      },
+      {
+        "chunk_id": "1fed54b5-bc29-4111-b5d5-0d5f2781f240",
+        "document_name": "change_management_policy.pdf",
+        "page_number": 3,
+        "raw_text": "Static application security testing (SAST) must be performed on all code changes. Dynamic application security testing (DAST) must be performed on web applications before deployment. Identified vulnerabilities must be remediated and re-tested before release.",
+        "section_header": "4.2  Code Review and Testing",
+        "embedding": null
+      }
+    ],
+    "rationale": {
+      "is_compliant": true,
+      "compliance_level": "partially_compliant",
+      "confidence_score": 1.0,
+      "explanation": "The chunk specifies annual penetration testing but does not cover other aspects such as methodology definition, internal/external testing, validation of segmentation controls, application-layer testing, network-layer testing, review of past threats/vulnerabilities, risk assessment approach, and retention of results."
     }
   },
   {
@@ -538,14 +1584,14 @@
       "framework": "PCI-DSS",
       "title": "PCI DSS 12.1.1",
       "description": "An overall information security policy is: \n\u2022\t Established.\n\u2022\t Published.\n\u2022\t Maintained.\n\u2022\t Disseminated to all relevant personnel, as well as to relevant vendors and business partners.",
-      "requirement_family": "Requirement 12: Support information security with organizational policies and programs"
+      "requirement_family": "Requirement 12: Support Information Security with Organizational Policies and Programs"
     },
     "supporting_chunks": [],
     "rationale": {
       "is_compliant": false,
       "compliance_level": "non_compliant",
-      "confidence_score": 0.0,
-      "explanation": "The control requires an established, published, maintained and disseminated overall information security policy which is currently missing in the organization's policy library."
+      "confidence_score": 0.8,
+      "explanation": "The organization lacks policy documentation that explicitly outlines an overall information security policy established, published, maintained, and disseminated to all relevant personnel, vendors, and business partners as per PCI DSS 12.1.1 requirements."
     }
   },
   {
@@ -554,14 +1600,14 @@
       "framework": "PCI-DSS",
       "title": "PCI DSS 12.1.2",
       "description": "The information security policy is:\n\u2022\t Reviewed at least once every 12 months.\n\u2022\t Updated as needed to reflect changes to business objectives or risks to the environment.",
-      "requirement_family": "Requirement 12: Support information security with organizational policies and programs"
+      "requirement_family": "Requirement 12: Support Information Security with Organizational Policies and Programs"
     },
     "supporting_chunks": [],
     "rationale": {
       "is_compliant": false,
       "compliance_level": "non_compliant",
-      "confidence_score": 0.0,
-      "explanation": "The organization's policy library lacks documentation that addresses the requirement for reviewing and updating the information security policy at least annually or as needed to reflect changes in business objectives or environmental risks. This gap means there is no formal process documented for ensuring continuous relevance of the security policies with respect to PCI DSS 12.1.2."
+      "confidence_score": 0.9,
+      "explanation": "The organization lacks policy documentation that outlines a schedule for reviewing and updating their information security policy in accordance with PCI DSS 12.1.2 requirements. To address this, the organization should establish and maintain a formal process detailing how and when the information security policy will be reviewed and updated."
     }
   },
   {
@@ -570,14 +1616,23 @@
       "framework": "PCI-DSS",
       "title": "PCI DSS 12.1.3",
       "description": "The security policy clearly defines information security roles and responsibilities for all personnel, and all personnel are aware and acknowledge their information security responsibilities.",
-      "requirement_family": "Requirement 12: Support information security with organizational policies and programs"
+      "requirement_family": "Requirement 12: Support Information Security with Organizational Policies and Programs"
     },
-    "supporting_chunks": [],
+    "supporting_chunks": [
+      {
+        "chunk_id": "2c231666-7e10-48ec-aad1-a7beb8c01361",
+        "document_name": "security_awareness_policy.pdf",
+        "page_number": 2,
+        "raw_text": "All new employees and contractors must complete mandatory security awareness training within 30 calendar days of their start date and before being granted access to any system containing cardholder data. The training must cover: the organization's information security policy, acceptable use policies for end-user technologies, data classification and handling procedures, password and authentication requirements, physical security procedures, incident reporting procedures, social engineering awareness, and consequences of non-compliance.",
+        "section_header": "2  New Hire Security Training",
+        "embedding": null
+      }
+    ],
     "rationale": {
-      "is_compliant": false,
-      "compliance_level": "non_compliant",
-      "confidence_score": 0.0,
-      "explanation": "The organization lacks a security policy that clearly defines information security roles and responsibilities for all personnel, as well as documentation showing that personnel are aware of and acknowledge their responsibilities."
+      "is_compliant": true,
+      "compliance_level": "partially_compliant",
+      "confidence_score": 0.85,
+      "explanation": "The chunk provides evidence that new hires are made aware of their responsibilities through mandatory training but does not explicitly state how roles and responsibilities are defined or acknowledged by all personnel."
     }
   },
   {
@@ -586,14 +1641,14 @@
       "framework": "PCI-DSS",
       "title": "PCI DSS 12.1.4",
       "description": "Responsibility for information security is formally assigned to a Chief Information Security Officer or other information security knowledgeable member of executive management.",
-      "requirement_family": "Requirement 12: Support information security with organizational policies and programs"
+      "requirement_family": "Requirement 12: Support Information Security with Organizational Policies and Programs"
     },
     "supporting_chunks": [],
     "rationale": {
       "is_compliant": false,
       "compliance_level": "non_compliant",
-      "confidence_score": 0.0,
-      "explanation": "The organization lacks formal policy documentation that assigns responsibility for information security to a Chief Information Security Officer or another executive management member knowledgeable in information security as required by PCI DSS 12.1.4."
+      "confidence_score": 0.8,
+      "explanation": "The organization lacks a formal policy document assigning responsibility for information security to either a Chief Information Security Officer (CISO) or another executive management member knowledgeable in information security. This is non-compliant with PCI DSS requirement 12.1.4, which mandates such an assignment."
     }
   },
   {
@@ -602,14 +1657,14 @@
       "framework": "PCI-DSS",
       "title": "PCI DSS 12.2.1",
       "description": "Acceptable use policies for end-user technologies are documented and implemented, including:\n\u2022\t Explicit approval by authorized parties.\n\u2022\t Acceptable uses of the technology.\n\u2022\t List of products approved by the company for employee use, including hardware and software.",
-      "requirement_family": "Requirement 12: Support information security with organizational policies and programs"
+      "requirement_family": "Requirement 12: Support Information Security with Organizational Policies and Programs"
     },
     "supporting_chunks": [],
     "rationale": {
       "is_compliant": false,
       "compliance_level": "non_compliant",
-      "confidence_score": 0.0,
-      "explanation": "The organization lacks documented policies that cover explicit approval by authorized parties for end-user technologies, acceptable uses of these technologies, and a list of approved products including hardware and software as required by PCI DSS 12.2.1."
+      "confidence_score": 0.8,
+      "explanation": "The organization lacks a documented policy that explicitly outlines acceptable use for end-user technologies as required by PCI DSS 12.2.1. This includes the need for explicit approval from authorized parties, defining acceptable uses of technology, and listing approved products (hardware and software). Such a policy is essential to ensure that employees are using appropriate technologies in ways that comply with security standards."
     }
   }
 ]

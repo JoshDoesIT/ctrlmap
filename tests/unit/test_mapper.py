@@ -167,15 +167,15 @@ class TestMappingAlgorithm:
         assert len(results) == 1
         assert results[0].supporting_chunks == []
 
-    def test_default_min_score_is_0_50(self) -> None:
-        """The default min_score should be 0.50 to skip weak matches before LLM."""
+    def test_default_min_score_is_0_55(self) -> None:
+        """The default min_score should be 0.55 to reduce evidence noise."""
         import inspect
 
         from ctrlmap.map.mapper import map_controls
 
         sig = inspect.signature(map_controls)
         default = sig.parameters["min_score"].default
-        assert default == 0.50, f"Expected min_score default 0.50, got {default}"
+        assert default == 0.55, f"Expected min_score default 0.55, got {default}"
 
 
 class TestQueryExpansion:

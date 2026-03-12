@@ -522,7 +522,7 @@ class TestBatchChunkEvaluation:
             mock_async_cls.return_value = mock_instance
 
             client = OllamaClient()
-            results = await client.evaluate_chunks_batch_async(
+            results, _sub_reqs = await client.evaluate_chunks_batch_async(
                 control_text="AC-1: Access Control Policy.",
                 chunk_texts=[
                     "All employees must follow access control procedures.",
@@ -599,7 +599,7 @@ class TestBatchChunkEvaluation:
             mock_async_cls.return_value = mock_instance
 
             client = OllamaClient()
-            results = await client.evaluate_chunks_batch_async(
+            results, _sub_reqs = await client.evaluate_chunks_batch_async(
                 control_text="AC-1: Policy.",
                 chunk_texts=["chunk 1", "chunk 2"],
                 requirement_family="Access Control",
@@ -607,3 +607,62 @@ class TestBatchChunkEvaluation:
 
             assert len(results) == 2
             assert all(isinstance(r, InsufficientEvidence) for r in results)
+
+
+class TestSentenceAwareTruncation:
+    """P5: Truncation should cut at sentence boundaries, not mid-word."""
+
+    def test_short_text_returned_unchanged(self) -> None:
+        """Text shorter than max_chars is returned as-is."""
+        from ctrlmap.llm.client import OllamaClient
+
+        text = "This is a short sentence. It has two parts."
+        result = OllamaClient.truncate_chunk(text, max_chars=1200)
+        assert result == text
+
+    def test_truncation_cuts_at_sentence_boundary(self) -> None:
+        """Long text is cut at the last sentence boundary before the limit."""
+        from ctrlmap.llm.client import OllamaClient
+
+        # Build text where sentence boundary is past 50% of limit
+        text = ("A" * 70) + ". " + ("B" * 200)
+        result = OllamaClient.truncate_chunk(text, max_chars=100)
+        # Should end at the ". " at position 71, not mid-word
+        assert result.endswith(".")
+        assert len(result) <= 100
+
+    def test_truncation_preserves_complete_sentences(self) -> None:
+        """No partial sentences in the output."""
+        from ctrlmap.llm.client import OllamaClient
+
+        sentences = [
+            "All employees must complete security training within 30 days.",
+            "Training covers phishing awareness and password hygiene.",
+            "Annual refresher courses are mandatory for all personnel.",
+            "Completion status is tracked and reported to department managers.",
+        ]
+        text = " ".join(sentences)
+        # Set limit to include first 2 sentences but cut into third
+        limit = len(sentences[0]) + len(sentences[1]) + 30
+        result = OllamaClient.truncate_chunk(text, max_chars=limit)
+        # The result should end with a complete sentence
+        assert result.rstrip().endswith(".")
+
+    def test_truncation_falls_back_when_no_sentence_boundary(self) -> None:
+        """When no sentence boundary exists, hard-cut with truncation marker."""
+        from ctrlmap.llm.client import OllamaClient
+
+        text = "A" * 2000  # No periods at all
+        result = OllamaClient.truncate_chunk(text, max_chars=500)
+        assert "[...truncated]" in result
+        assert len(result) <= 500 + len("\n[...truncated]")
+
+    def test_default_max_chars_is_1200(self) -> None:
+        """Default max_chars should be 1200 (aligned docstring and code)."""
+        import inspect
+
+        from ctrlmap.llm.client import OllamaClient
+
+        sig = inspect.signature(OllamaClient.truncate_chunk)
+        default = sig.parameters["max_chars"].default
+        assert default == 1200, f"Expected default 1200, got {default}"

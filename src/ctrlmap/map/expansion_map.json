@@ -16,5 +16,11 @@
     "maintenance": "maintenance activities, scheduled maintenance, authorized personnel, maintenance tools, maintenance records, preventive maintenance, system maintenance, hardware maintenance",
     "system and services acquisition": "acquisition contracts, vendor compliance, security requirements, procurement, supply chain, third-party assessment",
     "system and communications protection": "network security architecture, secure communication, boundary protection, TLS, communication protocols, network security, data in transit",
-    "flow enforcement": "network segmentation, firewall rules, information flow, data flow control, transfer gateway, traffic inspection, cross-domain, security domain"
+    "flow enforcement": "network segmentation, firewall rules, information flow, data flow control, transfer gateway, traffic inspection, cross-domain, security domain",
+    "terminated": "termination, revoke access, deprovisioning, offboarding, departure, disabled account, end of employment, access removal",
+    "revoked": "revoke, disable, deactivate, remove access, deprovisioning, access termination, account disable",
+    "shared": "group ID, generic account, shared credential, common password, shared authentication, group account, service account",
+    "user id": "user identification, unique identifier, account identity, login credential, authentication identity, user account",
+    "roles and responsibilities": "role assignment, job function, duty assignment, personnel responsibility, staff accountability, RACI, segregation of duties",
+    "documented": "documentation, written policy, formal procedure, recorded, established, published, maintained, kept up to date, disseminate"
 }
