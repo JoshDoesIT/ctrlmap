@@ -280,14 +280,16 @@ class TestExplanationConsistencyGuard:
         """'does not specify' in explanation should downgrade FC to PC."""
         from ctrlmap.llm.structured_output import _parse_response
 
-        response = json.dumps({
-            "type": "MappingRationale",
-            "is_compliant": True,
-            "compliance_level": "fully_compliant",
-            "confidence_score": 0.85,
-            "explanation": "The policy covers encryption but does not specify "
-            "which cryptographic algorithms or protocols are approved.",
-        })
+        response = json.dumps(
+            {
+                "type": "MappingRationale",
+                "is_compliant": True,
+                "compliance_level": "fully_compliant",
+                "confidence_score": 0.85,
+                "explanation": "The policy covers encryption but does not specify "
+                "which cryptographic algorithms or protocols are approved.",
+            }
+        )
         result = _parse_response(response)
         assert isinstance(result, MappingRationale)
         assert result.compliance_level == ComplianceLevel.PARTIALLY_COMPLIANT, (
@@ -298,14 +300,16 @@ class TestExplanationConsistencyGuard:
         """'does not address' in explanation should downgrade FC to PC."""
         from ctrlmap.llm.structured_output import _parse_response
 
-        response = json.dumps({
-            "type": "MappingRationale",
-            "is_compliant": True,
-            "compliance_level": "fully_compliant",
-            "confidence_score": 0.80,
-            "explanation": "The policy does not address the specific requirement "
-            "of backing up audit log files to a central server.",
-        })
+        response = json.dumps(
+            {
+                "type": "MappingRationale",
+                "is_compliant": True,
+                "compliance_level": "fully_compliant",
+                "confidence_score": 0.80,
+                "explanation": "The policy does not address the specific requirement "
+                "of backing up audit log files to a central server.",
+            }
+        )
         result = _parse_response(response)
         assert isinstance(result, MappingRationale)
         assert result.compliance_level == ComplianceLevel.PARTIALLY_COMPLIANT
@@ -314,14 +318,16 @@ class TestExplanationConsistencyGuard:
         """'partially covers' in explanation should downgrade FC to PC."""
         from ctrlmap.llm.structured_output import _parse_response
 
-        response = json.dumps({
-            "type": "MappingRationale",
-            "is_compliant": True,
-            "compliance_level": "fully_compliant",
-            "confidence_score": 0.82,
-            "explanation": "The policy partially covers the requirement "
-            "but lacks specific details on implementation timelines.",
-        })
+        response = json.dumps(
+            {
+                "type": "MappingRationale",
+                "is_compliant": True,
+                "compliance_level": "fully_compliant",
+                "confidence_score": 0.82,
+                "explanation": "The policy partially covers the requirement "
+                "but lacks specific details on implementation timelines.",
+            }
+        )
         result = _parse_response(response)
         assert isinstance(result, MappingRationale)
         assert result.compliance_level == ComplianceLevel.PARTIALLY_COMPLIANT
@@ -330,14 +336,16 @@ class TestExplanationConsistencyGuard:
         """'missing' in explanation should downgrade FC to PC."""
         from ctrlmap.llm.structured_output import _parse_response
 
-        response = json.dumps({
-            "type": "MappingRationale",
-            "is_compliant": True,
-            "compliance_level": "fully_compliant",
-            "confidence_score": 0.78,
-            "explanation": "The policy covers most requirements but is "
-            "missing periodic inspection procedures.",
-        })
+        response = json.dumps(
+            {
+                "type": "MappingRationale",
+                "is_compliant": True,
+                "compliance_level": "fully_compliant",
+                "confidence_score": 0.78,
+                "explanation": "The policy covers most requirements but is "
+                "missing periodic inspection procedures.",
+            }
+        )
         result = _parse_response(response)
         assert isinstance(result, MappingRationale)
         assert result.compliance_level == ComplianceLevel.PARTIALLY_COMPLIANT
@@ -346,14 +354,16 @@ class TestExplanationConsistencyGuard:
         """FC with a clean explanation should stay FC."""
         from ctrlmap.llm.structured_output import _parse_response
 
-        response = json.dumps({
-            "type": "MappingRationale",
-            "is_compliant": True,
-            "compliance_level": "fully_compliant",
-            "confidence_score": 0.92,
-            "explanation": "The policy fully addresses all aspects of this "
-            "control through comprehensive access management procedures.",
-        })
+        response = json.dumps(
+            {
+                "type": "MappingRationale",
+                "is_compliant": True,
+                "compliance_level": "fully_compliant",
+                "confidence_score": 0.92,
+                "explanation": "The policy fully addresses all aspects of this "
+                "control through comprehensive access management procedures.",
+            }
+        )
         result = _parse_response(response)
         assert isinstance(result, MappingRationale)
         assert result.compliance_level == ComplianceLevel.FULLY_COMPLIANT
@@ -362,13 +372,15 @@ class TestExplanationConsistencyGuard:
         """PC with gap phrases should remain PC (no double-downgrade)."""
         from ctrlmap.llm.structured_output import _parse_response
 
-        response = json.dumps({
-            "type": "MappingRationale",
-            "is_compliant": True,
-            "compliance_level": "partially_compliant",
-            "confidence_score": 0.75,
-            "explanation": "The policy does not specify periodic review timelines.",
-        })
+        response = json.dumps(
+            {
+                "type": "MappingRationale",
+                "is_compliant": True,
+                "compliance_level": "partially_compliant",
+                "confidence_score": 0.75,
+                "explanation": "The policy does not specify periodic review timelines.",
+            }
+        )
         result = _parse_response(response)
         assert isinstance(result, MappingRationale)
         assert result.compliance_level == ComplianceLevel.PARTIALLY_COMPLIANT
@@ -396,12 +408,15 @@ class TestAggregateExplanation:
                 explanation="The policy addresses encryption at rest comprehensively.",
             ),
         ]
-        sub_reqs = [[
-            {"requirement": "Encryption", "covered": True},
-            {"requirement": "Key management", "covered": False},
-        ]]
+        sub_reqs = [
+            [
+                {"requirement": "Encryption", "covered": True},
+                {"requirement": "Key management", "covered": False},
+            ]
+        ]
         result = aggregate_rationales(
-            rationales=rationales, sub_requirements=sub_reqs,
+            rationales=rationales,
+            sub_requirements=sub_reqs,
         )
         assert result is not None
         # The best rationale's explanation should be preserved
@@ -440,11 +455,10 @@ class TestAggregateExplanation:
             ],
         ]
         result = aggregate_rationales(
-            rationales=rationales, sub_requirements=sub_reqs,
+            rationales=rationales,
+            sub_requirements=sub_reqs,
         )
         assert result is not None
         # Upgrade explanation should list what's covered
         assert "all 2 sub-requirements" in result.explanation
         assert result.compliance_level == ComplianceLevel.FULLY_COMPLIANT
-
-

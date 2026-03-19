@@ -475,9 +475,10 @@ class TestSemanticChunkOverlap:
             ),
         ]
 
-        with patch("ctrlmap.parse.chunker.semantic_chunk", wraps=__import__(
-            "ctrlmap.parse.chunker", fromlist=["semantic_chunk"]
-        ).semantic_chunk) as mock_sc:
+        with patch(
+            "ctrlmap.parse.chunker.semantic_chunk",
+            wraps=__import__("ctrlmap.parse.chunker", fromlist=["semantic_chunk"]).semantic_chunk,
+        ) as mock_sc:
             chunk_document(blocks, document_name="test.pdf", overlap=2)
             if mock_sc.called:
                 _, kwargs = mock_sc.call_args

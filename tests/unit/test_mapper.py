@@ -237,10 +237,9 @@ class TestQueryExpansion:
         assert expanded != query, (
             f"Expected expansion for need-to-know query, got unchanged: {expanded}"
         )
-        assert any(
-            term in expanded.lower()
-            for term in ["rbac", "least privilege", "deny"]
-        ), f"Expected access control terms in: {expanded}"
+        assert any(term in expanded.lower() for term in ["rbac", "least privilege", "deny"]), (
+            f"Expected access control terms in: {expanded}"
+        )
 
     def test_expand_query_triggers_on_access_assigned(self) -> None:
         """PCI 7.2.2 'access is assigned' text should trigger access control synonyms."""

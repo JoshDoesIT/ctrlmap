@@ -142,8 +142,7 @@ class TestRetrievalPrecision:
         print(f"\nRecall@{RECALL_AT_K}: {recall:.4f} ({hits}/{total})")
         print(f"NDCG@{RECALL_AT_K}:   {mean_ndcg:.4f}")
         print(f"MRR:       {mean_mrr:.4f}")
-        print(f"Thresholds: Recall≥{RECALL_THRESHOLD}  "
-              f"NDCG≥{NDCG_THRESHOLD}  MRR≥{MRR_THRESHOLD}")
+        print(f"Thresholds: Recall≥{RECALL_THRESHOLD}  NDCG≥{NDCG_THRESHOLD}  MRR≥{MRR_THRESHOLD}")
 
         assert recall >= RECALL_THRESHOLD, (
             f"Recall@{RECALL_AT_K} = {recall:.4f} is below threshold {RECALL_THRESHOLD}. "

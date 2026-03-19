@@ -32,19 +32,25 @@ class TestNDCGAtK:
 
     def test_no_relevant_doc_returns_zero(self) -> None:
         """No relevant docs retrieved → NDCG@K = 0.0."""
-        assert compute_ndcg_at_k(
-            retrieved_ids=["a", "b", "c"],
-            relevant_ids={"relevant"},
-            k=3,
-        ) == 0.0
+        assert (
+            compute_ndcg_at_k(
+                retrieved_ids=["a", "b", "c"],
+                relevant_ids={"relevant"},
+                k=3,
+            )
+            == 0.0
+        )
 
     def test_empty_retrieved_returns_zero(self) -> None:
         """Empty retrieval → NDCG@K = 0.0."""
-        assert compute_ndcg_at_k(
-            retrieved_ids=[],
-            relevant_ids={"relevant"},
-            k=5,
-        ) == 0.0
+        assert (
+            compute_ndcg_at_k(
+                retrieved_ids=[],
+                relevant_ids={"relevant"},
+                k=5,
+            )
+            == 0.0
+        )
 
     def test_multiple_relevant_docs(self) -> None:
         """NDCG@K with multiple relevant docs at good positions → high score."""
@@ -71,10 +77,13 @@ class TestMRR:
 
     def test_relevant_at_rank_1_returns_one(self) -> None:
         """Relevant doc at position 1 → RR = 1.0."""
-        assert compute_mrr(
-            retrieved_ids=["relevant", "a", "b"],
-            relevant_ids={"relevant"},
-        ) == 1.0
+        assert (
+            compute_mrr(
+                retrieved_ids=["relevant", "a", "b"],
+                relevant_ids={"relevant"},
+            )
+            == 1.0
+        )
 
     def test_relevant_at_rank_2(self) -> None:
         """Relevant doc at position 2 → RR = 0.5."""
@@ -92,14 +101,20 @@ class TestMRR:
 
     def test_no_relevant_returns_zero(self) -> None:
         """No relevant docs → RR = 0.0."""
-        assert compute_mrr(
-            retrieved_ids=["a", "b", "c"],
-            relevant_ids={"relevant"},
-        ) == 0.0
+        assert (
+            compute_mrr(
+                retrieved_ids=["a", "b", "c"],
+                relevant_ids={"relevant"},
+            )
+            == 0.0
+        )
 
     def test_empty_retrieved_returns_zero(self) -> None:
         """Empty retrieval → RR = 0.0."""
-        assert compute_mrr(
-            retrieved_ids=[],
-            relevant_ids={"relevant"},
-        ) == 0.0
+        assert (
+            compute_mrr(
+                retrieved_ids=[],
+                relevant_ids={"relevant"},
+            )
+            == 0.0
+        )

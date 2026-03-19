@@ -457,7 +457,9 @@ def multi_framework_results() -> dict[str, list[MappedResult]]:
                 chunk_id="chunk-p01",
                 document_name="network_policy.pdf",
                 page_number=2,
-                raw_text="Configuration standards for all NSC rulesets must be defined and maintained.",
+                raw_text=(
+                    "Configuration standards for all NSC rulesets must be defined and maintained."
+                ),
                 section_header="Firewall Standards",
             ),
         ],
@@ -516,9 +518,7 @@ class TestHtmlMultiFramework:
         assert "AC-1" in html_output
         assert "1.2.1" in html_output
 
-    def test_backward_compat_single_framework(
-        self, sample_results: list[MappedResult]
-    ) -> None:
+    def test_backward_compat_single_framework(self, sample_results: list[MappedResult]) -> None:
         """Existing single-framework API still produces valid HTML without framework pills."""
         from ctrlmap.export.html_formatter import format_html
 
@@ -630,9 +630,7 @@ class TestHtmlDocumentReader:
 
         assert "doc-reader-chunk--unmapped" in html_output
 
-    def test_document_reader_popover_data_on_tags(
-        self, sample_results: list[MappedResult]
-    ) -> None:
+    def test_document_reader_popover_data_on_tags(self, sample_results: list[MappedResult]) -> None:
         """Control tags in document reader have data-popover attributes."""
         from ctrlmap.export.html_formatter import format_html
 

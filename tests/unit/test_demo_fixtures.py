@@ -53,11 +53,7 @@ class TestPciDssOscalFixture:
 
         section_header_re = re.compile(r"\nApplicability Notes:?\s*\n")
         controls = parse_oscal_catalog(DEMO_DIR / "frameworks" / "pci_dss_v4_oscal.json")
-        violating = [
-            c.control_id
-            for c in controls
-            if section_header_re.search(c.description)
-        ]
+        violating = [c.control_id for c in controls if section_header_re.search(c.description)]
         assert violating == [], f"Controls with embedded applicability notes: {violating}"
 
     def test_pci_dss_covers_all_twelve_requirement_groups(self) -> None:

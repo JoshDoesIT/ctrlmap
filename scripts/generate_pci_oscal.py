@@ -18,18 +18,28 @@ from pathlib import Path
 
 import openpyxl  # type: ignore[import-untyped]
 
-XLSX_PATH = Path(__file__).resolve().parent.parent / "Prioritized-Approach-Tool-For-PCI-DSS-v4_0_1.xlsx"
-OUTPUT_PATH = Path(__file__).resolve().parent.parent / "demo" / "frameworks" / "pci_dss_v4_oscal.json"
+XLSX_PATH = (
+    Path(__file__).resolve().parent.parent / "Prioritized-Approach-Tool-For-PCI-DSS-v4_0_1.xlsx"
+)
+OUTPUT_PATH = (
+    Path(__file__).resolve().parent.parent / "demo" / "frameworks" / "pci_dss_v4_oscal.json"
+)
 
 # Requirement family titles from the PCI DSS v4.0.1 standard
 FAMILY_TITLES: dict[str, str] = {
     "1": "Requirement 1: Install and Maintain Network Security Controls",
     "2": "Requirement 2: Apply Secure Configurations to All System Components",
     "3": "Requirement 3: Protect Stored Account Data",
-    "4": "Requirement 4: Protect Cardholder Data with Strong Cryptography During Transmission Over Open, Public Networks",
+    "4": (
+        "Requirement 4: Protect Cardholder Data with Strong"
+        " Cryptography During Transmission Over Open, Public Networks"
+    ),
     "5": "Requirement 5: Protect All Systems and Networks from Malicious Software",
     "6": "Requirement 6: Develop and Maintain Secure Systems and Software",
-    "7": "Requirement 7: Restrict Access to System Components and Cardholder Data by Business Need to Know",
+    "7": (
+        "Requirement 7: Restrict Access to System Components"
+        " and Cardholder Data by Business Need to Know"
+    ),
     "8": "Requirement 8: Identify Users and Authenticate Access to System Components",
     "9": "Requirement 9: Restrict Physical Access to Cardholder Data",
     "10": "Requirement 10: Log and Monitor All Access to System Components and Cardholder Data",
@@ -90,8 +100,7 @@ def _extract_controls(xlsx_path: Path) -> dict[str, list[tuple[str, str]]]:
             family = control_id.split(".")[0]
             if family in families:
                 families[family] = [
-                    (cid, p) if cid != control_id else (cid, prose)
-                    for cid, p in families[family]
+                    (cid, p) if cid != control_id else (cid, prose) for cid, p in families[family]
                 ]
             seen[control_id] = prose
             continue

@@ -23,7 +23,9 @@ import json
 import tempfile
 from collections import defaultdict
 from pathlib import Path
+from typing import Any
 
+from ctrlmap.export.pdf_renderer import RenderedDocument, RenderedPage
 from ctrlmap.models.schemas import (
     ComplianceLevel,
     InsufficientEvidence,
@@ -92,7 +94,9 @@ def format_html(
     gap_html = _render_framework_gap_tab(all_results, fw_results, is_multi)
     cov_html = _render_policy_coverage_tab(all_results, all_chunks=all_chunks)
     reader_html = _render_document_reader_tab(
-        all_results, all_chunks=all_chunks, pdf_documents=pdf_documents,
+        all_results,
+        all_chunks=all_chunks,
+        pdf_documents=pdf_documents,
     )
 
     fw_pills_html = _render_framework_pills(fw_results) if is_multi else ""
@@ -599,7 +603,7 @@ def _render_coverage_card(
 def _render_document_reader_tab(
     results: list[MappedResult],
     all_chunks: list[ParsedChunk] | None = None,
-    pdf_documents: list[object] | None = None,
+    pdf_documents: list[RenderedDocument] | None = None,
 ) -> str:
     """Build the Document Reader tab content.
 
@@ -637,7 +641,7 @@ def _render_document_reader_tab(
 
 
 def _render_pdf_viewer(
-    pdf_documents: list[object],
+    pdf_documents: list[RenderedDocument],
     chunk_controls: dict[str, list[str]],
     ctrl_details: dict[str, dict[str, str]],
 ) -> str:
@@ -647,8 +651,7 @@ def _render_pdf_viewer(
     for idx, doc in enumerate(pdf_documents):
         selected = " selected" if idx == 0 else ""
         doc_options.append(
-            f'<option value="pdf-doc-{idx}"{selected}>'
-            f"{html.escape(doc.document_name)}</option>"  # type: ignore[union-attr]
+            f'<option value="pdf-doc-{idx}"{selected}>{html.escape(doc.document_name)}</option>'
         )
 
     selector = f"""
@@ -665,9 +668,11 @@ def _render_pdf_viewer(
     for idx, doc in enumerate(pdf_documents):
         display = "" if idx == 0 else ' style="display:none"'
         pages_html = []
-        for rendered_page in doc.pages:  # type: ignore[union-attr]
+        for rendered_page in doc.pages:
             overlays_html = _render_page_overlays(
-                rendered_page, chunk_controls, ctrl_details,
+                rendered_page,
+                chunk_controls,
+                ctrl_details,
             )
             pages_html.append(f"""
             <div class="pdf-page" data-page="{rendered_page.page_number}">
@@ -683,8 +688,7 @@ def _render_pdf_viewer(
             </div>
             """)
         doc_sections.append(
-            f'<div class="pdf-doc-pages" id="pdf-doc-{idx}"{display}>'
-            f'{"".join(pages_html)}</div>'
+            f'<div class="pdf-doc-pages" id="pdf-doc-{idx}"{display}>{"".join(pages_html)}</div>'
         )
 
     # Detail panel (right side) — populated by JS on hover/click
@@ -692,7 +696,11 @@ def _render_pdf_viewer(
     <div class="pdf-detail-panel" id="pdf-detail-panel">
       <div class="pdf-detail-header">Control Mappings</div>
       <div class="pdf-detail-empty" id="pdf-detail-empty">
-        <div class="pdf-detail-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></div>
+        <div class="pdf-detail-icon">\
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" \
+stroke="currentColor" stroke-width="2" stroke-linecap="round" \
+stroke-linejoin="round"><circle cx="11" cy="11" r="8"/>\
+<path d="m21 21-4.3-4.3"/></svg></div>
         <div>Hover or click a highlighted chunk to see its control mappings</div>
       </div>
       <div class="pdf-detail-content" id="pdf-detail-content"
@@ -705,20 +713,20 @@ def _render_pdf_viewer(
     <div class="pdf-split-layout">
       {detail_panel}
       <div class="pdf-pages-pane">
-        {''.join(doc_sections)}
+        {"".join(doc_sections)}
       </div>
     </div>
     """
 
 
 def _render_page_overlays(
-    rendered_page: object,
+    rendered_page: RenderedPage,
     chunk_controls: dict[str, list[str]],
     ctrl_details: dict[str, dict[str, str]],
 ) -> str:
     """Build overlay highlight divs for a single PDF page."""
     overlays = []
-    for overlay in rendered_page.overlays:  # type: ignore[union-attr]
+    for overlay in rendered_page.overlays:
         clip = f";clip-path:{overlay.clip_path}" if overlay.clip_path else ""
         ctrls = overlay.controls or chunk_controls.get(overlay.chunk_id, [])
         if not ctrls:
@@ -733,7 +741,11 @@ width:{overlay.w_pct}%;height:{overlay.h_pct}%{clip}"
             continue
 
         # Determine compliance level for color
-        classes = [ctrl_details.get(c, {}).get("css_class", "") for c in ctrls]
+        # Extract control IDs from either dict or string format
+        ctrl_ids: list[str] = [
+            c["id"] if isinstance(c, dict) else c for c in ctrls
+        ]
+        classes = [ctrl_details.get(c, {}).get("css_class", "") for c in ctrl_ids]
         if "noncompliant" in classes:
             color_cls = "pdf-overlay--noncompliant"
         elif "partial" in classes:
@@ -743,16 +755,18 @@ width:{overlay.w_pct}%;height:{overlay.h_pct}%{clip}"
 
         # Build popover data with all controls
         controls_data = []
-        for ctrl_label in sorted(set(ctrls)):
+        for ctrl_label in sorted(set(ctrl_ids)):
             detail = ctrl_details.get(ctrl_label, {})
-            controls_data.append({
-                "id": ctrl_label,
-                "title": detail.get("title", ""),
-                "description": detail.get("description", ""),
-                "compliance": detail.get("compliance", ""),
-                "confidence": detail.get("confidence", ""),
-                "rationale": detail.get("rationale", ""),
-            })
+            controls_data.append(
+                {
+                    "id": ctrl_label,
+                    "title": detail.get("title", ""),
+                    "description": detail.get("description", ""),
+                    "compliance": detail.get("compliance", ""),
+                    "confidence": detail.get("confidence", ""),
+                    "rationale": detail.get("rationale", ""),
+                }
+            )
 
         popover_json = html.escape(json.dumps(controls_data), quote=True)
 
@@ -833,13 +847,15 @@ def _render_text_reader(
                 for ctrl_label in sorted(set(ctrls)):
                     detail = ctrl_details.get(ctrl_label, {})
                     popover_data = html.escape(
-                        json.dumps({
-                            "id": ctrl_label,
-                            "title": detail.get("title", ""),
-                            "compliance": detail.get("compliance", ""),
-                            "confidence": detail.get("confidence", ""),
-                            "explanation": detail.get("explanation", ""),
-                        }),
+                        json.dumps(
+                            {
+                                "id": ctrl_label,
+                                "title": detail.get("title", ""),
+                                "compliance": detail.get("compliance", ""),
+                                "confidence": detail.get("confidence", ""),
+                                "explanation": detail.get("explanation", ""),
+                            }
+                        ),
                         quote=True,
                     )
                     tag_parts.append(

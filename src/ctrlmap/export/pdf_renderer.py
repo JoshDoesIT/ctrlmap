@@ -10,7 +10,6 @@ Ref: GitHub Issue #22.
 from __future__ import annotations
 
 import base64
-from collections import defaultdict
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
@@ -18,7 +17,6 @@ from typing import Any
 import fitz  # type: ignore[import-untyped]
 
 from ctrlmap.models.schemas import ParsedChunk
-
 
 # ---------------------------------------------------------------------------
 # Data structures
@@ -113,7 +111,11 @@ def render_document(
         # cross-page chunks whose text wraps from a previous page)
         for chunk in chunks:
             overlay = _find_chunk_on_page(
-                page_lines, page, chunk, chunk_controls, pix,
+                page_lines,
+                page,
+                chunk,
+                chunk_controls,
+                pix,
             )
             if overlay:
                 rendered_page.overlays.append(overlay)
@@ -155,10 +157,16 @@ def _extract_page_lines(page: Any) -> list[_PageLine]:
             for s in line.get("spans", []):
                 spans_data.append((s["bbox"][0], s["bbox"][2], s["text"]))
             line_text = "".join(s[2] for s in spans_data)
-            lines.append(_PageLine(
-                y0=bbox[1], y1=bbox[3], x0=bbox[0], x1=bbox[2],
-                text=line_text, spans=spans_data,
-            ))
+            lines.append(
+                _PageLine(
+                    y0=bbox[1],
+                    y1=bbox[3],
+                    x0=bbox[0],
+                    x1=bbox[2],
+                    text=line_text,
+                    spans=spans_data,
+                )
+            )
     return lines
 
 
@@ -207,7 +215,7 @@ def _find_chunk_on_page(
     # later portions of the chunk text on this page.
     if match_pos == -1:
         for offset in range(10, max(len(chunk_norm) - 24, 1), 10):
-            snippet = chunk_norm[offset:offset + 40]
+            snippet = chunk_norm[offset : offset + 40]
             if len(snippet) < 20:
                 continue
             pos = concat.find(snippet)
@@ -246,7 +254,7 @@ def _find_chunk_on_page(
             match_len = i + 1
         else:
             break
-    
+
     # Strictness check against false positive partial matches
     if match_len < remaining_chunk * 0.95:
         # The match broke off before the chunk ended.
@@ -272,10 +280,10 @@ def _find_chunk_on_page(
     ph = pix.height
 
     def _to_pct_x(pdf_x: float) -> float:
-        return (pdf_x * scale / pw) * 100
+        return float((pdf_x * scale / pw) * 100)
 
     def _to_pct_y(pdf_y: float) -> float:
-        return (pdf_y * scale / ph) * 100
+        return float((pdf_y * scale / ph) * 100)
 
     def _search_boundary_x(line_idx: int, char_pos: int, is_end: bool) -> float:
         """Use page.search_for() to find exact x at a chunk boundary.
@@ -298,22 +306,16 @@ def _find_chunk_on_page(
 
         # Search for boundary words (try 4, 3, 2, 1 words)
         for n_words in range(min(4, len(words)), 0, -1):
-            if is_end:
-                frag = " ".join(words[-n_words:])
-            else:
-                frag = " ".join(words[:n_words])
+            frag = " ".join(words[-n_words:]) if is_end else " ".join(words[:n_words])
 
             rects = page.search_for(frag)
             # Collect all rects that overlap with our target line
-            line_rects = [
-                r for r in rects
-                if r.y0 <= (line.y0 + line.y1) / 2 <= r.y1
-            ]
+            line_rects = [r for r in rects if r.y0 <= (line.y0 + line.y1) / 2 <= r.y1]
             if line_rects:
                 if is_end:
-                    return max(r.x1 for r in line_rects)
+                    return float(max(r.x1 for r in line_rects))
                 else:
-                    return min(r.x0 for r in line_rects)
+                    return float(min(r.x0 for r in line_rects))
 
         # Fallback: line boundary
         return line.x0 if not is_end else line.x1
@@ -326,10 +328,10 @@ def _find_chunk_on_page(
 
     # Compute bounding box (union of all touched lines)
     all_lines = [page_lines[t[0]] for t in touched]
-    bbox_y0 = min(l.y0 for l in all_lines)
-    bbox_y1 = max(l.y1 for l in all_lines)
-    bbox_x0 = min(l.x0 for l in all_lines)
-    bbox_x1 = max(l.x1 for l in all_lines)
+    bbox_y0 = min(ln.y0 for ln in all_lines)
+    bbox_y1 = max(ln.y1 for ln in all_lines)
+    bbox_x0 = min(ln.x0 for ln in all_lines)
+    bbox_x1 = max(ln.x1 for ln in all_lines)
 
     # If partial, extend bbox to include partial x ranges
     if first_is_partial:
@@ -345,9 +347,15 @@ def _find_chunk_on_page(
     clip_path = ""
     if first_is_partial or last_is_partial:
         clip_path = _build_clip_path(
-            touched, page_lines, line_ranges,
-            first_is_partial, last_is_partial,
-            bbox_x0, bbox_y0, bbox_x1, bbox_y1,
+            touched,
+            page_lines,
+            line_ranges,
+            first_is_partial,
+            last_is_partial,
+            bbox_x0,
+            bbox_y0,
+            bbox_x1,
+            bbox_y1,
             _search_boundary_x,
         )
 
@@ -404,9 +412,9 @@ def _build_clip_path(
     last_line = page_lines[touched[-1][0]]
 
     # Key coordinates (relative to overlay bbox)
-    left = _rel_x(bbox_x0)    # 0%
-    right = _rel_x(bbox_x1)   # 100%
-    top = _rel_y(bbox_y0)     # 0%
+    left = _rel_x(bbox_x0)  # 0%
+    right = _rel_x(bbox_x1)  # 100%
+    top = _rel_y(bbox_y0)  # 0%
     bottom = _rel_y(bbox_y1)  # 100%
 
     if first_is_partial:
@@ -429,14 +437,14 @@ def _build_clip_path(
     if first_is_partial and last_is_partial:
         # Shape: indented top-left, indented bottom-right
         points = [
-            (x_start, top),          # top of first line, at chunk start
-            (right, top),            # top-right corner
-            (right, last_top),       # down to last line top
-            (x_end, last_top),       # across to chunk end on last line
-            (x_end, bottom),         # down to bottom of last line
-            (left, bottom),          # bottom-left
-            (left, first_bottom),    # up to bottom of first line
-            (x_start, first_bottom), # across to chunk start
+            (x_start, top),  # top of first line, at chunk start
+            (right, top),  # top-right corner
+            (right, last_top),  # down to last line top
+            (x_end, last_top),  # across to chunk end on last line
+            (x_end, bottom),  # down to bottom of last line
+            (left, bottom),  # bottom-left
+            (left, first_bottom),  # up to bottom of first line
+            (x_start, first_bottom),  # across to chunk start
         ]
     elif first_is_partial:
         # Indented top-left only

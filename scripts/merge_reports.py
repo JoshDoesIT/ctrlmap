@@ -26,8 +26,8 @@ from typing import Any
 # Allow running from project root
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
-from ctrlmap.export.html_formatter import export_html  # noqa: E402
-from ctrlmap.models.schemas import MappedResult, ParsedChunk  # noqa: E402
+from ctrlmap.export.html_formatter import export_html
+from ctrlmap.models.schemas import MappedResult, ParsedChunk
 
 
 def _load_results(path: Path) -> list[MappedResult]:
@@ -49,10 +49,7 @@ def _load_results(path: Path) -> list[MappedResult]:
     # dot-hierarchical numbering (e.g. PCI DSS "1.2.4").  Detect this
     # by checking if the first control's ID contains a dot.
     if results and "." in results[0].control.control_id:
-        filtered = [
-            r for r in results
-            if len(r.control.control_id.split(".")) >= 3
-        ]
+        filtered = [r for r in results if len(r.control.control_id.split(".")) >= 3]
         if len(filtered) < len(results):
             print(f"  Filtered {len(results) - len(filtered)} parent-level section headers")
         return filtered

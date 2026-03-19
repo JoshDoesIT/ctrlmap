@@ -41,7 +41,7 @@ class TestExtractJsonArray:
 
     def test_markdown_fenced_array(self) -> None:
         """Array inside markdown code fences should be extracted."""
-        raw = "Here is the result:\n```json\n" '[{"v": "ok"}]\n' "```"
+        raw = 'Here is the result:\n```json\n[{"v": "ok"}]\n```'
         result = extract_json_array(raw)
         assert len(result) == 1
         assert result[0]["v"] == "ok"

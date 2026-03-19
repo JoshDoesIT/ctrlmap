@@ -1447,4 +1447,3 @@ if __name__ == "__main__":
     generate_endpoint_security_policy()
     generate_audit_log_policy()
     print("Done!")
-

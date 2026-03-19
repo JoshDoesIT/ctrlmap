@@ -194,9 +194,7 @@ def map_controls(
 
         # Rerank if a cross-encoder is available
         if reranker and query_results:
-            query_results = reranker.rerank(
-                bm25_query_text, query_results, top_k=top_k
-            )
+            query_results = reranker.rerank(bm25_query_text, query_results, top_k=top_k)
 
         supporting_chunks: list[ParsedChunk] = []
         for qr in query_results:
