@@ -117,11 +117,13 @@ def hybrid_query(
     bm25_index: BM25Index,
     top_k: int = 5,
     rrf_k: int = _RRF_K,
+    ann_weight: float = 0.4,
+    bm25_weight: float = 0.6,
 ) -> list[QueryResult]:
     """Combine ANN vector search with BM25 using Reciprocal Rank Fusion.
 
-    Runs both searches independently, then merges results using RRF:
-    ``score(d) = 1/(k + rank_vector(d)) + 1/(k + rank_bm25(d))``
+    Runs both searches independently, then merges results using weighted RRF:
+    ``score(d) = ann_weight/(k + rank_vector(d)) + bm25_weight/(k + rank_bm25(d))``
 
     Args:
         store: VectorStore for ANN search.
@@ -131,6 +133,8 @@ def hybrid_query(
         bm25_index: Pre-built BM25 index.
         top_k: Number of final results to return.
         rrf_k: RRF constant (default: 60).
+        ann_weight: Weight for ANN results in RRF (default: 0.4).
+        bm25_weight: Weight for BM25 results in RRF (default: 0.6).
 
     Returns:
         Merged and re-ranked list of QueryResult objects.
@@ -161,22 +165,22 @@ def hybrid_query(
         if r.chunk_id not in result_lookup:
             result_lookup[r.chunk_id] = r
 
-    # Compute RRF scores
+    # Compute weighted RRF scores
     rrf_scores: list[tuple[str, float]] = []
     for chunk_id in all_ids:
         rrf_score = 0.0
         if chunk_id in ann_ranks:
-            rrf_score += 1.0 / (rrf_k + ann_ranks[chunk_id])
+            rrf_score += ann_weight / (rrf_k + ann_ranks[chunk_id])
         if chunk_id in bm25_ranks:
-            rrf_score += 1.0 / (rrf_k + bm25_ranks[chunk_id])
+            rrf_score += bm25_weight / (rrf_k + bm25_ranks[chunk_id])
         rrf_scores.append((chunk_id, rrf_score))
 
     # Sort by RRF score descending, take top_k
     rrf_scores.sort(key=lambda x: x[1], reverse=True)
 
     # Normalize RRF scores to [0, 1] range.
-    # Theoretical max: 2/(k+1) when a doc ranks #1 in both lists.
-    max_rrf = 2.0 / (rrf_k + 1)
+    # Theoretical max: (ann_weight + bm25_weight) / (k+1) when a doc ranks #1 in both lists.
+    max_rrf = (ann_weight + bm25_weight) / (rrf_k + 1)
 
     return [
         QueryResult(

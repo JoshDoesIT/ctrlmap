@@ -14,6 +14,7 @@ from pathlib import Path
 import pytest
 
 from ctrlmap.models.schemas import (
+    ComplianceLevel,
     InsufficientEvidence,
     MappedResult,
     MappingRationale,
@@ -412,3 +413,229 @@ class TestHtmlExport:
         # Controls should appear in the policy view context
         assert "AC-1" in html_output
         assert "SC-28" in html_output
+
+
+# ---------------------------------------------------------------------------
+# Multi-framework fixture
+# ---------------------------------------------------------------------------
+
+
+@pytest.fixture()
+def multi_framework_results() -> dict[str, list[MappedResult]]:
+    """Two frameworks (NIST + PCI) with one result each."""
+    nist_result = MappedResult(
+        control=SecurityControl(
+            control_id="AC-1",
+            framework="NIST-800-53",
+            title="Policy and Procedures",
+            description="Develop access control policies.",
+        ),
+        supporting_chunks=[
+            ParsedChunk(
+                chunk_id="chunk-n01",
+                document_name="access_policy.pdf",
+                page_number=1,
+                raw_text="All employees must follow access control policies and procedures.",
+                section_header="Access Control",
+            ),
+        ],
+        rationale=MappingRationale(
+            is_compliant=True,
+            confidence_score=0.92,
+            explanation="Policy directly addresses access control procedures.",
+        ),
+    )
+    pci_result = MappedResult(
+        control=SecurityControl(
+            control_id="1.2.1",
+            framework="PCI-DSS",
+            title="PCI DSS 1.2.1",
+            description="Configuration standards for NSC rulesets.",
+        ),
+        supporting_chunks=[
+            ParsedChunk(
+                chunk_id="chunk-p01",
+                document_name="network_policy.pdf",
+                page_number=2,
+                raw_text="Configuration standards for all NSC rulesets must be defined and maintained.",
+                section_header="Firewall Standards",
+            ),
+        ],
+        rationale=MappingRationale(
+            is_compliant=True,
+            compliance_level=ComplianceLevel.PARTIALLY_COMPLIANT,
+            confidence_score=0.85,
+            explanation="Covers definition but not implementation.",
+        ),
+    )
+    return {
+        "NIST-800-53": [nist_result],
+        "PCI-DSS": [pci_result],
+    }
+
+
+# ---------------------------------------------------------------------------
+# Feature 1: Unified multi-framework report
+# ---------------------------------------------------------------------------
+
+
+class TestHtmlMultiFramework:
+    """Tests for unified multi-framework HTML report."""
+
+    def test_multi_framework_contains_framework_pills(
+        self, multi_framework_results: dict[str, list[MappedResult]]
+    ) -> None:
+        """Multi-framework report shows framework filter pills."""
+        from ctrlmap.export.html_formatter import format_html
+
+        html_output = format_html(results_by_framework=multi_framework_results)
+
+        assert 'data-fw="NIST-800-53"' in html_output
+        assert 'data-fw="PCI-DSS"' in html_output
+        assert 'data-fw="all"' in html_output
+
+    def test_multi_framework_card_has_data_framework_attr(
+        self, multi_framework_results: dict[str, list[MappedResult]]
+    ) -> None:
+        """Each card has a data-framework attribute matching its framework."""
+        from ctrlmap.export.html_formatter import format_html
+
+        html_output = format_html(results_by_framework=multi_framework_results)
+
+        assert 'data-framework="NIST-800-53"' in html_output
+        assert 'data-framework="PCI-DSS"' in html_output
+
+    def test_multi_framework_shows_all_controls(
+        self, multi_framework_results: dict[str, list[MappedResult]]
+    ) -> None:
+        """Unified report contains controls from all frameworks."""
+        from ctrlmap.export.html_formatter import format_html
+
+        html_output = format_html(results_by_framework=multi_framework_results)
+
+        assert "AC-1" in html_output
+        assert "1.2.1" in html_output
+
+    def test_backward_compat_single_framework(
+        self, sample_results: list[MappedResult]
+    ) -> None:
+        """Existing single-framework API still produces valid HTML without framework pills."""
+        from ctrlmap.export.html_formatter import format_html
+
+        html_output = format_html(sample_results)
+
+        assert "<!DOCTYPE html>" in html_output
+        assert "AC-1" in html_output
+        # Single-framework: no framework pills rendered
+        assert 'data-fw="all"' not in html_output
+
+
+# ---------------------------------------------------------------------------
+# Feature 2: Search capability
+# ---------------------------------------------------------------------------
+
+
+class TestHtmlSearch:
+    """Tests for search box in the HTML report."""
+
+    def test_search_box_present(self, sample_results: list[MappedResult]) -> None:
+        """HTML report contains a search input element."""
+        from ctrlmap.export.html_formatter import format_html
+
+        html_output = format_html(sample_results)
+
+        assert 'id="search-box"' in html_output
+
+    def test_search_box_present_multi_framework(
+        self, multi_framework_results: dict[str, list[MappedResult]]
+    ) -> None:
+        """Multi-framework report also contains a search input element."""
+        from ctrlmap.export.html_formatter import format_html
+
+        html_output = format_html(results_by_framework=multi_framework_results)
+
+        assert 'id="search-box"' in html_output
+
+
+# ---------------------------------------------------------------------------
+# Feature 3: Document Reader view
+# ---------------------------------------------------------------------------
+
+
+class TestHtmlDocumentReader:
+    """Tests for the Document Reader tab."""
+
+    def test_document_reader_tab_present(self, sample_results: list[MappedResult]) -> None:
+        """HTML report has a Document Reader tab button."""
+        from ctrlmap.export.html_formatter import format_html
+
+        html_output = format_html(sample_results)
+
+        assert "Document Reader" in html_output
+        assert 'data-tab="document-reader"' in html_output
+
+    def test_document_reader_panel_present(self, sample_results: list[MappedResult]) -> None:
+        """HTML report has a document-reader panel div."""
+        from ctrlmap.export.html_formatter import format_html
+
+        html_output = format_html(sample_results)
+
+        assert 'id="document-reader"' in html_output
+
+    def test_document_reader_highlights_mapped_chunks(
+        self, sample_results: list[MappedResult]
+    ) -> None:
+        """Mapped chunks in document reader have the mapped class."""
+        from ctrlmap.export.html_formatter import format_html
+
+        html_output = format_html(sample_results)
+
+        assert "doc-reader-chunk--mapped" in html_output
+
+    def test_document_reader_shows_unmapped_chunks(self) -> None:
+        """Unmapped chunks in document reader have the unmapped class."""
+        from ctrlmap.export.html_formatter import format_html
+
+        extra_chunk = ParsedChunk(
+            chunk_id="chunk-unmapped",
+            document_name="policy.pdf",
+            page_number=3,
+            raw_text="This chunk has no control mapping and is therefore unmapped content.",
+            section_header="Miscellaneous",
+        )
+        result = MappedResult(
+            control=SecurityControl(
+                control_id="AC-1",
+                framework="NIST-800-53",
+                title="Policy and Procedures",
+                description="Develop access control policies.",
+            ),
+            supporting_chunks=[
+                ParsedChunk(
+                    chunk_id="chunk-001",
+                    document_name="policy.pdf",
+                    page_number=1,
+                    raw_text="All employees must follow access control policies and procedures.",
+                    section_header="Access Control",
+                ),
+            ],
+            rationale=MappingRationale(
+                is_compliant=True,
+                confidence_score=0.92,
+                explanation="Policy directly addresses access control procedures.",
+            ),
+        )
+
+        html_output = format_html([result], all_chunks=[result.supporting_chunks[0], extra_chunk])
+
+        assert "doc-reader-chunk--unmapped" in html_output
+
+    def test_document_reader_popover_data_on_tags(
+        self, sample_results: list[MappedResult]
+    ) -> None:
+        """Control tags in document reader have data-popover attributes."""
+        from ctrlmap.export.html_formatter import format_html
+
+        html_output = format_html(sample_results)
+
+        assert "data-popover" in html_output

@@ -41,6 +41,25 @@ class TestPciDssOscalFixture:
         for c in controls:
             assert c.framework == "PCI-DSS"
 
+    def test_pci_dss_controls_do_not_contain_applicability_notes(self) -> None:
+        """Control descriptions must not include 'Applicability Notes' sections.
+
+        Inline references (e.g., 'refer to Applicability Notes below') are
+        acceptable. Only standalone section headers are rejected.
+        """
+        import re
+
+        from ctrlmap.models.oscal import parse_oscal_catalog
+
+        section_header_re = re.compile(r"\nApplicability Notes:?\s*\n")
+        controls = parse_oscal_catalog(DEMO_DIR / "frameworks" / "pci_dss_v4_oscal.json")
+        violating = [
+            c.control_id
+            for c in controls
+            if section_header_re.search(c.description)
+        ]
+        assert violating == [], f"Controls with embedded applicability notes: {violating}"
+
     def test_pci_dss_covers_all_twelve_requirement_groups(self) -> None:
         """PCI DSS fixture should span all 12 requirement groups."""
         from ctrlmap.models.oscal import parse_oscal_catalog

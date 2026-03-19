@@ -71,4 +71,5 @@ Respond with:
 
 is_compliant=true for fully/partially_compliant, false for non_compliant.
 
-Do NOT include text outside the JSON object.
+You may include brief reasoning before the JSON object. \
+The JSON object MUST be the LAST block in your response.

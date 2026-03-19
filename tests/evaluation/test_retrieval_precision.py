@@ -30,9 +30,13 @@ from ctrlmap.index.vector_store import VectorStore
 from ctrlmap.map.mapper import _expand_query
 from ctrlmap.models.schemas import ParsedChunk
 
+from .conftest import compute_mrr, compute_ndcg_at_k
+
 GOLDEN_DATASET_PATH = Path(__file__).parent.parent / "fixtures" / "golden_dataset.json"
 RECALL_AT_K = 5
 RECALL_THRESHOLD = 0.90
+NDCG_THRESHOLD = 0.80
+MRR_THRESHOLD = 0.80
 
 
 def _load_golden_dataset() -> dict:
@@ -84,6 +88,8 @@ class TestRetrievalPrecision:
         hits = 0
         total = len(dataset["queries"])
         per_query_results: list[dict] = []
+        ndcg_scores: list[float] = []
+        mrr_scores: list[float] = []
 
         for entry in dataset["queries"]:
             # Apply expansion to match the real pipeline (mapper.py)
@@ -98,21 +104,32 @@ class TestRetrievalPrecision:
                 embedder=embedder,
             )
 
-            retrieved_ids = {r.chunk_id for r in results}
-            is_hit = bool(expected_ids & retrieved_ids)
+            retrieved_ids = [r.chunk_id for r in results]
+            retrieved_set = set(retrieved_ids)
+            is_hit = bool(expected_ids & retrieved_set)
             if is_hit:
                 hits += 1
+
+            # Compute ranking metrics
+            ndcg = compute_ndcg_at_k(retrieved_ids, expected_ids, RECALL_AT_K)
+            rr = compute_mrr(retrieved_ids, expected_ids)
+            ndcg_scores.append(ndcg)
+            mrr_scores.append(rr)
 
             per_query_results.append(
                 {
                     "query": query_text[:60],
                     "expected": list(expected_ids),
-                    "retrieved": list(retrieved_ids),
+                    "retrieved": list(retrieved_set),
                     "hit": is_hit,
+                    "ndcg": ndcg,
+                    "rr": rr,
                 }
             )
 
         recall = hits / total if total > 0 else 0.0
+        mean_ndcg = sum(ndcg_scores) / len(ndcg_scores) if ndcg_scores else 0.0
+        mean_mrr = sum(mrr_scores) / len(mrr_scores) if mrr_scores else 0.0
 
         # Print detailed results for debugging
         for r in per_query_results:
@@ -123,9 +140,18 @@ class TestRetrievalPrecision:
                 print(f"    Retrieved: {r['retrieved']}")
 
         print(f"\nRecall@{RECALL_AT_K}: {recall:.4f} ({hits}/{total})")
-        print(f"Threshold: {RECALL_THRESHOLD}")
+        print(f"NDCG@{RECALL_AT_K}:   {mean_ndcg:.4f}")
+        print(f"MRR:       {mean_mrr:.4f}")
+        print(f"Thresholds: Recall≥{RECALL_THRESHOLD}  "
+              f"NDCG≥{NDCG_THRESHOLD}  MRR≥{MRR_THRESHOLD}")
 
         assert recall >= RECALL_THRESHOLD, (
             f"Recall@{RECALL_AT_K} = {recall:.4f} is below threshold {RECALL_THRESHOLD}. "
             f"{hits}/{total} queries hit."
+        )
+        assert mean_ndcg >= NDCG_THRESHOLD, (
+            f"NDCG@{RECALL_AT_K} = {mean_ndcg:.4f} is below threshold {NDCG_THRESHOLD}."
+        )
+        assert mean_mrr >= MRR_THRESHOLD, (
+            f"MRR = {mean_mrr:.4f} is below threshold {MRR_THRESHOLD}."
         )

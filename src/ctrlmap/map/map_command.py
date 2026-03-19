@@ -27,6 +27,7 @@ from ctrlmap.export.csv_formatter import export_csv, format_csv
 from ctrlmap.export.html_formatter import export_html, format_html
 from ctrlmap.export.markdown_formatter import export_markdown, format_markdown
 from ctrlmap.export.oscal_formatter import export_oscal, format_oscal
+from ctrlmap.index.reranker import Reranker
 from ctrlmap.index.vector_store import VectorStore
 from ctrlmap.map.enrichment import enrich_with_rationale
 from ctrlmap.map.mapper import map_controls
@@ -109,6 +110,11 @@ def map_controls_cmd(
         "--cache/--no-cache",
         help="Enable LLM response cache for faster re-runs.",
     ),
+    rerank: bool = typer.Option(
+        True,
+        "--rerank/--no-rerank",
+        help="Use cross-encoder reranker for improved precision.",
+    ),
 ) -> None:
     """Map policies to security controls via vector similarity."""
     console.print("[bold blue]Map:[/] Loading framework controls...")
@@ -117,11 +123,17 @@ def map_controls_cmd(
     console.print(f"[dim]Mapping {len(controls)} controls (top-k={top_k})...[/]")
     store = VectorStore(db_path=db_path)
 
+    reranker_instance: Reranker | None = None
+    if rerank:
+        console.print("[dim]Loading cross-encoder reranker...[/]")
+        reranker_instance = Reranker()
+
     results = map_controls(
         controls=controls,
         store=store,
         collection_name="chunks",
         top_k=top_k,
+        reranker=reranker_instance,
     )
 
     if rationale:

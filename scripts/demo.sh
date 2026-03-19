@@ -110,29 +110,29 @@ uv run ctrlmap index \
 info "PCI DSS v4.0.1 indexed ($(elapsed $T))"
 
 # ── Step 4: Map controls ────────────────────────────────────────────
-step "Step 4/5: Mapping Controls (with LLM Rationale)"
+step "Step 4/6: Mapping Controls (with LLM Rationale)"
 
 T=$(date +%s)
-info "Mapping against NIST 800-53 (markdown + html in one pass)..."
+info "Mapping against NIST 800-53 (markdown + json in one pass)..."
 uv run ctrlmap map \
     --framework "$FRAMEWORKS_DIR/nist_800_53_subset.json" \
     --db-path "$OUTPUT_DIR/demo_db" \
     --rationale \
     --cache \
     --top-k 5 \
-    --output-format "markdown,html" \
-    --output "$OUTPUT_DIR/nist_mapping.md,$OUTPUT_DIR/nist_report.html" &
+    --output-format "markdown,json" \
+    --output "$OUTPUT_DIR/nist_mapping.md,$OUTPUT_DIR/nist_mapping.json" &
 NIST_PID=$!
 
-info "Mapping against PCI DSS v4.0.1 (markdown + json + html in one pass)..."
+info "Mapping against PCI DSS v4.0.1 (markdown + json in one pass)..."
 uv run ctrlmap map \
     --framework "$FRAMEWORKS_DIR/pci_dss_v4_oscal.json" \
     --db-path "$OUTPUT_DIR/demo_db" \
     --rationale \
     --cache \
     --top-k 5 \
-    --output-format "markdown,json,html" \
-    --output "$OUTPUT_DIR/pci_mapping.md,$OUTPUT_DIR/pci_mapping.json,$OUTPUT_DIR/pci_report.html" &
+    --output-format "markdown,json" \
+    --output "$OUTPUT_DIR/pci_mapping.md,$OUTPUT_DIR/pci_mapping.json" &
 PCI_PID=$!
 
 # Wait for both mapping jobs to finish
@@ -141,8 +141,20 @@ info "NIST mapping complete"
 wait $PCI_PID
 info "PCI DSS mapping complete ($(elapsed $T))"
 
-# ── Step 5: Harmonize ───────────────────────────────────────────────
-step "Step 5/5: Harmonizing Controls Across Frameworks"
+# ── Step 5: Generate unified HTML report ────────────────────────────
+step "Step 5/6: Generating Unified HTML Report"
+T=$(date +%s)
+
+uv run python scripts/merge_reports.py \
+    --inputs "$OUTPUT_DIR/nist_mapping.json,$OUTPUT_DIR/pci_mapping.json" \
+    --chunks "$OUTPUT_DIR/all_chunks.jsonl" \
+    --pdf-dir "demo/policies" \
+    --output "$OUTPUT_DIR/report.html"
+
+info "Unified HTML report generated ($(elapsed $T))"
+
+# ── Step 6: Harmonize ───────────────────────────────────────────────
+step "Step 6/6: Harmonizing Controls Across Frameworks"
 T=$(date +%s)
 
 uv run ctrlmap harmonize \
@@ -162,14 +174,15 @@ echo -e "  ${CYAN}Output files:${NC}"
 echo -e "    demo/output/all_chunks.jsonl          ${DIM}— merged parsed chunks${NC}"
 echo -e "    demo/output/demo_db/                  ${DIM}— ChromaDB vector store${NC}"
 echo -e "    demo/output/nist_mapping.md           ${DIM}— NIST 800-53 mappings (markdown)${NC}"
+echo -e "    demo/output/nist_mapping.json         ${DIM}— NIST 800-53 mappings (JSON)${NC}"
 echo -e "    demo/output/pci_mapping.md            ${DIM}— PCI DSS v4.0.1 mappings (markdown)${NC}"
 echo -e "    demo/output/pci_mapping.json          ${DIM}— PCI DSS mappings (JSON)${NC}"
 echo -e "    demo/output/harmonized_controls.json  ${DIM}— deduplicated common controls${NC}"
 echo -e ""
-echo -e "  ${CYAN}★ Interactive HTML Reports:${NC}"
-echo -e "    demo/output/nist_report.html          ${DIM}— NIST 800-53 (open in browser)${NC}"
-echo -e "    demo/output/pci_report.html           ${DIM}— PCI DSS v4.0.1 (open in browser)${NC}"
+echo -e "  ${CYAN}★ Interactive HTML Report:${NC}"
+echo -e "    demo/output/report.html              ${DIM}— unified report (open in browser)${NC}"
 echo ""
 echo -e "  ${CYAN}Quick peek:${NC}"
-echo -e "    open demo/output/pci_report.html"
+echo -e "    open demo/output/report.html"
 echo ""
+

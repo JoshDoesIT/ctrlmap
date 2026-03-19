@@ -271,3 +271,180 @@ class TestMajorityVoteAggregation:
         result = select_best_rationale([rationale])
         assert result is not None
         assert result.compliance_level == ComplianceLevel.PARTIALLY_COMPLIANT
+
+
+class TestExplanationConsistencyGuard:
+    """FC rationales with gap-admitting explanations must be downgraded to PC."""
+
+    def test_fc_with_does_not_specify_is_downgraded(self) -> None:
+        """'does not specify' in explanation should downgrade FC to PC."""
+        from ctrlmap.llm.structured_output import _parse_response
+
+        response = json.dumps({
+            "type": "MappingRationale",
+            "is_compliant": True,
+            "compliance_level": "fully_compliant",
+            "confidence_score": 0.85,
+            "explanation": "The policy covers encryption but does not specify "
+            "which cryptographic algorithms or protocols are approved.",
+        })
+        result = _parse_response(response)
+        assert isinstance(result, MappingRationale)
+        assert result.compliance_level == ComplianceLevel.PARTIALLY_COMPLIANT, (
+            f"Expected PC due to 'does not specify', got {result.compliance_level}"
+        )
+
+    def test_fc_with_does_not_address_is_downgraded(self) -> None:
+        """'does not address' in explanation should downgrade FC to PC."""
+        from ctrlmap.llm.structured_output import _parse_response
+
+        response = json.dumps({
+            "type": "MappingRationale",
+            "is_compliant": True,
+            "compliance_level": "fully_compliant",
+            "confidence_score": 0.80,
+            "explanation": "The policy does not address the specific requirement "
+            "of backing up audit log files to a central server.",
+        })
+        result = _parse_response(response)
+        assert isinstance(result, MappingRationale)
+        assert result.compliance_level == ComplianceLevel.PARTIALLY_COMPLIANT
+
+    def test_fc_with_partially_covers_is_downgraded(self) -> None:
+        """'partially covers' in explanation should downgrade FC to PC."""
+        from ctrlmap.llm.structured_output import _parse_response
+
+        response = json.dumps({
+            "type": "MappingRationale",
+            "is_compliant": True,
+            "compliance_level": "fully_compliant",
+            "confidence_score": 0.82,
+            "explanation": "The policy partially covers the requirement "
+            "but lacks specific details on implementation timelines.",
+        })
+        result = _parse_response(response)
+        assert isinstance(result, MappingRationale)
+        assert result.compliance_level == ComplianceLevel.PARTIALLY_COMPLIANT
+
+    def test_fc_with_missing_is_downgraded(self) -> None:
+        """'missing' in explanation should downgrade FC to PC."""
+        from ctrlmap.llm.structured_output import _parse_response
+
+        response = json.dumps({
+            "type": "MappingRationale",
+            "is_compliant": True,
+            "compliance_level": "fully_compliant",
+            "confidence_score": 0.78,
+            "explanation": "The policy covers most requirements but is "
+            "missing periodic inspection procedures.",
+        })
+        result = _parse_response(response)
+        assert isinstance(result, MappingRationale)
+        assert result.compliance_level == ComplianceLevel.PARTIALLY_COMPLIANT
+
+    def test_clean_fc_explanation_stays_fc(self) -> None:
+        """FC with a clean explanation should stay FC."""
+        from ctrlmap.llm.structured_output import _parse_response
+
+        response = json.dumps({
+            "type": "MappingRationale",
+            "is_compliant": True,
+            "compliance_level": "fully_compliant",
+            "confidence_score": 0.92,
+            "explanation": "The policy fully addresses all aspects of this "
+            "control through comprehensive access management procedures.",
+        })
+        result = _parse_response(response)
+        assert isinstance(result, MappingRationale)
+        assert result.compliance_level == ComplianceLevel.FULLY_COMPLIANT
+
+    def test_pc_with_gap_phrases_stays_pc(self) -> None:
+        """PC with gap phrases should remain PC (no double-downgrade)."""
+        from ctrlmap.llm.structured_output import _parse_response
+
+        response = json.dumps({
+            "type": "MappingRationale",
+            "is_compliant": True,
+            "compliance_level": "partially_compliant",
+            "confidence_score": 0.75,
+            "explanation": "The policy does not specify periodic review timelines.",
+        })
+        result = _parse_response(response)
+        assert isinstance(result, MappingRationale)
+        assert result.compliance_level == ComplianceLevel.PARTIALLY_COMPLIANT
+
+
+class TestAggregateExplanation:
+    """Verify that aggregate_rationales preserves LLM explanations.
+
+    The aggregation should use the best chunk's LLM-generated explanation
+    as the primary text, not replace it with a synthetic 'Combined evidence
+    from N chunks covers X/Y...' message that can contradict visible evidence.
+    """
+
+    def test_downgrade_preserves_best_explanation(self) -> None:
+        """When aggregation downgrades FC → PC, the best rationale's
+        explanation should be preserved (not replaced by synthetic text).
+        """
+        from ctrlmap.llm.structured_output import aggregate_rationales
+
+        rationales = [
+            MappingRationale(
+                is_compliant=True,
+                compliance_level=ComplianceLevel.FULLY_COMPLIANT,
+                confidence_score=0.9,
+                explanation="The policy addresses encryption at rest comprehensively.",
+            ),
+        ]
+        sub_reqs = [[
+            {"requirement": "Encryption", "covered": True},
+            {"requirement": "Key management", "covered": False},
+        ]]
+        result = aggregate_rationales(
+            rationales=rationales, sub_requirements=sub_reqs,
+        )
+        assert result is not None
+        # The best rationale's explanation should be preserved
+        assert "addresses encryption at rest" in result.explanation
+        # Should NOT start with the synthetic "Combined evidence" prefix
+        assert not result.explanation.startswith("Combined evidence")
+
+    def test_upgrade_uses_coverage_explanation(self) -> None:
+        """When aggregation upgrades PC → FC, a coverage-based explanation
+        should be generated (not the best chunk's gap-mentioning text).
+        """
+        from ctrlmap.llm.structured_output import aggregate_rationales
+
+        rationales = [
+            MappingRationale(
+                is_compliant=True,
+                compliance_level=ComplianceLevel.PARTIALLY_COMPLIANT,
+                confidence_score=0.9,
+                explanation="The policy requires full-disk encryption on all endpoints.",
+            ),
+            MappingRationale(
+                is_compliant=True,
+                compliance_level=ComplianceLevel.PARTIALLY_COMPLIANT,
+                confidence_score=0.85,
+                explanation="Key rotation is performed according to defined cryptoperiods.",
+            ),
+        ]
+        sub_reqs = [
+            [
+                {"requirement": "Encryption", "covered": True},
+                {"requirement": "Key management", "covered": False},
+            ],
+            [
+                {"requirement": "Encryption", "covered": False},
+                {"requirement": "Key management", "covered": True},
+            ],
+        ]
+        result = aggregate_rationales(
+            rationales=rationales, sub_requirements=sub_reqs,
+        )
+        assert result is not None
+        # Upgrade explanation should list what's covered
+        assert "all 2 sub-requirements" in result.explanation
+        assert result.compliance_level == ComplianceLevel.FULLY_COMPLIANT
+
+

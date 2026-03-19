@@ -446,6 +446,45 @@ class TestSemanticChunkOverlap:
         unique = set(all_sentences_flat)
         assert len(unique) == len(all_sentences_flat), "overlap=0 should produce no duplicates"
 
+    def test_chunk_document_default_overlap_is_one(self) -> None:
+        """chunk_document() should default to overlap=1 for context continuity."""
+        import inspect
+
+        from ctrlmap.parse.chunker import chunk_document
+
+        sig = inspect.signature(chunk_document)
+        default = sig.parameters["overlap"].default
+        assert default == 1, f"Expected default overlap=1, got {default}"
+
+    def test_chunk_document_passes_overlap_to_semantic_chunk(self) -> None:
+        """chunk_document() should wire the overlap parameter through to semantic_chunk."""
+        from unittest.mock import patch
+
+        from ctrlmap.parse.chunker import chunk_document
+
+        blocks = [
+            _make_block(72, 100, 540, 118, "Section 1: Requirements"),
+            _make_block(
+                72,
+                130,
+                540,
+                170,
+                "All user accounts must be reviewed quarterly. "
+                "Privileged accounts require MFA. "
+                "Service accounts must be rotated every 90 days.",
+            ),
+        ]
+
+        with patch("ctrlmap.parse.chunker.semantic_chunk", wraps=__import__(
+            "ctrlmap.parse.chunker", fromlist=["semantic_chunk"]
+        ).semantic_chunk) as mock_sc:
+            chunk_document(blocks, document_name="test.pdf", overlap=2)
+            if mock_sc.called:
+                _, kwargs = mock_sc.call_args
+                assert kwargs.get("overlap") == 2, (
+                    f"Expected overlap=2 passed to semantic_chunk, got {kwargs}"
+                )
+
 
 class TestBoilerplateFiltering:
     """Cover-page CISO approval text should be filtered from final chunks.

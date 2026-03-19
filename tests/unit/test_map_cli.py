@@ -89,6 +89,7 @@ class TestMapCommand:
                     str(framework_path),
                     "--output-format",
                     "json",
+                    "--no-rerank",
                 ],
             )
         assert result.exit_code == 0
@@ -188,6 +189,7 @@ class TestMapCommand:
                     "--output-format",
                     "json",
                     "--rationale",
+                    "--no-rerank",
                 ],
             )
         assert result.exit_code == 0

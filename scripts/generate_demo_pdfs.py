@@ -881,6 +881,557 @@ def generate_physical_security_policy() -> None:
     print(f"  Created: {OUTPUT_DIR / 'physical_security_policy.pdf'}")
 
 
+def generate_governance_policy() -> None:
+    """Generate Acme Corp Information Security Governance Policy."""
+    pdf = PolicyPDF("Information Security Governance Policy")
+    pdf.alias_nb_pages()
+    pdf.add_title_page("2.0", "January 1, 2025")
+
+    pdf.add_page()
+    pdf.add_section("1", "Purpose and Scope")
+    pdf.add_body(
+        "This policy establishes the overarching information security governance "
+        "framework for Acme Corp. It defines the organizational structure, roles, "
+        "responsibilities, and accountability for information security across the "
+        "enterprise. This policy applies to all business units, departments, employees, "
+        "contractors, and third parties that interact with Acme Corp information assets. "
+        "The objective is to ensure that information security is integrated into all "
+        "aspects of business operations and that adequate resources are allocated to "
+        "protect the confidentiality, integrity, and availability of information assets."
+    )
+
+    pdf.add_section("2", "Information Security Policy Statement")
+    pdf.add_subsection("2.1", "Overall Policy")
+    pdf.add_body(
+        "Acme Corp maintains a comprehensive information security policy that is "
+        "established, published, maintained, and disseminated to all relevant personnel "
+        "and relevant third parties. The overall information security policy addresses "
+        "the purpose, scope, principles, and objectives for protecting information assets, "
+        "the Cardholder Data Environment (CDE), and all connected systems. The policy "
+        "is approved by executive management and formally communicated to all employees "
+        "upon hire and annually thereafter. The policy is made available to all affected "
+        "parties through the corporate intranet and mandatory acknowledgment is required."
+    )
+    pdf.add_subsection("2.2", "Policy Review and Update Schedule")
+    pdf.add_body(
+        "The information security policy and all supporting policies must be reviewed "
+        "at least once every twelve months or whenever significant changes occur to the "
+        "environment, business objectives, or regulatory requirements. The review must "
+        "be formally documented and include an assessment of policy effectiveness, "
+        "alignment with current threat landscape, regulatory compliance, industry best "
+        "practices, and lessons learned from security incidents. Updates to the policy "
+        "must be approved by the CISO and communicated to all affected parties within "
+        "30 calendar days of approval. A version history log must be maintained."
+    )
+
+    pdf.add_section("3", "Roles and Responsibilities")
+    pdf.add_subsection("3.1", "Chief Information Security Officer (CISO)")
+    pdf.add_body(
+        "Responsibility for information security is formally assigned to a Chief "
+        "Information Security Officer (CISO) who reports directly to the Chief "
+        "Executive Officer or the Board of Directors. The CISO is accountable for "
+        "establishing and maintaining the enterprise information security program, "
+        "developing and enforcing security policies and standards, ensuring compliance "
+        "with applicable regulations including PCI DSS, managing the security budget "
+        "and resource allocation, providing regular security status reports to executive "
+        "management and the board, and overseeing security incident response. The CISO "
+        "must have the authority to enforce security policies across all business units."
+    )
+    pdf.add_subsection("3.2", "Information Security Roles")
+    pdf.add_body(
+        "The security policy clearly defines information security roles and "
+        "responsibilities for all personnel including employees, contractors, and "
+        "third-party service providers. All personnel must acknowledge their security "
+        "responsibilities in writing upon hire and annually during security awareness "
+        "training. Specific roles include: security analysts responsible for monitoring "
+        "and incident detection, system administrators responsible for secure "
+        "configuration and patch management, application developers responsible for "
+        "secure coding practices, and business unit managers responsible for ensuring "
+        "compliance within their teams. Every role with access to the CDE has a "
+        "documented security responsibility matrix."
+    )
+
+    pdf.add_section("4", "Acceptable Use Policy")
+    pdf.add_subsection("4.1", "End-User Technologies")
+    pdf.add_body(
+        "Acceptable use policies for end-user technologies are documented, implemented, "
+        "and communicated to all users. End-user technologies include company-issued "
+        "and personal devices used to access company resources (laptops, desktops, "
+        "tablets, mobile phones), email and messaging systems, internet and web browsing, "
+        "removable media, remote access technologies, and cloud-based services. Users "
+        "must not install unauthorized software, must not disable security controls "
+        "including anti-malware and firewalls, must not store cardholder data on local "
+        "devices unless explicitly authorized and encrypted, and must lock workstations "
+        "when unattended. Personal devices accessing the CDE must comply with all "
+        "security requirements including mobile device management enrollment."
+    )
+    pdf.add_subsection("4.2", "Acceptable Use Enforcement")
+    pdf.add_body(
+        "Violations of the acceptable use policy will result in disciplinary action "
+        "up to and including termination of employment. All end-user technology usage "
+        "is subject to monitoring. Users must acknowledge the acceptable use policy "
+        "upon hire and annually. The policy must be reviewed and updated at least "
+        "annually to address new technologies and emerging threats."
+    )
+
+    pdf.add_section("5", "Risk Assessment Program")
+    pdf.add_subsection("5.1", "Annual Risk Assessment")
+    pdf.add_body(
+        "A formal risk assessment process must be performed at least annually and upon "
+        "significant changes to the environment. The risk assessment must identify "
+        "critical assets and data, threats and vulnerabilities, likelihood and impact "
+        "of exploitation, and recommended security controls or mitigations. The risk "
+        "assessment methodology must be documented and consistently applied. Results "
+        "must be presented to executive management for review and acceptance of "
+        "residual risk. Risk treatment plans must be developed for all identified "
+        "risks above the organization's risk appetite threshold."
+    )
+
+    pdf.add_section("6", "Security Program Metrics")
+    pdf.add_body(
+        "The information security program must define and track key performance "
+        "indicators (KPIs) and key risk indicators (KRIs) to measure the effectiveness "
+        "of security controls and the overall security posture. Metrics must include "
+        "patch compliance rates, vulnerability remediation timelines, security awareness "
+        "training completion rates, incident response times, and audit findings closure "
+        "rates. Monthly security dashboards must be produced and reviewed by the CISO. "
+        "Quarterly security reports must be provided to executive management and the "
+        "board of directors."
+    )
+
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    pdf.output(str(OUTPUT_DIR / "governance_policy.pdf"))
+    print(f"  Created: {OUTPUT_DIR / 'governance_policy.pdf'}")
+
+
+def generate_key_management_policy() -> None:
+    """Generate Acme Corp Cryptographic Key Management Policy."""
+    pdf = PolicyPDF("Cryptographic Key Management Policy")
+    pdf.alias_nb_pages()
+    pdf.add_title_page("1.3", "March 15, 2025")
+
+    pdf.add_page()
+    pdf.add_section("1", "Purpose and Scope")
+    pdf.add_body(
+        "This policy establishes the requirements for managing cryptographic keys "
+        "used to protect cardholder data and other sensitive information throughout "
+        "their lifecycle. It covers key generation, distribution, storage, rotation, "
+        "retirement, destruction, and accountability. This policy applies to all "
+        "cryptographic keys used within the Cardholder Data Environment (CDE) and "
+        "any system that encrypts, decrypts, or transports cardholder data. It "
+        "supplements the Data Protection & Encryption Policy with detailed key "
+        "management procedures."
+    )
+
+    pdf.add_section("2", "Key Generation")
+    pdf.add_body(
+        "Cryptographic keys must be generated using cryptographically strong random "
+        "number generators that are compliant with NIST SP 800-90A or equivalent "
+        "standards. Key generation must occur within FIPS 140-2 Level 3 or higher "
+        "validated hardware security modules (HSMs) for keys protecting cardholder "
+        "data. Symmetric keys must be a minimum of 256 bits (AES-256). Asymmetric "
+        "keys must be a minimum of 2048 bits for RSA or 256 bits for elliptic curve "
+        "cryptography. Key generation ceremonies must be witnessed by at least two "
+        "authorized key custodians and formally documented."
+    )
+
+    pdf.add_section("3", "Key Storage and Distribution")
+    pdf.add_subsection("3.1", "Secure Key Storage")
+    pdf.add_body(
+        "Cryptographic keys must be stored in the fewest possible locations and forms. "
+        "Keys must always be stored in one of the following forms: encrypted with a "
+        "key-encrypting key at least as strong as the data-encrypting key, within a "
+        "secure cryptographic device such as an HSM or hardware token, or as at least "
+        "two full-length key components or key shares using split knowledge procedures. "
+        "Cleartext cryptographic key material must never be stored in software or on "
+        "unprotected media. Key-encrypting keys must be stored separately from "
+        "data-encrypting keys."
+    )
+    pdf.add_subsection("3.2", "Key Distribution")
+    pdf.add_body(
+        "Cryptographic keys must be distributed securely using encrypted channels or "
+        "split knowledge and dual control mechanisms. Keys must never be transmitted "
+        "in cleartext over any network. Electronic distribution must use TLS 1.2 or "
+        "higher with mutual authentication. Physical distribution of key components "
+        "must use tamper-evident packaging and separate couriers for each component. "
+        "Receipt of keys must be formally acknowledged by authorized key custodians."
+    )
+
+    pdf.add_section("4", "Key Rotation and Cryptoperiods")
+    pdf.add_body(
+        "Cryptographic keys must be changed upon reaching the end of their defined "
+        "cryptoperiod. Data-encrypting keys used for disk or database encryption must "
+        "be rotated at least annually. Transport-layer keys (TLS certificates) must be "
+        "renewed before expiration with a maximum validity of 398 days. Key rotation "
+        "must also occur immediately when there is a known or suspected compromise of "
+        "the key, when an employee with knowledge of the key leaves the organization, "
+        "or when the key has weakened (e.g., changes in industry standards). The "
+        "previous key must be retired and must not be used for new encryption after "
+        "rotation, but may be retained for decryption of previously encrypted data."
+    )
+
+    pdf.add_section("5", "Key Custodians and Accountability")
+    pdf.add_body(
+        "Formal key custodians must be designated for all cryptographic keys. Key "
+        "custodians must formally acknowledge their responsibilities in writing by "
+        "signing a key custodian acknowledgment form that documents their understanding "
+        "of key management policies and their responsibilities. At least two key "
+        "custodians must be designated for each critical key to ensure availability "
+        "through split knowledge. Key custodian responsibilities include ensuring keys "
+        "are managed in accordance with this policy, maintaining the confidentiality of "
+        "key material, reporting any suspected key compromise immediately, and "
+        "participating in key ceremonies. An inventory of all cryptographic keys must "
+        "be maintained including: key identifier, key type and algorithm, cryptoperiod, "
+        "key custodian names, and current status."
+    )
+
+    pdf.add_section("6", "Key Destruction and Retirement")
+    pdf.add_body(
+        "Retired or expired cryptographic keys must be securely destroyed when no "
+        "longer needed. Destruction methods must include: zeroization of HSM key "
+        "slots, cryptographic erasure, or physical destruction of the storage media. "
+        "Keys that are retired but still needed for decryption of archived data must "
+        "be stored securely and marked as retired in the key inventory. Retired keys "
+        "must not be used for any new encryption operations. All key destruction "
+        "activities must be documented with certificates of destruction retained."
+    )
+
+    pdf.add_section("7", "Certificate and PKI Management")
+    pdf.add_subsection("7.1", "Trusted Keys and Certificates")
+    pdf.add_body(
+        "An inventory of trusted keys and certificates must be maintained and reviewed "
+        "at least annually. The inventory must include the certificate authority, "
+        "expiration date, purpose, and systems using each certificate. Certificates "
+        "used for PAN transmission must use valid, non-expired certificates from a "
+        "trusted certificate authority. Self-signed certificates are prohibited for "
+        "production systems handling cardholder data. Certificate expiration must be "
+        "monitored and alerts generated at least 60 days before expiration."
+    )
+
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    pdf.output(str(OUTPUT_DIR / "key_management_policy.pdf"))
+    print(f"  Created: {OUTPUT_DIR / 'key_management_policy.pdf'}")
+
+
+def generate_vendor_management_policy() -> None:
+    """Generate Acme Corp Vendor & Service Provider Management Policy."""
+    pdf = PolicyPDF("Vendor & Service Provider Management Policy")
+    pdf.alias_nb_pages()
+    pdf.add_title_page("1.8", "February 20, 2025")
+
+    pdf.add_page()
+    pdf.add_section("1", "Purpose and Scope")
+    pdf.add_body(
+        "This policy establishes the requirements for managing third-party service "
+        "providers and vendors that store, process, transmit, or could affect the "
+        "security of cardholder data. It covers vendor due diligence, risk assessment, "
+        "contractual requirements, ongoing monitoring, and accountability for shared "
+        "PCI DSS responsibilities. This policy applies to all third-party relationships "
+        "involving access to, or processing of, cardholder data or the Cardholder "
+        "Data Environment (CDE)."
+    )
+
+    pdf.add_section("2", "Service Provider Inventory and Status")
+    pdf.add_body(
+        "A list of all third-party service providers with which cardholder data is "
+        "shared or that could affect the security of cardholder data environments must "
+        "be maintained. The inventory must include the service provider name, services "
+        "provided, description of cardholder data shared, PCI DSS compliance status, "
+        "contract renewal date, and risk classification. The inventory must be reviewed "
+        "and updated at least annually and whenever a new service provider is engaged "
+        "or an existing relationship is terminated. Each service provider's PCI DSS "
+        "compliance status must be confirmed at least annually through Attestation "
+        "of Compliance (AoC) or Report on Compliance (RoC)."
+    )
+
+    pdf.add_section("3", "Contractual Requirements")
+    pdf.add_body(
+        "Written agreements must be maintained with all service providers that include "
+        "an acknowledgment by the service provider that they are responsible for the "
+        "security of cardholder data they possess or otherwise store, process, or "
+        "transmit on behalf of Acme Corp, or to the extent they could impact the "
+        "security of Acme Corp's cardholder data environment. Agreements must specify "
+        "the PCI DSS requirements that are the responsibility of the service provider, "
+        "those that are Acme Corp's responsibility, and any shared responsibilities. "
+        "Service level agreements must include incident notification requirements, "
+        "right-to-audit clauses, data handling and retention requirements, and "
+        "termination and data return or destruction procedures."
+    )
+
+    pdf.add_section("4", "Service Provider Authentication")
+    pdf.add_body(
+        "Service providers with remote access to Acme Corp systems must use unique "
+        "authentication credentials for each customer environment. Shared or generic "
+        "authentication credentials are prohibited. Service provider personnel must "
+        "authenticate using multi-factor authentication (MFA) for all remote access "
+        "connections. Service provider accounts must be enabled only during the time "
+        "period needed and disabled when not in use. All service provider access must "
+        "be logged and monitored. Service provider accounts must be reviewed quarterly "
+        "to verify that only authorized personnel retain access."
+    )
+
+    pdf.add_section("5", "Ongoing Monitoring")
+    pdf.add_body(
+        "Service provider compliance status must be monitored at least annually. The "
+        "monitoring program must include: obtaining and reviewing the service provider's "
+        "annual PCI DSS Attestation of Compliance, reviewing security assessment reports "
+        "or certifications, confirming the scope of PCI DSS compliance covers the "
+        "services provided to Acme Corp, and documenting which PCI DSS requirements "
+        "are managed by each service provider. If a service provider's compliance "
+        "status changes or a security incident occurs, Acme Corp must reassess the "
+        "risk and determine appropriate corrective actions."
+    )
+
+    pdf.add_section("6", "Information Sharing and Disclosure")
+    pdf.add_body(
+        "Service providers must be contractually required to promptly notify Acme Corp "
+        "of any security incident that may affect cardholder data within 24 hours of "
+        "discovery. Information about cardholder data shared with service providers "
+        "must be limited to the minimum necessary to perform the contracted services. "
+        "Service providers must not disclose or share Acme Corp cardholder data with "
+        "any additional third parties without prior written consent. Upon termination "
+        "of the service agreement, all cardholder data must be securely returned or "
+        "destroyed with a certificate of destruction provided."
+    )
+
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    pdf.output(str(OUTPUT_DIR / "vendor_management_policy.pdf"))
+    print(f"  Created: {OUTPUT_DIR / 'vendor_management_policy.pdf'}")
+
+
+def generate_endpoint_security_policy() -> None:
+    """Generate Acme Corp Endpoint & Application Security Policy."""
+    pdf = PolicyPDF("Endpoint & Application Security Policy")
+    pdf.alias_nb_pages()
+    pdf.add_title_page("2.1", "March 5, 2025")
+
+    pdf.add_page()
+    pdf.add_section("1", "Purpose and Scope")
+    pdf.add_body(
+        "This policy establishes the requirements for securing endpoints, applications, "
+        "and network components to protect the Cardholder Data Environment (CDE) from "
+        "external and internal threats. It covers anti-spoofing measures, personal "
+        "firewall requirements, web application security, payment page integrity, and "
+        "change detection mechanisms. This policy applies to all endpoints, applications, "
+        "and network devices connected to or interacting with the CDE."
+    )
+
+    pdf.add_section("2", "Network Anti-Spoofing and Endpoint Controls")
+    pdf.add_subsection("2.1", "Anti-Spoofing Measures")
+    pdf.add_body(
+        "Anti-spoofing measures must be implemented on all network security controls to "
+        "detect and block forged source IP addresses from entering the trusted network. "
+        "Ingress and egress filtering must be configured on perimeter network devices "
+        "to prevent IP address spoofing. BCP 38/RFC 2827 filtering must be implemented. "
+        "NSCs must be implemented between trusted and untrusted networks with rules "
+        "configured to deny all traffic by default and permit only explicitly authorized "
+        "connections necessary for business operations."
+    )
+    pdf.add_subsection("2.2", "Personal Firewall Controls")
+    pdf.add_body(
+        "Personal firewall or equivalent functionality must be installed and active on "
+        "all portable computing devices (including company-owned and employee-owned) "
+        "that connect to the internet when outside the corporate network AND that also "
+        "access the CDE. Personal firewalls must be configured to specific standards, "
+        "must be actively running, and must not be alterable by the end user unless "
+        "specifically authorized by IT Security. Configuration settings must deny all "
+        "inbound traffic by default except for explicitly allowed services."
+    )
+
+    pdf.add_section("3", "Application Inventory and Security")
+    pdf.add_subsection("3.1", "Application Inventory")
+    pdf.add_body(
+        "An inventory of bespoke and custom software, and third-party software "
+        "components incorporated into bespoke and custom software, must be maintained "
+        "to facilitate vulnerability and patch management. The inventory must include "
+        "the software name, version, vendor, purpose, and deployment location. The "
+        "inventory must be updated whenever new software is deployed or existing "
+        "software is updated. All software must be registered before deployment to "
+        "production environments."
+    )
+    pdf.add_subsection("3.2", "Public-Facing Application Security")
+    pdf.add_body(
+        "Public-facing web applications must be protected against known attacks using "
+        "at least one of the following methods: reviewing application code using manual "
+        "or automated vulnerability security assessment tools at least annually and "
+        "after any changes, or installing an automated technical solution such as a "
+        "web application firewall (WAF) in front of public-facing web applications to "
+        "detect and prevent web-based attacks. WAF configurations must be reviewed "
+        "and updated at least annually. WAF must operate in active blocking mode or "
+        "generate alerts that are immediately investigated."
+    )
+
+    pdf.add_section("4", "Payment Page Integrity")
+    pdf.add_subsection("4.1", "Payment Page Script Management")
+    pdf.add_body(
+        "All payment page scripts that are loaded and executed in the consumer's "
+        "browser must be managed as follows: a method must be implemented to confirm "
+        "that each script is authorized, the integrity of each script must be assured, "
+        "and an inventory of all scripts must be maintained with written justification "
+        "for why each script is necessary. Content Security Policy (CSP) headers or "
+        "Subresource Integrity (SRI) must be implemented to ensure only authorized "
+        "scripts execute on payment pages."
+    )
+    pdf.add_subsection("4.2", "Change Detection on Payment Pages")
+    pdf.add_body(
+        "A change and tamper detection mechanism must be deployed as follows: to alert "
+        "personnel to unauthorized modification (including indicators of compromise, "
+        "changes, additions, and deletions) to the HTTP headers and the contents of "
+        "payment pages as received by the consumer browser. The mechanism must be "
+        "configured to evaluate the received HTTP headers and payment page content, "
+        "and must function on a regular basis (at least once every seven days) or "
+        "periodically at the frequency defined in the entity's targeted risk analysis."
+    )
+
+    pdf.add_section("5", "Vulnerability and Patch Management")
+    pdf.add_subsection("5.1", "System Component Inventory")
+    pdf.add_body(
+        "An inventory of all system components within the scope of PCI DSS must be "
+        "maintained. The inventory must include hardware (servers, network devices, "
+        "workstations), software (operating systems, applications, middleware), and "
+        "virtual components (virtual machines, containers, hypervisors). Each component "
+        "must have a documented owner and a defined purpose."
+    )
+    pdf.add_subsection("5.2", "Patch Management")
+    pdf.add_body(
+        "Critical security patches must be installed within one month of release. "
+        "All applicable vendor-supplied security patches must be installed according "
+        "to the entity's vulnerability risk ranking. Patches must be tested in a "
+        "non-production environment before deployment to production. Automated patch "
+        "management tools must be used where feasible. Systems that cannot be patched "
+        "must have documented compensating controls."
+    )
+
+    pdf.add_section("6", "Change Detection Mechanisms")
+    pdf.add_body(
+        "A change detection mechanism (for example, file integrity monitoring tools) "
+        "must be deployed to alert personnel to unauthorized modification of critical "
+        "system files, configuration files, and content files. The system must be "
+        "configured to perform critical file comparisons at least weekly. The change "
+        "detection mechanism must be configured to alert on unauthorized changes to "
+        "critical files on system components that store, process, or transmit "
+        "cardholder data. Critical file comparison results must be documented and "
+        "reviewed. All alerts must be investigated and resolved."
+    )
+
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    pdf.output(str(OUTPUT_DIR / "endpoint_security_policy.pdf"))
+    print(f"  Created: {OUTPUT_DIR / 'endpoint_security_policy.pdf'}")
+
+
+def generate_audit_log_policy() -> None:
+    """Generate Acme Corp Audit Log Management Policy."""
+    pdf = PolicyPDF("Audit Log Management Policy")
+    pdf.alias_nb_pages()
+    pdf.add_title_page("1.6", "April 10, 2025")
+
+    pdf.add_page()
+    pdf.add_section("1", "Purpose and Scope")
+    pdf.add_body(
+        "This policy establishes the requirements for managing audit logs across all "
+        "system components that store, process, or transmit cardholder data. It covers "
+        "log generation, access control, integrity protection, centralized management, "
+        "time synchronization, retention, and review. This policy applies to all system "
+        "components within the Cardholder Data Environment (CDE) and any connected "
+        "systems. It supplements the Access Control Policy's logging requirements "
+        "with detailed log management procedures."
+    )
+
+    pdf.add_section("2", "Audit Log Access Control")
+    pdf.add_subsection("2.1", "Log Access Restrictions")
+    pdf.add_body(
+        "Read access to audit log files must be limited to individuals with a "
+        "job-related need such as security analysts, incident responders, and audit "
+        "personnel. Write access to audit log files, configuration settings, and "
+        "log management systems must be restricted to the minimum personnel necessary "
+        "to perform authorized administrative functions. Access to audit logs must be "
+        "controlled through role-based access control mechanisms. All access to audit "
+        "log systems must itself be logged to prevent unauthorized access or tampering. "
+        "Audit log files must not be accessible to the users or processes being audited."
+    )
+    pdf.add_subsection("2.2", "Log Integrity Protection")
+    pdf.add_body(
+        "Audit log files must be protected from unauthorized modifications using "
+        "file integrity monitoring, write-once media, or secure centralized log "
+        "management systems. Current audit log files must be protected from "
+        "unauthorized modifications through access control mechanisms and integrity "
+        "checking. Any modification or deletion of audit log entries must generate "
+        "an immediate alert to the security operations team."
+    )
+
+    pdf.add_section("3", "Centralized Log Management")
+    pdf.add_body(
+        "Audit logs from all system components within the CDE must be forwarded to "
+        "a centralized log management system (SIEM or equivalent) in real-time or "
+        "near-real-time. The centralized system must correlate events across multiple "
+        "sources to identify security incidents. Log collection must be monitored to "
+        "ensure all expected sources are reporting. Failures in log forwarding must "
+        "generate alerts within 15 minutes. The centralized log management system "
+        "must be hardened and isolated from general-purpose computing environments."
+    )
+
+    pdf.add_section("4", "Time Synchronization")
+    pdf.add_body(
+        "Time synchronization technology must be deployed on all critical system "
+        "components. All clocks and time settings must be synchronized using Network "
+        "Time Protocol (NTP) or equivalent from industry-accepted authoritative time "
+        "sources. Time synchronization must be accurate to within one second across "
+        "all system components. Time data must be protected from unauthorized access "
+        "and modification. Changes to time settings on critical systems must be logged "
+        "and monitored. NTP servers must be configured to accept time data only from "
+        "specific, industry-accepted external sources to prevent time-based attacks."
+    )
+
+    pdf.add_section("5", "Log Retention")
+    pdf.add_body(
+        "Audit log history must be retained for at least twelve months, with a minimum "
+        "of the most recent three months of logs immediately available for analysis. "
+        "The remaining nine months of logs must be restorable within a defined period "
+        "that does not exceed one business day. Archived logs must be stored in a "
+        "secure, tamper-resistant manner. Retention periods must comply with legal, "
+        "regulatory, and contractual requirements. Log deletion or purging must follow "
+        "the approved retention schedule and must be documented."
+    )
+
+    pdf.add_section("6", "Log Review and Alerting")
+    pdf.add_subsection("6.1", "Automated Log Review")
+    pdf.add_body(
+        "Automated mechanisms must be used to perform audit log reviews. Security "
+        "event correlation rules must be defined to detect anomalies and suspicious "
+        "activity including multiple failed login attempts, access outside business "
+        "hours, privilege escalation events, unauthorized configuration changes, and "
+        "new accounts created outside normal processes. Automated alerts must be "
+        "generated for all critical security events and reviewed by security personnel "
+        "within one hour of generation."
+    )
+    pdf.add_subsection("6.2", "Periodic Log Reviews")
+    pdf.add_body(
+        "In addition to automated monitoring, manual reviews of audit logs must be "
+        "performed at least daily for all security events, critical system component "
+        "logs, and logs of systems that store, process, or transmit cardholder data. "
+        "Logs of all other system components must be reviewed periodically based on "
+        "the entity's risk management strategy. Review activities and findings must "
+        "be documented. Exceptions and anomalies identified during log review must "
+        "be investigated and resolved in a timely manner."
+    )
+
+    pdf.add_section("7", "Log Failure Response")
+    pdf.add_body(
+        "Failures of critical security monitoring systems including audit log "
+        "collection, SIEM, IDS/IPS, file integrity monitoring, change detection, "
+        "anti-malware, and network monitoring must be detected, reported, and responded "
+        "to promptly. Automated alerting must be configured for monitoring system "
+        "failures. Failures must be reported to security personnel within 15 minutes. "
+        "Failed monitoring systems must be restored within 24 hours. During monitoring "
+        "system outages, compensating manual monitoring procedures must be activated "
+        "to maintain security visibility."
+    )
+
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    pdf.output(str(OUTPUT_DIR / "audit_log_policy.pdf"))
+    print(f"  Created: {OUTPUT_DIR / 'audit_log_policy.pdf'}")
+
+
 if __name__ == "__main__":
     print("Generating demo policy PDFs...")
     generate_access_control_policy()
@@ -890,4 +1441,10 @@ if __name__ == "__main__":
     generate_security_awareness_policy()
     generate_change_management_policy()
     generate_physical_security_policy()
+    generate_governance_policy()
+    generate_key_management_policy()
+    generate_vendor_management_policy()
+    generate_endpoint_security_policy()
+    generate_audit_log_policy()
     print("Done!")
+

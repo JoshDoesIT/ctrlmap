@@ -7,8 +7,52 @@ policy library.
 
 ## Instructions
 Explain why this control is non-compliant due to missing policy coverage. \
-Briefly describe what policy documentation would be needed to address it. \
-Respond ONLY with a JSON object. Do NOT include any text outside the JSON object.
+Briefly describe what policy documentation would be needed to address it.
 
-{{"type": "MappingRationale", "is_compliant": false, "confidence_score": 0.0-1.0, \
+You may include brief reasoning before the JSON object. \
+The JSON object MUST be the LAST block in your response.
+
+## Examples
+
+### Example 1
+Control: "SC-28: Protection of Information at Rest — Protect the confidentiality \
+and integrity of information at rest using cryptographic mechanisms."
+
+{{"type": "MappingRationale", "is_compliant": false, \
+"compliance_level": "non_compliant", \
+"confidence_score": 0.95, \
+"explanation": "No policy documentation addresses data-at-rest encryption requirements. \
+The organization needs an encryption policy specifying approved algorithms (e.g., AES-256), \
+key management procedures, and scope of systems requiring encryption."}}
+
+### Example 2
+Control: "IR-4: Incident Handling — Implement an incident handling capability \
+for incidents that includes preparation, detection, analysis, containment, \
+eradication, and recovery."
+
+{{"type": "MappingRationale", "is_compliant": false, \
+"compliance_level": "non_compliant", \
+"confidence_score": 0.90, \
+"explanation": "No incident response plan or incident handling policy was found \
+in the policy library. The organization needs a documented incident response plan \
+covering the full lifecycle: preparation, detection and analysis, containment, \
+eradication, recovery, and post-incident activities."}}
+
+### Example 3
+Control: "AT-2: Literacy Training and Awareness — Provide security and privacy \
+literacy training to system users within 30 days of initial hire."
+
+{{"type": "MappingRationale", "is_compliant": false, \
+"compliance_level": "non_compliant", \
+"confidence_score": 0.85, \
+"explanation": "No security awareness training policy exists in the policy library. \
+A training policy should define onboarding timelines (within 30 days of hire), \
+training content requirements, annual refresher cadence, and completion tracking."}}
+
+## Your Response
+Respond with a JSON object for the control above:
+
+{{"type": "MappingRationale", "is_compliant": false, \
+"compliance_level": "non_compliant", \
+"confidence_score": 0.0-1.0, \
 "explanation": "your explanation of the gap"}}

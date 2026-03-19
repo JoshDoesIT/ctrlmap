@@ -541,6 +541,7 @@ def chunk_document(
     *,
     document_name: str,
     similarity_threshold: float = 0.5,
+    overlap: int = 1,
 ) -> list[ParsedChunk]:
     """Run the full structural → semantic chunking pipeline.
 
@@ -548,6 +549,8 @@ def chunk_document(
         blocks: Text blocks from the extractor.
         document_name: Source document filename.
         similarity_threshold: Cosine similarity threshold for semantic merging.
+        overlap: Number of sentences to carry forward from one chunk to the
+            next for boundary context continuity (default: 1).
 
     Returns:
         A list of ``ParsedChunk`` instances.
@@ -559,6 +562,7 @@ def chunk_document(
         sem_chunks = semantic_chunk(
             section.sentences,
             similarity_threshold=similarity_threshold,
+            overlap=overlap,
         )
 
         # Merge short chunks into neighbors instead of dropping them

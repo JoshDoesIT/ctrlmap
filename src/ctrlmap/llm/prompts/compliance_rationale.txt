@@ -27,6 +27,13 @@ NOTE: Compound verbs describing the SAME object are ONE sub-requirement, \
 not multiple. For example, "Establish and document usage restrictions" is \
 ONE sub-requirement about usage restrictions, not two separate requirements.\
  Count sub-requirements by their distinct OBJECTS/TOPICS, not by their verbs.
+CROSS-REFERENCE REQUIREMENTS: When a control says to do X "in accordance \
+with" / "as defined in" / "defined at" / "per" another requirement or section \
+(e.g., "in accordance with the change control process defined at Requirement \
+6.5.1"), the cross-reference is NOT a separate sub-requirement. It specifies \
+WHICH process or standard to follow — it is context/scope, not an additional \
+thing to prove. Derive sub-requirements from the ACTIONS described (e.g., \
+"approved and managed" = two sub-requirements), not from the reference itself.
 
 ### Step 2 — Check Each Sub-Requirement Against the Policy Text
 For EACH sub-requirement you listed in Step 1, determine whether the \
@@ -80,8 +87,9 @@ to DIFFERENT subjects does NOT count as evidence. For example:
 - "Training developers" is NOT evidence for "training all employees"
 The policy text must address the EXACT SAME subject/object as the control.
 
-### Step 4 — Respond with JSON ONLY
-Do NOT include any text outside the JSON object.
+### Step 4 — Respond with JSON
+You may include brief reasoning before the JSON object. \
+The JSON object MUST be the LAST block in your response.
 
 If there is sufficient evidence, respond with:
 {{"type": "MappingRationale", "is_compliant": true/false, \

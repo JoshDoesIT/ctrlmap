@@ -110,3 +110,79 @@ class TestHybridQuery:
 
         assert len(results) == 1
         assert results[0].chunk_id == "c1"
+
+
+class TestWeightedRRF:
+    """Weighted RRF allows tuning the balance between ANN and BM25."""
+
+    def test_default_weights_favor_bm25(self) -> None:
+        """Default BM25 weight should be 0.6 (higher than ANN's 0.4)."""
+        import inspect
+
+        sig = inspect.signature(hybrid_query)
+        ann_default = sig.parameters["ann_weight"].default
+        bm25_default = sig.parameters["bm25_weight"].default
+        assert ann_default == 0.4, f"Expected ann_weight=0.4, got {ann_default}"
+        assert bm25_default == 0.6, f"Expected bm25_weight=0.6, got {bm25_default}"
+
+    def test_equal_weights_matches_original_behavior(self) -> None:
+        """ann_weight=0.5 / bm25_weight=0.5 should produce same ranking as unweighted."""
+        ann_results = [
+            QueryResult(chunk_id="c1", raw_text="text1", score=0.9, metadata={}),
+            QueryResult(chunk_id="c2", raw_text="text2", score=0.8, metadata={}),
+        ]
+
+        index = BM25Index.from_chunks(
+            chunk_ids=["c2", "c3"],
+            raw_texts=["exact keyword match text2", "another keyword match"],
+        )
+
+        with patch("ctrlmap.index.hybrid_search.query_by_embedding", return_value=ann_results):
+            results = hybrid_query(
+                store=MagicMock(),
+                collection_name="test",
+                embedding=[0.1] * 384,
+                query_text="keyword match",
+                bm25_index=index,
+                top_k=3,
+                ann_weight=0.5,
+                bm25_weight=0.5,
+            )
+
+        # c2 appears in both lists, so should be in the results
+        ids = [r.chunk_id for r in results]
+        assert "c2" in ids
+
+    def test_high_bm25_weight_favors_bm25_only_hits(self) -> None:
+        """With bm25_weight=0.9, BM25-only results should outrank ANN-only results."""
+        ann_results = [
+            QueryResult(chunk_id="ann_only", raw_text="semantic match", score=0.9, metadata={}),
+        ]
+        bm25_results = [
+            QueryResult(
+                chunk_id="bm25_only",
+                raw_text="exact keyword match",
+                score=5.0,
+                metadata={},
+            ),
+        ]
+
+        index = BM25Index.from_chunks(chunk_ids=[], raw_texts=[])
+
+        with (
+            patch("ctrlmap.index.hybrid_search.query_by_embedding", return_value=ann_results),
+            patch("ctrlmap.index.hybrid_search.bm25_query", return_value=bm25_results),
+        ):
+            results = hybrid_query(
+                store=MagicMock(),
+                collection_name="test",
+                embedding=[0.1] * 384,
+                query_text="exact keyword match",
+                bm25_index=index,
+                top_k=3,
+                ann_weight=0.1,
+                bm25_weight=0.9,
+            )
+
+        ids = [r.chunk_id for r in results]
+        assert ids[0] == "bm25_only", f"Expected bm25_only first, got {ids}"

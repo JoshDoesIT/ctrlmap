@@ -402,5 +402,55 @@
         "expected_compliance_level": "partially_compliant",
         "expected_is_compliant": true,
         "rationale": "Multi-sub-requirement (5 total): 3/5 covered (event types identified, types specified, annual review). Missing: coordination with other entities, rationale for event type selection."
+    },
+
+    {
+        "id": "comp-xref-01",
+        "control_text": "1.2.2: All changes to network connections and to configurations of NSCs are approved and managed in accordance with the change control process defined at Requirement 6.5.1.",
+        "chunk_text": "All changes to network connections and to configurations of NSCs must be approved and managed in accordance with the organizational change control process. This includes the addition, removal, or modification of any network connection as well as changes that affect how network security controls perform their security function.",
+        "expected_compliance_level": "fully_compliant",
+        "expected_is_compliant": true,
+        "rationale": "Cross-reference requirement: 'defined at Requirement 6.5.1' specifies WHICH change control process to follow, not a separate sub-requirement. The chunk covers both actions — approval and management of changes — making it fully compliant."
+    },
+    {
+        "id": "comp-xref-02",
+        "control_text": "5.3.4: Audit logs for the anti-malware solution(s) are enabled and retained in accordance with Requirement 10.5.1.",
+        "chunk_text": "Anti-malware solutions are configured to generate detailed audit logs of all scanning activities, detection events, and remediation actions. Logs are enabled on all endpoints and servers, and retained for a minimum of 12 months with at least three months immediately available for analysis.",
+        "expected_compliance_level": "fully_compliant",
+        "expected_is_compliant": true,
+        "rationale": "Cross-reference requirement: 'in accordance with Requirement 10.5.1' specifies the retention standard to follow, not a separate testable sub-requirement. The chunk covers both actions — enabling audit logs and retaining them — making it fully compliant."
+    },
+
+    {
+        "id": "comp-ta-01",
+        "control_text": "10.2.1.1: Audit logs capture all individual user access to cardholder data.",
+        "chunk_text": "All users must be assigned a unique user ID before they are allowed access to any system component or cardholder data. Generic, shared, or group IDs are strictly prohibited for standard operations.",
+        "expected_compliance_level": "non_compliant",
+        "expected_is_compliant": false,
+        "rationale": "Topic adjacency: Both mention 'user' and 'cardholder data' but the chunk is about IDENTITY MANAGEMENT (unique user IDs), not AUDIT LOGGING (capturing access events). Different control objective."
+    },
+    {
+        "id": "comp-ta-02",
+        "control_text": "8.2.2: Group, shared, or generic IDs, or other shared authentication credentials are only used when necessary on an exception basis.",
+        "chunk_text": "All access to system components and cardholder data must be logged. Audit logs must capture: user identification, type of event, date and time, success or failure indication, origination of event, and identity or name of affected data, system component, or resource.",
+        "expected_compliance_level": "non_compliant",
+        "expected_is_compliant": false,
+        "rationale": "Topic adjacency: Both mention 'user identification' but the chunk is about AUDIT LOGGING (what events to capture), not IDENTITY MANAGEMENT (managing shared/group IDs). Different control objective."
+    },
+    {
+        "id": "comp-ta-03",
+        "control_text": "10.3.1: Read access to audit log files is limited to those with a job-related need.",
+        "chunk_text": "Badge readers and access control systems must be configured to log all entry and exit events.",
+        "expected_compliance_level": "non_compliant",
+        "expected_is_compliant": false,
+        "rationale": "Topic adjacency: Both mention 'log' and 'access' but the chunk is about PHYSICAL ACCESS LOGGING (badge events), not AUDIT LOG ACCESS CONTROL (who can read audit logs). Different control objective."
+    },
+    {
+        "id": "comp-ta-04",
+        "control_text": "10.3.1: Read access to audit log files is limited to those with a job-related need.",
+        "chunk_text": "Badge readers and access control systems must be configured to log all entry and exit events.",
+        "expected_compliance_level": "non_compliant",
+        "expected_is_compliant": false,
+        "rationale": "Topic adjacency: The chunk is about configuring badge readers to LOG PHYSICAL ENTRY/EXIT events. The control is about WHO CAN READ AUDIT LOGS. Logging events ≠ controlling access to logs."
     }
 ]

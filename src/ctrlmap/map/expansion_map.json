@@ -22,5 +22,12 @@
     "shared": "group ID, generic account, shared credential, common password, shared authentication, group account, service account",
     "user id": "user identification, unique identifier, account identity, login credential, authentication identity, user account",
     "roles and responsibilities": "role assignment, job function, duty assignment, personnel responsibility, staff accountability, RACI, segregation of duties",
-    "documented": "documentation, written policy, formal procedure, recorded, established, published, maintained, kept up to date, disseminate"
+    "documented": "documentation, written policy, formal procedure, recorded, established, published, maintained, kept up to date, disseminate",
+    "data-flow diagram": "data flow, account data flows, network diagram, topology, data flow mapping, data flow chart",
+    "data flows": "data flow diagram, data flow mapping, data transfer, data movement, information flow, account data",
+    "need to know": "RBAC, role-based access, least privilege, deny all, access restriction, access control, need-to-know, authorization, business justification",
+    "restricting access": "RBAC, role-based access control, least privilege, deny all, access enforcement, access restriction, need to know, authorization",
+    "access is assigned": "RBAC, role-based access, least privilege, access control, authorization, access management, access provisioning, job classification",
+    "access control system": "RBAC, role-based access, ACL, deny all, least privilege, access enforcement, access management, authorization system",
+    "deny all": "default deny, deny-all, implicit deny, least privilege, zero trust, access enforcement, RBAC"
 }

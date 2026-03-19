@@ -666,3 +666,60 @@ class TestSentenceAwareTruncation:
         sig = inspect.signature(OllamaClient.truncate_chunk)
         default = sig.parameters["max_chars"].default
         assert default == 1200, f"Expected default 1200, got {default}"
+
+
+class TestPydanticSchemaConstraints:
+    """Item 3: Ollama json_schema parameter for structured output."""
+
+    def test_call_llm_passes_json_schema_when_provided(self) -> None:
+        """call_llm() should set format to the schema dict, not 'json'."""
+        from ctrlmap.llm.client import OllamaClient
+
+        schema = {"type": "object", "properties": {"is_compliant": {"type": "boolean"}}}
+
+        with patch("ctrlmap.llm.client.ollama") as mock_ollama:
+            mock_ollama.chat.return_value = MagicMock(
+                message=MagicMock(content='{"is_compliant": true}')
+            )
+            client = OllamaClient()
+            client.call_llm("test prompt", "test", json_schema=schema)
+
+            call_args = mock_ollama.chat.call_args
+            fmt = call_args.kwargs.get("format") or call_args[1].get("format")
+            assert fmt == schema, f"Expected schema dict as format, got {fmt!r}"
+
+    def test_call_llm_falls_back_to_json_mode_without_schema(self) -> None:
+        """Without json_schema, json_mode=True should still pass format='json'."""
+        from ctrlmap.llm.client import OllamaClient
+
+        with patch("ctrlmap.llm.client.ollama") as mock_ollama:
+            mock_ollama.chat.return_value = MagicMock(
+                message=MagicMock(content='{"is_compliant": true}')
+            )
+            client = OllamaClient()
+            client.call_llm("test prompt", "test", json_mode=True)
+
+            call_args = mock_ollama.chat.call_args
+            fmt = call_args.kwargs.get("format") or call_args[1].get("format")
+            assert fmt == "json", f"Expected 'json' as format, got {fmt!r}"
+
+    @pytest.mark.asyncio()
+    async def test_call_llm_async_passes_json_schema(self) -> None:
+        """call_llm_async() should set format to the schema dict."""
+        from ctrlmap.llm.client import OllamaClient
+
+        schema = {"type": "object", "properties": {"is_compliant": {"type": "boolean"}}}
+
+        with patch("ctrlmap.llm.client.ollama.AsyncClient") as mock_async_cls:
+            mock_instance = MagicMock()
+            mock_instance.chat = AsyncMock(
+                return_value=MagicMock(message=MagicMock(content='{"is_compliant": true}'))
+            )
+            mock_async_cls.return_value = mock_instance
+
+            client = OllamaClient()
+            await client.call_llm_async("test prompt", "test", json_schema=schema)
+
+            call_args = mock_instance.chat.call_args
+            fmt = call_args.kwargs.get("format") or call_args[1].get("format")
+            assert fmt == schema, f"Expected schema dict as format, got {fmt!r}"
