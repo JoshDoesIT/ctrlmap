@@ -77,3 +77,62 @@ def compute_multiclass_accuracy(
     if not labels:
         return 0.0
     return sum(1 for p, lbl in zip(predictions, labels, strict=True) if p == lbl) / len(labels)
+
+
+def compute_ndcg_at_k(
+    retrieved_ids: list[str],
+    relevant_ids: set[str],
+    k: int,
+) -> float:
+    """Compute Normalized Discounted Cumulative Gain at rank K.
+
+    Uses binary relevance (1 if in ``relevant_ids``, 0 otherwise).
+
+    Args:
+        retrieved_ids: Ordered list of retrieved chunk IDs.
+        relevant_ids: Set of ground-truth relevant chunk IDs.
+        k: Rank cutoff.
+
+    Returns:
+        NDCG@K as a float between 0.0 and 1.0.
+    """
+    import math
+
+    if not retrieved_ids or not relevant_ids:
+        return 0.0
+
+    # DCG: sum of 1/log2(rank+1) for relevant docs in top-K
+    dcg = 0.0
+    for i, chunk_id in enumerate(retrieved_ids[:k]):
+        if chunk_id in relevant_ids:
+            dcg += 1.0 / math.log2(i + 2)  # i+2 because rank is 1-indexed
+
+    # Ideal DCG: all relevant docs at the top positions
+    ideal_count = min(len(relevant_ids), k)
+    idcg = sum(1.0 / math.log2(i + 2) for i in range(ideal_count))
+
+    return dcg / idcg if idcg > 0 else 0.0
+
+
+def compute_mrr(
+    retrieved_ids: list[str],
+    relevant_ids: set[str],
+) -> float:
+    """Compute Reciprocal Rank (RR) for a single query.
+
+    Returns ``1/rank`` where ``rank`` is the position of the first
+    relevant document.  Returns 0.0 if no relevant doc is found.
+
+    To get Mean Reciprocal Rank (MRR), average across queries.
+
+    Args:
+        retrieved_ids: Ordered list of retrieved chunk IDs.
+        relevant_ids: Set of ground-truth relevant chunk IDs.
+
+    Returns:
+        Reciprocal rank as a float between 0.0 and 1.0.
+    """
+    for i, chunk_id in enumerate(retrieved_ids):
+        if chunk_id in relevant_ids:
+            return 1.0 / (i + 1)
+    return 0.0

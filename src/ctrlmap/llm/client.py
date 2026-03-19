@@ -95,7 +95,14 @@ class OllamaClient:
     # LLM call
     # ------------------------------------------------------------------
 
-    def call_llm(self, prompt: str, method_name: str, *, json_mode: bool = False) -> str:
+    def call_llm(
+        self,
+        prompt: str,
+        method_name: str,
+        *,
+        json_mode: bool = False,
+        json_schema: dict[str, object] | None = None,
+    ) -> str:
         """Send a prompt to Ollama, log timing, and return raw response.
 
         Centralizes the call → log → return pattern so that every public
@@ -107,6 +114,9 @@ class OllamaClient:
                 (e.g. ``"generate"``, ``"classify_control_type"``).
             json_mode: If True, constrain output to valid JSON via
                 Ollama's ``format`` parameter.
+            json_schema: If provided, passes this JSON Schema dict as
+                ``format`` to Ollama for strict structured output.
+                Takes precedence over *json_mode*.
 
         Returns:
             The raw LLM response content as a string.
@@ -117,7 +127,9 @@ class OllamaClient:
             "messages": [{"role": "user", "content": prompt}],
             "options": {"temperature": 0},
         }
-        if json_mode:
+        if json_schema is not None:
+            kwargs["format"] = json_schema
+        elif json_mode:
             kwargs["format"] = "json"
         response = ollama.chat(**kwargs)  # type: ignore[call-overload]
         raw = str(response.message.content)
@@ -238,7 +250,12 @@ class OllamaClient:
     # ------------------------------------------------------------------
 
     async def call_llm_async(
-        self, prompt: str, method_name: str, *, json_mode: bool = False
+        self,
+        prompt: str,
+        method_name: str,
+        *,
+        json_mode: bool = False,
+        json_schema: dict[str, object] | None = None,
     ) -> str:
         """Async version of :meth:`call_llm` using ``ollama.AsyncClient``.
 
@@ -250,6 +267,9 @@ class OllamaClient:
             method_name: Identifier for structured log entries.
             json_mode: If True, constrain output to valid JSON via
                 Ollama's ``format`` parameter.
+            json_schema: If provided, passes this JSON Schema dict as
+                ``format`` to Ollama for strict structured output.
+                Takes precedence over *json_mode*.
 
         Returns:
             The raw LLM response content as a string.
@@ -266,7 +286,9 @@ class OllamaClient:
             "messages": [{"role": "user", "content": prompt}],
             "options": {"temperature": 0},
         }
-        if json_mode:
+        if json_schema is not None:
+            kwargs["format"] = json_schema
+        elif json_mode:
             kwargs["format"] = "json"
         response = await self._async_client.chat(**kwargs)  # type: ignore[call-overload]
         raw = str(response.message.content)

@@ -37,7 +37,10 @@ def extract_json_array(raw: str) -> list[dict[str, str]]:
     """Extract a JSON array ``[…]`` from raw LLM output.
 
     Strips markdown code fences, then attempts direct parsing.
-    Falls back to locating the first ``[…]`` substring.
+    Falls back to locating the **last** top-level ``[…]`` block by
+    scanning backwards from the final ``]`` — this correctly handles
+    chain-of-thought reasoning that may contain brackets like
+    ``[access control]`` before the actual JSON array.
 
     Args:
         raw: Raw LLM response string.
@@ -62,10 +65,24 @@ def extract_json_array(raw: str) -> list[dict[str, str]]:
     except json.JSONDecodeError:
         pass
 
-    # Fallback: locate the first JSON array in the response
-    start = cleaned.find("[")
+    # Fallback: find the last balanced [...] block by scanning backwards
+    # from the final ']'.  This skips CoT brackets in reasoning text.
     end = cleaned.rfind("]")
-    if start != -1 and end != -1 and end > start:
+    if end == -1:
+        return []
+
+    depth = 0
+    start = -1
+    for i in range(end, -1, -1):
+        if cleaned[i] == "]":
+            depth += 1
+        elif cleaned[i] == "[":
+            depth -= 1
+            if depth == 0:
+                start = i
+                break
+
+    if start != -1:
         try:
             result = json.loads(cleaned[start : end + 1])
             if isinstance(result, list):

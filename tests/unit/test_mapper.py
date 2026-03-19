@@ -167,15 +167,21 @@ class TestMappingAlgorithm:
         assert len(results) == 1
         assert results[0].supporting_chunks == []
 
-    def test_default_min_score_is_0_55(self) -> None:
-        """The default min_score should be 0.55 to reduce evidence noise."""
+    def test_default_min_score_is_0_45(self) -> None:
+        """The default min_score should be 0.45.
+
+        RRF normalization caps single-source matches at 0.50, so using
+        0.55 would block ALL chunks found by only ANN or only BM25.
+        The 0.45 threshold allows strong single-source matches through
+        while still filtering noise.
+        """
         import inspect
 
         from ctrlmap.map.mapper import map_controls
 
         sig = inspect.signature(map_controls)
         default = sig.parameters["min_score"].default
-        assert default == 0.55, f"Expected min_score default 0.55, got {default}"
+        assert default == 0.45, f"Expected min_score default 0.45, got {default}"
 
 
 class TestQueryExpansion:
@@ -205,3 +211,55 @@ class TestQueryExpansion:
         expanded = _expand_query(original)
         # Should still contain the original text
         assert "Account Management" in expanded
+
+    def test_expand_query_triggers_on_data_flow_diagram(self) -> None:
+        """PCI 1.2.4 'data-flow diagram' text should trigger data flow synonyms."""
+        from ctrlmap.map.mapper import _expand_query
+
+        query = (
+            "An accurate data-flow diagram(s) is maintained that "
+            "shows all account data flows across systems and networks."
+        )
+        expanded = _expand_query(query)
+        assert expanded != query, (
+            f"Expected expansion for data-flow diagram query, got unchanged: {expanded}"
+        )
+
+    def test_expand_query_triggers_on_need_to_know(self) -> None:
+        """PCI Req 7 'need to know' text should trigger access control synonyms."""
+        from ctrlmap.map.mapper import _expand_query
+
+        query = (
+            "Processes and mechanisms for restricting access to system "
+            "components and cardholder data by business need to know."
+        )
+        expanded = _expand_query(query)
+        assert expanded != query, (
+            f"Expected expansion for need-to-know query, got unchanged: {expanded}"
+        )
+        assert any(term in expanded.lower() for term in ["rbac", "least privilege", "deny"]), (
+            f"Expected access control terms in: {expanded}"
+        )
+
+    def test_expand_query_triggers_on_access_assigned(self) -> None:
+        """PCI 7.2.2 'access is assigned' text should trigger access control synonyms."""
+        from ctrlmap.map.mapper import _expand_query
+
+        query = (
+            "Access is assigned to users, including privileged users, "
+            "based on job classification and function."
+        )
+        expanded = _expand_query(query)
+        assert expanded != query, (
+            f"Expected expansion for access-assigned query, got unchanged: {expanded}"
+        )
+
+    def test_expand_query_triggers_on_deny_all(self) -> None:
+        """PCI 7.3.3 'deny all' text should trigger access control synonyms."""
+        from ctrlmap.map.mapper import _expand_query
+
+        query = "The access control system(s) is set to deny all by default."
+        expanded = _expand_query(query)
+        assert expanded != query, (
+            f"Expected expansion for deny-all query, got unchanged: {expanded}"
+        )

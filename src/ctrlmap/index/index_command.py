@@ -64,9 +64,10 @@ def index(
     console.print(f"[bold blue]Loading chunks:[/] {chunks_path.name}")
     chunks = _load_chunks(chunks_path)
 
-    console.print(f"[dim]Embedding {len(chunks)} chunks...[/]")
+    console.print(f"[dim]Embedding {len(chunks)} chunks (with contextual headers)...[/]")
     texts = [c.raw_text for c in chunks]
-    embeddings = embedder.embed_batch(texts)
+    contexts = [f"[{c.document_name} | {c.section_header or 'General'}]" for c in chunks]
+    embeddings = embedder.contextual_embed_batch(texts, contexts)
 
     embedded_chunks = []
     for chunk, emb in zip(chunks, embeddings, strict=True):

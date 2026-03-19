@@ -1,0 +1,84 @@
+[
+  {
+    "control": {
+      "control_id": "AC-1",
+      "framework": "NIST-800-53",
+      "title": "Policy and Procedures",
+      "description": "Develop, document, and disseminate access control policies and procedures.",
+      "requirement_family": "Access Control"
+    },
+    "supporting_chunks": [
+      {
+        "chunk_id": "789c2d90-cf35-45ee-b791-0338455c9075",
+        "document_name": "access_control_policy.pdf",
+        "page_number": 2,
+        "raw_text": "This policy establishes the requirements for managing access to Acme Corp information systems, applications, and data assets. It applies to all employees, contractors, temporary workers, and third-party service providers who require access to Acme Corp systems and the Cardholder Data Environment (CDE).",
+        "section_header": "1  Purpose and Scope",
+        "embedding": null
+      }
+    ],
+    "rationale": {
+      "is_compliant": true,
+      "compliance_level": "fully_compliant",
+      "confidence_score": 1.0,
+      "explanation": "The chunk directly addresses the requirement by establishing a comprehensive access control policy that applies broadly to all relevant personnel requiring access to Acme Corp's systems and CDE."
+    }
+  },
+  {
+    "control": {
+      "control_id": "AC-2",
+      "framework": "NIST-800-53",
+      "title": "Account Management",
+      "description": "Define and document the types of accounts allowed and specifically prohibited for use within the system.",
+      "requirement_family": "Access Control"
+    },
+    "supporting_chunks": [],
+    "rationale": {
+      "is_compliant": false,
+      "compliance_level": "non_compliant",
+      "confidence_score": 1.0,
+      "explanation": "No policy documentation exists to define and document the types of accounts allowed and specifically prohibited for use within the system. The organization needs an account management policy that outlines the types of user accounts (e.g., administrative, standard, guest) permitted, as well as any specific accounts or roles that are explicitly forbidden."
+    }
+  },
+  {
+    "control": {
+      "control_id": "AC-2(1)",
+      "framework": "NIST-800-53",
+      "title": "Automated System Account Management",
+      "description": "Support the management of system accounts using automated mechanisms.",
+      "requirement_family": "Access Control"
+    },
+    "supporting_chunks": [],
+    "rationale": {
+      "is_compliant": false,
+      "compliance_level": "non_compliant",
+      "confidence_score": 1.0,
+      "explanation": "No policy documentation exists to support automated system account management as required by AC-2(1). The organization needs a policy that outlines the procedures for implementing and maintaining automated mechanisms for managing system accounts, including account creation, modification, deactivation, and deletion processes."
+    }
+  },
+  {
+    "control": {
+      "control_id": "SC-28",
+      "framework": "NIST-800-53",
+      "title": "Protection of Information at Rest",
+      "description": "Protect the confidentiality and integrity of information at rest.",
+      "requirement_family": "System and Communications Protection"
+    },
+    "supporting_chunks": [
+      {
+        "chunk_id": "08fe5b6a-ff59-433f-8428-a650c422ee27",
+        "document_name": "data_protection_policy.pdf",
+        "page_number": 2,
+        "raw_text": "This policy defines the requirements for protecting sensitive data including cardholder data (CHD), personally identifiable information (PII), and other confidential business information throughout its lifecycle. It covers data classification, encryption standards, key management, data retention, and secure disposal procedures.",
+        "section_header": "1  Purpose and Scope",
+        "embedding": null
+      }
+    ],
+    "rationale": {
+      "is_compliant": false,
+      "compliance_level": "non_compliant",
+      "confidence_score": 0.2,
+      "explanation": "The excerpt describes the purpose and scope of data protection but does not provide specific measures or mechanisms for protecting information at rest. It mentions encryption standards and key management, which are relevant to SC-28, but lacks detailed implementation details."
+    }
+  }
+]

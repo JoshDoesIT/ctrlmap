@@ -1,11 +1,10 @@
 {
   "catalog": {
-    "uuid": "c4d2e6f8-1a3b-5c7d-9e0f-2b4a6c8d0e1f",
+    "uuid": "15b51c28-798a-4444-9b57-1b0a6f24c0fa",
     "metadata": {
-      "title": "PCI DSS v4.0.1 Prioritized Approach Subset",
-      "last-modified": "2025-01-01T00:00:00Z",
+      "title": "PCI DSS v4.0.1",
       "version": "4.0.1",
-      "oscal-version": "1.0.0"
+      "oscal-version": "1.1.2"
     },
     "groups": [
       {
@@ -113,6 +112,227 @@
                 "prose": "An accurate data-flow diagram(s) is maintained that meets the following:  \n•\t Shows all account data flows across systems and networks.\n•\t Updated as needed upon changes to the environment."
               }
             ]
+          },
+          {
+            "id": "pci-1-2-5",
+            "title": "PCI DSS 1.2.5",
+            "props": [
+              {
+                "name": "label",
+                "value": "1.2.5"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-1-2-5_smt",
+                "name": "statement",
+                "prose": "All services, protocols and ports allowed  are identified, approved, and have a defined business need."
+              }
+            ]
+          },
+          {
+            "id": "pci-1-2-6",
+            "title": "PCI DSS 1.2.6",
+            "props": [
+              {
+                "name": "label",
+                "value": "1.2.6"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-1-2-6_smt",
+                "name": "statement",
+                "prose": "Security features are defined and implemented for all services, protocols, and ports that are in use and considered to be insecure, such that the risk is mitigated."
+              }
+            ]
+          },
+          {
+            "id": "pci-1-2-7",
+            "title": "PCI DSS 1.2.7",
+            "props": [
+              {
+                "name": "label",
+                "value": "1.2.7"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-1-2-7_smt",
+                "name": "statement",
+                "prose": "Configurations of NSCs are reviewed at least once every six months to confirm they are relevant and effective."
+              }
+            ]
+          },
+          {
+            "id": "pci-1-2-8",
+            "title": "PCI DSS 1.2.8",
+            "props": [
+              {
+                "name": "label",
+                "value": "1.2.8"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-1-2-8_smt",
+                "name": "statement",
+                "prose": "Configuration files for NSCs are: \n•\t Secured from unauthorized access. \n•\t Kept consistent with active network configurations."
+              }
+            ]
+          },
+          {
+            "id": "pci-1-3-1",
+            "title": "PCI DSS 1.3.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "1.3.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-1-3-1_smt",
+                "name": "statement",
+                "prose": "Inbound traffic to the CDE is restricted as follows: \n•\t To only traffic that is necessary, \n•\t All other traffic is specifically denied."
+              }
+            ]
+          },
+          {
+            "id": "pci-1-3-2",
+            "title": "PCI DSS 1.3.2",
+            "props": [
+              {
+                "name": "label",
+                "value": "1.3.2"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-1-3-2_smt",
+                "name": "statement",
+                "prose": "Outbound traffic from the CDE is restricted as follows: \n•\t To only traffic that is necessary.\n•\t All other traffic is specifically denied."
+              }
+            ]
+          },
+          {
+            "id": "pci-1-3-3",
+            "title": "PCI DSS 1.3.3",
+            "props": [
+              {
+                "name": "label",
+                "value": "1.3.3"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-1-3-3_smt",
+                "name": "statement",
+                "prose": "NSCs are installed between all wireless networks and the CDE, regardless of whether the wireless network is a CDE, such that: \n•\t All wireless traffic from wireless networks into the CDE is denied by default.\n•\t Only wireless traffic with an authorized business purpose is allowed into the CDE."
+              }
+            ]
+          },
+          {
+            "id": "pci-1-4-1",
+            "title": "PCI DSS 1.4.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "1.4.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-1-4-1_smt",
+                "name": "statement",
+                "prose": "NSCs are implemented between trusted and untrusted networks."
+              }
+            ]
+          },
+          {
+            "id": "pci-1-4-2",
+            "title": "PCI DSS 1.4.2",
+            "props": [
+              {
+                "name": "label",
+                "value": "1.4.2"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-1-4-2_smt",
+                "name": "statement",
+                "prose": "Inbound traffic from untrusted networks to trusted networks is restricted to: \n•\t Communications with system components that are authorized to provide publicly accessible services, protocols, and ports.\n•\t Stateful responses to communications initiated by system components in a trusted network.\n•\t All other traffic is denied."
+              }
+            ]
+          },
+          {
+            "id": "pci-1-4-3",
+            "title": "PCI DSS 1.4.3",
+            "props": [
+              {
+                "name": "label",
+                "value": "1.4.3"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-1-4-3_smt",
+                "name": "statement",
+                "prose": "Anti-spoofing measures are implemented to detect and block forged source IP addresses from entering the trusted network."
+              }
+            ]
+          },
+          {
+            "id": "pci-1-4-4",
+            "title": "PCI DSS 1.4.4",
+            "props": [
+              {
+                "name": "label",
+                "value": "1.4.4"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-1-4-4_smt",
+                "name": "statement",
+                "prose": "System components that store cardholder data are not directly accessible from untrusted networks."
+              }
+            ]
+          },
+          {
+            "id": "pci-1-4-5",
+            "title": "PCI DSS 1.4.5",
+            "props": [
+              {
+                "name": "label",
+                "value": "1.4.5"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-1-4-5_smt",
+                "name": "statement",
+                "prose": "The disclosure of internal IP addresses and routing information is limited to only authorized parties."
+              }
+            ]
+          },
+          {
+            "id": "pci-1-5-1",
+            "title": "PCI DSS 1.5.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "1.5.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-1-5-1_smt",
+                "name": "statement",
+                "prose": "Security controls are implemented on any computing devices, including company- and employee-owned devices, that connect to both untrusted networks (including the Internet) and the CDE as follows. \n•\t Specific configuration settings are defined to prevent threats being introduced into the entity’s network. \n•\t Security controls are actively running.\n•\t Security controls are not alterable by users of the computing devices unless specifically documented and authorized by management on a case-by-case basis for a limited period."
+              }
+            ]
           }
         ]
       },
@@ -206,6 +426,74 @@
             ]
           },
           {
+            "id": "pci-2-2-4",
+            "title": "PCI DSS 2.2.4",
+            "props": [
+              {
+                "name": "label",
+                "value": "2.2.4"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-2-2-4_smt",
+                "name": "statement",
+                "prose": "Only necessary services, protocols, daemons, and functions are enabled, and all unnecessary functionality is removed or disabled."
+              }
+            ]
+          },
+          {
+            "id": "pci-2-2-5",
+            "title": "PCI DSS 2.2.5",
+            "props": [
+              {
+                "name": "label",
+                "value": "2.2.5"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-2-2-5_smt",
+                "name": "statement",
+                "prose": "If any insecure services, protocols, or daemons are present: \n•\t Business justification is documented.\n•\t Additional security features are documented and implemented that reduce the risk of using insecure services, protocols, or daemons."
+              }
+            ]
+          },
+          {
+            "id": "pci-2-2-6",
+            "title": "PCI DSS 2.2.6",
+            "props": [
+              {
+                "name": "label",
+                "value": "2.2.6"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-2-2-6_smt",
+                "name": "statement",
+                "prose": "System security parameters are configured to prevent misuse."
+              }
+            ]
+          },
+          {
+            "id": "pci-2-2-7",
+            "title": "PCI DSS 2.2.7",
+            "props": [
+              {
+                "name": "label",
+                "value": "2.2.7"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-2-2-7_smt",
+                "name": "statement",
+                "prose": "All non-console administrative access is encrypted using strong cryptography."
+              }
+            ]
+          },
+          {
             "id": "pci-2-3-1",
             "title": "PCI DSS 2.3.1",
             "props": [
@@ -219,6 +507,23 @@
                 "id": "pci-2-3-1_smt",
                 "name": "statement",
                 "prose": "For wireless environments connected to the CDE or transmitting account data, all wireless vendor defaults are changed at installation or are confirmed to be secure, including but not limited to:\n•\t Default wireless encryption keys.\n•\t Passwords on wireless access points.\n•\t SNMP defaults,\n•\t Any other security-related wireless vendor defaults."
+              }
+            ]
+          },
+          {
+            "id": "pci-2-3-2",
+            "title": "PCI DSS 2.3.2",
+            "props": [
+              {
+                "name": "label",
+                "value": "2.3.2"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-2-3-2_smt",
+                "name": "statement",
+                "prose": "For wireless environments connected to the CDE or transmitting account data, wireless encryption keys are changed as follows: \n•\t Whenever personnel with knowledge of the key leave the company or the role for which the knowledge was necessary.\n•\t Whenever a key is suspected of or known to be compromised."
               }
             ]
           }
@@ -275,7 +580,7 @@
               {
                 "id": "pci-3-2-1_smt",
                 "name": "statement",
-                "prose": "Account data storage is kept to a minimum through implementation of data retention and disposal policies, procedures, and processes that include at least the following:\n•\t Coverage for all locations of stored account data.\n•\t Coverage for any sensitive authentication data (SAD) stored prior to completion of authorization. This bullet is a best practice until its effective date; refer to"
+                "prose": "Account data storage is kept to a minimum through implementation of data retention and disposal policies, procedures, and processes that include at least the following:\n•\t Coverage for all locations of stored account data.\n•\t Coverage for any sensitive authentication data (SAD) stored prior to completion of authorization. This bullet is a best practice until its effective date; refer to Applicability Notes below for details.\n•\t Limiting data storage amount and retention time to that which is required for legal or regulatory, and/or business requirements. \n•\t Specific retention requirements for stored account data that defines length of retention period and includes a documented business justification. \n•\t Processes for secure deletion or rendering account data unrecoverable when no longer needed per the retention policy.\n•\t A process for verifying, at least once every three months, that stored account data exceeding the defined retention period has been securely deleted or rendered unrecoverable."
               }
             ]
           },
@@ -344,6 +649,380 @@
                 "id": "pci-3-3-1-3_smt",
                 "name": "statement",
                 "prose": "The personal identification number (PIN) and the PIN block are not stored upon completion of the authorization process."
+              }
+            ]
+          },
+          {
+            "id": "pci-3-3-2",
+            "title": "PCI DSS 3.3.2",
+            "props": [
+              {
+                "name": "label",
+                "value": "3.3.2"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-3-3-2_smt",
+                "name": "statement",
+                "prose": "SAD that is stored electronically prior to completion of authorization is encrypted using strong cryptography."
+              }
+            ]
+          },
+          {
+            "id": "pci-3-3-3",
+            "title": "PCI DSS 3.3.3",
+            "props": [
+              {
+                "name": "label",
+                "value": "3.3.3"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-3-3-3_smt",
+                "name": "statement",
+                "prose": "Additional requirement for issuers and companies that support issuing services and store sensitive authentication data: Any storage of sensitive authentication data is: \n• Limited to that which is needed for a legitimate issuing business need and is secured.\n• Encrypted using strong cryptography. This bullet is a best practice until its effective date; refer to Applicability Notes below for details."
+              }
+            ]
+          },
+          {
+            "id": "pci-3-4-1",
+            "title": "PCI DSS 3.4.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "3.4.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-3-4-1_smt",
+                "name": "statement",
+                "prose": "PAN is masked when displayed (the BIN and last four digits are the maximum number of digits to be displayed), such that only personnel with a legitimate business need can see more than the BIN and last four digits of the PAN."
+              }
+            ]
+          },
+          {
+            "id": "pci-3-4-2",
+            "title": "PCI DSS 3.4.2",
+            "props": [
+              {
+                "name": "label",
+                "value": "3.4.2"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-3-4-2_smt",
+                "name": "statement",
+                "prose": "When using remote-access technologies, technical controls prevent copy and/or relocation of PAN for all personnel, except for those with documented, explicit authorization and a legitimate, defined business need."
+              }
+            ]
+          },
+          {
+            "id": "pci-3-5-1",
+            "title": "PCI DSS 3.5.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "3.5.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-3-5-1_smt",
+                "name": "statement",
+                "prose": "PAN is rendered unreadable anywhere it is stored by using any of the following approaches: \n•\t One-way hashes based on strong cryptography of the entire PAN. \n•\t Truncation (hashing cannot be used to replace the truncated segment of PAN).\n•\t Index tokens.\n•\t Strong cryptography with associated key-management processes and procedures. \n•\t Where hashed and truncated versions of the same PAN, or different truncation formats of the same PAN, are present in an environment, additional controls are in place to ensure that the different versions cannot be correlated to reconstruct the original PAN."
+              }
+            ]
+          },
+          {
+            "id": "pci-3-5-1-1",
+            "title": "PCI DSS 3.5.1.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "3.5.1.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-3-5-1-1_smt",
+                "name": "statement",
+                "prose": "Hashes used to render PAN unreadable (per the first bullet of Requirement 3.5.1), are keyed cryptographic hashes of the entire PAN, with associated key-management processes and procedures in accordance with Requirements 3.6 and 3.7."
+              }
+            ]
+          },
+          {
+            "id": "pci-3-5-1-2",
+            "title": "PCI DSS 3.5.1.2",
+            "props": [
+              {
+                "name": "label",
+                "value": "3.5.1.2"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-3-5-1-2_smt",
+                "name": "statement",
+                "prose": "If disk-level or partition-level encryption (rather than file-, column-, or field-level database encryption) is used to render PAN unreadable, it is implemented only as follows :\n•\t On removable electronic media\nOR\n•\t If used for non-removable electronic media, PAN is also rendered unreadable via another mechanism that meets Requirement 3.5.1. \nNote: Disk or partition encryption implementations must also meet all other PCI DSS encryption and key-management requirements."
+              }
+            ]
+          },
+          {
+            "id": "pci-3-5-1-3",
+            "title": "PCI DSS 3.5.1.3",
+            "props": [
+              {
+                "name": "label",
+                "value": "3.5.1.3"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-3-5-1-3_smt",
+                "name": "statement",
+                "prose": "If disk-level or partition-level encryption is used (rather than file-, column-, or field--level database encryption) to render PAN unreadable, it is managed as follows:, \n•\tLogical access is managed separately and independently of native operating system authentication and access control mechanisms. \n•\tDecryption keys are not associated with user accounts. \n•\tAuthentication factors (passwords, passphrases, or cryptographic keys) that allow access to unencrypted data are stored securely."
+              }
+            ]
+          },
+          {
+            "id": "pci-3-6-1",
+            "title": "PCI DSS 3.6.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "3.6.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-3-6-1_smt",
+                "name": "statement",
+                "prose": "Procedures are defined and implemented to protect cryptographic keys used to protect stored account data against disclosure and misuse that include: \n•\t\t Access to keys is restricted to the fewest number of custodians necessary. \n•\t\t Key-encrypting keys are at least as strong as the data-encrypting keys they protect. \n•\t\t Key-encrypting keys are stored separately from data-encrypting keys. \n•\t\t Keys are stored securely in the fewest possible locations and forms."
+              }
+            ]
+          },
+          {
+            "id": "pci-3-6-1-1",
+            "title": "PCI DSS 3.6.1.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "3.6.1.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-3-6-1-1_smt",
+                "name": "statement",
+                "prose": "Additional requirement for service providers only: A documented description of the cryptographic architecture is maintained that includes: \n•\t Details of all algorithms, protocols, and keys used for the protection of stored account data, including key strength and expiry date.\n•\t Preventing the use of the same cryptographic keys in production and test environments. This bullet is a best practice until its effective date; refer to Applicability Notes below for details.\n•\t Description of the key usage for each key. \n•\t Inventory of any hardware security modules (HSMs), key management systems (KMS), and other secure cryptographic devices (SCDs) used for key management, including type and location of devices, to support meeting Requirement 12.3.4."
+              }
+            ]
+          },
+          {
+            "id": "pci-3-6-1-2",
+            "title": "PCI DSS 3.6.1.2",
+            "props": [
+              {
+                "name": "label",
+                "value": "3.6.1.2"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-3-6-1-2_smt",
+                "name": "statement",
+                "prose": "Secret and private keys used to protect stored account data are stored in one (or more) of the following forms at all times: \n•\t Encrypted with a key-encrypting key that is at least as strong as the data-encrypting key, and that is stored separately from the data-encrypting key. \n•\t Within a secure cryptographic device (SCD), such as a hardware security module (HSM) or PTS-approved point-of-interaction device. \n•\t As at least two full-length key components or key shares, in accordance with an industry-accepted method."
+              }
+            ]
+          },
+          {
+            "id": "pci-3-6-1-3",
+            "title": "PCI DSS 3.6.1.3",
+            "props": [
+              {
+                "name": "label",
+                "value": "3.6.1.3"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-3-6-1-3_smt",
+                "name": "statement",
+                "prose": "Access to cleartext cryptographic key components is restricted to the fewest number of custodians necessary."
+              }
+            ]
+          },
+          {
+            "id": "pci-3-6-1-4",
+            "title": "PCI DSS 3.6.1.4",
+            "props": [
+              {
+                "name": "label",
+                "value": "3.6.1.4"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-3-6-1-4_smt",
+                "name": "statement",
+                "prose": "Cryptographic keys are stored in the fewest possible locations."
+              }
+            ]
+          },
+          {
+            "id": "pci-3-7-1",
+            "title": "PCI DSS 3.7.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "3.7.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-3-7-1_smt",
+                "name": "statement",
+                "prose": "Key-management policies and procedures are implemented to include generation of strong cryptographic keys used to protect stored account data."
+              }
+            ]
+          },
+          {
+            "id": "pci-3-7-2",
+            "title": "PCI DSS 3.7.2",
+            "props": [
+              {
+                "name": "label",
+                "value": "3.7.2"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-3-7-2_smt",
+                "name": "statement",
+                "prose": "Key-management policies and procedures are implemented to include secure distribution of cryptographic keys used to protect stored account data."
+              }
+            ]
+          },
+          {
+            "id": "pci-3-7-3",
+            "title": "PCI DSS 3.7.3",
+            "props": [
+              {
+                "name": "label",
+                "value": "3.7.3"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-3-7-3_smt",
+                "name": "statement",
+                "prose": "Key-management policies and procedures are implemented to include secure storage of cryptographic keys used to protect stored account data."
+              }
+            ]
+          },
+          {
+            "id": "pci-3-7-4",
+            "title": "PCI DSS 3.7.4",
+            "props": [
+              {
+                "name": "label",
+                "value": "3.7.4"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-3-7-4_smt",
+                "name": "statement",
+                "prose": "Key management policies and procedures are implemented for cryptographic key changes for keys that have reached the end of their cryptoperiod, as defined by the associated application vendor or key owner, and based on industry best practices and guidelines, including the following:\n•\t A defined cryptoperiod for each key type in use.\n•\t A process for key changes at the end of the defined cryptoperiod."
+              }
+            ]
+          },
+          {
+            "id": "pci-3-7-5",
+            "title": "PCI DSS 3.7.5",
+            "props": [
+              {
+                "name": "label",
+                "value": "3.7.5"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-3-7-5_smt",
+                "name": "statement",
+                "prose": "Key management policies procedures are implemented to include the retirement, replacement, or destruction of keys used to protect stored account data, as deemed necessary when: \n• \tThe key has reached the end of its defined cryptoperiod.\n• \t\tThe integrity of the key has been weakened, including when personnel with knowledge of a cleartext key component leaves the company, or the role for which the key component was known.\n• \t\tThe key is suspected of or known to be compromised. \nRetired or replaced keys are not used for encryption operations."
+              }
+            ]
+          },
+          {
+            "id": "pci-3-7-6",
+            "title": "PCI DSS 3.7.6",
+            "props": [
+              {
+                "name": "label",
+                "value": "3.7.6"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-3-7-6_smt",
+                "name": "statement",
+                "prose": "Where manual cleartext cryptographic key-management operations are performed by personnel, key-management policies and procedures are implemented including managing these operations using split knowledge and dual control."
+              }
+            ]
+          },
+          {
+            "id": "pci-3-7-7",
+            "title": "PCI DSS 3.7.7",
+            "props": [
+              {
+                "name": "label",
+                "value": "3.7.7"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-3-7-7_smt",
+                "name": "statement",
+                "prose": "Key management policies and procedures are implemented to include the prevention of unauthorized substitution of cryptographic keys."
+              }
+            ]
+          },
+          {
+            "id": "pci-3-7-8",
+            "title": "PCI DSS 3.7.8",
+            "props": [
+              {
+                "name": "label",
+                "value": "3.7.8"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-3-7-8_smt",
+                "name": "statement",
+                "prose": "Key management policies and procedures are implemented to include that cryptographic key custodians formally acknowledge (in writing or electronically) that they understand and accept their key-custodian responsibilities."
+              }
+            ]
+          },
+          {
+            "id": "pci-3-7-9",
+            "title": "PCI DSS 3.7.9",
+            "props": [
+              {
+                "name": "label",
+                "value": "3.7.9"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-3-7-9_smt",
+                "name": "statement",
+                "prose": "Additional requirement for service providers only: Where a service provider shares cryptographic keys with its customers for transmission or storage of account data, guidance on secure transmission, storage and updating of such keys is documented and distributed to the service provider's customers."
               }
             ]
           }
@@ -418,6 +1097,23 @@
                 "id": "pci-4-2-1-1_smt",
                 "name": "statement",
                 "prose": "An inventory of the entity’s trusted keys and certificates is maintained."
+              }
+            ]
+          },
+          {
+            "id": "pci-4-2-1-2",
+            "title": "PCI DSS 4.2.1.2",
+            "props": [
+              {
+                "name": "label",
+                "value": "4.2.1.2"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-4-2-1-2_smt",
+                "name": "statement",
+                "prose": "Wireless networks transmitting PAN or connected to the CDE use industry best practices to implement strong cryptography for authentication and transmission."
               }
             ]
           },
@@ -530,6 +1226,23 @@
             ]
           },
           {
+            "id": "pci-5-2-3-1",
+            "title": "PCI DSS 5.2.3.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "5.2.3.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-5-2-3-1_smt",
+                "name": "statement",
+                "prose": "The frequency of periodic evaluations of system components identified as not at risk for malware is defined in the entity’s targeted risk analysis, which is performed according to all elements specified in Requirement 12.3.1."
+              }
+            ]
+          },
+          {
             "id": "pci-5-3-1",
             "title": "PCI DSS 5.3.1",
             "props": [
@@ -543,6 +1256,108 @@
                 "id": "pci-5-3-1_smt",
                 "name": "statement",
                 "prose": "The anti-malware solution(s) is kept current via automatic updates."
+              }
+            ]
+          },
+          {
+            "id": "pci-5-3-2",
+            "title": "PCI DSS 5.3.2",
+            "props": [
+              {
+                "name": "label",
+                "value": "5.3.2"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-5-3-2_smt",
+                "name": "statement",
+                "prose": "The anti-malware solution(s):\n•\t Performs periodic scans and active or real-time scans\nOR \n•\t Performs continuous behavioral analysis of systems or processes."
+              }
+            ]
+          },
+          {
+            "id": "pci-5-3-2-1",
+            "title": "PCI DSS 5.3.2.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "5.3.2.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-5-3-2-1_smt",
+                "name": "statement",
+                "prose": "If periodic malware scans are performed to meet Requirement 5.3.2, the frequency of scans is defined in the entity’s targeted risk analysis, which is performed according to all elements specified in Requirement 12.3.1."
+              }
+            ]
+          },
+          {
+            "id": "pci-5-3-3",
+            "title": "PCI DSS 5.3.3",
+            "props": [
+              {
+                "name": "label",
+                "value": "5.3.3"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-5-3-3_smt",
+                "name": "statement",
+                "prose": "For removable electronic media, the anti-malware solution(s): \n• Performs automatic scans of when the media is inserted, connected, or logically mounted,\nOR\n• Performs continuous behavioral analysis of systems or processes when the media is inserted, connected, or logically mounted."
+              }
+            ]
+          },
+          {
+            "id": "pci-5-3-4",
+            "title": "PCI DSS 5.3.4",
+            "props": [
+              {
+                "name": "label",
+                "value": "5.3.4"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-5-3-4_smt",
+                "name": "statement",
+                "prose": "Audit logs for the anti-malware solution(s) are enabled and retained in accordance with Requirement 10.5.1."
+              }
+            ]
+          },
+          {
+            "id": "pci-5-3-5",
+            "title": "PCI DSS 5.3.5",
+            "props": [
+              {
+                "name": "label",
+                "value": "5.3.5"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-5-3-5_smt",
+                "name": "statement",
+                "prose": "Anti-malware mechanisms cannot be disabled or altered by users, unless specifically documented, and authorized by management on a case-by-case basis for a limited time period."
+              }
+            ]
+          },
+          {
+            "id": "pci-5-4-1",
+            "title": "PCI DSS 5.4.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "5.4.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-5-4-1_smt",
+                "name": "statement",
+                "prose": "Processes and automated mechanisms are in place to detect and protect personnel against phishing attacks."
               }
             ]
           }
@@ -636,6 +1451,227 @@
                 "prose": "Bespoke and custom software is reviewed prior to being released into production or to customers, to identify and correct potential coding vulnerabilities, as follows:\n•\t Code reviews ensure code is developed according to secure coding guidelines.\n•\t Code reviews look for both existing and emerging software vulnerabilities.\n•\t Appropriate corrections are implemented prior to release."
               }
             ]
+          },
+          {
+            "id": "pci-6-2-3-1",
+            "title": "PCI DSS 6.2.3.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "6.2.3.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-6-2-3-1_smt",
+                "name": "statement",
+                "prose": "If manual code reviews are performed for bespoke and custom software prior to release to production, code changes are:\n•\t Reviewed by individuals other than the originating code author, and who are knowledgeable about code-review techniques and secure coding practices.\n•\t Reviewed and approved by management prior to release."
+              }
+            ]
+          },
+          {
+            "id": "pci-6-2-4",
+            "title": "PCI DSS 6.2.4",
+            "props": [
+              {
+                "name": "label",
+                "value": "6.2.4"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-6-2-4_smt",
+                "name": "statement",
+                "prose": "Software engineering techniques or other methods are defined and in use by software development personnel to prevent or mitigate common software attacks and related vulnerabilities for bespoke and custom software, including but not limited to the following:\n•\t Injection attacks, including SQL, LDAP, XPath, or other command, parameter, object, fault, or injection-type flaws.\n•\t Attacks on data and data structures, including attempts to manipulate buffers, pointers, input data, or shared data.\n•\t Attacks on cryptography usage, including attempts to exploit weak, insecure, or inappropriate cryptographic implementations, algorithms, cipher suites, or modes of operation.\n•\t Attacks on business logic, including attempts to abuse or bypass application features and functionalities through the manipulation of APIs, communication protocols and channels, client-side functionality, or other system/application functions and resources. This includes cross-site scripting (XSS) and cross-site request forgery (CSRF).\n• \t Attacks on access control mechanisms, including attempts to bypass or abuse identification, authentication, or authorization mechanisms, or attempts to exploit weaknesses in the implementation of such mechanisms.\n•\t Attacks via any “high-risk” vulnerabilities identified in the vulnerability identification process, as defined in Requirement 6.3.1."
+              }
+            ]
+          },
+          {
+            "id": "pci-6-3-1",
+            "title": "PCI DSS 6.3.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "6.3.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-6-3-1_smt",
+                "name": "statement",
+                "prose": "Security vulnerabilities are identified and managed as follows: \n•\t New security vulnerabilities are identified using industry-recognized sources for security vulnerability information, including alerts from international and national computer emergency response teams (CERTs).\n•\t Vulnerabilities are assigned a risk ranking based on industry best practices and consideration of potential impact. \n•\t Risk rankings, at a minimum, identify all vulnerabilities considered to be a high-risk or critical to the environment. \n•\t Vulnerabilities for bespoke and custom, and third-party software (for example operating systems and databases) are covered."
+              }
+            ]
+          },
+          {
+            "id": "pci-6-3-2",
+            "title": "PCI DSS 6.3.2",
+            "props": [
+              {
+                "name": "label",
+                "value": "6.3.2"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-6-3-2_smt",
+                "name": "statement",
+                "prose": "An inventory of bespoke and custom software, and third-party software components incorporated into bespoke and custom software is maintained to facilitate vulnerability and patch management."
+              }
+            ]
+          },
+          {
+            "id": "pci-6-3-3",
+            "title": "PCI DSS 6.3.3",
+            "props": [
+              {
+                "name": "label",
+                "value": "6.3.3"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-6-3-3_smt",
+                "name": "statement",
+                "prose": "All system components are protected from known vulnerabilities by installing applicable security patches/updates as follows: \n•\t Patches/updates for critical vulnerabilities (identified according to the risk ranking process at Requirement 6.3.1) are installed within one month of release.\n•\t All other applicable security patches/updates are installed within an appropriate time frame as determined by the entity’s assessment of the criticality of the risk to the environment as identified according to the risk ranking process at Requirement 6.3.1"
+              }
+            ]
+          },
+          {
+            "id": "pci-6-4-2",
+            "title": "PCI DSS 6.4.2",
+            "props": [
+              {
+                "name": "label",
+                "value": "6.4.2"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-6-4-2_smt",
+                "name": "statement",
+                "prose": "For public-facing web applications, an automated technical solution is deployed that continually detects and prevents web-based attacks, with at least the following:\n•\t Is installed in front of public-facing web applications and is configured to detect and prevent web-based attacks.\n•\t Actively running and up to date as applicable. \n•\t Generating audit logs.\n•\t Configured to either block web-based attacks or generate an alert that is immediately investigated."
+              }
+            ]
+          },
+          {
+            "id": "pci-6-4-3",
+            "title": "PCI DSS 6.4.3",
+            "props": [
+              {
+                "name": "label",
+                "value": "6.4.3"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-6-4-3_smt",
+                "name": "statement",
+                "prose": "All payment page scripts that are loaded and executed in the consumer’s browser are managed as follows:\n•\t A method is implemented to confirm that each script is authorized.\n•\t A method is implemented to assure the integrity of each script. \n•\t An inventory of all scripts is maintained with written business or technical justification as to why each is necessary."
+              }
+            ]
+          },
+          {
+            "id": "pci-6-5-1",
+            "title": "PCI DSS 6.5.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "6.5.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-6-5-1_smt",
+                "name": "statement",
+                "prose": "Changes to all system components in the production environment are made according to established procedures that include: \n•\tReason for, and description of, the change. \n•\tDocumentation of security impact. \n•\tDocumented change approval by authorized parties.\n•\tTesting to verify that the change does not adversely impact system security.\n•\tFor bespoke and custom software changes, all updates are tested for compliance with Requirement 6.2.4 before being deployed into production. \n•\tProcedures to address failures and return to a secure state."
+              }
+            ]
+          },
+          {
+            "id": "pci-6-5-2",
+            "title": "PCI DSS 6.5.2",
+            "props": [
+              {
+                "name": "label",
+                "value": "6.5.2"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-6-5-2_smt",
+                "name": "statement",
+                "prose": "Upon completion of a significant change, all applicable PCI DSS requirements are confirmed to be in place on all new or changed systems and networks, and documentation is updated as applicable."
+              }
+            ]
+          },
+          {
+            "id": "pci-6-5-3",
+            "title": "PCI DSS 6.5.3",
+            "props": [
+              {
+                "name": "label",
+                "value": "6.5.3"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-6-5-3_smt",
+                "name": "statement",
+                "prose": "Pre-production environments are separated from production environments and the separation is enforced with access controls."
+              }
+            ]
+          },
+          {
+            "id": "pci-6-5-4",
+            "title": "PCI DSS 6.5.4",
+            "props": [
+              {
+                "name": "label",
+                "value": "6.5.4"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-6-5-4_smt",
+                "name": "statement",
+                "prose": "Roles and functions are separated between production and pre-production environments to provide accountability such that only reviewed and approved changes are deployed."
+              }
+            ]
+          },
+          {
+            "id": "pci-6-5-5",
+            "title": "PCI DSS 6.5.5",
+            "props": [
+              {
+                "name": "label",
+                "value": "6.5.5"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-6-5-5_smt",
+                "name": "statement",
+                "prose": "Live PANs are not used in pre-production environments, except where those environments are included in the CDE and protected in accordance with all applicable PCI DSS requirements."
+              }
+            ]
+          },
+          {
+            "id": "pci-6-5-6",
+            "title": "PCI DSS 6.5.6",
+            "props": [
+              {
+                "name": "label",
+                "value": "6.5.6"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-6-5-6_smt",
+                "name": "statement",
+                "prose": "Test data and test accounts are removed from system components before the system goes into production."
+              }
+            ]
           }
         ]
       },
@@ -725,6 +1761,125 @@
                 "id": "pci-7-2-3_smt",
                 "name": "statement",
                 "prose": "Required privileges are approved by authorized personnel."
+              }
+            ]
+          },
+          {
+            "id": "pci-7-2-4",
+            "title": "PCI DSS 7.2.4",
+            "props": [
+              {
+                "name": "label",
+                "value": "7.2.4"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-7-2-4_smt",
+                "name": "statement",
+                "prose": "All user accounts and related access privileges, including third-party/vendor accounts, are reviewed as follows:\n•\t At least once every six months\n•\t To ensure user accounts and access remain appropriate based on job function. \n•\t Any inappropriate access is addressed.\n•\t Management acknowledges that access remains appropriate."
+              }
+            ]
+          },
+          {
+            "id": "pci-7-2-5",
+            "title": "PCI DSS 7.2.5",
+            "props": [
+              {
+                "name": "label",
+                "value": "7.2.5"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-7-2-5_smt",
+                "name": "statement",
+                "prose": "All application and system accounts and related access privileges are assigned and managed as follows:\n•\t Based on the least privileges necessary for the operability of the system or application.\n•\t Access is limited to the systems, applications, or processes that specifically require their use."
+              }
+            ]
+          },
+          {
+            "id": "pci-7-2-5-1",
+            "title": "PCI DSS 7.2.5.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "7.2.5.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-7-2-5-1_smt",
+                "name": "statement",
+                "prose": "All access by application and system accounts and related access privileges are reviewed as follows:\n•\t Periodically (at the frequency defined in the entity’s targeted risk analysis, which is performed according to all elements specified in Requirement 12.3.1).\n•\t The application/ system access remains appropriate for the function being performed. \n•\t Any inappropriate access is addressed.\n•\t Management acknowledges that access remains appropriate."
+              }
+            ]
+          },
+          {
+            "id": "pci-7-2-6",
+            "title": "PCI DSS 7.2.6",
+            "props": [
+              {
+                "name": "label",
+                "value": "7.2.6"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-7-2-6_smt",
+                "name": "statement",
+                "prose": "All user access to query repositories of stored cardholder data is restricted as follows:\n•\t Via applications or other programmatic methods, with access and allowed actions based on user roles and least privileges.\n•\t Only the responsible administrator(s) can directly access or query repositories of stored CHD."
+              }
+            ]
+          },
+          {
+            "id": "pci-7-3-1",
+            "title": "PCI DSS 7.3.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "7.3.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-7-3-1_smt",
+                "name": "statement",
+                "prose": "An access control system(s) is in place that restricts access based on a user’s need to know and covers all system components."
+              }
+            ]
+          },
+          {
+            "id": "pci-7-3-2",
+            "title": "PCI DSS 7.3.2",
+            "props": [
+              {
+                "name": "label",
+                "value": "7.3.2"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-7-3-2_smt",
+                "name": "statement",
+                "prose": "The access control system(s) is configured to enforce privileges assigned to individuals, applications, and systems based on job classification and function."
+              }
+            ]
+          },
+          {
+            "id": "pci-7-3-3",
+            "title": "PCI DSS 7.3.3",
+            "props": [
+              {
+                "name": "label",
+                "value": "7.3.3"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-7-3-3_smt",
+                "name": "statement",
+                "prose": "The access control system(s) is set to “deny all” by default."
               }
             ]
           }
@@ -852,6 +2007,380 @@
                 "prose": "Access for terminated users is immediately revoked"
               }
             ]
+          },
+          {
+            "id": "pci-8-2-6",
+            "title": "PCI DSS 8.2.6",
+            "props": [
+              {
+                "name": "label",
+                "value": "8.2.6"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-8-2-6_smt",
+                "name": "statement",
+                "prose": "Inactive user accounts are removed or disabled within 90 days of inactivity."
+              }
+            ]
+          },
+          {
+            "id": "pci-8-2-7",
+            "title": "PCI DSS 8.2.7",
+            "props": [
+              {
+                "name": "label",
+                "value": "8.2.7"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-8-2-7_smt",
+                "name": "statement",
+                "prose": "Accounts used by third parties to access, support, or maintain system components via remote access are managed as follows:\n•\t Enabled only during the time period needed and disabled when not in use.\n•\t Use is monitored for unexpected activity."
+              }
+            ]
+          },
+          {
+            "id": "pci-8-2-8",
+            "title": "PCI DSS 8.2.8",
+            "props": [
+              {
+                "name": "label",
+                "value": "8.2.8"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-8-2-8_smt",
+                "name": "statement",
+                "prose": "If a user session has been idle for more than 15 minutes, the user is required to re-authenticate to re-activate the terminal or session."
+              }
+            ]
+          },
+          {
+            "id": "pci-8-3-1",
+            "title": "PCI DSS 8.3.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "8.3.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-8-3-1_smt",
+                "name": "statement",
+                "prose": "All user access to system components for users and administrators is authenticated via at least one of the following authentication factors:\n•\tSomething you know, such as a password or passphrase.\n•\tSomething you have, such as a token device or smart card.\n•\tSomething you are, such as a biometric element."
+              }
+            ]
+          },
+          {
+            "id": "pci-8-3-2",
+            "title": "PCI DSS 8.3.2",
+            "props": [
+              {
+                "name": "label",
+                "value": "8.3.2"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-8-3-2_smt",
+                "name": "statement",
+                "prose": "Strong cryptography is used to render all authentication factors unreadable during transmission and storage on all system components."
+              }
+            ]
+          },
+          {
+            "id": "pci-8-3-3",
+            "title": "PCI DSS 8.3.3",
+            "props": [
+              {
+                "name": "label",
+                "value": "8.3.3"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-8-3-3_smt",
+                "name": "statement",
+                "prose": "User identity is verified before modifying any authentication factor."
+              }
+            ]
+          },
+          {
+            "id": "pci-8-3-4",
+            "title": "PCI DSS 8.3.4",
+            "props": [
+              {
+                "name": "label",
+                "value": "8.3.4"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-8-3-4_smt",
+                "name": "statement",
+                "prose": "Invalid authentication attempts are limited by: \n•\t Locking out the user ID after not more than 10 attempts.\n•\t Setting the lockout duration to a minimum of 30 minutes or until the user’s identity is confirmed."
+              }
+            ]
+          },
+          {
+            "id": "pci-8-3-5",
+            "title": "PCI DSS 8.3.5",
+            "props": [
+              {
+                "name": "label",
+                "value": "8.3.5"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-8-3-5_smt",
+                "name": "statement",
+                "prose": "If passwords/passphrases are used as authentication factors to meet Requirement 8.3.1, they are set and reset for each user as follows: \n•\t Set to a unique value for first-time use and upon reset.\n•\t Forced to be changed immediately after the first use."
+              }
+            ]
+          },
+          {
+            "id": "pci-8-3-6",
+            "title": "PCI DSS 8.3.6",
+            "props": [
+              {
+                "name": "label",
+                "value": "8.3.6"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-8-3-6_smt",
+                "name": "statement",
+                "prose": "If passwords/passphrases are used as authentication factors to meet Requirement 8.3.1, they meet the following minimum level of complexity: \n•\t A minimum length of 12 characters (or IF the system does not support 12 characters, a minimum length of eight characters).\n•\t Contain both numeric and alphabetic characters."
+              }
+            ]
+          },
+          {
+            "id": "pci-8-3-7",
+            "title": "PCI DSS 8.3.7",
+            "props": [
+              {
+                "name": "label",
+                "value": "8.3.7"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-8-3-7_smt",
+                "name": "statement",
+                "prose": "Individuals are not allowed to submit a new password/passphrase that is the same as any of the last four passwords/passphrases used."
+              }
+            ]
+          },
+          {
+            "id": "pci-8-3-8",
+            "title": "PCI DSS 8.3.8",
+            "props": [
+              {
+                "name": "label",
+                "value": "8.3.8"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-8-3-8_smt",
+                "name": "statement",
+                "prose": "Authentication policies and procedures are documented and communicated to all users including: \n•\t Guidance on selecting strong authentication factors.\n•\tGuidance for how users should protect their authentication factors.\n•\tInstructions not to reuse previously used passwords/passphrases.\n•\tInstructions to change passwords/passphrases if there is any suspicion or knowledge that the password/passphrases have been compromised and how to report the incident."
+              }
+            ]
+          },
+          {
+            "id": "pci-8-3-9",
+            "title": "PCI DSS 8.3.9",
+            "props": [
+              {
+                "name": "label",
+                "value": "8.3.9"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-8-3-9_smt",
+                "name": "statement",
+                "prose": "If passwords/passphrases are used as the only authentication factor for user access (i.e., in any single-factor authentication implementation) then either:\n•\t Passwords/passphrases are changed at least once every 90 days, \nOR\n•\t The security posture of accounts is dynamically analyzed, and real-time access to resources is automatically determined accordingly."
+              }
+            ]
+          },
+          {
+            "id": "pci-8-3-10",
+            "title": "PCI DSS 8.3.10",
+            "props": [
+              {
+                "name": "label",
+                "value": "8.3.10"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-8-3-10_smt",
+                "name": "statement",
+                "prose": "Additional requirement for service providers only: If passwords/passphrases are used as the only authentication factor for customer user access to cardholder data (i.e., in any single-factor authentication implementation), then guidance is provided to customer users including:\n•\tGuidance for customers to change their user passwords/passphrases periodically.\n•\tGuidance as to when, and under what circumstances, passwords/passphrases are to be changed."
+              }
+            ]
+          },
+          {
+            "id": "pci-8-3-10-1",
+            "title": "PCI DSS 8.3.10.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "8.3.10.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-8-3-10-1_smt",
+                "name": "statement",
+                "prose": "Additional requirement for service providers only: If passwords/passphrases are used as the only authentication factor for customer user access (i.e., in any single-factor authentication implementation) then either:\n•\t Passwords/passphrases are changed at least once every 90 days, \nOR\n•\t The security posture of accounts is dynamically analyzed, and real-time access to resources is automatically determined accordingly."
+              }
+            ]
+          },
+          {
+            "id": "pci-8-3-11",
+            "title": "PCI DSS 8.3.11",
+            "props": [
+              {
+                "name": "label",
+                "value": "8.3.11"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-8-3-11_smt",
+                "name": "statement",
+                "prose": "Where authentication factors such as physical or logical security tokens, smart cards, or certificates are used: \n•\t Factors are assigned to an individual user and not shared among multiple users. \n•\t Physical and/or logical controls ensure only the intended user can use that factor to gain access."
+              }
+            ]
+          },
+          {
+            "id": "pci-8-4-1",
+            "title": "PCI DSS 8.4.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "8.4.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-8-4-1_smt",
+                "name": "statement",
+                "prose": "MFA is implemented for all non-console access into the CDE for personnel with administrative access."
+              }
+            ]
+          },
+          {
+            "id": "pci-8-4-2",
+            "title": "PCI DSS 8.4.2",
+            "props": [
+              {
+                "name": "label",
+                "value": "8.4.2"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-8-4-2_smt",
+                "name": "statement",
+                "prose": "MFA is implemented for all non-console access into the CDE."
+              }
+            ]
+          },
+          {
+            "id": "pci-8-4-3",
+            "title": "PCI DSS 8.4.3",
+            "props": [
+              {
+                "name": "label",
+                "value": "8.4.3"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-8-4-3_smt",
+                "name": "statement",
+                "prose": "MFA is implemented for all remote network access originating from outside the entity’s network that could access or impact the CDE."
+              }
+            ]
+          },
+          {
+            "id": "pci-8-5-1",
+            "title": "PCI DSS 8.5.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "8.5.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-8-5-1_smt",
+                "name": "statement",
+                "prose": "MFA systems are implemented as follows:\n•\tThe MFA system is not susceptible to replay attacks.\n•\tMFA systems cannot be bypassed by any users, including administrative users unless specifically documented, and authorized by management on an exception basis, for a limited time period. \n•\tAt least two different types of authentication factors are used.\n•\tSuccess of all authentication factors is required before access is granted."
+              }
+            ]
+          },
+          {
+            "id": "pci-8-6-1",
+            "title": "PCI DSS 8.6.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "8.6.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-8-6-1_smt",
+                "name": "statement",
+                "prose": "If accounts used by systems or applications can be used for interactive login, they are managed as follows: \n•\t Interactive use is prevented unless needed for an exceptional circumstance.\n•\t Interactive use is limited to the time needed for the exceptional circumstance.\n•\t Business justification for interactive use is documented.\n•\t Interactive use is explicitly approved by management. \n•\t Individual user identity is confirmed before access to account is granted.\n•\t Every action taken is attributable to an individual user."
+              }
+            ]
+          },
+          {
+            "id": "pci-8-6-2",
+            "title": "PCI DSS 8.6.2",
+            "props": [
+              {
+                "name": "label",
+                "value": "8.6.2"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-8-6-2_smt",
+                "name": "statement",
+                "prose": "Passwords/passphrases for any application and system accounts that can be used for interactive login are not hard coded in scripts, configuration/property files, or bespoke and custom source code. Note: stored passwords/ passphrases are required to be encrypted in accordance with PCI DSS Requirement 8.3.2."
+              }
+            ]
+          },
+          {
+            "id": "pci-8-6-3",
+            "title": "PCI DSS 8.6.3",
+            "props": [
+              {
+                "name": "label",
+                "value": "8.6.3"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-8-6-3_smt",
+                "name": "statement",
+                "prose": "Passwords/passphrases for any application and system accounts are protected against misuse as follows: \n•\t Passwords/passphrases are changed periodically (at the frequency defined in the entity’s targeted risk analysis, which is performed according to all elements specified in Requirement 12.3.1) and upon suspicion or confirmation of compromise.\n•\t Passwords/passphrases are constructed with sufficient complexity appropriate for how frequently the entity changes the passwords/passphrases."
+              }
+            ]
           }
         ]
       },
@@ -928,6 +2457,57 @@
             ]
           },
           {
+            "id": "pci-9-2-2",
+            "title": "PCI DSS 9.2.2",
+            "props": [
+              {
+                "name": "label",
+                "value": "9.2.2"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-9-2-2_smt",
+                "name": "statement",
+                "prose": "Physical and/or logical controls are implemented to restrict use of publicly accessible network jacks within the facility."
+              }
+            ]
+          },
+          {
+            "id": "pci-9-2-3",
+            "title": "PCI DSS 9.2.3",
+            "props": [
+              {
+                "name": "label",
+                "value": "9.2.3"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-9-2-3_smt",
+                "name": "statement",
+                "prose": "Physical access to wireless access points, gateways, networking/communications hardware, and telecommunication lines within the facility is restricted."
+              }
+            ]
+          },
+          {
+            "id": "pci-9-2-4",
+            "title": "PCI DSS 9.2.4",
+            "props": [
+              {
+                "name": "label",
+                "value": "9.2.4"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-9-2-4_smt",
+                "name": "statement",
+                "prose": "Access to consoles in sensitive areas is restricted via locking when not in use."
+              }
+            ]
+          },
+          {
             "id": "pci-9-3-1",
             "title": "PCI DSS 9.3.1",
             "props": [
@@ -945,6 +2525,74 @@
             ]
           },
           {
+            "id": "pci-9-3-1-1",
+            "title": "PCI DSS 9.3.1.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "9.3.1.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-9-3-1-1_smt",
+                "name": "statement",
+                "prose": "Physical access to sensitive areas within the CDE for personnel is controlled as follows:\n•\t Access is authorized and based on individual job function.\n•\t Access is revoked immediately upon termination.\n•\t All physical access mechanisms, such as keys, access cards, etc., are returned or disabled upon termination."
+              }
+            ]
+          },
+          {
+            "id": "pci-9-3-2",
+            "title": "PCI DSS 9.3.2",
+            "props": [
+              {
+                "name": "label",
+                "value": "9.3.2"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-9-3-2_smt",
+                "name": "statement",
+                "prose": "Procedures are implemented for authorizing and managing visitor access to the CDE, including:\n•\t Visitors are authorized before entering.\n•\t Visitors are escorted at all times.\n•\t Visitors are clearly identified and given a badge or other identification that expires.\n•\t Visitor badges or other identification visibly distinguishes visitors from  personnel."
+              }
+            ]
+          },
+          {
+            "id": "pci-9-3-3",
+            "title": "PCI DSS 9.3.3",
+            "props": [
+              {
+                "name": "label",
+                "value": "9.3.3"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-9-3-3_smt",
+                "name": "statement",
+                "prose": "Visitor badges or identification are surrendered or deactivated before visitors leave the facility or at the date of expiration."
+              }
+            ]
+          },
+          {
+            "id": "pci-9-3-4",
+            "title": "PCI DSS 9.3.4",
+            "props": [
+              {
+                "name": "label",
+                "value": "9.3.4"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-9-3-4_smt",
+                "name": "statement",
+                "prose": "Visitor logs are used to maintain a physical record of visitor activity both within the facility and within sensitive areas, including: \n•\t The visitor’s name and the organization represented.\n•\t The date and time of the visit.\n•\t The name of the personnel authorizing physical access. \n•\t Retaining the log for at least three months, unless otherwise restricted by law."
+              }
+            ]
+          },
+          {
             "id": "pci-9-4-1",
             "title": "PCI DSS 9.4.1",
             "props": [
@@ -958,6 +2606,244 @@
                 "id": "pci-9-4-1_smt",
                 "name": "statement",
                 "prose": "All media with cardholder data is physically secured."
+              }
+            ]
+          },
+          {
+            "id": "pci-9-4-1-1",
+            "title": "PCI DSS 9.4.1.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "9.4.1.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-9-4-1-1_smt",
+                "name": "statement",
+                "prose": "Offline media backups with cardholder data are stored in a secure location."
+              }
+            ]
+          },
+          {
+            "id": "pci-9-4-1-2",
+            "title": "PCI DSS 9.4.1.2",
+            "props": [
+              {
+                "name": "label",
+                "value": "9.4.1.2"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-9-4-1-2_smt",
+                "name": "statement",
+                "prose": "The security of the offline media backup location(s) with cardholder data is reviewed at least once every 12 months."
+              }
+            ]
+          },
+          {
+            "id": "pci-9-4-2",
+            "title": "PCI DSS 9.4.2",
+            "props": [
+              {
+                "name": "label",
+                "value": "9.4.2"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-9-4-2_smt",
+                "name": "statement",
+                "prose": "All media with cardholder data is classified in accordance with the sensitivity of the data."
+              }
+            ]
+          },
+          {
+            "id": "pci-9-4-3",
+            "title": "PCI DSS 9.4.3",
+            "props": [
+              {
+                "name": "label",
+                "value": "9.4.3"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-9-4-3_smt",
+                "name": "statement",
+                "prose": "Media with cardholder data sent outside the facility is secured as follows:\n• Media sent outside the facility is logged.\n• Media is sent by secured courier or other delivery method that can be accurately tracked.\n• Offsite tracking logs include details about media location."
+              }
+            ]
+          },
+          {
+            "id": "pci-9-4-4",
+            "title": "PCI DSS 9.4.4",
+            "props": [
+              {
+                "name": "label",
+                "value": "9.4.4"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-9-4-4_smt",
+                "name": "statement",
+                "prose": "Management approves all media with cardholder data that is moved outside the facility (including when media is distributed to individuals)."
+              }
+            ]
+          },
+          {
+            "id": "pci-9-4-5",
+            "title": "PCI DSS 9.4.5",
+            "props": [
+              {
+                "name": "label",
+                "value": "9.4.5"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-9-4-5_smt",
+                "name": "statement",
+                "prose": "Inventory logs of all electronic media with cardholder data are maintained."
+              }
+            ]
+          },
+          {
+            "id": "pci-9-4-5-1",
+            "title": "PCI DSS 9.4.5.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "9.4.5.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-9-4-5-1_smt",
+                "name": "statement",
+                "prose": "Inventories of electronic media with cardholder data are conducted at least once every 12 months."
+              }
+            ]
+          },
+          {
+            "id": "pci-9-4-6",
+            "title": "PCI DSS 9.4.6",
+            "props": [
+              {
+                "name": "label",
+                "value": "9.4.6"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-9-4-6_smt",
+                "name": "statement",
+                "prose": "Hard-copy materials with cardholder data are destroyed when no longer needed for business or legal reasons, as follows:\n•\t Materials are cross-cut shredded, incinerated, or pulped so that cardholder data cannot be reconstructed. \n•\t Materials are stored in secure storage containers prior to destruction."
+              }
+            ]
+          },
+          {
+            "id": "pci-9-4-7",
+            "title": "PCI DSS 9.4.7",
+            "props": [
+              {
+                "name": "label",
+                "value": "9.4.7"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-9-4-7_smt",
+                "name": "statement",
+                "prose": "Electronic media with cardholder data is destroyed when no longer needed for business or legal reasons via one of the following: \n•\t The electronic media is destroyed.\n•\t The cardholder data is rendered unrecoverable so that it cannot be reconstructed."
+              }
+            ]
+          },
+          {
+            "id": "pci-9-5-1",
+            "title": "PCI DSS 9.5.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "9.5.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-9-5-1_smt",
+                "name": "statement",
+                "prose": "POI devices that capture payment card data via direct physical interaction with the payment card form factor are protected from tampering and unauthorized substitution, including the following:\n•\t Maintaining a list of POI devices. \n•\t Periodically inspecting POI devices to look for tampering or unauthorized substitution. \n•\t Training personnel to be aware of suspicious behavior and to report tampering or unauthorized substitution of devices."
+              }
+            ]
+          },
+          {
+            "id": "pci-9-5-1-1",
+            "title": "PCI DSS 9.5.1.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "9.5.1.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-9-5-1-1_smt",
+                "name": "statement",
+                "prose": "An up-to-date list of POI devices is maintained, including:\n•\t Make and model of the device. \n•\t Location of device. \n•\t Device serial number or other methods of unique identification."
+              }
+            ]
+          },
+          {
+            "id": "pci-9-5-1-2",
+            "title": "PCI DSS 9.5.1.2",
+            "props": [
+              {
+                "name": "label",
+                "value": "9.5.1.2"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-9-5-1-2_smt",
+                "name": "statement",
+                "prose": "POI device surfaces are periodically inspected to detect tampering and unauthorized substitution."
+              }
+            ]
+          },
+          {
+            "id": "pci-9-5-1-2-1",
+            "title": "PCI DSS 9.5.1.2.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "9.5.1.2.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-9-5-1-2-1_smt",
+                "name": "statement",
+                "prose": "The frequency of periodic POI device inspections and the type of inspections performed is defined in the entity’s targeted risk analysis, which is performed according to all elements specified in Requirement 12.3.1."
+              }
+            ]
+          },
+          {
+            "id": "pci-9-5-1-3",
+            "title": "PCI DSS 9.5.1.3",
+            "props": [
+              {
+                "name": "label",
+                "value": "9.5.1.3"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-9-5-1-3_smt",
+                "name": "statement",
+                "prose": "Training is provided for personnel in POI environments to be aware of attempted tampering or replacement of POI devices, and includes:\n•\t Verifying the identity of any third-party persons claiming to be repair or maintenance personnel, before granting them access to modify or troubleshoot devices.\n•\t Procedures to ensure devices are not installed, replaced, or returned without verification. \n•\t Being aware of suspicious behavior around devices.\n•\t Reporting suspicious behavior and indications of device tampering or substitution to appropriate personnel."
               }
             ]
           }
@@ -1036,6 +2922,108 @@
             ]
           },
           {
+            "id": "pci-10-2-1-2",
+            "title": "PCI DSS 10.2.1.2",
+            "props": [
+              {
+                "name": "label",
+                "value": "10.2.1.2"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-10-2-1-2_smt",
+                "name": "statement",
+                "prose": "Audit logs capture all actions taken by any individual with administrative access, including any interactive use of application or system accounts."
+              }
+            ]
+          },
+          {
+            "id": "pci-10-2-1-3",
+            "title": "PCI DSS 10.2.1.3",
+            "props": [
+              {
+                "name": "label",
+                "value": "10.2.1.3"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-10-2-1-3_smt",
+                "name": "statement",
+                "prose": "Audit logs capture all access to audit logs."
+              }
+            ]
+          },
+          {
+            "id": "pci-10-2-1-4",
+            "title": "PCI DSS 10.2.1.4",
+            "props": [
+              {
+                "name": "label",
+                "value": "10.2.1.4"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-10-2-1-4_smt",
+                "name": "statement",
+                "prose": "Audit logs capture all invalid logical access attempts."
+              }
+            ]
+          },
+          {
+            "id": "pci-10-2-1-5",
+            "title": "PCI DSS 10.2.1.5",
+            "props": [
+              {
+                "name": "label",
+                "value": "10.2.1.5"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-10-2-1-5_smt",
+                "name": "statement",
+                "prose": "Audit logs capture all changes to identification and authentication credentials including, but not limited to:\n•\t Creation of new accounts.\n•\t Elevation of privileges.\n•\t All changes, additions, or deletions to accounts with administrative access."
+              }
+            ]
+          },
+          {
+            "id": "pci-10-2-1-6",
+            "title": "PCI DSS 10.2.1.6",
+            "props": [
+              {
+                "name": "label",
+                "value": "10.2.1.6"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-10-2-1-6_smt",
+                "name": "statement",
+                "prose": "Audit logs capture the following: \n•\t All initialization of new audit logs, and \n•\t All starting, stopping, or pausing of the existing audit logs."
+              }
+            ]
+          },
+          {
+            "id": "pci-10-2-1-7",
+            "title": "PCI DSS 10.2.1.7",
+            "props": [
+              {
+                "name": "label",
+                "value": "10.2.1.7"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-10-2-1-7_smt",
+                "name": "statement",
+                "prose": "Audit logs capture all creation and deletion of system-level objects."
+              }
+            ]
+          },
+          {
             "id": "pci-10-2-2",
             "title": "PCI DSS 10.2.2",
             "props": [
@@ -1066,6 +3054,261 @@
                 "id": "pci-10-3-1_smt",
                 "name": "statement",
                 "prose": "Read access to audit logs files is limited to those with a job-related need."
+              }
+            ]
+          },
+          {
+            "id": "pci-10-3-2",
+            "title": "PCI DSS 10.3.2",
+            "props": [
+              {
+                "name": "label",
+                "value": "10.3.2"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-10-3-2_smt",
+                "name": "statement",
+                "prose": "Audit log files are protected to prevent modifications by individuals."
+              }
+            ]
+          },
+          {
+            "id": "pci-10-3-3",
+            "title": "PCI DSS 10.3.3",
+            "props": [
+              {
+                "name": "label",
+                "value": "10.3.3"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-10-3-3_smt",
+                "name": "statement",
+                "prose": "Audit log files, including those for external-facing technologies, are promptly backed up to a secure, central, internal log server(s) or other media that is difficult to modify."
+              }
+            ]
+          },
+          {
+            "id": "pci-10-3-4",
+            "title": "PCI DSS 10.3.4",
+            "props": [
+              {
+                "name": "label",
+                "value": "10.3.4"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-10-3-4_smt",
+                "name": "statement",
+                "prose": "File integrity monitoring or change-detection mechanisms is used on audit logs to ensure that existing log data cannot be changed without generating alerts."
+              }
+            ]
+          },
+          {
+            "id": "pci-10-4-1",
+            "title": "PCI DSS 10.4.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "10.4.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-10-4-1_smt",
+                "name": "statement",
+                "prose": "The following audit logs are reviewed at least once daily:\n•\t All security events. \n•\t Logs of all system components that store, process, or transmit CHD and/or SAD.\n•\t Logs of all critical system components.\n•\t Logs of all servers and system components that perform security functions (for example, network security controls, intrusion-detection systems/intrusion-prevention systems (IDS/IPS), authentication servers)."
+              }
+            ]
+          },
+          {
+            "id": "pci-10-4-1-1",
+            "title": "PCI DSS 10.4.1.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "10.4.1.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-10-4-1-1_smt",
+                "name": "statement",
+                "prose": "Automated mechanisms are used to perform audit log reviews."
+              }
+            ]
+          },
+          {
+            "id": "pci-10-4-2",
+            "title": "PCI DSS 10.4.2",
+            "props": [
+              {
+                "name": "label",
+                "value": "10.4.2"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-10-4-2_smt",
+                "name": "statement",
+                "prose": "Logs of all other system components (those not specified in Requirement 10.4.1) are reviewed periodically."
+              }
+            ]
+          },
+          {
+            "id": "pci-10-4-2-1",
+            "title": "PCI DSS 10.4.2.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "10.4.2.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-10-4-2-1_smt",
+                "name": "statement",
+                "prose": "The frequency of periodic log reviews for all other system components (not defined in Requirement 10.4.1) is defined in the entity’s targeted risk analysis, which is performed according to all elements specified in Requirement 12.3.1."
+              }
+            ]
+          },
+          {
+            "id": "pci-10-4-3",
+            "title": "PCI DSS 10.4.3",
+            "props": [
+              {
+                "name": "label",
+                "value": "10.4.3"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-10-4-3_smt",
+                "name": "statement",
+                "prose": "Exceptions and anomalies identified during the review process are addressed."
+              }
+            ]
+          },
+          {
+            "id": "pci-10-5-1",
+            "title": "PCI DSS 10.5.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "10.5.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-10-5-1_smt",
+                "name": "statement",
+                "prose": "Retain audit log history for at least 12 months, with at least the most recent three months immediately available for analysis."
+              }
+            ]
+          },
+          {
+            "id": "pci-10-6-1",
+            "title": "PCI DSS 10.6.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "10.6.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-10-6-1_smt",
+                "name": "statement",
+                "prose": "System clocks and time are synchronized using time-synchronization technology."
+              }
+            ]
+          },
+          {
+            "id": "pci-10-6-2",
+            "title": "PCI DSS 10.6.2",
+            "props": [
+              {
+                "name": "label",
+                "value": "10.6.2"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-10-6-2_smt",
+                "name": "statement",
+                "prose": "Systems are configured to the correct and consistent time as follows:\n•\t One or more designated time servers are in use.\n•\t Only the designated central time server(s) receives time from external sources.\n•\t Time received from external sources is based on International Atomic Time or Coordinated Universal Time (UTC).\n•\t The designated time server(s) accept time updates only from specific industry-accepted external sources.\n•\t Where there is more than one designated time server, the time servers peer with one another to keep accurate time.\n•\t Internal systems receive time information only from designated central time server(s)."
+              }
+            ]
+          },
+          {
+            "id": "pci-10-6-3",
+            "title": "PCI DSS 10.6.3",
+            "props": [
+              {
+                "name": "label",
+                "value": "10.6.3"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-10-6-3_smt",
+                "name": "statement",
+                "prose": "Time synchronization settings and data are protected as follows: \n•\t Access to time data is restricted to only personnel with a business need.\n•\t Any changes to time settings on critical systems are logged, monitored, and reviewed."
+              }
+            ]
+          },
+          {
+            "id": "pci-10-7-1",
+            "title": "PCI DSS 10.7.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "10.7.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-10-7-1_smt",
+                "name": "statement",
+                "prose": "Additional requirement for service providers only: Failures of critical security control systems are detected, alerted, and addressed promptly, including but not limited to failure of the following critical security control systems:\n•\t Network security controls \n•\t IDS/IPS \n•\t FIM \n•\t Anti-malware solutions \n•\t Physical access controls \n•\t Logical access controls \n•\t Audit logging mechanisms \n•\t Segmentation controls (if used)"
+              }
+            ]
+          },
+          {
+            "id": "pci-10-7-2",
+            "title": "PCI DSS 10.7.2",
+            "props": [
+              {
+                "name": "label",
+                "value": "10.7.2"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-10-7-2_smt",
+                "name": "statement",
+                "prose": "Failures of critical security control systems are detected, alerted, and addressed promptly, including but not limited to failure of the following critical security control systems:\n•\t Network security controls.\n•\t IDS/IPS.\n•\t Change-detection mechanisms.\n•\t Anti-malware solutions.\n•\t Physical access controls.\n•\t Logical access controls.\n•\t Audit logging mechanisms.\n•\t Segmentation controls (if used).\n•\t Audit log review mechanisms.\n•\t Automated security testing tools (if used)."
+              }
+            ]
+          },
+          {
+            "id": "pci-10-7-3",
+            "title": "PCI DSS 10.7.3",
+            "props": [
+              {
+                "name": "label",
+                "value": "10.7.3"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-10-7-3_smt",
+                "name": "statement",
+                "prose": "Failures of any critical security control systems are responded to promptly, including but not limited to: \n•\t Restoring security functions. \n•\t Identifying and documenting the duration (date and time from start to end) of the security failure. \n•\t Identifying and documenting the cause(s) of failure, and documenting required remediation. \n•\t Identifying and addressing any security issues that arose during the failure. \n•\t Determining whether further actions are required as a result of the security failure. \n•\t Implementing controls to prevent the cause of failure from reoccurring. \n•\t Resuming monitoring of security controls."
               }
             ]
           }
@@ -1127,6 +3370,23 @@
             ]
           },
           {
+            "id": "pci-11-2-2",
+            "title": "PCI DSS 11.2.2",
+            "props": [
+              {
+                "name": "label",
+                "value": "11.2.2"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-11-2-2_smt",
+                "name": "statement",
+                "prose": "An inventory of authorized wireless access points is maintained, including a documented business justification."
+              }
+            ]
+          },
+          {
             "id": "pci-11-3-1",
             "title": "PCI DSS 11.3.1",
             "props": [
@@ -1161,6 +3421,74 @@
             ]
           },
           {
+            "id": "pci-11-3-1-2",
+            "title": "PCI DSS 11.3.1.2",
+            "props": [
+              {
+                "name": "label",
+                "value": "11.3.1.2"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-11-3-1-2_smt",
+                "name": "statement",
+                "prose": "Internal vulnerability scans are performed via authenticated scanning as follows:\n•\t Systems that are unable to accept credentials for authenticated scanning are documented.\n•\t Sufficient privileges are used, for those systems that accept credentials for scanning. \n•\t If accounts used for authenticated scanning can be used for interactive login, they are managed in accordance with Requirement 8.2.2."
+              }
+            ]
+          },
+          {
+            "id": "pci-11-3-1-3",
+            "title": "PCI DSS 11.3.1.3",
+            "props": [
+              {
+                "name": "label",
+                "value": "11.3.1.3"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-11-3-1-3_smt",
+                "name": "statement",
+                "prose": "Internal vulnerability scans are performed after any significant change as follows:\n•\t Vulnerabilities that are either high-risk or critical (according to the entity’s vulnerability risk rankings defined at Requirement 6.3.1) are resolved.\n•\t Rescans are conducted as needed.\n•\t Scans are performed by qualified personnel and organizational independence of the tester exists (not required to be a QSA or ASV)."
+              }
+            ]
+          },
+          {
+            "id": "pci-11-3-2",
+            "title": "PCI DSS 11.3.2",
+            "props": [
+              {
+                "name": "label",
+                "value": "11.3.2"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-11-3-2_smt",
+                "name": "statement",
+                "prose": "External vulnerability scans are performed as follows:\n•\t At least once every three months.\n•\t By a PCI SSC Approved Scanning Vendor (ASV). \n•\t Vulnerabilities are resolved and ASV Program Guide requirements for a passing scan are met.\n•\t Rescans are performed as needed to confirm that vulnerabilities are resolved per the ASV Program Guide requirements for a passing scan."
+              }
+            ]
+          },
+          {
+            "id": "pci-11-3-2-1",
+            "title": "PCI DSS 11.3.2.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "11.3.2.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-11-3-2-1_smt",
+                "name": "statement",
+                "prose": "External vulnerability scans are performed after any significant change as follows:\n•\t Vulnerabilities that are scored 4.0 or higher by the CVSS are resolved.\n•\t Rescans are conducted as needed.\n•\t Scans are performed by qualified personnel and organizational independence of the tester exists (not required to be a QSA or ASV)."
+              }
+            ]
+          },
+          {
             "id": "pci-11-4-1",
             "title": "PCI DSS 11.4.1",
             "props": [
@@ -1174,6 +3502,176 @@
                 "id": "pci-11-4-1_smt",
                 "name": "statement",
                 "prose": "A penetration testing methodology is defined, documented, and implemented by the entity, and includes: \n•\t Industry-accepted penetration testing approaches.\n•\t Coverage for the entire CDE perimeter and critical systems. \n•\t Testing from both inside and outside the network. \n•\t Testing to validate any segmentation and scope-reduction controls. \n•\t Application-layer penetration testing to identify, at a minimum, the vulnerabilities listed in Requirement 6.2.4. \n•\t Network-layer penetration tests that encompass all components that support network functions as well as operating systems. \n•\t Review and consideration of threats and vulnerabilities experienced in the last 12 months. \n•\t Documented approach to assessing and addressing the risk posed by exploitable vulnerabilities and security weaknesses found during penetration testing. \n•\t Retention of penetration testing results and remediation activities results for at least 12 months."
+              }
+            ]
+          },
+          {
+            "id": "pci-11-4-2",
+            "title": "PCI DSS 11.4.2",
+            "props": [
+              {
+                "name": "label",
+                "value": "11.4.2"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-11-4-2_smt",
+                "name": "statement",
+                "prose": "Internal penetration testing is performed:\n•\t Per the entity’s defined methodology \n•\t At least once every 12 months \n•\t After any significant infrastructure or application upgrade or change\n•\t By a qualified internal resource or qualified external third-party\n•\t Organizational independence of the tester exists (not required to be a QSA or ASV)."
+              }
+            ]
+          },
+          {
+            "id": "pci-11-4-3",
+            "title": "PCI DSS 11.4.3",
+            "props": [
+              {
+                "name": "label",
+                "value": "11.4.3"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-11-4-3_smt",
+                "name": "statement",
+                "prose": "External penetration testing is performed: \n•\t Per the entity’s defined methodology \n•\t At least once every 12 months \n•\t After any significant infrastructure or application upgrade or change\n•\t By a qualified internal resource or qualified external third party\n•\t Organizational independence of the tester exists (not required to be a QSA or ASV)."
+              }
+            ]
+          },
+          {
+            "id": "pci-11-4-4",
+            "title": "PCI DSS 11.4.4",
+            "props": [
+              {
+                "name": "label",
+                "value": "11.4.4"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-11-4-4_smt",
+                "name": "statement",
+                "prose": "Exploitable vulnerabilities and security weaknesses found during penetration testing are corrected as follows:\n•\t In accordance with the entity’s assessment of the risk posed by the security issue as defined in Require ment 6.3.1.\n•\t Penetration testing is repeated to verify the corrections."
+              }
+            ]
+          },
+          {
+            "id": "pci-11-4-5",
+            "title": "PCI DSS 11.4.5",
+            "props": [
+              {
+                "name": "label",
+                "value": "11.4.5"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-11-4-5_smt",
+                "name": "statement",
+                "prose": "If segmentation is used to isolate the CDE from other networks, penetration tests are performed on segmentation controls as follows:\n•\t At least once every 12 months and after any changes to segmentation controls/methods \n•\t Covering all segmentation controls/methods in use.\n•\t According to the entity’s defined penetration testing methodology.\n•\t Confirming that the segmentation controls/methods are operational and effective, and isolate the CDE from all out-of-scope systems.\n•\t Confirming effectiveness of any use of isolation to separate systems with differing security levels (see Requirement 2.2.3).\n•\t Performed by a qualified internal resource or qualified external third party.\n•\t Organizational independence of the tester exists (not required to be a QSA or ASV)."
+              }
+            ]
+          },
+          {
+            "id": "pci-11-4-6",
+            "title": "PCI DSS 11.4.6",
+            "props": [
+              {
+                "name": "label",
+                "value": "11.4.6"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-11-4-6_smt",
+                "name": "statement",
+                "prose": "Additional requirement for service providers only: If segmentation is used to isolate the CDE from other networks, penetration tests are performed on segmentation controls as follows: \n•\t At least once every six months and after any changes to segmentation controls/methods. \n•\t Covering all segmentation controls/methods in use.\n•\t According to the entity’s defined penetration testing methodology.\n•\t Confirming that the segmentation controls/methods are operational and effective, and isolate the CDE from all out-of-scope systems.\n•\t Confirming effectiveness of any use of isolation to separate systems with differing security levels (see Requirement 2.2.3).\n•\t Performed by a qualified internal resource or qualified external third party.\n•\t Organizational independence of the tester exists (not required to be a QSA or ASV)."
+              }
+            ]
+          },
+          {
+            "id": "pci-11-4-7",
+            "title": "PCI DSS 11.4.7",
+            "props": [
+              {
+                "name": "label",
+                "value": "11.4.7"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-11-4-7_smt",
+                "name": "statement",
+                "prose": "Additional requirement for third-party hosted/cloud service providers only: Third-party hosted/cloud service providers support to their customers for external penetration testing per Requirement 11.4.3 and 11.4.4."
+              }
+            ]
+          },
+          {
+            "id": "pci-11-5-1",
+            "title": "PCI DSS 11.5.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "11.5.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-11-5-1_smt",
+                "name": "statement",
+                "prose": "Intrusion-detection and/or intrusion-prevention techniques are used to detect and/or prevent intrusions into the network as follows: \n•\t All traffic is monitored at the perimeter of the CDE. \n•\t All traffic is monitored at critical points in the CDE. \n•\t Personnel are alerted to suspected compromises. \n•\t All intrusion-detection and prevention engines, baselines, and signatures are kept up to date."
+              }
+            ]
+          },
+          {
+            "id": "pci-11-5-1-1",
+            "title": "PCI DSS 11.5.1.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "11.5.1.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-11-5-1-1_smt",
+                "name": "statement",
+                "prose": "Additional requirement for service providers only: Intrusion-detection and/or intrusion-prevention techniques detect, alert on/prevent, and address covert malware communication channels."
+              }
+            ]
+          },
+          {
+            "id": "pci-11-5-2",
+            "title": "PCI DSS 11.5.2",
+            "props": [
+              {
+                "name": "label",
+                "value": "11.5.2"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-11-5-2_smt",
+                "name": "statement",
+                "prose": "A change-detection mechanism (for example, file integrity monitoring tools) is deployed as follows:\n•\t To alert personnel to unauthorized modification (including changes, additions, and deletions) of critical files \n•\t To perform critical file comparisons at least once weekly."
+              }
+            ]
+          },
+          {
+            "id": "pci-11-6-1",
+            "title": "PCI DSS 11.6.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "11.6.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-11-6-1_smt",
+                "name": "statement",
+                "prose": "A change- and tamper-detection mechanism is deployed as follows:\n•\t To alert personnel to unauthorized modification (including indicators of compromise, changes, additions, and deletions) to the security-impacting HTTP headers and the script contents of payment pages as received by the consumer browser.\n•\t The mechanism is configured to evaluate the received HTTP header and payment pages. \n•\t The mechanism functions are performed as follows:\n     - At least once weeky,\n     OR\n     - Periodically (at the frequency defined in the entity’s targeted risk analysis, which is performed according to all elements specified in Requirement 12.3.1)."
               }
             ]
           }
@@ -1265,6 +3763,550 @@
                 "id": "pci-12-2-1_smt",
                 "name": "statement",
                 "prose": "Acceptable use policies for end-user technologies are documented and implemented, including:\n•\t Explicit approval by authorized parties.\n•\t Acceptable uses of the technology.\n•\t List of products approved by the company for employee use, including hardware and software."
+              }
+            ]
+          },
+          {
+            "id": "pci-12-3-1",
+            "title": "PCI DSS 12.3.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "12.3.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-12-3-1_smt",
+                "name": "statement",
+                "prose": "For each PCI DSS requirement that specifies completion of a targeted risk analysis, the analysis is documented and includes:\n•\t Identification of the assets being protected. \n•\t Identification of the threat(s) that the requirement is protecting against.\n•\t Identification of factors that contribute to the likelihood and/or impact of a threat being realized. \n•\t Resulting analysis that determines, and includes justification for, how the frequency or processes defined by the entity to meet the requirement minimize the likelihood and/or impact of the threat being realized.\n•\t Review of each targeted risk analysis at least once every 12 months to determine whether the results are still valid or if an updated risk analysis is needed\n•\t Performance of updated risk analyses when needed, as determined by the annual review."
+              }
+            ]
+          },
+          {
+            "id": "pci-12-3-2",
+            "title": "PCI DSS 12.3.2",
+            "props": [
+              {
+                "name": "label",
+                "value": "12.3.2"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-12-3-2_smt",
+                "name": "statement",
+                "prose": "A targeted risk analysis is performed for each PCI DSS requirement that the entity meets with the customized approach, to include:\n•\t Documented evidence detailing each element specified in Appendix B: Guidance and Instructions for Using Customized Approach (including, at a minimum, a controls matrix and risk analysis).\n•\t Approval of documented evidence by senior management.\n•\t Performance of the targeted analysis of risk at least once every 12 months."
+              }
+            ]
+          },
+          {
+            "id": "pci-12-3-3",
+            "title": "PCI DSS 12.3.3",
+            "props": [
+              {
+                "name": "label",
+                "value": "12.3.3"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-12-3-3_smt",
+                "name": "statement",
+                "prose": "Cryptographic cipher suites and protocols in use are documented and reviewed at least once every 12 months, including at least the following:\n•\t An up-to-date inventory of all cryptographic cipher suites and protocols in use, including purpose and where used.\n•\t Active monitoring of industry trends regarding continued viability of all cryptographic cipher suites and protocols in use.\n•\t Documentation of a plan to respond to anticipated changes in cryptographic vulnerabilities."
+              }
+            ]
+          },
+          {
+            "id": "pci-12-3-4",
+            "title": "PCI DSS 12.3.4",
+            "props": [
+              {
+                "name": "label",
+                "value": "12.3.4"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-12-3-4_smt",
+                "name": "statement",
+                "prose": "Hardware and software technologies in use are reviewed at least once every 12 months, including at least the following:\n•\t Analysis that the technologies continue to receive security fixes from vendors promptly.\n•\t Analysis that the technologies continue to support (and do not preclude) the entity’s PCI DSS compliance.\n•\t Documentation of any industry announcements or trends related to a technology, such as when a vendor has announced “end of life” plans for a technology.\n•\t Documentation of a plan, approved by senior management, to remediate outdated technologies, including those for which vendors have announced “end of life” plans."
+              }
+            ]
+          },
+          {
+            "id": "pci-12-4-1",
+            "title": "PCI DSS 12.4.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "12.4.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-12-4-1_smt",
+                "name": "statement",
+                "prose": "Additional requirement for service providers only: Responsibility is established by executive management for the protection of cardholder data and a PCI DSS compliance program to include: \n•\t Overall accountability for maintaining PCI DSS compliance.\n•\t Defining a charter for a PCI DSS compliance program and communication to executive management."
+              }
+            ]
+          },
+          {
+            "id": "pci-12-4-2",
+            "title": "PCI DSS 12.4.2",
+            "props": [
+              {
+                "name": "label",
+                "value": "12.4.2"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-12-4-2_smt",
+                "name": "statement",
+                "prose": "Additional requirement for service providers only: Reviews are performed at least once every three months to confirm personnel are performing their tasks in accordance with all security policies and all operational procedures. Reviews are performed by personnel other than those responsible for performing the given task and include, but not limited to, the following tasks: \n• \tDaily log reviews. \n• \tConfiguration reviews for network security controls. \n• \t Applying configuration standards to new systems. \n• \t Responding to security alerts. \n•  \tChange-management processes."
+              }
+            ]
+          },
+          {
+            "id": "pci-12-4-2-1",
+            "title": "PCI DSS 12.4.2.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "12.4.2.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-12-4-2-1_smt",
+                "name": "statement",
+                "prose": "Additional requirement for service providers only: Reviews conducted in accordance with Requirement 12.4.2 are documented to include: \n•\t Results of the reviews. \n•\t Documented remediation actions taken for any tasks that were found to not be performed at Requirement 12.4.2.\n•\t Review and sign-off of results by personnel assigned responsibility for the PCI DSS compliance program."
+              }
+            ]
+          },
+          {
+            "id": "pci-12-5-1",
+            "title": "PCI DSS 12.5.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "12.5.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-12-5-1_smt",
+                "name": "statement",
+                "prose": "An inventory of system components that are in scope for PCI DSS, including a description of function/use, is maintained and kept current."
+              }
+            ]
+          },
+          {
+            "id": "pci-12-5-2",
+            "title": "PCI DSS 12.5.2",
+            "props": [
+              {
+                "name": "label",
+                "value": "12.5.2"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-12-5-2_smt",
+                "name": "statement",
+                "prose": "PCI DSS scope is documented and confirmed by the entity at least once every 12 months and upon significant change to the in-scope environment. At a minimum, the scoping validation includes:\n•\t Identifying all data flows for the various payment stages (for example, authorization, capture settlement, chargebacks, and refunds) and acceptance channels (for example, card-present, card-not-present, and e-commerce).\n•\t Updating all data-flow diagrams per Requirement 1.2.4.\n•\t Identifying all locations where account data is stored, processed, and transmitted, including but not limited to: 1) any locations outside of the currently defined CDE, 2) applications that process CHD, 3) transmissions between systems and networks, and 4) file backups.\n•\t Identifying all system components in the CDE, connected to the CDE, or that could impact security of the CDE.\n•\t Identifying all segmentation controls in use and the environment(s) from which the CDE is segmented, including justification for environments being out of scope.\n•\t Identifying all connections from third-party entities with access to the CDE.\n•\t Confirming that all identified data flows, account data, system components, segmentation controls, and connections from third parties with access to the CDE are included in scope."
+              }
+            ]
+          },
+          {
+            "id": "pci-12-5-2-1",
+            "title": "PCI DSS 12.5.2.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "12.5.2.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-12-5-2-1_smt",
+                "name": "statement",
+                "prose": "Additional requirement for service providers only: PCI DSS scope is documented and confirmed by the entity at least once every six months and after significant changes. At a minimum, the scoping validation includes all the elements specified in Requirement 12.5.2."
+              }
+            ]
+          },
+          {
+            "id": "pci-12-5-3",
+            "title": "PCI DSS 12.5.3",
+            "props": [
+              {
+                "name": "label",
+                "value": "12.5.3"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-12-5-3_smt",
+                "name": "statement",
+                "prose": "Additional requirement for service providers only: Significant changes to organizational structure result in a documented (internal) review of the impact to PCI DSS scope and applicability of controls, with results communicated to executive management."
+              }
+            ]
+          },
+          {
+            "id": "pci-12-6-1",
+            "title": "PCI DSS 12.6.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "12.6.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-12-6-1_smt",
+                "name": "statement",
+                "prose": "A formal security awareness program is implemented to make all personnel aware of the entity’s information security policy and procedures and their role in protecting the cardholder data."
+              }
+            ]
+          },
+          {
+            "id": "pci-12-6-2",
+            "title": "PCI DSS 12.6.2",
+            "props": [
+              {
+                "name": "label",
+                "value": "12.6.2"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-12-6-2_smt",
+                "name": "statement",
+                "prose": "The security awareness program is: \n•\t Reviewed at least once every 12 months, and \n•\t Updated as needed to address any new threats and vulnerabilities that may impact the security of the entity’s cardholder data and/or sensitive authentication data, or the information provided to personnel about their role in protecting cardholder data."
+              }
+            ]
+          },
+          {
+            "id": "pci-12-6-3",
+            "title": "PCI DSS 12.6.3",
+            "props": [
+              {
+                "name": "label",
+                "value": "12.6.3"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-12-6-3_smt",
+                "name": "statement",
+                "prose": "Personnel receive security awareness training as follows: \n•\t Upon hire and at least once every 12 months.\n•\t Multiple methods of communication are used.\n•\t Personnel acknowledge at least once every 12 months that they have read and understood the information security policy and procedures."
+              }
+            ]
+          },
+          {
+            "id": "pci-12-6-3-1",
+            "title": "PCI DSS 12.6.3.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "12.6.3.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-12-6-3-1_smt",
+                "name": "statement",
+                "prose": "Security awareness training includes awareness of threats and vulnerabilities that could impact the security of cardholder data and/or sensitive authentication data, including but not limited to:\n•\t Phishing and related attacks. \n•\t Social engineering."
+              }
+            ]
+          },
+          {
+            "id": "pci-12-6-3-2",
+            "title": "PCI DSS 12.6.3.2",
+            "props": [
+              {
+                "name": "label",
+                "value": "12.6.3.2"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-12-6-3-2_smt",
+                "name": "statement",
+                "prose": "Security awareness training includes awareness about the acceptable use of end-user technologies in accordance with Requirement 12.2.1."
+              }
+            ]
+          },
+          {
+            "id": "pci-12-7-1",
+            "title": "PCI DSS 12.7.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "12.7.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-12-7-1_smt",
+                "name": "statement",
+                "prose": "Potential personnel who will have access to the CDE are screened, within the constraints of local laws, prior to hire to minimize the risk of attacks from internal sources."
+              }
+            ]
+          },
+          {
+            "id": "pci-12-8-1",
+            "title": "PCI DSS 12.8.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "12.8.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-12-8-1_smt",
+                "name": "statement",
+                "prose": "A list of all third-party service providers (TPSPs) with which account data is shared or that could affect the security of account data is maintained, including a description for each of the services provided."
+              }
+            ]
+          },
+          {
+            "id": "pci-12-8-2",
+            "title": "PCI DSS 12.8.2",
+            "props": [
+              {
+                "name": "label",
+                "value": "12.8.2"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-12-8-2_smt",
+                "name": "statement",
+                "prose": "Written agreements with TPSPs are maintained as follows: \n•\t Written agreements are maintained with all TPSPs with which account data is shared or that could affect the security of the CDE.\n•\t Written agreements include acknowledgments from TPSPs that TPSPs are responsible for the security of account data the TPSPs possess or otherwise store, process, or transmit on behalf of the entity, or to the extent that the TPSP could impact the security of the entity’s cardholder data and/or sensitive authentication data."
+              }
+            ]
+          },
+          {
+            "id": "pci-12-8-3",
+            "title": "PCI DSS 12.8.3",
+            "props": [
+              {
+                "name": "label",
+                "value": "12.8.3"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-12-8-3_smt",
+                "name": "statement",
+                "prose": "An established process is implemented for engaging TPSPs, including proper due diligence prior to engagement."
+              }
+            ]
+          },
+          {
+            "id": "pci-12-8-4",
+            "title": "PCI DSS 12.8.4",
+            "props": [
+              {
+                "name": "label",
+                "value": "12.8.4"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-12-8-4_smt",
+                "name": "statement",
+                "prose": "A program is implemented to monitor TPSPs’ PCI DSS compliance status at least once every 12 months."
+              }
+            ]
+          },
+          {
+            "id": "pci-12-8-5",
+            "title": "PCI DSS 12.8.5",
+            "props": [
+              {
+                "name": "label",
+                "value": "12.8.5"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-12-8-5_smt",
+                "name": "statement",
+                "prose": "Information is maintained about which PCI DSS requirements are managed by each TPSP, which are managed by the entity, and any that are shared between the TPSP and the entity."
+              }
+            ]
+          },
+          {
+            "id": "pci-12-9-1",
+            "title": "PCI DSS 12.9.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "12.9.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-12-9-1_smt",
+                "name": "statement",
+                "prose": "Additional requirement for service providers only: TPSPs provide written agreements to customers that include acknowledgments that TPSPs are responsible for the security of account data the TPSP possesses or otherwise stores, processes, or transmits on behalf of the customer, or to the extent that the TPSP could impact the security of the customer’s cardholder data and/or sensitive authentication data."
+              }
+            ]
+          },
+          {
+            "id": "pci-12-9-2",
+            "title": "PCI DSS 12.9.2",
+            "props": [
+              {
+                "name": "label",
+                "value": "12.9.2"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-12-9-2_smt",
+                "name": "statement",
+                "prose": "Additional requirement for service providers only: TPSPs support their customers’ requests for information to meet Requirements 12.8.4 and 12.8.5 by providing the following upon customer request:\n•\t PCI DSS compliance status information (Requirement 12.8.4).\n•\t Information about which PCI DSS requirements are the responsibility of the TPSP and which are the responsibility of the customer, including any shared responsibilities (Requirement 12.8.5), for any service the TPSP provides that meets a PCI DSS requirement(s) on behalf of customers or that can impact security of customers’ cardholder data and/or sensitive authentication data."
+              }
+            ]
+          },
+          {
+            "id": "pci-12-10-1",
+            "title": "PCI DSS 12.10.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "12.10.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-12-10-1_smt",
+                "name": "statement",
+                "prose": "An incident response plan exists and is ready to be activated in the event of a suspected or confirmed security incident. The plan includes, but is not limited to: \n•\t Roles, responsibilities, and communication and contact strategies in the event of a suspected or confirmed security incident, including notification of payment brands and acquirers, at a minimum.\n•\t Incident response procedures with specific containment and mitigation activities for different types of incidents.\n•\t Business recovery and continuity procedures.\n•\t Data backup processes.\n•\t Analysis of legal requirements for reporting compromises.\n•\t Coverage and responses of all critical system components.\n•\t Reference or inclusion of incident response procedures from the payment brands."
+              }
+            ]
+          },
+          {
+            "id": "pci-12-10-2",
+            "title": "PCI DSS 12.10.2",
+            "props": [
+              {
+                "name": "label",
+                "value": "12.10.2"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-12-10-2_smt",
+                "name": "statement",
+                "prose": "At least once every 12 months, the security incident response plan is: \n•\t Reviewed and the content is updated as needed.\n•\t Tested, including all elements listed in Requirement 12.10.1."
+              }
+            ]
+          },
+          {
+            "id": "pci-12-10-3",
+            "title": "PCI DSS 12.10.3",
+            "props": [
+              {
+                "name": "label",
+                "value": "12.10.3"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-12-10-3_smt",
+                "name": "statement",
+                "prose": "Specific personnel are designated to be available on a 24/7 basis to respond to suspected or confirmed security incidents."
+              }
+            ]
+          },
+          {
+            "id": "pci-12-10-4",
+            "title": "PCI DSS 12.10.4",
+            "props": [
+              {
+                "name": "label",
+                "value": "12.10.4"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-12-10-4_smt",
+                "name": "statement",
+                "prose": "Personnel responsible for responding to suspected and confirmed security incidents are appropriately and periodically trained on their incident response responsibilities."
+              }
+            ]
+          },
+          {
+            "id": "pci-12-10-4-1",
+            "title": "PCI DSS 12.10.4.1",
+            "props": [
+              {
+                "name": "label",
+                "value": "12.10.4.1"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-12-10-4-1_smt",
+                "name": "statement",
+                "prose": "The frequency of periodic training for incident response personnel is defined in the entity’s targeted risk analysis which is performed according to all elements specified in Requirement 12.3.1."
+              }
+            ]
+          },
+          {
+            "id": "pci-12-10-5",
+            "title": "PCI DSS 12.10.5",
+            "props": [
+              {
+                "name": "label",
+                "value": "12.10.5"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-12-10-5_smt",
+                "name": "statement",
+                "prose": "The security incident response plan includes monitoring and responding to alerts from security monitoring systems, including but not limited to: \n•\t Intrusion-detection and intrusion-prevention systems. \n•\t Network security controls.\n•\t Change-detection mechanisms for critical files.\n•\t The change-and tamper-detection mechanism for payment pages. This bullet is a best practice until its effective date; refer to Applicability Notes below for details. \n•\t Detection of unauthorized wireless access points."
+              }
+            ]
+          },
+          {
+            "id": "pci-12-10-6",
+            "title": "PCI DSS 12.10.6",
+            "props": [
+              {
+                "name": "label",
+                "value": "12.10.6"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-12-10-6_smt",
+                "name": "statement",
+                "prose": "The security incident response plan is modified and evolved according to lessons learned and to incorporate industry developments."
+              }
+            ]
+          },
+          {
+            "id": "pci-12-10-7",
+            "title": "PCI DSS 12.10.7",
+            "props": [
+              {
+                "name": "label",
+                "value": "12.10.7"
+              }
+            ],
+            "parts": [
+              {
+                "id": "pci-12-10-7_smt",
+                "name": "statement",
+                "prose": "Incident response procedures are in place, to be initiated upon the detection of stored PAN anywhere it is not expected, and include:\n•\t Determining what to do if PAN is discovered outside the CDE, including its retrieval, secure deletion, and/or migration into the currently defined CDE, as applicable.\n•\t Identifying whether sensitive authentication data is stored with PAN. \n•\t Determining where the account data came from and how it ended up where it was not expected.\n•\t Remediating data leaks or process gaps that resulted in the account data being where it was not expected."
               }
             ]
           }

@@ -61,6 +61,71 @@ class TestEmbedder:
         assert similarity < 0.4
 
 
+class TestContextualEmbedding:
+    """Contextual embedding prepends document/section metadata for richer vectors."""
+
+    @pytest.fixture()
+    def embedder(self) -> Embedder:
+        return Embedder()
+
+    def test_contextual_embed_batch_returns_correct_count(self, embedder: Embedder) -> None:
+        """contextual_embed_batch returns one vector per input."""
+        texts = ["Access control policy requires MFA.", "Encryption at rest."]
+        contexts = ["[policy.pdf | Access Control]", "[policy.pdf | Encryption]"]
+        results = embedder.contextual_embed_batch(texts, contexts)
+        assert len(results) == 2
+        assert all(isinstance(vec, list) for vec in results)
+
+    def test_contextual_embed_produces_different_vector_than_raw(self, embedder: Embedder) -> None:
+        """Embedding with context prefix should produce a different vector than raw text."""
+        text = "All users must authenticate."
+        raw_vec = embedder.embed_text(text)
+        contextual_vecs = embedder.contextual_embed_batch(
+            [text], ["[Access Control Policy | Authentication]"]
+        )
+        # Vectors should differ because the model sees different input
+        assert raw_vec != contextual_vecs[0]
+
+
+class TestEmbedBatchCached:
+    """Cached embedding avoids recomputing for identical texts."""
+
+    @pytest.fixture()
+    def embedder(self) -> Embedder:
+        return Embedder()
+
+    def test_embed_batch_cached_returns_same_result(self, embedder: Embedder) -> None:
+        """Cached results are identical to fresh results."""
+        texts = ["Implement MFA.", "Encrypt data at rest."]
+        first = embedder.embed_batch_cached(texts)
+        second = embedder.embed_batch_cached(texts)
+        assert first == second
+
+    def test_embed_batch_cached_avoids_recompute(self, embedder: Embedder) -> None:
+        """Second call to embed_batch_cached should not re-encode."""
+        from unittest.mock import patch
+
+        texts = ["Implement MFA.", "Encrypt data at rest."]
+        # Prime the cache
+        embedder.embed_batch_cached(texts)
+        # Now patch encode — it should NOT be called
+        with patch.object(embedder._model, "encode", wraps=embedder._model.encode) as mock_enc:
+            embedder.embed_batch_cached(texts)
+            mock_enc.assert_not_called()
+
+    def test_clear_cache_resets_cached_embeddings(self, embedder: Embedder) -> None:
+        """clear_cache() should force recomputation on next call."""
+        texts = ["Implement MFA."]
+        embedder.embed_batch_cached(texts)
+        embedder.clear_cache()
+        # After clearing, the cache should be empty
+        from unittest.mock import patch
+
+        with patch.object(embedder._model, "encode", wraps=embedder._model.encode) as mock_enc:
+            embedder.embed_batch_cached(texts)
+            assert mock_enc.call_count == 1
+
+
 def _cosine_similarity(a: list[float], b: list[float]) -> float:
     """Compute cosine similarity between two vectors."""
     arr_a = np.array(a)

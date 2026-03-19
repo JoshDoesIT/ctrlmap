@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **Unified multi-framework HTML report**: `format_html()` / `export_html()` now accept
+  `results_by_framework` dict for combined reports with framework filter pills.
+- **Search bar**: HTML report includes a search box (`Cmd+K` shortcut) that filters
+  controls and evidence by keyword across all tabs.
+- **Document Reader tab**: Third tab showing policy documents as continuous reading
+  panes with highlighted chunks (colored by compliance) and hover-to-view control
+  popovers with compliance details.
+- `scripts/merge_reports.py` helper to merge per-framework JSON outputs into a
+  single unified HTML report.
+
 ### Changed
 
 - Version read from installed package metadata at runtime (`importlib.metadata`).

@@ -161,29 +161,38 @@ def aggregate_rationales(
     computed_priority = _LEVEL_PRIORITY.get(computed, 0)
 
     if computed_priority != best_priority:
-        covered_reqs = [orig for orig, is_covered in merged.values() if is_covered]
         if computed_priority > best_priority:
-            explanation = (
-                f"Combined evidence from {len(valid_subs)} chunks covers all "
-                f"{total} sub-requirements: {'; '.join(covered_reqs)}"
-            )
-        else:
-            missing_reqs = [orig for orig, is_covered in merged.values() if not is_covered]
+            covered_reqs = [orig for orig, is_covered in merged.values() if is_covered]
+            # When upgrading (e.g. PC→FC), the best chunk's explanation
+            # may mention gaps that OTHER chunks fill.  Using that
+            # gap-mentioning text as the base is misleading for an FC.
+            # Generate a coverage-based explanation instead.
             explanation = (
                 f"Combined evidence from {len(valid_subs)} chunks covers "
-                f"{covered}/{total} sub-requirements. "
-                f"Missing: {'; '.join(missing_reqs)}"
+                f"all {total} sub-requirements: {'; '.join(covered_reqs)}"
             )
-        return _apply_confidence_floor(
-            MappingRationale(
-                is_compliant=computed != ComplianceLevel.NON_COMPLIANT,
-                compliance_level=computed,
-                confidence_score=min(best.confidence_score, 1.0),
-                explanation=explanation,
+        else:
+            # When downgrading (e.g. FC→PC), preserve the best chunk's
+            # LLM-generated explanation and append gap context.
+            missing_reqs = [orig for orig, is_covered in merged.values() if not is_covered]
+            explanation = (
+                f"{best.explanation} "
+                f"({covered}/{total} sub-requirements covered. "
+                f"Gaps: {'; '.join(missing_reqs)})"
+            )
+
+        return _apply_explanation_consistency_guard(
+            _apply_confidence_floor(
+                MappingRationale(
+                    is_compliant=computed != ComplianceLevel.NON_COMPLIANT,
+                    compliance_level=computed,
+                    confidence_score=min(best.confidence_score, 1.0),
+                    explanation=explanation,
+                )
             )
         )
 
-    return _apply_confidence_floor(best)
+    return _apply_explanation_consistency_guard(_apply_confidence_floor(best))
 
 
 # Confidence threshold: FC classifications below this score are
@@ -207,6 +216,60 @@ def _apply_confidence_floor(rationale: MappingRationale) -> MappingRationale:
             confidence_score=rationale.confidence_score,
             explanation=rationale.explanation,
         )
+    return rationale
+
+
+# Phrases in FC explanations that indicate the LLM identified gaps
+# despite classifying as fully compliant.  Case-insensitive matching.
+_GAP_PHRASES = (
+    "does not specify",
+    "does not address",
+    "does not cover",
+    "does not mention",
+    "does not include",
+    "does not explicitly",
+    "does not define",
+    "does not detail",
+    "does not describe",
+    "does not provide",
+    "partially covers",
+    "partially addresses",
+    "partially meets",
+    "not fully covered",
+    "not fully addressed",
+    "not fully met",
+    "is missing",
+    "lacks specific",
+    "no mention of",
+    "no specific",
+    "no explicit",
+)
+
+
+def _apply_explanation_consistency_guard(
+    rationale: MappingRationale,
+) -> MappingRationale:
+    """Downgrade FC → PC when the explanation text admits gaps.
+
+    The LLM sometimes marks all sub-requirements as covered but writes
+    an explanation that honestly notes missing coverage.  This guard
+    catches that inconsistency by scanning for common gap-admitting
+    phrases.
+
+    Only applies to fully_compliant rationales.
+    """
+    if rationale.compliance_level != ComplianceLevel.FULLY_COMPLIANT:
+        return rationale
+
+    explanation_lower = rationale.explanation.lower()
+    for phrase in _GAP_PHRASES:
+        if phrase in explanation_lower:
+            return MappingRationale(
+                is_compliant=True,
+                compliance_level=ComplianceLevel.PARTIALLY_COMPLIANT,
+                confidence_score=rationale.confidence_score,
+                explanation=rationale.explanation,
+            )
     return rationale
 
 
@@ -350,6 +413,10 @@ def _parse_response(raw: str) -> MappingRationale | InsufficientEvidence | None:
 
             # Confidence floor: downgrade FC → PC when confidence is low.
             rationale = _apply_confidence_floor(rationale)
+
+            # Explanation consistency: downgrade FC → PC when the
+            # explanation text admits gaps despite FC classification.
+            rationale = _apply_explanation_consistency_guard(rationale)
 
             return rationale
         elif output_type == "InsufficientEvidence":

@@ -27,6 +27,7 @@ from typing import cast
 from ctrlmap.index.embedder import Embedder
 from ctrlmap.index.hybrid_search import BM25Index, hybrid_query
 from ctrlmap.index.query import query_by_embedding
+from ctrlmap.index.reranker import Reranker
 from ctrlmap.index.vector_store import VectorStore
 from ctrlmap.models.schemas import MappedResult, ParsedChunk, SecurityControl
 
@@ -107,14 +108,19 @@ def map_controls(
     store: VectorStore,
     collection_name: str,
     top_k: int = 3,
-    min_score: float = 0.55,
+    min_score: float = 0.45,
     embedder: Embedder | None = None,
+    reranker: Reranker | None = None,
 ) -> list[MappedResult]:
     """Map security controls to supporting policy chunks via hybrid search.
 
     For each control, runs hybrid BM25 + ANN search with Reciprocal Rank
     Fusion (RRF) to find the top-K most relevant policy chunks. Results
     are filtered by ``min_score``.
+
+    When a ``reranker`` is provided, retrieval over-fetches ``top_k * 3``
+    candidates which are then re-scored by a cross-encoder model and
+    trimmed back to ``top_k``.
 
     Queries are prefixed with a GRC instruction to steer the embedding
     model toward compliance semantics and expanded with domain synonyms.
@@ -129,7 +135,12 @@ def map_controls(
         top_k: Maximum number of supporting chunks per control.
         min_score: Minimum similarity score to include a chunk.
             Chunks below this threshold are dropped to avoid false matches.
+            Set to 0.45 because RRF normalization caps single-source
+            matches at 0.50 — using 0.55 would block all chunks found
+            by only ANN or only BM25.
         embedder: Optional Embedder instance. Creates a default one if None.
+        reranker: Optional Reranker instance. When provided, candidates are
+            re-scored by a cross-encoder for higher precision.
 
     Returns:
         A list of ``MappedResult`` objects, one per input control.
@@ -139,6 +150,9 @@ def map_controls(
 
     # Build BM25 index from the collection for keyword search
     bm25_index = _build_bm25_index(store, collection_name)
+
+    # Over-retrieve when reranking — fetch 3x then trim
+    retrieval_k = top_k * 3 if reranker else top_k
 
     # Build two query variants per control:
     # - embedding_query: with GRC prefix (steers ANN toward compliance semantics)
@@ -167,7 +181,7 @@ def map_controls(
                 embedding=embedding,
                 query_text=bm25_query_text,
                 bm25_index=bm25_index,
-                top_k=top_k,
+                top_k=retrieval_k,
             )
         else:
             # Fallback to ANN-only if BM25 index is empty
@@ -175,8 +189,12 @@ def map_controls(
                 store=store,
                 collection_name=collection_name,
                 embedding=embedding,
-                top_k=top_k,
+                top_k=retrieval_k,
             )
+
+        # Rerank if a cross-encoder is available
+        if reranker and query_results:
+            query_results = reranker.rerank(bm25_query_text, query_results, top_k=top_k)
 
         supporting_chunks: list[ParsedChunk] = []
         for qr in query_results:

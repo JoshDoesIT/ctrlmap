@@ -2,9 +2,15 @@
 
 ## AC-1 — Policy and Procedures
 
-**Framework:** NIST-800-53 | **Verdict:** ⚠️ Non-compliant (0.80)
+**Framework:** NIST-800-53 | **Verdict:** ✅ Compliant (1.00)
 
-**Rationale:** The organization lacks policy documentation for AC-1: Policy and Procedures, which mandates the development, documentation, and dissemination of access control policies and procedures. This absence directly results in non-compliance with the security control requirement.
+**Rationale:** The chunk directly addresses the requirement by establishing a comprehensive access control policy that applies broadly to all relevant personnel requiring access to Acme Corp's systems and CDE.
+
+**Supporting Evidence:**
+
+| # | Source | Page | Section | Excerpt |
+|---|--------|------|---------|---------|
+| 1 | access_control_policy.pdf | 2 | 1  Purpose and Scope | This policy establishes the requirements for managing access to Acme Corp information systems, applications, and data... |
 
 ---
 
@@ -12,29 +18,29 @@
 
 **Framework:** NIST-800-53 | **Verdict:** ⚠️ Non-compliant (1.00)
 
-**Rationale:** The provided policy excerpt focuses on assigning access rights based on job classification and function, adhering to the principle of least privilege. It also mandates documenting all access permissions in an access control matrix that maps roles to specific system privileges. However, it does not explicitly define or document types of accounts allowed or prohibited within the system.
-
-**Supporting Evidence:**
-
-| # | Source | Page | Section | Excerpt |
-|---|--------|------|---------|---------|
-| 1 | access_control_policy.pdf | 2 | 3.1  Role-Based Access Control (RBAC) | Access rights must be assigned based on job classification and function, following the principle of least privilege. ... |
+**Rationale:** No policy documentation exists to define and document the types of accounts allowed and specifically prohibited for use within the system. The organization needs an account management policy that outlines the types of user accounts (e.g., administrative, standard, guest) permitted, as well as any specific accounts or roles that are explicitly forbidden.
 
 ---
 
 ## AC-2(1) — Automated System Account Management
 
-**Framework:** NIST-800-53 | **Verdict:** ⚠️ Non-compliant (0.80)
+**Framework:** NIST-800-53 | **Verdict:** ⚠️ Non-compliant (1.00)
 
-**Rationale:** The organization lacks policy documentation that addresses the automated management of system accounts as required by AC-2(1). This means there are no established procedures or guidelines for automating account creation, modification, and deletion processes, which is a critical aspect of security control.
+**Rationale:** No policy documentation exists to support automated system account management as required by AC-2(1). The organization needs a policy that outlines the procedures for implementing and maintaining automated mechanisms for managing system accounts, including account creation, modification, deactivation, and deletion processes.
 
 ---
 
 ## SC-28 — Protection of Information at Rest
 
-**Framework:** NIST-800-53 | **Verdict:** ⚠️ Non-compliant (0.80)
+**Framework:** NIST-800-53 | **Verdict:** ⚠️ Non-compliant (0.20)
 
-**Rationale:** The organization lacks a specific policy addressing the protection of information at rest, which includes both confidentiality and integrity. To address SC-28, the organization needs to develop or update an existing policy that outlines procedures for securing data stored in various systems and media types.
+**Rationale:** The excerpt describes the purpose and scope of data protection but does not provide specific measures or mechanisms for protecting information at rest. It mentions encryption standards and key management, which are relevant to SC-28, but lacks detailed implementation details.
+
+**Supporting Evidence:**
+
+| # | Source | Page | Section | Excerpt |
+|---|--------|------|---------|---------|
+| 1 | data_protection_policy.pdf | 2 | 1  Purpose and Scope | This policy defines the requirements for protecting sensitive data including cardholder data (CHD), personally identi... |
 
 ---
 

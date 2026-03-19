@@ -20,6 +20,15 @@ an access enforcement mechanism — it is a description of what the policy cover
 - **Subject mismatch**: same verb applied to a DIFFERENT subject. "Reviewing user access rights" \
 is NOT evidence for "reviewing the access control policy." One is an OPERATIONAL activity, \
 the other is a GOVERNANCE activity about THE POLICY DOCUMENT ITSELF.
+- **Topic adjacency**: chunk is in the same security DOMAIN but addresses a DIFFERENT \
+control objective. Ask: "Does this chunk tell me HOW the organization meets THIS specific \
+requirement, or does it describe a DIFFERENT security practice that merely shares vocabulary?" \
+If the chunk's primary topic is a different control, REJECT it.
+- **Scope mismatch**: chunk addresses the correct TOPIC but for a NARROWER or DIFFERENT \
+POPULATION, system type, or scope than the control requires. A vendor-specific MFA policy \
+does NOT prove that ALL users have MFA — it only covers vendors. A server-only encryption \
+standard does NOT prove all endpoints are encrypted. Ask: "Does this evidence cover the \
+SAME SCOPE the control demands, or just a subset?"
 
 ### Worked rejection examples
 Control: "Enforce approved authorizations for logical access."
@@ -43,6 +52,36 @@ Control: "Developer testing — create a security test plan."
 Chunk: "Network vulnerability scans performed weekly using Nessus."
 → REJECT (process mismatch: network vuln scanning ≠ developer security testing)
 
+Control: "Audit logs capture all individual user access to cardholder data."
+Chunk: "All users must be assigned a unique user ID before they are allowed access to \
+any system component or cardholder data."
+→ REJECT (topic adjacency: Both mention "user" and "cardholder data" but the chunk is \
+about IDENTITY MANAGEMENT (unique IDs), not AUDIT LOGGING (capturing access events))
+
+Control: "MFA is implemented for all non-console access into the CDE."
+Chunk: "[Source: vendor_management_policy.pdf | Section: Service Provider Authentication]\
+ Service provider personnel must authenticate using multi-factor authentication (MFA) \
+for all remote access connections."
+→ REJECT (scope mismatch: chunk applies only to SERVICE PROVIDER personnel — \
+the control requires MFA for ALL non-console CDE access including internal staff. \
+A vendor-specific policy is not evidence of a general enforcement mechanism.)
+
+Control: "Anti-malware solution performs periodic scans and active or real-time scans."
+Chunk: "[Source: incident_response_policy.pdf | Section: Detection and Reporting]\
+ Security events must be detected through continuous monitoring using IDS, SIEM, \
+and file integrity monitoring tools."
+→ REJECT (topic adjacency: IDS/SIEM/FIM is SECURITY EVENT MONITORING, not \
+ANTI-MALWARE SCANNING. Both detect threats but are different control objectives — \
+one deploys endpoint anti-malware, the other monitors network/system security events.)
+
+Control: "Only necessary services, protocols, and functions are enabled, \
+and all unnecessary functionality is removed or disabled."
+Chunk: "[Source: governance_policy.pdf | Section: End-User Technologies]\
+ Users must not install unauthorized software, must not disable security controls."
+→ REJECT (topic adjacency: END-USER ACCEPTABLE USE POLICY constrains user \
+behavior — the control requires SYSTEM HARDENING at the OS/application level \
+by removing/disabling unnecessary services, which is a technical configuration task.)
+
 ## STEP 2 — COMPLIANCE EVALUATION (only for chunks passing Step 1)
 1. Decompose the control into sub-requirements. Each SENTENCE or CLAUSE typically adds \
 NEW sub-requirements. "Develop an inventory that accurately reflects the system, is consistent \
@@ -51,8 +90,18 @@ not one. Count by distinct OBJECTS/TOPICS in each clause.
 2. Check each sub-requirement. Synonyms/paraphrases count as matches: \
 "credential management" = "authenticator management"; "password complexity" = "authenticator \
 strength"; "credential expiry" = "refreshing authenticators periodically."
+   CROSS-REFERENCE REQUIREMENTS: When a control says to do X "in accordance \
+with" / "as defined in" / "defined at" / "per" another requirement or section \
+(e.g., "in accordance with the change control process defined at Requirement \
+6.5.1"), the cross-reference is NOT a separate sub-requirement. It specifies \
+WHICH process or standard to follow — it is context/scope, not an additional \
+thing to prove. Derive sub-requirements from the ACTIONS described (e.g., \
+"approved and managed" = two sub-requirements), not from the reference itself.
 3. Classify:
-   - **fully_compliant**: ALL sub-requirements covered.
+   - **fully_compliant**: ALL sub-requirements covered. Your explanation MUST NOT \
+contain phrases like "but lacks", "does not mention", "missing", or "however" \
+followed by uncovered items. If the explanation notes ANY gap, the level CANNOT be \
+fully_compliant — downgrade to partially_compliant.
    - **partially_compliant**: SOME but not all covered. When in doubt, prefer this level.
    - **non_compliant**: NONE covered.
 
@@ -116,6 +165,13 @@ Control: "Develop a continuous monitoring strategy including metrics, frequencie
 Chunk: "Vulnerability scans weekly, config checks daily, SIEM real-time. Assessed quarterly."
 → partially_compliant (2/3: frequencies ✓, assessments ✓. Missing: no KPIs/metrics defined)
 
+Control: "All changes to X are approved and managed in accordance with the process \
+defined at Requirement Y."
+Chunk: "All changes must be approved and managed in accordance with the change control \
+process. This includes addition, removal, or modification of any connection."
+→ fully_compliant (2/2: approval ✓, management ✓. "Defined at Requirement Y" is a \
+scope reference specifying WHICH process — not a separate testable sub-requirement.)
+
 ## Response Format
 JSON array, one element per chunk in order.
 
@@ -135,4 +191,5 @@ Rejected chunk:
 compliance_level MUST match sub_requirements counts. Set is_compliant=true for \
 fully/partially_compliant, false for non_compliant.
 
-Do NOT include text outside the JSON array.
+You may include brief reasoning before the JSON array. \
+The JSON array MUST be the LAST block in your response.
