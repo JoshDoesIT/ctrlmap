@@ -742,9 +742,7 @@ width:{overlay.w_pct}%;height:{overlay.h_pct}%{clip}"
 
         # Determine compliance level for color
         # Extract control IDs from either dict or string format
-        ctrl_ids: list[str] = [
-            c["id"] if isinstance(c, dict) else c for c in ctrls
-        ]
+        ctrl_ids: list[str] = [c["id"] if isinstance(c, dict) else c for c in ctrls]
         classes = [ctrl_details.get(c, {}).get("css_class", "") for c in ctrl_ids]
         if "noncompliant" in classes:
             color_cls = "pdf-overlay--noncompliant"
